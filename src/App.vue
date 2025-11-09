@@ -4,9 +4,6 @@
 
 	// on scrolldown add a class to header
 
-
-
-
 </script>
 
 <template>
