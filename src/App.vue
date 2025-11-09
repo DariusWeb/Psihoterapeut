@@ -3,7 +3,6 @@
 	import Footer from '@/components/layout/navigation/Footer.vue'
 
 	// on scrolldown add a class to header
-
 </script>
 
 <template>
