@@ -1,0 +1,14 @@
+{
+  "contact": {
+    "form": {
+      "title": "Contact",
+      "subtitle": "Send us a message and we'll get back to you as soon as possible.",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send Message",
+      "success": "Message sent successfully!",
+      "error": "Error"
+    }
+  }
+}

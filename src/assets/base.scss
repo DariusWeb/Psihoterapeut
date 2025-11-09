@@ -1,0 +1,235 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+	--vt-c-main: #5d6b48;
+	--vt-c-white: #ffffff;
+	--vt-c-white-soft: #f8f8f8;
+	--vt-c-white-mute: #f2f2f2;
+
+	--vt-c-jannafer-green: rgb(93, 107, 72);
+	--vt-c-jannafer-gray: rgb(from var(--vt-c-jannafer-green) r g b / 5%);
+	--vt-c-jannafer-gray2: rgb(from var(--vt-c-jannafer-green) r g b / 20%);
+
+	--vt-c-black: #181818;
+	--vt-c-black-soft: #212121;
+	--vt-c-black-mute: #282828;
+
+	--vt-c-background: #f9f7f7;
+
+	--vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+	--vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+	--vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+	--vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+	--vt-c-text-light-1: var(--vt-c-indigo);
+	--vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+	--vt-c-text-dark-1: var(--vt-c-white);
+	--vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+	--vt-c-container-width: 1200px;
+	--vt-c-transition-speed: 0.3s;
+	--vt-c-section-padding: 4rem 0;
+}
+
+// @media (prefers-color-scheme: dark) {
+// 	:root {
+// 		--color-background: var(--vt-c-black);
+// 		--color-background-soft: var(--vt-c-black-soft);
+// 		--color-background-mute: var(--vt-c-black-mute);
+
+// 		--color-border: var(--vt-c-divider-dark-2);
+// 		--color-border-hover: var(--vt-c-divider-dark-1);
+
+// 		--color-heading: var(--vt-c-text-dark-1);
+// 		--color-text: var(--vt-c-text-dark-2);
+// 	}
+// }
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	font-weight: normal;
+}
+
+body {
+	color: var(--vt-c-black);
+	background: var(--vt-c-background);
+	transition: color 0.5s, background-color 0.5s;
+	line-height: 1.6;
+	font-family: "Mulish", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 16px;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Libre Baskerville", serif;
+	color: var(--vt-c-jannafer-green);
+	margin-bottom: 1rem;
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: 2.5rem;
+	font-weight: 400;
+	margin-bottom: 4rem;
+	font-style: normal;
+	text-align: center;
+}
+
+h2 {
+	font-size: 2rem;
+	font-weight: 400;
+	font-style: normal;
+}
+
+h3 {
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+// Layout
+.layout-full {
+	position: relative;
+	width: 100vw;
+	left: 50%;
+	transform: translateX(-50.4%);
+}
+
+.layout-container {
+	max-width: var(--vt-c-container-width);
+	margin: 0 auto;
+}
+
+hr {
+	border-color: var(--vt-c-jannafer-gray2);
+}
+
+// Links and buttons
+a {
+	text-decoration: none;
+	color: var(--vt-c-jannafer-green);
+}
+
+@media (hover: hover) {
+	a:hover {
+		text-decoration: underline;
+	}
+}
+
+button {
+	cursor: pointer;
+	border: none;
+	padding: 0.7rem 1.5rem;
+	border-radius: 5rem;
+	background: var(--vt-c-jannafer-gray2);
+	transition: var(--vt-c-transition-speed);
+	width: fit-content;
+
+	&:hover {
+		background: var(--vt-c-jannafer-green);
+		color: var(--vt-c-white);
+	}
+}
+
+//Inputs
+input,
+textarea,
+select {
+	font-size: 1rem;
+	padding: 0.7rem 1.5rem;
+	border: none;
+	outline: none;
+	box-shadow: 0 0 0 1px var(--vt-c-jannafer-gray2);
+	border-radius: .5rem;
+	transition: var(--vt-c-transition-speed);
+
+	&:focus {
+		box-shadow: 0 0 0 2px rgb(from var(--vt-c-jannafer-green) r g b / 40%);
+	}
+
+	&[type="checkbox"] {
+		width: 1rem;
+		height: 1rem;
+		box-shadow: none;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: .5rem;
+	}
+
+	&:not(:placeholder-shown) {
+		+label {
+			left: 0 !important;
+			top: -1.2rem !important;
+		}
+	}
+}
+
+// Forms and labels
+form {
+	padding: 2rem;
+	border-radius: 1rem;
+	background: var(--vt-c-jannafer-gray);
+
+	.form-group {
+		position: relative;
+		margin: 2.3rem 0;
+
+		label {
+			display: inline-block;
+			position: absolute;
+			top: .8rem;
+			left: 1.5rem;
+			font-size: 0.7rem;
+			pointer-events: none;
+			transition: var(--vt-c-transition-speed)
+		}
+	}
+}
+
+//Lists
+ul,
+ol {
+	margin: 0;
+	padding: 0 0 0 1rem;
+	list-style: circle;
+}
+
+// Utils
+.columns-container {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.success {
+	color: green;
+}
+
+.error {
+	color: red;
+}
+
+// Animation 
+.fade-enter-active,
+.fade-leave-active {
+	transition: .3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+	// filter: blur(.5rem);
+	transform: translateY(-1rem);
+}

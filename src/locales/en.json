@@ -1,0 +1,218 @@
+{
+	"navigation": {
+		"menu": {
+			"home": "Home",
+			"services": "Services",
+			"about": "About",
+			"articles": "Articles",
+			"events": "Events",
+			"contact": "Contact"
+		},
+		"cta": {
+			"book": "Book Appointment",
+			"language": "Language"
+		}
+	},
+	"footer": {
+		"contact": {
+			"title": "Contact",
+			"phone": "Phone",
+			"email": "Email",
+			"facebook": "Facebook Page",
+			"instagram": "Instagram Page"
+		},
+		"schedule": {
+			"title": "Schedule",
+			"hours": "Monday - Friday: 9:00 - 18:00"
+		},
+		"info": {
+			"title": "Information",
+			"terms": "Terms of Service",
+			"privacy": "Privacy Policy"
+		}
+	},
+	"home": {
+		"welcome": "Welcome to Our Service",
+		"subtitle": "Your journey to well-being starts here.",
+		"learnMore": "Learn More",
+		"recentArticles": {
+			"title": "Recent Articles",
+			"viewAll": "View All Articles"
+		}
+	},
+	"hero": {
+		"title": "Psiholog Andreea Butacu",
+		"subtitle": "Psiholog clinician si Psihoterapeut integrativ in formare",
+		"quote": "o vorba de duh…. / descriere a mea in o propozitie",
+		"cta": "Programeaza o sedinta"
+	},
+	"aboutYou": {
+		"section": {
+			"title": "About You",
+			"mainQuestion": "Where can you start the change?",
+			"rhetoricalQuestions": {
+				"q1": "Intrebare retorica 1",
+				"q2": "Intrebare retorica 2",
+				"q3": "Intrebare retorica 3"
+			}
+		},
+		"steps": {
+			"step1": {
+				"title": "Step 1",
+				"cta": "Schedule a Discussion",
+				"details": "Details"
+			},
+			"step2": {
+				"title": "Step 2",
+				"discussion": "First Discussion Details",
+				"partnership": "Partnership Idea"
+			}
+		}
+	},
+	"operations": {
+		"title": "Servicii oferite",
+		"location": "Online sau la cabinet",
+		"categories": [
+			"adults",
+			"adolecents",
+			"kids"
+		]
+	},
+	"topics": {
+		"title": "Cateva tematici abordate",
+		"footer": "Si lista poate continua. Tu esti cel care stabileste directia schimbarii tale.",
+		"items": {
+			"stress": {
+				"title": "Managementul stresului",
+				"details": "Detalii specifice"
+			},
+			"anxiety": {
+				"title": "Anxietate",
+				"details": "Similar 1"
+			},
+			"depression": {
+				"title": "Depresie",
+				"details": "Similar 1"
+			},
+			"discovery": {
+				"title": "Autodescoperire",
+				"details": "Similar 1"
+			},
+			"career": {
+				"title": "Cariera",
+				"details": "Similar 1"
+			},
+			"fertility": {
+				"title": "Infertilitate si probleme de cuplu",
+				"details": "Similar 1"
+			}
+		}
+	},
+	"events": {
+		"title": "Evenimente planificate",
+		"items": [
+			{
+				"image": "https://placehold.co/1920x500",
+				"title": "Event Title 1",
+				"details": "Event details here",
+				"link": "/events/1"
+			},
+			{
+				"image": "https://placehold.co/1920x500",
+				"title": "Event Title 2",
+				"details": "Event details here",
+				"link": "/events/2"
+			},
+			{
+				"image": "https://placehold.co/1920x500",
+				"title": "Event Title 3",
+				"details": "Event details here",
+				"link": "/events/3"
+			}
+		],
+		"testimonials": {
+			"title": "Testimoniale",
+			"items": [
+				{
+					"text": "Testimonial text 1",
+					"author": "Anonymous 1"
+				},
+				{
+					"text": "Testimonial text 2",
+					"author": "Anonymous 2"
+				},
+				{
+					"text": "Testimonial text 3",
+					"author": "Anonymous3"
+				}
+			]
+		}
+	},
+	"articles": {
+		"title": "Articles",
+		"description": "Explore our latest articles on mental health and well-being."
+	},
+	"newsletter": {
+		"title": "Subscribe to Newsletter",
+		"description": "Stay updated with our latest articles and events",
+		"emailPlaceholder": "Enter your email address",
+		"consent": "I agree to receive correspondence"
+	},
+	"contact": {
+		"form": {
+			"title": "Contact Us",
+			"subtitle": "Get in touch with us",
+			"soon": "We will respond to you as soon as possible.",
+			"name": "Name",
+			"email": "Email",
+			"message": "Message",
+			"send": "Send Message",
+			"success": "Message sent successfully!",
+			"error": "There was an error sending your message."
+		},
+		"info": {
+			"title": "How to reach us",
+			"subtitle": "We're here for all your questions",
+			"writeUs": {
+				"title": "Write to us",
+				"email": "Email: xxxxx@xxxxxx.ro"
+			},
+			"callUs": {
+				"title": "Give us a call",
+				"phone": "Tel: 075xxxxxxxxx"
+			}
+		},
+		"imageSection": {
+			"text": "Let's work together towards your well-being"
+		}
+	},
+	"about": {
+		"intro": "I am Andreea Butacu, a clinical psychologist, on a continuous journey exploring how well-being can be understood, experienced, and cultivated — both in my own experience and in the lives of those around me.",
+		"experience": {
+			"title": "My Experience",
+			"corporate": "Initially, I discovered the opportunity to contribute to well-being from an organizational perspective, managing various roles in human resources. As a recruiter, I supported people in finding their right place; as a learning and development (L&D) specialist, I facilitated access to relevant professional growth tools; and as an L&D trainer and manager, I supported teams in their evolution and adaptation process.",
+			"academic": "Life experiences and personal challenges led me to a deeper exploration of the concept of well-being — in its individual, emotional, and relational dimensions. Studies at the Faculty of Psychology provided me with answers, but also essential questions that encouraged me to continue. I completed a Master's in Cognitive-Behavioral Psychotherapy and, subsequently, extensive training in Integrative Psychotherapy at the Romanian Institute of Integrative Psychotherapy.",
+			"research": "This inner and professional quest also led me to the academic space, participating in the development of a chapter in the Treatise on Psychology of Happiness, a valuable contribution to the field's specialized literature."
+		},
+		"commitment": {
+			"title": "My Commitment",
+			"mission": "My mission is to support people in the process of reconnecting with themselves, facilitating emotional exploration and discovering the inner resources necessary for cultivating authentic and sustainable well-being. I aim to create a safe, empathetic, and non-judgmental space where each person feels understood, supported, and encouraged to build their personal balance in accordance with their own values and needs.",
+			"invitation": "If you feel it's time to approach yourself with more gentleness, to understand your emotions, or to regain your inner balance, I openly invite you to go through this process together. Well-being is a personal journey, but you don't have to walk it alone."
+		}
+	},
+	"privacy": {},
+	"terms": {},
+	"button": {
+		"readMore": "Read More",
+		"viewAll": "View All",
+		"bookNow": "Book Now",
+		"findOutMore": "Find Out More",
+		"subscribe": "Subscribe",
+		"book": "Book Appointment"
+	},
+	"notFound": {
+		"title": "404 - Page Not Found",
+		"message": "Sorry, the page you are looking for does not exist.",
+		"backToHome": "Back to Home"
+	}
+}
