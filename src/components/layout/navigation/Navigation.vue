@@ -68,12 +68,16 @@
 
 		&.router-link-active {
 			border-color: var(--vt-c-jannafer-green);
+
+			&:after {
+				opacity: 0;
+			}
 		}
 
 		&:after {
 			content: "";
 			position: absolute;
-			bottom: -0.13rem;
+			bottom: -0.12rem;
 			left: 1rem;
 			width: 30%;
 			height: 2px;
