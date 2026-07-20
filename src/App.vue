@@ -1,6 +1,14 @@
 <script setup>
+	import { onMounted } from 'vue'
 	import Navigation from '@/components/layout/navigation/Navigation.vue'
 	import Footer from '@/components/layout/navigation/Footer.vue'
+	import { useThemeStore } from '@/stores/themeStore'
+
+	const themeStore = useThemeStore()
+
+	onMounted(() => {
+		themeStore.initTheme()
+	})
 
 	// on scrolldown add a class to header
 </script>
@@ -11,9 +19,11 @@
 		<!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" /> -->
 	</header>
 
-	<transition :name="$route.meta.transition || 'fade'" mode="out-in">
-		<RouterView class="main-content layout-container" />
-	</transition>
+	<RouterView v-slot="{ Component }">
+		<transition :name="$route.meta.transition || 'fade'" mode="out-in">
+			<component :is="Component" class="main-content layout-container" />
+		</transition>
+	</RouterView>
 
 	<footer>
 		<Footer />

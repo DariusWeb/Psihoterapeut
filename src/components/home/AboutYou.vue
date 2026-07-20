@@ -65,9 +65,36 @@
 			gap: 1rem;
 
 			.step-box {
-				border: 1px solid #ccc;
+				border: 1px solid var(--vt-c-jannafer-gray2);
 				padding: 1rem;
 				border-radius: 8px;
+			}
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.about {
+			flex-direction: column;
+			align-items: center;
+
+			.about-left {
+				min-height: 300px;
+				min-width: 300px;
+			}
+
+			.about-right {
+				max-width: 100%;
+				width: 100%;
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		.about {
+			.about-left {
+				min-height: 240px;
+				min-width: 240px;
+				padding: 2rem;
 			}
 		}
 	}

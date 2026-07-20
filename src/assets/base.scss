@@ -28,6 +28,26 @@
 	--vt-c-container-width: 1200px;
 	--vt-c-transition-speed: 0.3s;
 	--vt-c-section-padding: 4rem 0;
+
+	--nav-bg: rgba(249, 247, 247, 0.5);
+
+	color-scheme: light;
+}
+
+html.dark {
+	--vt-c-background: #1c2118;
+	--vt-c-white: #252c1e;
+	--vt-c-white-soft: #2e3726;
+	--vt-c-white-mute: #38422e;
+	--vt-c-black: #e0e4d0;
+	--vt-c-black-soft: #d4d9c0;
+	--vt-c-black-mute: #c8ceb0;
+	--vt-c-jannafer-gray: rgb(from var(--vt-c-jannafer-green) r g b / 12%);
+	--vt-c-jannafer-gray2: rgb(from var(--vt-c-jannafer-green) r g b / 32%);
+	--vt-c-divider-light-1: rgba(180, 190, 160, 0.3);
+	--vt-c-divider-light-2: rgba(180, 190, 160, 0.15);
+	--nav-bg: rgba(28, 33, 24, 0.55);
+	color-scheme: dark;
 }
 
 // @media (prefers-color-scheme: dark) {
@@ -100,16 +120,19 @@ h3 {
 }
 
 // Layout
+html {
+	overflow-x: clip; // guard: no horizontal scrollbar, keeps position: sticky working
+}
+
 .layout-full {
 	position: relative;
-	width: 100vw;
-	left: 50%;
-	transform: translateX(-50.4%);
+	margin-inline: calc(50% - 50vw); // full-bleed without width:100vw or the -50.4% nudge
 }
 
 .layout-container {
 	max-width: var(--vt-c-container-width);
 	margin: 0 auto;
+	padding-inline: 1rem;
 }
 
 hr {
@@ -128,7 +151,8 @@ a {
 	}
 }
 
-button {
+button,
+.button {
 	cursor: pointer;
 	border: none;
 	padding: 0.7rem 1.5rem;
@@ -138,6 +162,7 @@ button {
 	width: fit-content;
 
 	&:hover {
+		text-decoration: none;
 		background: var(--vt-c-jannafer-green);
 		color: var(--vt-c-white);
 	}
@@ -232,4 +257,49 @@ ol {
 	opacity: 0;
 	// filter: blur(.5rem);
 	transform: translateY(-1rem);
+}
+
+// Dark mode: inputs need explicit colors since browsers default to white
+html.dark {
+
+	input,
+	textarea,
+	select {
+		background-color: var(--vt-c-white);
+		color: var(--vt-c-black);
+		color-scheme: dark;
+	}
+}
+
+@media (max-width: 1024px) {
+	h1 {
+		font-size: 2rem;
+	}
+
+	h2 {
+		font-size: 1.6rem;
+	}
+
+	:root {
+		--vt-c-section-padding: 3rem 0;
+	}
+}
+
+@media (max-width: 768px) {
+	h1 {
+		font-size: 1.6rem;
+		margin-bottom: 2rem;
+	}
+
+	h2 {
+		font-size: 1.3rem;
+	}
+
+	:root {
+		--vt-c-section-padding: 2rem 0;
+	}
+
+	.columns-container {
+		flex-direction: column;
+	}
 }

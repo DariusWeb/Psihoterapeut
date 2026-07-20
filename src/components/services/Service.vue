@@ -37,4 +37,19 @@
             flex-direction: row-reverse;
         }
     }
+
+    @media (max-width: 768px) {
+
+        .service-detail,
+        .service-detail:nth-child(even) {
+            flex-direction: column;
+            max-width: 100%;
+
+            img {
+                max-width: 100%;
+                width: 100%;
+                max-height: 250px;
+            }
+        }
+    }
 </style>

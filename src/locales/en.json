@@ -6,6 +6,7 @@
 			"about": "About",
 			"articles": "Articles",
 			"events": "Events",
+			"news": "News",
 			"contact": "Contact"
 		},
 		"cta": {
@@ -118,7 +119,7 @@
 				"link": "/events/1"
 			},
 			{
-				"image": "https://placehold.co/1920x500",
+				"image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=500&q=80",
 				"title": "Event Title 2",
 				"details": "Event details here",
 				"link": "/events/2"
@@ -198,6 +199,33 @@
 			"title": "My Commitment",
 			"mission": "My mission is to support people in the process of reconnecting with themselves, facilitating emotional exploration and discovering the inner resources necessary for cultivating authentic and sustainable well-being. I aim to create a safe, empathetic, and non-judgmental space where each person feels understood, supported, and encouraged to build their personal balance in accordance with their own values and needs.",
 			"invitation": "If you feel it's time to approach yourself with more gentleness, to understand your emotions, or to regain your inner balance, I openly invite you to go through this process together. Well-being is a personal journey, but you don't have to walk it alone."
+		}
+	},
+	"news": {
+		"title": "News",
+		"subtitle": "Latest updates and research from the mental health world.",
+		"readOriginal": "Read Article",
+		"noResults": "No news found for this topic.",
+		"filter": {
+			"label": "Filter by topic",
+			"all": "All Topics"
+		},
+		"recentNews": {
+			"title": "In the News",
+			"viewAll": "View All News"
+		},
+		"topics": {
+			"anxietate": "Anxiety",
+			"caut-psiholog-pentru-interviu": "Pre-Interview Psychologist",
+			"depresie": "Depression",
+			"expert-sanatate-mintala": "Mental Health Expert",
+			"infertility-psychotherapy": "Infertility & Psychotherapy",
+			"infertility-workshop": "Infertility Workshop",
+			"interviu-psiholog": "Psychologist Interview",
+			"psiholog-opinie": "Psychologist Opinion",
+			"research-infertility": "Infertility Research",
+			"research-psychotherapy": "Psychotherapy Research",
+			"terapie-de-cuplu-bucuresti": "Couples Therapy Bucharest"
 		}
 	},
 	"privacy": {},

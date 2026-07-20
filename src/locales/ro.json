@@ -1,4 +1,36 @@
 {
+  "navigation": {
+    "menu": {
+      "news": "Noutăți"
+    }
+  },
+  "news": {
+    "title": "Noutăți",
+    "subtitle": "Cele mai recente informații și cercetări din lumea sănătății mintale.",
+    "readOriginal": "Citește articolul",
+    "noResults": "Nu s-au găsit știri pentru acest subiect.",
+    "filter": {
+      "label": "Filtrează după subiect",
+      "all": "Toate subiectele"
+    },
+    "recentNews": {
+      "title": "În presă",
+      "viewAll": "Vezi toate noutățile"
+    },
+    "topics": {
+      "anxietate": "Anxietate",
+      "caut-psiholog-pentru-interviu": "Caut psiholog pentru interviu",
+      "depresie": "Depresie",
+      "expert-sanatate-mintala": "Expert sănătate mintală",
+      "infertility-psychotherapy": "Psihoterapie și infertilitate",
+      "infertility-workshop": "Workshop infertilitate",
+      "interviu-psiholog": "Interviu psiholog",
+      "psiholog-opinie": "Psiholog opinie",
+      "research-infertility": "Cercetare infertilitate",
+      "research-psychotherapy": "Cercetare psihoterapie",
+      "terapie-de-cuplu-bucuresti": "Terapie de cuplu București"
+    }
+  },
   "contact": {
     "form": {
       "title": "Contact",

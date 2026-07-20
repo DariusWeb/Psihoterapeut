@@ -47,4 +47,12 @@
 			margin-bottom: 1.5rem;
 		}
 	}
+
+	@media (max-width: 768px) {
+		.about-page {
+			.columns-container {
+				padding-top: 2rem;
+			}
+		}
+	}
 </style>

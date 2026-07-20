@@ -2,11 +2,12 @@
     import { useI18n } from 'vue-i18n'
     const { t } = useI18n()
 
-    const { title, subtitle, quote, cta, image } = defineProps({
+    const { title, subtitle, quote, cta, route, image } = defineProps({
         title: String,
         subtitle: String,
         quote: String,
         cta: String,
+        route: String,
         image: String
     })
 </script>
@@ -17,7 +18,7 @@
             <h2 class="hero-title">{{ title }}</h2>
             <p class="hero-subtitle">{{ subtitle }}</p>
             <p class="hero-quote">{{ quote }}</p>
-            <button class="hero-cta">{{ cta }}</button>
+            <RouterLink class="button hero-cta" :to="route">{{ cta }}</RouterLink>
         </div>
 
         <img class="oval-frame" :src="image" alt="Banner Image" />
@@ -53,5 +54,31 @@
     .hero-title,
     .hero-quote {
         font-style: italic;
+    }
+
+    @media (max-width: 1024px) {
+        .hero-section {
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+
+            .oval-frame {
+                width: 220px;
+                height: 220px;
+            }
+        }
+
+        .hero-content {
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            .oval-frame {
+                width: 180px;
+                height: 180px;
+            }
+        }
     }
 </style>

@@ -131,4 +131,24 @@
 			z-index: 2;
 		}
 	}
+
+	@media (max-width: 1024px) {
+		.form-container {
+			flex-direction: column;
+
+			.right-side {
+				max-width: 100%;
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		.contact-image-section {
+			margin-top: 3rem;
+
+			.contact-image {
+				height: 250px;
+			}
+		}
+	}
 </style>

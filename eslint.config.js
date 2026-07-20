@@ -16,6 +16,6 @@ export default [
 
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
-  oxlint.configs['flat/recommended'],
+  ...oxlint.configs['flat/recommended'],
   skipFormatting,
 ]

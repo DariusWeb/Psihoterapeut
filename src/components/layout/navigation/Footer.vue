@@ -85,4 +85,20 @@
             color: var(--color-text-light);
         }
     }
+
+    @media (max-width: 1024px) {
+        .footer-content {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .footer {
+            padding: 2.5rem 1rem;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>

@@ -101,4 +101,24 @@
 		margin-top: 2rem;
 		font-style: italic;
 	}
+
+	@media (max-width: 1024px) {
+		.topics-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.topic-card {
+			border: 1px solid var(--vt-c-jannafer-gray2);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.topics-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.topic-image {
+			display: none;
+		}
+	}
 </style>

@@ -24,4 +24,12 @@
         gap: 3rem;
         justify-content: center;
     }
+
+    @media (max-width: 768px) {
+        .services-list {
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+    }
 </style>

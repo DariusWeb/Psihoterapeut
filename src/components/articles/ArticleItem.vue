@@ -36,7 +36,7 @@
 
 <style lang="scss" scoped>
     .article-item {
-        background: #fff;
+        background: var(--vt-c-white);
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

@@ -70,4 +70,23 @@
 
 		}
 	}
+
+	@media (max-width: 1024px) {
+		.operations-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 2rem;
+		}
+
+		.operations-item {
+			border-radius: 1.5rem !important;
+			min-height: 200px !important;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.operations-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+	}
 </style>

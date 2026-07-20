@@ -1,21 +1,48 @@
 <script setup>
-	import { RouterLink } from 'vue-router'
+	import { RouterLink, useRoute } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { ref, onMounted, onUnmounted } from 'vue'
+	import { ref, onMounted, onUnmounted, watch } from 'vue'
+	import ThemeToggle from '@/components/common/ThemeToggle.vue'
+	import LanguageToggle from '@/components/common/LanguageToggle.vue'
 
-	const { t } = useI18n();
+	const { t } = useI18n()
+	const route = useRoute()
 	const isScrolled = ref(false)
+	const isMenuOpen = ref(false)
 
 	const handleScroll = () => {
 		isScrolled.value = window.scrollY > 0
 	}
 
+	function toggleMenu() {
+		isMenuOpen.value = !isMenuOpen.value
+		document.body.style.overflow = isMenuOpen.value ? 'hidden' : ''
+	}
+
+	function closeMenu() {
+		isMenuOpen.value = false
+		document.body.style.overflow = ''
+	}
+
+	function handleKeydown(e) {
+		if (e.key === 'Escape' && isMenuOpen.value) {
+			closeMenu()
+		}
+	}
+
+	watch(() => route.path, () => {
+		closeMenu()
+	})
+
 	onMounted(() => {
 		window.addEventListener('scroll', handleScroll)
+		window.addEventListener('keydown', handleKeydown)
 	})
 
 	onUnmounted(() => {
 		window.removeEventListener('scroll', handleScroll)
+		window.removeEventListener('keydown', handleKeydown)
+		document.body.style.overflow = ''
 	})
 </script>
 
@@ -31,9 +58,53 @@
 			<RouterLink to="/services">{{ t('navigation.menu.services') }}</RouterLink>
 			<RouterLink to="/events">{{ t('navigation.menu.events') }}</RouterLink>
 			<RouterLink to="/articles">{{ t('navigation.menu.articles') }}</RouterLink>
+			<RouterLink to="/news">{{ t('navigation.menu.news') }}</RouterLink>
 			<RouterLink to="/contact">{{ t('navigation.menu.contact') }}</RouterLink>
 		</div>
+
+		<div class="nav-controls">
+			<ThemeToggle />
+			<LanguageToggle />
+			<button class="hamburger" @click="toggleMenu" :aria-expanded="isMenuOpen"
+				aria-label="Toggle navigation menu">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<line x1="3" y1="6" x2="21" y2="6" />
+					<line x1="3" y1="12" x2="21" y2="12" />
+					<line x1="3" y1="18" x2="21" y2="18" />
+				</svg>
+			</button>
+		</div>
 	</nav>
+
+	<Teleport to="body">
+		<Transition name="overlay">
+			<div v-if="isMenuOpen" class="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+				<button class="overlay-close" @click="closeMenu" aria-label="Close menu">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="18" y1="6" x2="6" y2="18" />
+						<line x1="6" y1="6" x2="18" y2="18" />
+					</svg>
+				</button>
+
+				<div class="overlay-links">
+					<RouterLink to="/" @click="closeMenu">{{ t('navigation.menu.home') }}</RouterLink>
+					<RouterLink to="/about" @click="closeMenu">{{ t('navigation.menu.about') }}</RouterLink>
+					<RouterLink to="/services" @click="closeMenu">{{ t('navigation.menu.services') }}</RouterLink>
+					<RouterLink to="/events" @click="closeMenu">{{ t('navigation.menu.events') }}</RouterLink>
+					<RouterLink to="/articles" @click="closeMenu">{{ t('navigation.menu.articles') }}</RouterLink>
+					<RouterLink to="/news" @click="closeMenu">{{ t('navigation.menu.news') }}</RouterLink>
+					<RouterLink to="/contact" @click="closeMenu">{{ t('navigation.menu.contact') }}</RouterLink>
+				</div>
+
+				<div class="overlay-controls">
+					<ThemeToggle />
+					<LanguageToggle />
+				</div>
+			</div>
+		</Transition>
+	</Teleport>
 </template>
 
 <style scoped lang="scss">
@@ -45,11 +116,42 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 4rem;
-		background: #f6f7f26e;
+		background: var(--nav-bg);
 		transition: all var(--vt-c-transition-speed);
 
 		&.is-scrolled {
 			backdrop-filter: blur(20px);
+		}
+	}
+
+	.nav-controls {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.hamburger {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 2.2rem;
+		height: 2.2rem;
+		padding: 0.4rem;
+		border-radius: 50%;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		color: var(--vt-c-black);
+		transition: all var(--vt-c-transition-speed);
+
+		svg {
+			width: 1.3rem;
+			height: 1.3rem;
+		}
+
+		&:hover {
+			background: var(--vt-c-jannafer-gray2);
+			color: var(--vt-c-jannafer-green);
 		}
 	}
 
@@ -84,9 +186,7 @@
 			background: var(--vt-c-jannafer-green);
 			transition: var(--vt-c-transition-speed);
 		}
-	}
 
-	.nav-menu a {
 		&:hover {
 			text-decoration: none;
 
@@ -96,11 +196,118 @@
 		}
 
 		&.router-link-active {
-			background: white;
+			background: var(--vt-c-white);
 
 			&:after {
 				width: 50%;
 			}
+		}
+	}
+
+	// Full-screen overlay
+	.nav-overlay {
+		position: fixed;
+		inset: 0;
+		background: var(--vt-c-background);
+		z-index: 200;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 3rem;
+	}
+
+	.overlay-close {
+		position: absolute;
+		top: 1.2rem;
+		right: 1.2rem;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0.5rem;
+		border-radius: 50%;
+		background: var(--vt-c-jannafer-gray2);
+		border: none;
+		cursor: pointer;
+		color: var(--vt-c-black);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all var(--vt-c-transition-speed);
+
+		svg {
+			width: 1.2rem;
+			height: 1.2rem;
+		}
+
+		&:hover {
+			background: var(--vt-c-jannafer-green);
+			color: #fff;
+		}
+	}
+
+	.overlay-links {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+
+		a {
+			font-size: 1.5rem;
+			font-family: "Libre Baskerville", serif;
+			color: var(--vt-c-jannafer-green);
+			text-decoration: none;
+			padding: 0.3rem 1.5rem;
+			border-radius: 2rem;
+			border: 2px solid transparent;
+			transition: all var(--vt-c-transition-speed);
+
+			&.router-link-active {
+				border-color: var(--vt-c-jannafer-green);
+			}
+
+			&:hover {
+				text-decoration: none;
+				background: var(--vt-c-jannafer-gray2);
+			}
+		}
+	}
+
+	.overlay-controls {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	// Overlay transition
+	.overlay-enter-active,
+	.overlay-leave-active {
+		transition: opacity 0.25s ease, transform 0.25s ease;
+	}
+
+	.overlay-enter-from,
+	.overlay-leave-to {
+		opacity: 0;
+		transform: translateY(-0.75rem);
+	}
+
+	// Responsive: hide desktop links, show hamburger on mobile
+	@media (max-width: 1024px) {
+		.navigation {
+			padding: 0 1.5rem;
+		}
+
+		.nav-menu {
+			display: none;
+		}
+
+		.hamburger {
+			display: flex;
+		}
+
+		// Hide toggles from the top nav bar on mobile – they're in the overlay
+		.nav-controls :deep(.theme-toggle),
+		.nav-controls :deep(.lang-toggle) {
+			display: none;
 		}
 	}
 </style>

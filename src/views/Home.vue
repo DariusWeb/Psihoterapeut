@@ -6,6 +6,7 @@
 	import Events from '@/components/home/Events.vue'
 	import Testimonials from '@/components/home/Testimonials.vue'
 	import RecentArticles from '@/components/home/RecentArticles.vue'
+	import RecentNews from '@/components/home/RecentNews.vue'
 	import Newsletter from '@/components/common/Newsletter.vue'
 </script>
 
@@ -18,6 +19,7 @@
 		<Events />
 		<Testimonials />
 		<RecentArticles />
+		<RecentNews />
 		<Newsletter />
 	</main>
 </template>
