@@ -188,17 +188,44 @@
 		}
 	},
 	"about": {
-		"intro": "I am Andreea Butacu, a clinical psychologist, on a continuous journey exploring how well-being can be understood, experienced, and cultivated — both in my own experience and in the lives of those around me.",
-		"experience": {
-			"title": "My Experience",
-			"corporate": "Initially, I discovered the opportunity to contribute to well-being from an organizational perspective, managing various roles in human resources. As a recruiter, I supported people in finding their right place; as a learning and development (L&D) specialist, I facilitated access to relevant professional growth tools; and as an L&D trainer and manager, I supported teams in their evolution and adaptation process.",
-			"academic": "Life experiences and personal challenges led me to a deeper exploration of the concept of well-being — in its individual, emotional, and relational dimensions. Studies at the Faculty of Psychology provided me with answers, but also essential questions that encouraged me to continue. I completed a Master's in Cognitive-Behavioral Psychotherapy and, subsequently, extensive training in Integrative Psychotherapy at the Romanian Institute of Integrative Psychotherapy.",
-			"research": "This inner and professional quest also led me to the academic space, participating in the development of a chapter in the Treatise on Psychology of Happiness, a valuable contribution to the field's specialized literature."
+		"hero": {
+			"title": "Sunt Andreea Butacu, psihoterapeut",
+			"intro1": "Lucrez cu femei care trec prin perioade de vulnerabilitate, tranziție sau blocaj — femei care, de multe ori, continuă să funcționeze și să „se descurce”, dar care pe dinăuntru duc mult mai mult decât se vede.",
+			"intro2": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
+			"cta": "Programează o ședință",
+			"photoPlaceholder": "FOTO AICI"
 		},
-		"commitment": {
-			"title": "My Commitment",
-			"mission": "My mission is to support people in the process of reconnecting with themselves, facilitating emotional exploration and discovering the inner resources necessary for cultivating authentic and sustainable well-being. I aim to create a safe, empathetic, and non-judgmental space where each person feels understood, supported, and encouraged to build their personal balance in accordance with their own values and needs.",
-			"invitation": "If you feel it's time to approach yourself with more gentleness, to understand your emotions, or to regain your inner balance, I openly invite you to go through this process together. Well-being is a personal journey, but you don't have to walk it alone."
+		"story": {
+			"title": "Povestea ta",
+			"p1": "Din exterior pari bine, îți faci treaba, răspunzi la mesaje, ții lucrurile în mișcare și, pentru cei din jur, pari o persoană care se descurcă. Dar pe dinăuntru ceva s-a strâns, s-a pierdut pe drum sau doar a obosit.",
+			"p2": "Poate treci prin infertilitate și simți că viața ta s-a redus la un ciclu de așteptare, speranță, control și dezamăgire. Poate ai devenit proaspătă mamă și te surprinde cât de singură, copleșită sau departe de tine te poți simți într-o perioadă despre care „ar trebui” să fie doar frumoasă. Sau poate, profesional, continui să funcționezi, să livrezi, să fii competentă și apreciată, dar în interior te simți blocată, epuizată și tot mai puțin conectată la ceea ce faci și la cine ești.",
+			"p3": "Poate te-ai surprins gândind: „Nu mă mai recunosc.” „Toată lumea pare să meargă înainte, iar eu parcă am rămas blocată.” „Dacă încă funcționez, înseamnă că nu e chiar atât de rău — ar trebui să mă descurc singură.”",
+			"p4": "Știu cât de invizibilă poate deveni această formă de oboseală. Cât de ușor este să pari „bine” în timp ce pe dinăuntru duci mult mai mult decât se vede: presiune, vină, confuzie, furie, comparație, singurătate sau doliul după o versiune a ta care părea mai vie, mai spontană sau mai întreagă."
+		},
+		"journey": {
+			"title": "Parcursul meu",
+			"p1": "Interesul meu pentru oameni și pentru felul în care traversează perioadele de schimbare, pierdere și reconstrucție m-a condus firesc către psihoterapie.",
+			"p2": "Sunt psihoterapeut integrativ și cognitiv-comportamental, membră a Colegiului Psihologilor din România și a Federației Române de Psihoterapie. De asemenea, sunt certificată ca Reproductive Mental Health Specialist, o formare dedicată înțelegerii impactului emoțional al experiențelor din parcursul reproductiv – de la infertilitate și pierdere de sarcină până la tranziția către maternitate și schimbările de identitate pe care acestea le pot aduce.",
+			"p3": "Formarea mea include studiile în cadrul Facultății de Psihologie, Masterul în Psihoterapie Cognitiv-Comportamentală și formarea în Psihoterapie Integrativă în cadrul Institutului Român de Psihoterapie Integrativă. Acest parcurs este completat constant prin formări și specializări dedicate sănătății mintale reproductive și psihoterapiei bazate pe dovezi.",
+			"p4": "Înainte de psihoterapie, am lucrat peste 10 ani în domeniul resurselor umane, în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse.",
+			"p5": "Cred că expertiza profesională este importantă, dar la fel de important este modul în care o folosești. De aceea, îmi propun ca fiecare persoană care ajunge în cabinet să găsească nu doar competență profesională, ci și un spațiu în care să se simtă înțeleasă, în siguranță și însoțită cu respect pe parcursul propriei povești."
+		},
+		"therapy": {
+			"title": "Cum poate arăta terapia pentru tine",
+			"p1": "Un spațiu sigur, empatic și lipsit de judecată, în care să nu mai fie nevoie să porți singură tot ce nu se vede. Un spațiu în care să poți înțelege mai bine ce trăiești, să te reconectezi cu tine și să găsești forme mai suportive de a sta cu durerea, presiunea, blocajul, schimbarea sau întrebările care te însoțesc.",
+			"p2": "Nu îți pot promite răspunsuri simple și nici un drum liniar. Dar îți pot oferi prezență, claritate, grijă și un cadru în care să nu mai fie nevoie să te descurci singură cu tot ceea ce este greu.",
+			"moment": {
+				"title": "Dacă simți că a venit momentul să nu mai duci singură tot ceea ce este greu",
+				"p1": "Dacă te regăsești în cele de mai sus și simți că ai nevoie de un spațiu în care să te oprești puțin din a ține totul, să înțelegi mai bine ce se întâmplă în tine și să nu mai fii singură cu ceea ce trăiești, te invit cu deschidere să lucrăm împreună.",
+				"p2": "Starea de bine este un drum personal. Dar nu trebuie parcurs în singurătate."
+			}
+		},
+		"work": {
+			"title": "Cum lucrez",
+			"p1": "Terapia este un spațiu în care poți începe să înțelegi ce ți se întâmplă, să pui în cuvinte lucruri pe care poate le-ai ținut mult timp doar în tine și să construiești, treptat, o relație mai blândă și mai stabilă cu tine însăți.",
+			"p2": "Abordarea mea este integrativă, cu o bază cognitiv-comportamentală. Asta înseamnă că, în terapie, putem lucra atât cu gândurile și emoțiile care te însoțesc, cât și cu felul în care corpul, relațiile, istoria ta personală și contextul de viață participă la ceea ce trăiești acum.",
+			"p3": "În practica mea mă interesează în mod special lucrul cu doliul, trauma și identitatea – experiențe care, deși adesea invizibile pentru cei din jur, pot schimba profund relația unei femei cu propriul corp, cu partenerul și cu ea însăși.",
+			"p4": "În lucrul cu fiecare femeie mă interesează nu doar „problema” cu care vine, ci și tot ceea ce se adună în jurul ei: felul în care se raportează la sine, la ceilalți, la presiune, la limite, la vină, la nevoia de control sau la teama de a nu dezamăgi."
 		}
 	},
 	"news": {
