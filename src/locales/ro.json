@@ -119,5 +119,10 @@
         "text": "și în cuplu, în funcție de nevoile tale"
       }
     }
+  },
+  "notFound": {
+    "title": "404 - Pagină negăsită",
+    "message": "Ne pare rău, pagina pe care o cauți nu există.",
+    "backToHome": "Înapoi la pagina principală"
   }
 }
