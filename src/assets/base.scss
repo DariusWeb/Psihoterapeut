@@ -28,8 +28,12 @@
 	--vt-c-container-width: 1200px;
 	--vt-c-transition-speed: 0.3s;
 	--vt-c-section-padding: 4rem 0;
+	--vt-c-section-gap: 2rem;
 
 	--nav-bg: rgba(249, 247, 247, 0.5);
+
+	--vt-c-surface: #f5efe8;
+	--vt-c-surface-strong: #e6e0d2;
 
 	color-scheme: light;
 }
@@ -47,6 +51,8 @@ html.dark {
 	--vt-c-divider-light-1: rgba(180, 190, 160, 0.3);
 	--vt-c-divider-light-2: rgba(180, 190, 160, 0.15);
 	--nav-bg: rgba(28, 33, 24, 0.55);
+	--vt-c-surface: #252c1e;
+	--vt-c-surface-strong: #38422e;
 	color-scheme: dark;
 }
 
@@ -135,6 +141,19 @@ html {
 	padding-inline: 1rem;
 }
 
+// Vertical rhythm: the gap is read on the CHILD, so a section can retune its own spacing
+.layout-stack > * + * {
+	margin-top: var(--vt-c-section-gap);
+}
+
+.section-tight {
+	--vt-c-section-gap: 1rem;
+}
+
+.section-flush {
+	--vt-c-section-gap: 0;
+}
+
 hr {
 	border-color: var(--vt-c-jannafer-gray2);
 }
@@ -166,6 +185,11 @@ button,
 		background: var(--vt-c-jannafer-green);
 		color: var(--vt-c-white);
 	}
+}
+
+.button-primary {
+	background: var(--vt-c-jannafer-green);
+	color: #fff; // stays legible in dark mode, where --vt-c-white flips to a dark tone
 }
 
 //Inputs
@@ -232,6 +256,23 @@ ol {
 }
 
 // Utils
+.card {
+	background: var(--vt-c-surface);
+	border-radius: 1rem;
+	padding: 2rem;
+}
+
+.icon-chip {
+	width: 3rem;
+	height: 3rem;
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--vt-c-surface-strong);
+	color: var(--vt-c-jannafer-green);
+}
+
 .columns-container {
 	display: flex;
 	justify-content: space-between;

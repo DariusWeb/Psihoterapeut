@@ -47,6 +47,10 @@
 		&.page-home {
 			padding: 4rem 1rem 0;
 		}
+
+		&.contact-page {
+			padding: 0 1rem 0;
+		}
 	}
 
 	@media (min-width: 1024px) {
