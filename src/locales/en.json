@@ -166,7 +166,7 @@
 			"intro1": "Uneori, cea mai grea parte nu este terapia. Este decizia de a scrie primul mesaj.",
 			"intro2": "Nu trebuie să știi exact ce să spui și nici să fii sigură că terapia este ceea ce ai nevoie. Dacă simți că ar fi de ajutor să vorbim, poți începe chiar de aici.",
 			"cta": "Trimite-mi un mesaj",
-			"photoPlaceholder": "FOTO AICI"
+			"photoAlt": "Birou cu laptop și carnet, pregătit pentru o ședință de psihoterapie online"
 		},
 		"note": {
 			"sessions": "Ședințele se desfășoară online sau față în față",
@@ -227,7 +227,7 @@
 			"text": "Te susțin cu empatie, claritate și respect pentru ritmul tău. Ședințele se desfășoară online sau față în față, în București.",
 			"banner": "Dacă simți că este momentul să vorbești, sunt aici.",
 			"cta": "Trimite-mi un mesaj",
-			"photoPlaceholder": "FOTO AICI"
+			"photoAlt": "Colț de living liniștit, cu canapea, flori și o lumânare aprinsă"
 		},
 		"strip": {
 			"s1": {
@@ -254,7 +254,7 @@
 			"intro1": "Lucrez cu femei care trec prin perioade de vulnerabilitate, tranziție sau blocaj — femei care, de multe ori, continuă să funcționeze și să „se descurce”, dar care pe dinăuntru duc mult mai mult decât se vede.",
 			"intro2": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
 			"cta": "Programează o ședință",
-			"photoPlaceholder": "FOTO AICI"
+			"photoAlt": "Andreea Butacu, psihoterapeut integrativ și cognitiv-comportamental"
 		},
 		"story": {
 			"title": "Povestea ta",

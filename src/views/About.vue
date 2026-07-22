@@ -1,6 +1,7 @@
 <script setup>
 	import { useI18n } from 'vue-i18n'
 	import { CalendarDays, UserRound, BookOpen, Heart, Sprout, Leaf } from '@lucide/vue'
+	import andreeaPortrait from '@/assets/images/about/andreea-portrait.webp'
 
 	const { t } = useI18n()
 </script>
@@ -19,10 +20,8 @@
 				</RouterLink>
 			</div>
 
-			<div class="about-photo-placeholder">
-				<UserRound class="about-photo-icon" :size="72" />
-				<span class="about-photo-label">{{ t('about.hero.photoPlaceholder') }}</span>
-			</div>
+			<img class="about-photo" :src="andreeaPortrait" :alt="t('about.hero.photoAlt')" width="1050"
+				height="700" decoding="async" loading="eager" fetchpriority="high" />
 		</section>
 
 		<div class="about-cards">
@@ -123,24 +122,13 @@
 		margin-top: 0.5rem;
 	}
 
-	.about-photo-placeholder {
+	.about-photo {
 		flex: 0 0 40%;
 		max-width: 420px;
-		aspect-ratio: 3 / 4;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 1rem;
-		background: var(--vt-c-jannafer-gray);
-		border: 2px dashed var(--vt-c-jannafer-gray2);
+		align-self: stretch; // photo ends level with the CTA, matching the copy column
+		height: auto; // the height attribute is a presentational hint; stretch only applies once it is auto
+		object-fit: cover;
 		border-radius: 1rem;
-		color: var(--vt-c-jannafer-green);
-	}
-
-	.about-photo-label {
-		font-family: "Libre Baskerville", serif;
-		letter-spacing: 0.2em;
 	}
 
 	.about-cards {
@@ -191,11 +179,12 @@
 			align-items: stretch;
 		}
 
-		.about-photo-placeholder {
+		.about-photo {
 			flex-basis: auto;
 			max-width: 100%;
 			align-self: center;
 			width: 100%;
+			aspect-ratio: 3 / 4; // stacked there is no copy column to match, so fall back to a portrait crop
 			max-height: 480px;
 		}
 

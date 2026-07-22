@@ -2,13 +2,14 @@
     import { useI18n } from 'vue-i18n'
     const { t } = useI18n()
 
-    const { title, subtitle, quote, cta, route, image } = defineProps({
+    const { title, subtitle, quote, cta, route, image, alt } = defineProps({
         title: String,
         subtitle: String,
         quote: String,
         cta: String,
         route: String,
-        image: String
+        image: String,
+        alt: String
     })
 </script>
 
@@ -21,7 +22,7 @@
             <RouterLink class="button hero-cta" :to="route">{{ cta }}</RouterLink>
         </div>
 
-        <img class="oval-frame" :src="image" alt="Banner Image" />
+        <img class="oval-frame" :src="image" :alt="alt" decoding="async" loading="eager" fetchpriority="high" />
     </section>
 </template>
 

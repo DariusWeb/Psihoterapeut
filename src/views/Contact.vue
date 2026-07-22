@@ -2,6 +2,8 @@
 	import { ref } from 'vue'
 	import { useI18n } from 'vue-i18n'
 	import { Sprout, Laptop, Mail, Phone, MessageCircle, CalendarDays, UserRound, Heart, Lock, Clock } from '@lucide/vue'
+	import contactDesk from '@/assets/images/contact/contact-desk.webp'
+	import contactLivingRoom from '@/assets/images/contact/contact-living-room.webp'
 
 	const { t } = useI18n()
 
@@ -38,10 +40,8 @@
 			</div>
 
 			<div class="contact-hero-media">
-				<div class="contact-photo">
-					<Sprout :size="72" />
-					<span class="contact-photo-label">{{ t('contact.hero.photoPlaceholder') }}</span>
-				</div>
+				<img class="contact-photo" :src="contactDesk" :alt="t('contact.hero.photoAlt')" width="1060"
+					height="707" decoding="async" loading="eager" fetchpriority="high" />
 
 				<aside class="contact-note card">
 					<p class="contact-note-item">
@@ -146,10 +146,8 @@
 		</section>
 
 		<section class="contact-closing section-tight">
-			<div class="contact-photo contact-closing-photo">
-				<Sprout :size="72" />
-				<span class="contact-photo-label">{{ t('contact.closing.photoPlaceholder') }}</span>
-			</div>
+			<img class="contact-photo contact-closing-photo" :src="contactLivingRoom"
+				:alt="t('contact.closing.photoAlt')" width="901" height="600" decoding="async" loading="lazy" />
 
 			<div class="contact-closing-content">
 				<h2 class="contact-closing-title">{{ t('contact.closing.title') }}</h2>
@@ -178,21 +176,11 @@
 <style scoped lang="scss">
 	// Shared
 	.contact-photo {
-		display: grid;
-		place-items: center;
-		align-content: center;
-		gap: 1rem;
+		width: 100%;
 		height: 100%;
+		min-width: 0; // without this, min-width:auto floors the flex item at the image's intrinsic width and kills the edge bleed
 		min-height: 24rem;
-		background: var(--vt-c-surface);
-		border: 2px dashed var(--vt-c-surface-strong);
-		border-radius: 1rem;
-		color: var(--vt-c-jannafer-green);
-	}
-
-	.contact-photo-label {
-		font-family: "Libre Baskerville", serif;
-		letter-spacing: 0.2em;
+		object-fit: cover;
 	}
 
 	// Hero
@@ -234,6 +222,12 @@
 		flex: 0 0 calc(50vw - 5%);
 		margin-right: calc(50% - 50vw);
 		position: relative;
+	}
+
+	// photo dissolves into the copy column beside it, densest at the shared edge
+	.contact-hero-media .contact-photo {
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
+		mask-image: linear-gradient(to right, transparent, #000 30%);
 	}
 
 	.contact-note {
@@ -402,6 +396,8 @@
 		// same 45% + gutter as the hero photo, shifted out so it bleeds off the left edge
 		flex: 0 0 calc(50vw - 5%);
 		margin-left: calc(50% - 50vw);
+		-webkit-mask-image: linear-gradient(to left, transparent, #000 30%);
+		mask-image: linear-gradient(to left, transparent, #000 30%);
 	}
 
 	.contact-closing-content {
@@ -472,6 +468,13 @@
 		.contact-closing-photo {
 			flex: auto;
 			margin-inline: 0;
+		}
+
+		// stacked, so there is no column beside the photo left to blend into
+		.contact-hero-media .contact-photo,
+		.contact-closing-photo {
+			-webkit-mask-image: none;
+			mask-image: none;
 		}
 
 		.contact-steps {
