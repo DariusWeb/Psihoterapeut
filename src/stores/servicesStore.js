@@ -1,27 +1,17 @@
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 import { services } from '@/content/services'
 
-export const useServicesStore = defineStore('services', {
-    state: () => ({
-        services: services
-    }),
+export const useServicesStore = defineStore('services', () => {
+	const items = ref(services)
 
-    getters: {
-        // Get all services
-        allServices: (state) => {
-            return state.services
-        },
+	const allServices = computed(() => items.value)
 
-        // Get home services
-        homeServices: (state) => {
-            return [...state.services]
-                .sort((a, b) => a.id - b.id)
-                .slice(0, 3)
-        },
+	const homeServices = computed(() => [...items.value].sort((a, b) => a.id - b.id).slice(0, 3))
 
-        // Get service by id
-        getServiceById: (state) => (id) => {
-            return state.services.find(service => service.id === id)
-        }
-    }
+	function getServiceById(id) {
+		return items.value.find((service) => service.id === id)
+	}
+
+	return { allServices, homeServices, getServiceById }
 })

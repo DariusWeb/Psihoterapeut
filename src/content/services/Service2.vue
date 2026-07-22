@@ -1,7 +1,7 @@
 <script>
     export default {
         name: 'Service 2',
-        serviceMeta: {
+        meta: {
             id: 2,
             title: 'Service 2',
             slug: 'service-2',

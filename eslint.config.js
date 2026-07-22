@@ -7,6 +7,16 @@ export default [
   {
     name: 'app/files-to-lint',
     files: ['**/*.{js,mjs,jsx,vue}'],
+    // Browser globals we actually use — extend when a new one is introduced, or no-undef flags it
+    languageOptions: {
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        localStorage: 'readonly',
+        fetch: 'readonly',
+        URL: 'readonly',
+      },
+    },
   },
 
   {

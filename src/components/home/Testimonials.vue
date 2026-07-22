@@ -7,7 +7,7 @@
 <template>
     <section class="testimonials layout-full">
         <div class="layout-container">
-            <h3>{{ t('events.testimonials.title') }}</h3>
+            <h2>{{ t('events.testimonials.title') }}</h2>
 
             <div class="testimonials-grid">
                 <div v-for="(testimonial, index) in tm('events.testimonials.items')" :key="index"

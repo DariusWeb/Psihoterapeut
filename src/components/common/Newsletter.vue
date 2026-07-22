@@ -18,7 +18,7 @@
 <template>
     <div class="newsletter layout-full">
         <div class="newsletter-outer">
-            <h3>{{ t('newsletter.title') }}</h3>
+            <h2>{{ t('newsletter.title') }}</h2>
             <p>{{ t('newsletter.description') }}</p>
 
             <form @submit.prevent="handleSubmit" class="newsletter-form">
@@ -67,7 +67,6 @@
 
         input[type="email"] {
             width: 100%;
-            border-radius: 10rem;
         }
 
         .newsletter-consent {

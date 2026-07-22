@@ -443,7 +443,7 @@
 
 	.contact-strip-title {
 		margin: 0;
-		font-family: "Mulish", sans-serif;
+		font-family: "Mulish Variable", sans-serif;
 		font-size: 1rem;
 	}
 

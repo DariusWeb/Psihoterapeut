@@ -1,3 +1,9 @@
+import '@fontsource-variable/mulish/wght.css'
+import '@fontsource-variable/mulish/wght-italic.css'
+import '@fontsource/libre-baskerville/400.css'
+import '@fontsource/libre-baskerville/700.css'
+import '@fontsource/libre-baskerville/400-italic.css'
+
 import '@/assets/main.scss'
 
 import { createApp } from 'vue'

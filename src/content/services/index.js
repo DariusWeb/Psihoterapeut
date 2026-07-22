@@ -1,15 +1,12 @@
 import Service from './Service.vue'
 import Service2 from './Service2.vue'
+import Service3 from './Service3.vue'
 
-// Add all service components here
-export const serviceComponents = [
+// To publish a new service, add its .vue file here; the `meta` export becomes the list entry.
+const components = [
     Service,
-    Service2
-    // Add more services
+    Service2,
+    Service3
 ]
 
-// Export services metadata
-export const services = serviceComponents.map(component => ({
-    ...component.serviceMeta,
-    component
-}))
+export const services = components.map(component => ({ ...component.meta, component }))

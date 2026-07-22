@@ -16,7 +16,7 @@
 <template>
     <section class="hero-section">
         <div class="hero-content">
-            <h2 class="hero-title">{{ title }}</h2>
+            <h1 class="hero-title">{{ title }}</h1>
             <p class="hero-subtitle">{{ subtitle }}</p>
             <p class="hero-quote">{{ quote }}</p>
             <RouterLink class="button hero-cta" :to="route">{{ cta }}</RouterLink>
@@ -58,6 +58,12 @@
         font-style: italic;
     }
 
+    .hero-title {
+        font-size: 2rem;
+        text-align: inherit;
+        margin-bottom: 1rem;
+    }
+
     @media (max-width: 1024px) {
         .hero-section {
             flex-direction: column;
@@ -73,6 +79,10 @@
         .hero-content {
             align-items: center;
         }
+
+        .hero-title {
+            font-size: 1.6rem;
+        }
     }
 
     @media (max-width: 768px) {
@@ -81,6 +91,10 @@
                 width: 180px;
                 height: 180px;
             }
+        }
+
+        .hero-title {
+            font-size: 1.3rem;
         }
     }
 </style>

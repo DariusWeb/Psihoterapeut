@@ -1,7 +1,7 @@
 <script>
     export default {
         name: 'ManagingAnxiety',
-        articleMeta: {
+        meta: {
             id: 1,
             title: 'Managing Anxiety',
             subtitle: 'Understanding and coping with anxiety',

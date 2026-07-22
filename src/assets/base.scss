@@ -92,7 +92,7 @@ body {
 	background: var(--vt-c-background);
 	transition: color 0.5s, background-color 0.5s;
 	line-height: 1.6;
-	font-family: "Mulish", sans-serif;
+	font-family: "Mulish Variable", sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 400;
 	font-style: normal;
@@ -229,7 +229,7 @@ select {
 		height: 20px;
 		padding: 0;
 		border: 2px solid var(--vt-c-jannafer-green);
-		border-radius: var(--vt-c-border-radius);
+		border-radius: .3rem;
 		background: var(--vt-c-white);
 		box-shadow: none;
 		display: grid;
@@ -359,7 +359,7 @@ ol {
 	color: var(--vt-c-error);
 }
 
-// Animation 
+// Animation
 .fade-enter-active,
 .fade-leave-active {
 	transition: .3s;
@@ -370,6 +370,19 @@ ol {
 	opacity: 0;
 	// filter: blur(.5rem);
 	transform: translateY(-1rem);
+}
+
+// Near-zero instead of `none` so transitionend/animationend still fire and Vue's <Transition> can finish
+@media (prefers-reduced-motion: reduce) {
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }
 
 // Dark mode: inputs need explicit colors since browsers default to white
