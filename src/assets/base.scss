@@ -33,6 +33,7 @@
 	--vt-c-transition-speed: 0.3s;
 	--vt-c-section-padding: 4rem 0;
 	--vt-c-section-gap: 2rem;
+	--vt-c-border-radius: .5rem;
 
 	--nav-bg: rgba(249, 247, 247, 0.5);
 
@@ -182,7 +183,7 @@ button,
 	cursor: pointer;
 	border: none;
 	padding: 0.7rem 1.5rem;
-	border-radius: 5rem;
+	border-radius: var(--vt-c-border-radius);
 	background: var(--vt-c-jannafer-gray2);
 	transition: var(--vt-c-transition-speed);
 	width: fit-content;
@@ -213,7 +214,7 @@ select {
 	border: none;
 	outline: none;
 	box-shadow: 0 0 0 1px var(--vt-c-jannafer-gray2);
-	border-radius: .5rem;
+	border-radius: var(--vt-c-border-radius);
 	transition: var(--vt-c-transition-speed);
 
 	&:focus-visible {
@@ -222,12 +223,42 @@ select {
 	}
 
 	&[type="checkbox"] {
-		width: 1rem;
-		height: 1rem;
+		appearance: none;
+		flex-shrink: 0;
+		width: 20px;
+		height: 20px;
+		padding: 0;
+		border: 2px solid var(--vt-c-jannafer-green);
+		border-radius: var(--vt-c-border-radius);
+		background: var(--vt-c-white);
 		box-shadow: none;
-		display: inline-block;
-		vertical-align: middle;
-		margin-right: .5rem;
+		display: grid;
+		place-content: center;
+		cursor: pointer;
+
+		&::before {
+			content: "";
+			width: 10px;
+			height: 10px;
+			transform: scale(0);
+			transition: transform var(--vt-c-transition-speed);
+			background: var(--vt-c-on-accent);
+			clip-path: polygon(14% 44%, 0 65%, 40% 100%, 100% 16%, 82% 0, 37% 66%);
+		}
+
+		&:checked {
+			background: var(--vt-c-jannafer-green);
+
+			&::before {
+				transform: scale(1);
+			}
+		}
+
+		&:focus-visible {
+			box-shadow: none;
+			outline: 2px solid var(--vt-c-jannafer-green);
+			outline-offset: 2px;
+		}
 	}
 
 	&:not(:placeholder-shown) {
@@ -244,9 +275,21 @@ form {
 	border-radius: 1rem;
 	background: var(--vt-c-jannafer-gray);
 
+	.form-row {
+		display: flex;
+		width: 100%;
+		gap: .5rem;
+		margin: .5rem 0;
+
+		.form-group {
+			width: 100%;
+			margin: 0;
+		}
+	}
+
 	.form-group {
 		position: relative;
-		margin: 2.3rem 0;
+		margin: .5rem 0;
 
 		label {
 			display: inline-block;
@@ -281,7 +324,7 @@ ol {
 	top: -3rem;
 	z-index: 300;
 	padding: 0.7rem 1.5rem;
-	border-radius: 0 0 .5rem .5rem;
+	border-radius: 0 0 var(--vt-c-border-radius) var(--vt-c-border-radius);
 	background: var(--vt-c-jannafer-green);
 	color: var(--vt-c-on-accent);
 	transition: top var(--vt-c-transition-speed);
@@ -370,6 +413,10 @@ html.dark {
 	}
 
 	.columns-container {
+		flex-direction: column;
+	}
+
+	.form-row {
 		flex-direction: column;
 	}
 }

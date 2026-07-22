@@ -14,6 +14,15 @@
 		message: ''
 	})
 
+	const status = ref('idle')
+
+	// TODO: POST to the Firebase Cloud Function; until it exists nothing is sent and 'error' is unreachable.
+	const sendMessage = () => {
+		status.value = 'submitting'
+		form.value = { name: '', email: '', phone: '', message: '' }
+		status.value = 'success'
+	}
+
 	const methods = [
 		{ key: 'email', icon: Mail, lines: ['value'] },
 		{ key: 'phone', icon: Phone, lines: ['value', 'hours'] },
@@ -79,7 +88,7 @@
 				<p class="contact-form-text">{{ t('contact.form.intro1') }}</p>
 				<p class="contact-form-text">{{ t('contact.form.intro2') }}</p>
 
-				<div class="contact-form-row">
+				<div class="form-row">
 					<div class="form-group">
 						<input id="contact-name" type="text" v-model="form.name" placeholder=" " required />
 						<label for="contact-name">{{ t('contact.form.name') }}</label>
@@ -101,7 +110,7 @@
 					<label for="contact-message">{{ t('contact.form.message') }}</label>
 				</div>
 
-				<button type="submit" class="button-primary contact-form-submit">
+				<button type="submit" class="button-primary contact-form-submit" :disabled="status === 'submitting'">
 					{{ t('contact.form.send') }}
 				</button>
 
@@ -110,11 +119,11 @@
 					{{ t('contact.form.privacy') }}
 				</p>
 
-				<div class="success">
+				<div v-if="status === 'success'" class="success" role="status">
 					{{ t('contact.form.success') }}
 				</div>
 
-				<div class="error">
+				<div v-if="status === 'error'" class="error" role="alert">
 					{{ t('contact.form.error') }}
 				</div>
 			</form>
@@ -292,15 +301,6 @@
 
 	.contact-form-text {
 		margin: 0 0 0.5rem;
-	}
-
-	.contact-form-row {
-		display: flex;
-		gap: 1rem;
-
-		.form-group {
-			flex: 1;
-		}
 	}
 
 	.contact-form input,
@@ -503,8 +503,7 @@
 			padding-top: 5rem;
 		}
 
-		.contact-steps-list,
-		.contact-form-row {
+		.contact-steps-list {
 			flex-direction: column;
 		}
 
