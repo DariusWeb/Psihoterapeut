@@ -58,7 +58,7 @@
         font-style: italic;
     }
 
-    .hero-title {
+    .hero-title  {
         font-size: 2rem;
         text-align: inherit;
         margin-bottom: 1rem;
