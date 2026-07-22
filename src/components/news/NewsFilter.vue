@@ -17,12 +17,13 @@
 
 <template>
     <div class="news-filter" role="group" :aria-label="t('news.filter.label')">
-        <button class="filter-pill" :class="{ active: modelValue === 'all' }" @click="select('all')">
+        <button class="filter-pill" :class="{ active: modelValue === 'all' }" :aria-pressed="modelValue === 'all'"
+            @click="select('all')">
             {{ t('news.filter.all') }}
         </button>
 
         <button v-for="topic in TOPICS" :key="topic" class="filter-pill" :class="{ active: modelValue === topic }"
-            @click="select(topic)">
+            :aria-pressed="modelValue === topic" @click="select(topic)">
             {{ t(`news.topics.${topic}`) }}
         </button>
     </div>
@@ -55,7 +56,7 @@
         &.active {
             background: var(--vt-c-jannafer-green);
             border-color: var(--vt-c-jannafer-green);
-            color: var(--vt-c-white);
+            color: var(--vt-c-on-accent);
         }
     }
 </style>

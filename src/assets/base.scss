@@ -8,6 +8,10 @@
 	--vt-c-jannafer-green: rgb(93, 107, 72);
 	--vt-c-jannafer-gray: rgb(from var(--vt-c-jannafer-green) r g b / 5%);
 	--vt-c-jannafer-gray2: rgb(from var(--vt-c-jannafer-green) r g b / 20%);
+	--vt-c-on-accent: #ffffff; // text placed ON a green fill, so it flips with the green
+
+	--vt-c-error: #b3261e;
+	--vt-c-success: #1b5e20;
 
 	--vt-c-black: #181818;
 	--vt-c-black-soft: #212121;
@@ -46,6 +50,10 @@ html.dark {
 	--vt-c-black: #e0e4d0;
 	--vt-c-black-soft: #d4d9c0;
 	--vt-c-black-mute: #c8ceb0;
+	--vt-c-jannafer-green: #a3b585; // the light-mode green is 2.9:1 here, below the 4.5:1 floor
+	--vt-c-on-accent: #1c2118;
+	--vt-c-error: #f2b8b5;
+	--vt-c-success: #a5d6a7;
 	--vt-c-jannafer-gray: rgb(from var(--vt-c-jannafer-green) r g b / 12%);
 	--vt-c-jannafer-gray2: rgb(from var(--vt-c-jannafer-green) r g b / 32%);
 	--vt-c-divider-light-1: rgba(180, 190, 160, 0.3);
@@ -88,7 +96,6 @@ body {
 	font-weight: 400;
 	font-style: normal;
 	font-size: 16px;
-	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -189,7 +196,12 @@ button,
 
 .button-primary {
 	background: var(--vt-c-jannafer-green);
-	color: #fff; // stays legible in dark mode, where --vt-c-white flips to a dark tone
+	color: var(--vt-c-on-accent);
+}
+
+:focus-visible {
+	outline: 2px solid var(--vt-c-jannafer-green);
+	outline-offset: 2px;
 }
 
 //Inputs
@@ -204,8 +216,9 @@ select {
 	border-radius: .5rem;
 	transition: var(--vt-c-transition-speed);
 
-	&:focus {
-		box-shadow: 0 0 0 2px rgb(from var(--vt-c-jannafer-green) r g b / 40%);
+	&:focus-visible {
+		outline: none; // the ring below replaces it; at full opacity it clears the 3:1 floor
+		box-shadow: 0 0 0 2px var(--vt-c-jannafer-green);
 	}
 
 	&[type="checkbox"] {
@@ -262,6 +275,22 @@ ol {
 	padding: 2rem;
 }
 
+.skip-link {
+	position: absolute;
+	left: 1rem;
+	top: -3rem;
+	z-index: 300;
+	padding: 0.7rem 1.5rem;
+	border-radius: 0 0 .5rem .5rem;
+	background: var(--vt-c-jannafer-green);
+	color: var(--vt-c-on-accent);
+	transition: top var(--vt-c-transition-speed);
+
+	&:focus {
+		top: 0;
+	}
+}
+
 .icon-chip {
 	width: 3rem;
 	height: 3rem;
@@ -280,11 +309,11 @@ ol {
 }
 
 .success {
-	color: green;
+	color: var(--vt-c-success);
 }
 
 .error {
-	color: red;
+	color: var(--vt-c-error);
 }
 
 // Animation 

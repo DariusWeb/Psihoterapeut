@@ -81,24 +81,24 @@
 
 				<div class="contact-form-row">
 					<div class="form-group">
-						<input type="text" v-model="form.name" placeholder=" " required />
-						<label>{{ t('contact.form.name') }}</label>
+						<input id="contact-name" type="text" v-model="form.name" placeholder=" " required />
+						<label for="contact-name">{{ t('contact.form.name') }}</label>
 					</div>
 
 					<div class="form-group">
-						<input type="email" v-model="form.email" placeholder=" " required />
-						<label>{{ t('contact.form.email') }}</label>
+						<input id="contact-email" type="email" v-model="form.email" placeholder=" " required />
+						<label for="contact-email">{{ t('contact.form.email') }}</label>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<input type="tel" v-model="form.phone" placeholder=" " />
-					<label>{{ t('contact.form.phone') }}</label>
+					<input id="contact-phone" type="tel" v-model="form.phone" placeholder=" " />
+					<label for="contact-phone">{{ t('contact.form.phone') }}</label>
 				</div>
 
 				<div class="form-group">
-					<textarea v-model="form.message" rows="4" placeholder=" " required></textarea>
-					<label>{{ t('contact.form.message') }}</label>
+					<textarea id="contact-message" v-model="form.message" rows="4" placeholder=" " required></textarea>
+					<label for="contact-message">{{ t('contact.form.message') }}</label>
 				</div>
 
 				<button type="submit" class="button-primary contact-form-submit">

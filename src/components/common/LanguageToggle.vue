@@ -30,6 +30,7 @@ onMounted(() => {
 			:key="lang.code"
 			class="lang-btn"
 			:class="{ active: locale === lang.code }"
+			:aria-pressed="locale === lang.code"
 			:aria-label="lang.label"
 			@click="setLocale(lang.code)"
 		>
@@ -67,7 +68,7 @@ onMounted(() => {
 
 	&.active {
 		background: var(--vt-c-jannafer-green);
-		color: #fff;
+		color: var(--vt-c-on-accent);
 	}
 }
 </style>

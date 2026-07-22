@@ -1,10 +1,16 @@
 <script setup>
-	import { onMounted } from 'vue'
+	import { onMounted, watch } from 'vue'
+	import { useI18n } from 'vue-i18n'
 	import Navigation from '@/components/layout/navigation/Navigation.vue'
 	import Footer from '@/components/layout/navigation/Footer.vue'
 	import { useThemeStore } from '@/stores/themeStore'
 
 	const themeStore = useThemeStore()
+	const { locale, t } = useI18n({ useScope: 'global' })
+
+	watch(locale, (value) => {
+		document.documentElement.lang = value
+	}, { immediate: true })
 
 	onMounted(() => {
 		themeStore.initTheme()
@@ -14,6 +20,8 @@
 </script>
 
 <template>
+	<a class="skip-link" href="#main">{{ t('navigation.skipToContent') }}</a>
+
 	<header>
 		<Navigation />
 		<!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" /> -->
@@ -21,7 +29,7 @@
 
 	<RouterView v-slot="{ Component }">
 		<transition :name="$route.meta.transition || 'fade'" mode="out-in">
-			<component :is="Component" class="main-content layout-container" />
+			<component :is="Component" id="main" tabindex="-1" class="main-content layout-container" />
 		</transition>
 	</RouterView>
 

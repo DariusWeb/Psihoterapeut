@@ -22,7 +22,8 @@
             <RouterLink class="button hero-cta" :to="route">{{ cta }}</RouterLink>
         </div>
 
-        <img class="oval-frame" :src="image" :alt="alt" decoding="async" loading="eager" fetchpriority="high" />
+        <img class="oval-frame" :src="image" :alt="alt" width="300" height="300" decoding="async" loading="eager"
+            fetchpriority="high" />
     </section>
 </template>
 

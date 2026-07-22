@@ -17,6 +17,7 @@ const options = [
 			:key="option.value"
 			class="theme-btn"
 			:class="{ active: themeStore.mode === option.value }"
+			:aria-pressed="themeStore.mode === option.value"
 			:aria-label="option.label"
 			:title="option.label"
 			@click="themeStore.setMode(option.value)"
@@ -83,7 +84,7 @@ const options = [
 
 	&.active {
 		background: var(--vt-c-jannafer-green);
-		color: #fff;
+		color: var(--vt-c-on-accent);
 	}
 }
 </style>

@@ -19,7 +19,8 @@
             <p>{{ t('newsletter.description') }}</p>
 
             <form @submit.prevent="handleSubmit" class="newsletter-form">
-                <input v-model="email" type="email" :placeholder="t('newsletter.emailPlaceholder')" required>
+                <input v-model="email" type="email" :placeholder="t('newsletter.emailPlaceholder')"
+                    :aria-label="t('newsletter.emailPlaceholder')" required>
 
                 <button type="submit">
                     {{ t('button.subscribe') }}

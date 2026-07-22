@@ -1,7 +1,7 @@
 <script setup>
 	import { RouterLink, useRoute } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { ref, onMounted, onUnmounted, watch } from 'vue'
+	import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 	import ThemeToggle from '@/components/common/ThemeToggle.vue'
 	import LanguageToggle from '@/components/common/LanguageToggle.vue'
 
@@ -9,19 +9,39 @@
 	const route = useRoute()
 	const isScrolled = ref(false)
 	const isMenuOpen = ref(false)
+	const hamburgerRef = ref(null)
+	const closeButtonRef = ref(null)
 
 	const handleScroll = () => {
 		isScrolled.value = window.scrollY > 0
 	}
 
-	function toggleMenu() {
-		isMenuOpen.value = !isMenuOpen.value
-		document.body.style.overflow = isMenuOpen.value ? 'hidden' : ''
+	// `inert` hands keyboard trapping to the platform instead of a hand-rolled Tab cycle
+	function setBackgroundInert(inert) {
+		document.querySelectorAll('header, #main, footer').forEach((el) => {
+			el.toggleAttribute('inert', inert)
+		})
 	}
 
-	function closeMenu() {
+	async function openMenu() {
+		isMenuOpen.value = true
+		document.body.style.overflow = 'hidden'
+		await nextTick()
+		setBackgroundInert(true)
+		closeButtonRef.value?.focus()
+	}
+
+	function toggleMenu() {
+		if (isMenuOpen.value) closeMenu()
+		else openMenu()
+	}
+
+	function closeMenu({ restoreFocus = true } = {}) {
+		if (!isMenuOpen.value) return
 		isMenuOpen.value = false
 		document.body.style.overflow = ''
+		setBackgroundInert(false)
+		if (restoreFocus) hamburgerRef.value?.focus()
 	}
 
 	function handleKeydown(e) {
@@ -30,12 +50,13 @@
 		}
 	}
 
+	// navigating should land the user on the new page, not back on the hamburger
 	watch(() => route.path, () => {
-		closeMenu()
+		closeMenu({ restoreFocus: false })
 	})
 
 	onMounted(() => {
-		window.addEventListener('scroll', handleScroll)
+		window.addEventListener('scroll', handleScroll, { passive: true })
 		window.addEventListener('keydown', handleKeydown)
 	})
 
@@ -43,6 +64,7 @@
 		window.removeEventListener('scroll', handleScroll)
 		window.removeEventListener('keydown', handleKeydown)
 		document.body.style.overflow = ''
+		setBackgroundInert(false)
 	})
 </script>
 
@@ -65,7 +87,7 @@
 		<div class="nav-controls">
 			<ThemeToggle />
 			<LanguageToggle />
-			<button class="hamburger" @click="toggleMenu" :aria-expanded="isMenuOpen"
+			<button ref="hamburgerRef" class="hamburger" @click="toggleMenu" :aria-expanded="isMenuOpen"
 				aria-label="Toggle navigation menu">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 					stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -80,7 +102,7 @@
 	<Teleport to="body">
 		<Transition name="overlay">
 			<div v-if="isMenuOpen" class="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
-				<button class="overlay-close" @click="closeMenu" aria-label="Close menu">
+				<button ref="closeButtonRef" class="overlay-close" @click="closeMenu()" aria-label="Close menu">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 						stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<line x1="18" y1="6" x2="6" y2="18" />
@@ -89,13 +111,13 @@
 				</button>
 
 				<div class="overlay-links">
-					<RouterLink to="/" @click="closeMenu">{{ t('navigation.menu.home') }}</RouterLink>
-					<RouterLink to="/about" @click="closeMenu">{{ t('navigation.menu.about') }}</RouterLink>
-					<RouterLink to="/services" @click="closeMenu">{{ t('navigation.menu.services') }}</RouterLink>
-					<RouterLink to="/events" @click="closeMenu">{{ t('navigation.menu.events') }}</RouterLink>
-					<RouterLink to="/articles" @click="closeMenu">{{ t('navigation.menu.articles') }}</RouterLink>
-					<RouterLink to="/news" @click="closeMenu">{{ t('navigation.menu.news') }}</RouterLink>
-					<RouterLink to="/contact" @click="closeMenu">{{ t('navigation.menu.contact') }}</RouterLink>
+					<RouterLink to="/">{{ t('navigation.menu.home') }}</RouterLink>
+					<RouterLink to="/about">{{ t('navigation.menu.about') }}</RouterLink>
+					<RouterLink to="/services">{{ t('navigation.menu.services') }}</RouterLink>
+					<RouterLink to="/events">{{ t('navigation.menu.events') }}</RouterLink>
+					<RouterLink to="/articles">{{ t('navigation.menu.articles') }}</RouterLink>
+					<RouterLink to="/news">{{ t('navigation.menu.news') }}</RouterLink>
+					<RouterLink to="/contact">{{ t('navigation.menu.contact') }}</RouterLink>
 				</div>
 
 				<div class="overlay-controls">
