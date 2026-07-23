@@ -1,16 +1,17 @@
 <script setup>
-    const props = defineProps({
+    defineProps({
         id: Number,
         title: String,
         subtitle: String,
+        slug: String,
         image: String,
         component: [Object, String]
     })
 </script>
 
 <template>
-    <article class="service-detail">
-        <img :src="image" :alt="title" />
+    <article class="service-detail" :id="slug">
+        <img v-if="image" :src="image" :alt="title" />
 
         <div class="service-content">
             <h2>{{ title }}</h2>

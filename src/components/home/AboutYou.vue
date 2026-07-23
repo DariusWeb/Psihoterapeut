@@ -44,9 +44,7 @@
 		padding: 3rem 0;
 
 		.about-left {
-			background-image: url('https://placehold.co/600x400');
-			background-size: cover;
-			background-position: center;
+			background: var(--vt-c-surface-strong);
 			padding: 3rem;
 			border-radius: 100%;
 			min-height: 400px;

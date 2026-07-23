@@ -11,7 +11,7 @@
         <div class="events-grid">
             <div v-for="(event, index) in tm('events.items')" :key="index" class="event-card">
                 <div class="event-image">
-                    <img :src="`${event.image}`" :alt="event.title">
+                    <img v-if="event.image" :src="`${event.image}`" :alt="event.title">
                 </div>
 
                 <div class="event-details">
@@ -49,6 +49,7 @@
 
         .event-image {
             height: 200px;
+            background: var(--vt-c-surface-strong);
 
             img {
                 width: 100%;

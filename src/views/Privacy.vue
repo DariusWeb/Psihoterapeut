@@ -1,42 +1,80 @@
 <script setup>
+	import { useI18n } from 'vue-i18n'
 
+	const { t } = useI18n()
 </script>
 
 <template>
 	<div class="page-privacy">
-		<h1>Privacy Policy</h1>
-        <p><strong>Last Updated:</strong> [Insert Date]</p>
-        <p>Your privacy is important to us. This Privacy Policy explains how [Website Name] handles your information.</p>
+		<h1>{{ t('privacy.title') }}</h1>
+		<p class="privacy-updated">{{ t('privacy.updated') }}</p>
+		<p>{{ t('privacy.intro') }}</p>
 
-        <h2>1. Minimal Data Usage</h2>
-        <ul>
-            <li>This website does not collect, store, or share any personal data.</li>
-            <li>We use only necessary JavaScript to render the site and ensure its proper functioning.</li>
-        </ul>
+		<h2>{{ t('privacy.controller.title') }}</h2>
+		<p>{{ t('privacy.controller.body') }}</p>
+		<p>{{ t('privacy.controller.contact') }}</p>
 
-        <h2>2. No Cookies</h2>
-        <p>Our website does not use cookies or other tracking technologies to monitor user behavior.</p>
+		<h2>{{ t('privacy.collect.title') }}</h2>
+		<p>{{ t('privacy.collect.intro') }}</p>
 
-        <h2>3. Third-Party Services</h2>
-        <p>We do not integrate with or use any third-party services that track or collect user information.</p>
+		<h3>{{ t('privacy.collect.form.title') }}</h3>
+		<p>{{ t('privacy.collect.form.body') }}</p>
 
-        <h2>4. Security</h2>
-        <p>Although we do not collect data, we maintain strict security measures to ensure the integrity and availability of the website.</p>
+		<h3>{{ t('privacy.collect.newsletter.title') }}</h3>
+		<p>{{ t('privacy.collect.newsletter.body') }}</p>
 
-        <h2>5. Children’s Privacy</h2>
-        <p>The website is not directed at children under the age of 13, and we do not knowingly collect data from them.</p>
+		<h3>{{ t('privacy.collect.storage.title') }}</h3>
+		<p>{{ t('privacy.collect.storage.body') }}</p>
+		<ul>
+			<li>{{ t('privacy.collect.storage.theme') }}</li>
+			<li>{{ t('privacy.collect.storage.language') }}</li>
+		</ul>
+		<p>{{ t('privacy.collect.storage.life') }}</p>
 
-        <h2>6. Changes to Privacy Policy</h2>
-        <p>Updates to this Privacy Policy will be reflected on this page with a revised date.</p>
+		<h2>{{ t('privacy.health.title') }}</h2>
+		<p>{{ t('privacy.health.body') }}</p>
 
-        <h2>7. Contact</h2>
-        <p>For inquiries about this Privacy Policy, please reach us at [Insert Contact Email or Form Link].</p>
+		<h2>{{ t('privacy.basis.title') }}</h2>
+		<ul>
+			<li v-for="index in 4" :key="index">{{ t(`privacy.basis.i${index}`) }}</li>
+		</ul>
+
+		<h2>{{ t('privacy.sharing.title') }}</h2>
+		<p>{{ t('privacy.sharing.body') }}</p>
+		<p>{{ t('privacy.sharing.note') }}</p>
+
+		<h2>{{ t('privacy.retention.title') }}</h2>
+		<ul>
+			<li v-for="index in 3" :key="index">{{ t(`privacy.retention.i${index}`) }}</li>
+		</ul>
+
+		<h2>{{ t('privacy.rights.title') }}</h2>
+		<p>{{ t('privacy.rights.intro') }}</p>
+		<ul>
+			<li v-for="index in 6" :key="index">{{ t(`privacy.rights.i${index}`) }}</li>
+		</ul>
+		<p>{{ t('privacy.rights.response') }}</p>
+		<p>{{ t('privacy.rights.complaint') }}</p>
+
+		<h2>{{ t('privacy.security.title') }}</h2>
+		<p>{{ t('privacy.security.body') }}</p>
+
+		<h2>{{ t('privacy.changes.title') }}</h2>
+		<p>{{ t('privacy.changes.body') }}</p>
 	</div>
 </template>
 
-<style scoped></style>
 <style lang="scss" scoped>
-h2 {
-    margin-top: 35px;
-}
+	h2 {
+		margin-top: 35px;
+	}
+
+	h3 {
+		margin-top: 1.5rem;
+		font-size: 1.05rem;
+	}
+
+	.privacy-updated {
+		color: var(--vt-c-black-mute);
+	}
 </style>

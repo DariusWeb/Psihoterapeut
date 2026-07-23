@@ -5,7 +5,7 @@
             id: 1,
             title: 'Managing Anxiety',
             subtitle: 'Understanding and coping with anxiety',
-            image: 'https://images.unsplash.com/photo-1527137342181-19aab11a8ee8?auto=format&fit=crop&w=500&q=80',
+            image: null,
             createdAt: '2025-09-18'
         }
     }

@@ -1,7 +1,4 @@
 <script setup>
-    import { useI18n } from 'vue-i18n'
-    const { t } = useI18n()
-
     const { title, subtitle, quote, cta, route, image, alt } = defineProps({
         title: String,
         subtitle: String,

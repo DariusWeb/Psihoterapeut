@@ -1,5 +1,6 @@
 <script setup>
 	import { ref } from 'vue'
+	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
 	import { Sprout, Laptop, Mail, Phone, MessageCircle, CalendarDays, UserRound, Heart, Lock, Clock } from '@lucide/vue'
 	import contactDesk from '@/assets/images/contact/contact-desk.webp'
@@ -14,12 +15,14 @@
 		message: ''
 	})
 
+	const consent = ref(false)
 	const status = ref('idle')
 
 	// TODO: POST to the Firebase Cloud Function; until it exists nothing is sent and 'error' is unreachable.
 	const sendMessage = () => {
 		status.value = 'submitting'
 		form.value = { name: '', email: '', phone: '', message: '' }
+		consent.value = false
 		status.value = 'success'
 	}
 
@@ -105,9 +108,19 @@
 					<label for="contact-phone">{{ t('contact.form.phone') }}</label>
 				</div>
 
+				<p class="contact-form-hint">{{ t('contact.form.messageHint') }}</p>
+
 				<div class="form-group">
 					<textarea id="contact-message" v-model="form.message" rows="4" placeholder=" " required></textarea>
 					<label for="contact-message">{{ t('contact.form.message') }}</label>
+				</div>
+
+				<div class="contact-form-consent">
+					<input id="contact-consent" v-model="consent" type="checkbox" required />
+					<label for="contact-consent">
+						{{ t('contact.form.consent') }}
+						<RouterLink to="/privacy">{{ t('contact.form.consentLink') }}</RouterLink>.
+					</label>
 				</div>
 
 				<button type="submit" class="button-primary contact-form-submit" :disabled="status === 'submitting'">
@@ -303,9 +316,26 @@
 		margin: 0 0 0.5rem;
 	}
 
-	.contact-form input,
+	.contact-form input:not([type="checkbox"]),
 	.contact-form textarea {
 		width: 100%;
+	}
+
+	.contact-form-hint {
+		margin: 0 0 0.75rem;
+		font-size: 0.9rem;
+	}
+
+	.contact-form-consent {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		margin-bottom: 1rem;
+		font-size: 0.9rem;
+
+		label {
+			cursor: pointer;
+		}
 	}
 
 	.contact-form-submit {

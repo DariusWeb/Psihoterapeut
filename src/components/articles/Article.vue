@@ -13,7 +13,7 @@
 
 <template>
     <main v-if="article" class="article-detail">
-        <img :src="article.image" :alt="article.title">
+        <img v-if="article.image" :src="article.image" :alt="article.title">
         <h1>{{ article.title }}</h1>
         <h2>{{ article.subtitle }}</h2>
 

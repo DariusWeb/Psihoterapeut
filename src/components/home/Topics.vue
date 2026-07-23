@@ -20,9 +20,7 @@
 				<p>{{ t('topics.items.anxiety.details') }}</p>
 				<button>{{ t('button.findOutMore') }}</button>
 			</div>
-			<div class="topic-image">
-				<img src="https://placehold.co/1920x500" alt="Stress Management">
-			</div>
+			<div class="topic-image"></div>
 			<div class="topic-card">
 				<h3>{{ t('topics.items.depression.title') }}</h3>
 				<p>{{ t('topics.items.depression.details') }}</p>
@@ -35,9 +33,7 @@
 				<p>{{ t('topics.items.discovery.details') }}</p>
 				<button>{{ t('button.findOutMore') }}</button>
 			</div>
-			<div class="topic-image">
-				<img src="https://placehold.co/1920x500" alt="Therapy">
-			</div>
+			<div class="topic-image"></div>
 			<div class="topic-card">
 				<h3>{{ t('topics.items.career.title') }}</h3>
 				<p>{{ t('topics.items.career.details') }}</p>
@@ -89,11 +85,8 @@
 	}
 
 	.topic-image {
-		img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
+		background: var(--vt-c-surface-strong);
+		border-radius: var(--vt-c-border-radius);
 	}
 
 	.topics-footer {

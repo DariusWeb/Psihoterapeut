@@ -44,7 +44,7 @@
                 <h3>{{ t('footer.info.title') }}</h3>
                 <ul>
                     <li>
-                        <RouterLink to="/cookies">{{ t('footer.info.terms') }}</RouterLink>
+                        <RouterLink to="/terms">{{ t('footer.info.terms') }}</RouterLink>
                     </li>
                     <li>
                         <RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>

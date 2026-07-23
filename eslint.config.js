@@ -28,4 +28,12 @@ export default [
   ...pluginVue.configs['flat/essential'],
   ...oxlint.configs['flat/recommended'],
   skipFormatting,
+
+  {
+    name: 'app/component-naming',
+    files: ['**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
 ]

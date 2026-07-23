@@ -35,7 +35,7 @@
                     <input id="newsletter-consent" v-model="consent" type="checkbox" required>
                     <label for="newsletter-consent">
                         {{ t('newsletter.consent') }}
-                        <RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>
+                        <RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>.
                     </label>
                 </div>
             </form>
@@ -71,7 +71,7 @@
 
         .newsletter-consent {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.5rem;
             margin-top: 0.75rem;
             font-size: 0.9rem;

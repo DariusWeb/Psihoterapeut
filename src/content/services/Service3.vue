@@ -6,7 +6,7 @@
             title: 'Service 3',
             slug: 'service-3',
             category: 'kids',
-            image: 'https://placehold.co/1920x500',
+            image: null,
         }
     }
 </script>

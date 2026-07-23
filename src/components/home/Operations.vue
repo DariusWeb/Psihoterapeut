@@ -4,7 +4,9 @@
 	const servicesStore = useServicesStore()
 	import { useI18n } from 'vue-i18n'
 
-	const { t, tm } = useI18n();
+	const { t } = useI18n();
+
+	const SERVICE_CATEGORIES = ['adults', 'adolescents', 'kids']
 </script>
 
 <template>
@@ -16,11 +18,11 @@
 			</div>
 
 			<div class="operations-grid">
-				<div class="operations-item" v-for="(category, index) in tm(`operations.categories`)" :key="index">
-					<h3>{{ category }}</h3>
+				<div class="operations-item" v-for="category in SERVICE_CATEGORIES" :key="category">
+					<h3>{{ t(`operations.categoryLabels.${category}`) }}</h3>
 
-					<div v-for="(service, index) in servicesStore.homeServices.filter(s => s.category === category)"
-						:key="index" v-bind="service">
+					<div v-for="service in servicesStore.homeServices.filter(s => s.category === category)"
+						:key="service.id">
 						<RouterLink :to="`/services#${service.slug}`" class="operations-card">
 							{{ service.title }}
 						</RouterLink>

@@ -60,8 +60,8 @@ const router = createRouter({
       component: () => import('@/views/NotFound.vue'),
     },
   ],
-  scrollBehavior() {
-    // always scroll to top when route changes
+  scrollBehavior(to) {
+    if (to.hash) return { el: to.hash }
     return { top: 0 }
   }
 })

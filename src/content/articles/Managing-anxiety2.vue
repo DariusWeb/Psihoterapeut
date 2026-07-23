@@ -5,7 +5,7 @@
             id: 2,
             title: 'Managing Anxiety2',
             subtitle: 'Understanding and coping with anxiety',
-            image: 'https://placehold.co/1920x500',
+            image: null,
             createdAt: '2025-09-19'
         }
     }

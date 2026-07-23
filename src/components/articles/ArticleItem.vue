@@ -4,7 +4,7 @@
 
     const { t } = useI18n()
 
-    const props = defineProps({
+    defineProps({
         title: String,
         subtitle: String,
         image: String,
@@ -15,7 +15,7 @@
 <template>
     <article class="article-item">
         <div class="article-image">
-            <img :src="image" :alt="title">
+            <img v-if="image" :src="image" :alt="title">
         </div>
 
         <div class="article-content">
@@ -44,6 +44,7 @@
 
     .article-image {
         height: 200px;
+        background: var(--vt-c-surface-strong);
 
         img {
             width: 100%;

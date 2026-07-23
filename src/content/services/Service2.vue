@@ -6,7 +6,7 @@
             title: 'Service 2',
             slug: 'service-2',
             category: 'adolescents',
-            image: 'https://placehold.co/1920x500',
+            image: null,
         }
     }
 </script>

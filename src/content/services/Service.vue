@@ -6,7 +6,7 @@
             title: 'Service',
             slug: 'service',
             category: 'adults',
-            image: 'https://placehold.co/1920x500',
+            image: null,
         }
     }
 </script>
