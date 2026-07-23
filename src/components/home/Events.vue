@@ -1,7 +1,11 @@
 <script setup>
+    import { RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
+    import { useEventsStore } from '@/stores/eventsStore'
+    import EventItem from '@/components/events/EventItem.vue'
 
-    const { t, tm } = useI18n()
+    const { t } = useI18n()
+    const eventsStore = useEventsStore()
 </script>
 
 <template>
@@ -9,21 +13,12 @@
         <h2 class="events-title">{{ t('events.title') }}</h2>
 
         <div class="events-grid">
-            <div v-for="(event, index) in tm('events.items')" :key="index" class="event-card">
-                <div class="event-image">
-                    <img v-if="event.image" :src="`${event.image}`" :alt="event.title">
-                </div>
-
-                <div class="event-details">
-                    <h3>{{ event.title }}</h3>
-                    <p>{{ event.details }}</p>
-
-                    <RouterLink :to="event.link" class="event-link">
-                        {{ t('button.findOutMore') }}
-                    </RouterLink>
-                </div>
-            </div>
+            <EventItem v-for="event in eventsStore.homeEvents" :key="event.id" v-bind="event" />
         </div>
+
+        <RouterLink to="/events" class="view-more-events">
+            {{ t('button.viewAll') }}
+        </RouterLink>
     </section>
 </template>
 
@@ -38,33 +33,13 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
         }
     }
 
-    .event-card {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-        .event-image {
-            height: 200px;
-            background: var(--vt-c-surface-strong);
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        }
-
-        .event-details {
-            padding: 1.5rem;
-
-            h3 {
-                margin-bottom: 1rem;
-            }
-        }
+    .view-more-events {
+        display: table;
+        margin: 0 auto;
     }
 
     @media (max-width: 1024px) {

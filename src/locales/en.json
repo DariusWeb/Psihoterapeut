@@ -112,23 +112,10 @@
 	},
 	"events": {
 		"title": "Evenimente planificate",
-		"items": [
-			{
-				"title": "Event Title 1",
-				"details": "Event details here",
-				"link": "/events/1"
-			},
-			{
-				"title": "Event Title 2",
-				"details": "Event details here",
-				"link": "/events/2"
-			},
-			{
-				"title": "Event Title 3",
-				"details": "Event details here",
-				"link": "/events/3"
-			}
-		],
+		"notFound": {
+			"message": "This event could not be found.",
+			"back": "Back to events"
+		},
 		"testimonials": {
 			"title": "Testimoniale",
 			"items": [
