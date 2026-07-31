@@ -12,11 +12,15 @@
 		document.documentElement.lang = value
 	}, { immediate: true })
 
+	// unblocks the router's scrollBehavior, which waits for the old page to finish leaving
+	function releaseScroll() {
+		window.dispatchEvent(new Event('page-transition-done'))
+	}
+
 	onMounted(() => {
 		themeStore.initTheme()
 	})
 
-	// on scrolldown add a class to header
 </script>
 
 <template>
@@ -28,7 +32,7 @@
 	</header>
 
 	<RouterView v-slot="{ Component }">
-		<transition :name="$route.meta.transition || 'fade'" mode="out-in">
+		<transition :name="$route.meta.transition || 'fade'" mode="out-in" @after-leave="releaseScroll">
 			<component :is="Component" id="main" tabindex="-1" class="main-content layout-container" />
 		</transition>
 	</RouterView>

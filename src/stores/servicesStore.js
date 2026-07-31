@@ -13,5 +13,9 @@ export const useServicesStore = defineStore('services', () => {
 		return items.value.find((service) => service.id === id)
 	}
 
-	return { allServices, homeServices, getServiceById }
+	function getServiceBySlug(slug) {
+		return items.value.find((service) => service.slug === slug)
+	}
+
+	return { allServices, homeServices, getServiceById, getServiceBySlug }
 })

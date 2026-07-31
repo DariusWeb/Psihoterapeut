@@ -73,11 +73,182 @@
 	},
 	"operations": {
 		"title": "Servicii oferite",
-		"location": "Online sau la cabinet",
-		"categoryLabels": {
-			"adults": "Adulți",
-			"adolescents": "Adolescenți",
-			"kids": "Copii"
+		"location": "Online sau la cabinet"
+	},
+	"services": {
+		"index": {
+			"title": "Arii în care te pot însoți",
+			"intro": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
+			"cta": "Află mai mult",
+			"notFound": "Nu am găsit această pagină.",
+			"back": "Vezi toate ariile"
+		},
+		"credentials": [
+			"Psihoterapeut integrativ & cognitiv-comportamental",
+			"Membră a Colegiului Psihologilor din România",
+			"Membră a Federației Române de Psihoterapie",
+			"Reproductive Mental Health Specialist"
+		],
+		"cta": {
+			"button": "Programează o primă ședință",
+			"note": "Sunt aici să te ascult, să te înțeleg și să te însoțesc cu blândețe."
+		},
+		"infertility": {
+			"title": "În fața infertilității",
+			"imageAlt": "Femeie privind pe fereastră, cu o cană de ceai în mâini",
+			"hero": {
+				"title": "Când fiecare lună pare să înceapă cu speranță și să se termine cu o nouă pierdere.",
+				"p1": "Infertilitatea nu înseamnă doar investigații și tratamente. Pentru multe femei și cupluri, ea aduce o formă de doliu care nu se vede: pentru planurile care se amână, pentru corpul în care începi să nu mai ai încredere, pentru viața pe care credeai că o vei avea până acum.",
+				"p2": "Poate că în continuare mergi la serviciu, răspunzi la mesaje și zâmbești atunci când este nevoie. Dar în interior porți o povară pe care foarte puțini o văd.",
+				"closing": "Nu trebuie să o porți singură."
+			},
+			"recognise": {
+				"title": "Poate te regăsești aici...",
+				"imageAlt": "Vas cu ramuri verzi pe pervazul unei ferestre luminoase",
+				"items": [
+					"Viața ta pare organizată în jurul ovulației, analizelor și rezultatelor.",
+					"Te surprinzi comparându-te cu femeile care rămân însărcinate „atât de ușor”.",
+					"Eviți aniversări sau întâlniri în care știi că vor apărea întrebări despre copii.",
+					"Simți că ai pierdut spontaneitatea și că fiecare decizie trebuie calculată.",
+					"Ai obosit să auzi „Relaxează-te.”, „Se va întâmpla când te aștepți mai puțin.”, „Poate că nu era momentul.”",
+					"Te simți vinovată că nu mai recunoști persoana care ai fost."
+				]
+			},
+			"therapy": {
+				"title": "Cum te poate ajuta terapia?",
+				"imageAlt": "Carnet deschis și o lumânare aprinsă pe o masă de lemn",
+				"intro": "Terapia nu poate controla rezultatul tratamentelor medicale. Poate însă să îți ofere un loc în care:",
+				"items": [
+					"să nu mai fii singură cu ceea ce trăiești",
+					"să înțelegi impactul infertilității asupra identității tale",
+					"să faci loc emoțiilor pe care poate le-ai amânat",
+					"să reduci presiunea de a fi permanent puternică",
+					"să reconstruiești relația cu propriul corp",
+					"să existe viață și între tratamente"
+				],
+				"closing": "Lucrăm împreună, în ritmul tău, cu empatie, claritate și respect pentru ceea ce trăiești."
+			},
+			"losses": {
+				"title": "Ce se pierde, dincolo de diagnostic",
+				"imageAlt": "Cană de ceai și o ramură verde pe o pătură moale",
+				"intro": "Infertilitatea poate aduce pierderi invizibile, dar profund resimțite. Este în regulă să le simți, să le recunoști și să le onorezi.",
+				"items": [
+					"Sentimentul că îți poți planifica viața",
+					"Încrederea în propriul corp",
+					"Spontaneitatea în relația de cuplu",
+					"Sentimentul că aparții printre ceilalți",
+					"Identitatea pe care ți-o imaginai pentru această etapă a vieții",
+					"Speranța care vine fără teamă",
+					"Capacitatea de a te bucura sincer pentru alții",
+					"Încrederea că lucrurile vor merge bine"
+				]
+			},
+			"cta": {
+				"title": "Nu trebuie să aștepți să îți fie mai greu.",
+				"text": "Poți veni oricând simți că ai nevoie de un spațiu în care să te oprești, să înțelegi mai bine ce se întâmplă în tine și să nu mai fii singură cu ceea ce trăiești."
+			}
+		},
+		"motherhood": {
+			"title": "În maternitate",
+			"imageAlt": "Mamă așezată pe podea lângă un pătuț, privind pe fereastră",
+			"hero": {
+				"title": "Maternitatea poate aduce multă iubire. Dar și multă singurătate.",
+				"p1": "Poate îți iubești copilul mai mult decât ai crezut vreodată că este posibil. Și, în același timp, te întrebi unde ai rămas tu.",
+				"p2": "Poate zilele tale sunt pline, dar simți că nu mai există aproape niciun spațiu în care să fii doar tu, fără să răspunzi unei nevoi, fără să planifici ceva sau fără să ai grijă de cineva. Poate ai așteptat mult acest copil. Sau poate maternitatea a venit firesc. Indiferent cum ai ajuns aici, schimbarea pe care o aduce poate fi mult mai profundă decât lasă lumea să se vadă.",
+				"closing": "Nu înseamnă că îți iubești copilul mai puțin. Înseamnă că și tu ai nevoie de un loc în care să exiști."
+			},
+			"recognise": {
+				"title": "Poate te regăsești aici",
+				"imageAlt": "Vas cu flori uscate și o cană pe o masă rotundă de lemn",
+				"items": [
+					"Te simți copleșită de responsabilitatea de a fi permanent disponibilă.",
+					"Ai impresia că ai dispărut în spatele rolului de mamă.",
+					"Simți vinovăție ori de câte ori îți dorești timp doar pentru tine.",
+					"Te compari cu alte mame care par că se descurcă mai bine.",
+					"Nu îți mai recunoști corpul sau relația cu el.",
+					"Relația cu partenerul s-a schimbat și nu mai știi cum să vă regăsiți.",
+					"Ai obosit să auzi: „Bucură-te de perioada asta.”, „Trece repede.”, „Toate mamele trec prin asta.”"
+				]
+			},
+			"changes": {
+				"title": "Ce se schimbă odată cu maternitatea",
+				"imageAlt": "Femeie așezată pe pat, privind spre fereastră",
+				"intro": "Maternitatea nu schimbă doar rutina. Schimbă felul în care te raportezi la tine. Uneori, ceea ce doare nu este doar oboseala. Este faptul că ai impresia că ai pierdut:",
+				"items": [
+					"timpul care îți aparținea",
+					"încrederea în tine",
+					"libertatea de a decide doar pentru tine",
+					"relația cu propriul corp",
+					"apropierea de partener",
+					"sentimentul că încă ești aceeași femeie",
+					"bucuria de a face lucruri doar pentru tine",
+					"spontaneitatea"
+				],
+				"closing": "Nu trebuie să alegi între a fi o mamă bună și a avea grijă de tine. Cele două pot exista împreună."
+			},
+			"therapy": {
+				"title": "Cum poate arăta terapia pentru tine",
+				"imageAlt": "Scaun cu o pătură și o masă cu lumânare lângă fereastră",
+				"intro": "Un spațiu în care să nu fie nevoie să demonstrezi că ești recunoscătoare în fiecare moment. Un spațiu în care să poți vorbi și despre iubire, și despre oboseală. Și despre vinovăție. Și despre furie. Și despre dorul de cine erai înainte.",
+				"body": "În terapie putem explora împreună schimbările prin care treci, relația cu tine, cu corpul tău, cu partenerul și cu noua identitate care se construiește în această etapă.",
+				"closing": "Nu îți pot promite că maternitatea va deveni ușoară. Dar îți pot oferi un loc în care să nu mai fie nevoie să fii singură cu tot ceea ce este greu."
+			},
+			"cta": {
+				"title": "Nu este doar despre maternitate. Este despre cine devii.",
+				"text": "Maternitatea nu înseamnă doar să ai grijă de un copil. Înseamnă să renegociezi relația cu corpul tău, cu timpul tău, cu partenerul, cu munca, cu libertatea și cu identitatea ta. În terapie nu lucrăm doar cu oboseala sau anxietatea. Lucrăm și cu femeia care încearcă să își găsească locul într-o viață care s-a schimbat profund."
+			}
+		},
+		"career": {
+			"title": "În carieră",
+			"imageAlt": "Femeie cu o cană în mână, privind pe fereastră de la birou",
+			"hero": {
+				"title": "Când continui să funcționezi, dar nu te mai regăsești în ceea ce faci.",
+				"p1": "Poate încă îți faci bine treaba. Respecți termene, participi la ședințe, răspunzi la e-mailuri și, pentru cei din jur, pari aceeași persoană competentă și implicată. Dar în interior simți că ceva s-a schimbat.",
+				"p2": "Poate te trezești fără energie pentru o zi care înainte te motiva. Poate ai senzația că doar bifezi sarcini, fără să mai simți că ceea ce faci are sens. Sau poate ai ajuns într-un punct în care îți dorești o schimbare, dar nu mai știi încotro să mergi.",
+				"closing": "Nu este doar despre carieră. Este despre relația cu tine însăți, despre identitate și despre felul în care vrei să îți trăiești viața mai departe."
+			},
+			"recognise": {
+				"title": "Poate te regăsești aici",
+				"imageAlt": "Birou cu laptop, carnet și o cană lângă fereastră",
+				"items": [
+					"Îți începi ziua deja obosită, înainte să fi făcut ceva.",
+					"Ai impresia că funcționezi pe pilot automat.",
+					"Continui să livrezi rezultate, dar nu mai simți satisfacție.",
+					"Te întrebi dacă ai ales drumul potrivit.",
+					"Simți că ai pierdut contactul cu ceea ce îți dorești cu adevărat.",
+					"Îți este greu să iei o decizie de schimbare, chiar dacă simți că actuala situație nu îți mai face bine.",
+					"Îți spui că ar trebui să fii recunoscătoare pentru ceea ce ai.",
+					"Ai obosit să auzi: „Toată lumea este stresată.”, „E doar o perioadă.”, „Ai un job bun, ce îți mai lipsește?”"
+				]
+			},
+			"losses": {
+				"title": "Ce se pierde atunci când rămâi prea mult într-un loc care nu te mai reprezintă",
+				"imageAlt": "Femeie mergând pe o alee cu copaci, la apus",
+				"intro": "Uneori, ceea ce doare nu este volumul de muncă. Este faptul că începi să pierzi, încet, legătura cu tine. Poate simți că ai pierdut:",
+				"items": [
+					"încrederea în propriile alegeri",
+					"curiozitatea",
+					"energia de a începe ceva nou",
+					"sentimentul că ai libertatea să alegi",
+					"creativitatea",
+					"entuziasmul",
+					"încrederea că meriți mai mult",
+					"spontaneitatea",
+					"echilibrul dintre viața profesională și cea personală"
+				],
+				"closing": "Nu este nevoie să alegi între succes și starea ta de bine. Cele două pot exista împreună."
+			},
+			"becoming": {
+				"title": "Nu este doar despre carieră. Este despre cine devii.",
+				"imageAlt": "Carnet deschis și o cană de cafea pe o masă de lemn",
+				"intro": "În terapie putem explora împreună ce se află dincolo de epuizare sau nemulțumire.",
+				"body": "Uneori descoperim că nu jobul este adevărata problemă, ci presiunea de a performa permanent, dificultatea de a pune limite, teama de a dezamăgi sau convingerea că valoarea ta depinde de ceea ce reușești să faci.",
+				"closing": "Terapia nu îți spune ce decizie să iei. Îți oferă spațiul și claritatea necesare pentru a lua decizii care sunt în acord cu cine ești astăzi, nu cu cine ai simțit că trebuie să fii."
+			},
+			"cta": {
+				"title": "Poate că schimbarea nu începe cu un nou job.",
+				"text": "Poate începe cu o conversație în care, pentru prima dată după mult timp, există loc și pentru tine."
+			}
 		}
 	},
 	"topics": {

@@ -149,7 +149,7 @@
 	.about-card-title,
 	.about-card-subtitle {
 		display: flex;
-		align-items: center;
+		align-items: self-start;
 		gap: 0.75rem;
 		margin: 0;
 	}

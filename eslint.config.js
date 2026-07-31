@@ -15,6 +15,7 @@ export default [
         localStorage: 'readonly',
         fetch: 'readonly',
         URL: 'readonly',
+        Event: 'readonly',
       },
     },
   },

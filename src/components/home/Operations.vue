@@ -5,8 +5,6 @@
 	import { useI18n } from 'vue-i18n'
 
 	const { t } = useI18n();
-
-	const SERVICE_CATEGORIES = ['adults', 'adolescents', 'kids']
 </script>
 
 <template>
@@ -18,16 +16,10 @@
 			</div>
 
 			<div class="operations-grid">
-				<div class="operations-item" v-for="category in SERVICE_CATEGORIES" :key="category">
-					<h3>{{ t(`operations.categoryLabels.${category}`) }}</h3>
-
-					<div v-for="service in servicesStore.homeServices.filter(s => s.category === category)"
-						:key="service.id">
-						<RouterLink :to="`/services#${service.slug}`" class="operations-card">
-							{{ service.title }}
-						</RouterLink>
-					</div>
-				</div>
+				<RouterLink v-for="service in servicesStore.homeServices" :key="service.id" class="operations-item"
+					:to="`/services/${service.slug}`">
+					<h3>{{ t(`services.${service.key}.title`) }}</h3>
+				</RouterLink>
 			</div>
 		</div>
 	</section>
@@ -62,12 +54,18 @@
 				padding: 3rem;
 				min-height: 350px;
 				border-radius: 100%;
+				text-align: center;
 
 				h3 {
-					text-transform: capitalize;
+					margin: 0;
 				}
 
 				border: 1px solid var(--vt-c-jannafer-gray);
+
+				&:hover {
+					text-decoration: none;
+					background: var(--vt-c-surface);
+				}
 			}
 
 		}

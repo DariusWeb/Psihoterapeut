@@ -16,8 +16,18 @@ const router = createRouter({
     },
     {
       path: '/services',
-      name: 'services',
-      component: () => import('@/views/Services.vue'),
+      children: [
+        {
+          path: '',
+          name: 'services',
+          component: () => import('@/views/Services.vue'),
+        },
+        {
+          path: ':slug',
+          name: 'service',
+          component: () => import('@/components/services/ServiceDetail.vue'),
+        },
+      ],
     },
     {
       path: '/events',
@@ -65,9 +75,14 @@ const router = createRouter({
       component: () => import('@/views/NotFound.vue'),
     },
   ],
-  scrollBehavior(to) {
-    if (to.hash) return { el: to.hash }
-    return { top: 0 }
+  // Resolves out-in mode jumps the still-visible page to the top first
+  scrollBehavior(to, from, savedPosition) {
+    const target = savedPosition || (to.hash ? { el: to.hash } : { top: 0 })
+    if (to.path === from.path) return target
+
+    return new Promise((resolve) => {
+      window.addEventListener('page-transition-done', () => resolve(target), { once: true })
+    })
   }
 })
 
