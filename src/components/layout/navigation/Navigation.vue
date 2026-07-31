@@ -10,9 +10,23 @@
 	const route = useRoute()
 	const isScrolled = ref(false)
 	const isMenuOpen = ref(false)
-	const isServicesOpen = ref(false)
+	const openDropdown = ref(null)
 	const hamburgerRef = ref(null)
 	const closeButtonRef = ref(null)
+
+	const navItems = [
+		{ key: 'home', to: '/' },
+		{ key: 'about', to: '/about' },
+		{
+			key: 'services',
+			to: '/services',
+			children: services.map(s => ({ to: `/services/${s.slug}`, labelKey: `services.${s.key}.title` })),
+		},
+		{ key: 'events', to: '/events' },
+		{ key: 'articles', to: '/articles' },
+		{ key: 'news', to: '/news' },
+		{ key: 'contact', to: '/contact' },
+	]
 
 	const handleScroll = () => {
 		isScrolled.value = window.scrollY > 0
@@ -55,7 +69,7 @@
 	// navigating should land the user on the new page, not back on the hamburger
 	watch(() => route.path, () => {
 		closeMenu({ restoreFocus: false })
-		isServicesOpen.value = false
+		openDropdown.value = null
 	})
 
 	onMounted(() => {
@@ -78,27 +92,27 @@
 		</div>
 
 		<div class="nav-menu">
-			<RouterLink to="/">{{ t('navigation.menu.home') }}</RouterLink>
-			<RouterLink to="/about">{{ t('navigation.menu.about') }}</RouterLink>
-			<div class="nav-dropdown-wrapper" @mouseenter="isServicesOpen = true" @mouseleave="isServicesOpen = false">
-				<RouterLink to="/services">
-					{{ t('navigation.menu.services') }}<svg class="chevron" :class="{ 'is-open': isServicesOpen }"
-						xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-						<polyline points="6 9 12 15 18 9" />
-					</svg>
-				</RouterLink>
-				<Transition name="dropdown">
-					<div v-if="isServicesOpen" class="services-dropdown">
-						<RouterLink v-for="service in services" :key="service.id" :to="`/services/${service.slug}`">{{
-							t(`services.${service.key}.title`) }}</RouterLink>
-					</div>
-				</Transition>
-			</div>
-			<RouterLink to="/events">{{ t('navigation.menu.events') }}</RouterLink>
-			<RouterLink to="/articles">{{ t('navigation.menu.articles') }}</RouterLink>
-			<RouterLink to="/news">{{ t('navigation.menu.news') }}</RouterLink>
-			<RouterLink to="/contact">{{ t('navigation.menu.contact') }}</RouterLink>
+			<template v-for="item in navItems" :key="item.key">
+				<div v-if="item.children" class="nav-dropdown-wrapper" @mouseenter="openDropdown = item.key"
+					@mouseleave="openDropdown = null">
+					<RouterLink :to="item.to">
+						{{ t(`navigation.menu.${item.key}`) }}<svg class="chevron"
+							:class="{ 'is-open': openDropdown === item.key }" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+							stroke-linecap="round" stroke-linejoin="round">
+							<polyline points="6 9 12 15 18 9" />
+						</svg>
+					</RouterLink>
+					<Transition name="dropdown">
+						<div v-if="openDropdown === item.key" class="nav-dropdown">
+							<RouterLink v-for="child in item.children" :key="child.to" :to="child.to">
+								{{ t(child.labelKey) }}
+							</RouterLink>
+						</div>
+					</Transition>
+				</div>
+				<RouterLink v-else :to="item.to">{{ t(`navigation.menu.${item.key}`) }}</RouterLink>
+			</template>
 		</div>
 
 		<div class="nav-controls">
@@ -128,19 +142,17 @@
 				</button>
 
 				<div class="overlay-links">
-					<RouterLink to="/">{{ t('navigation.menu.home') }}</RouterLink>
-					<RouterLink to="/about">{{ t('navigation.menu.about') }}</RouterLink>
-					<div class="overlay-service-group">
-						<RouterLink to="/services">{{ t('navigation.menu.services') }}</RouterLink>
-						<div class="overlay-service-children">
-							<RouterLink v-for="service in services" :key="service.id" :to="`/services/${service.slug}`">
-								{{ t(`services.${service.key}.title`) }}</RouterLink>
+					<template v-for="item in navItems" :key="item.key">
+						<div v-if="item.children" class="overlay-item-group">
+							<RouterLink :to="item.to">{{ t(`navigation.menu.${item.key}`) }}</RouterLink>
+							<div class="overlay-item-children">
+								<RouterLink v-for="child in item.children" :key="child.to" :to="child.to">
+									{{ t(child.labelKey) }}
+								</RouterLink>
+							</div>
 						</div>
-					</div>
-					<RouterLink to="/events">{{ t('navigation.menu.events') }}</RouterLink>
-					<RouterLink to="/articles">{{ t('navigation.menu.articles') }}</RouterLink>
-					<RouterLink to="/news">{{ t('navigation.menu.news') }}</RouterLink>
-					<RouterLink to="/contact">{{ t('navigation.menu.contact') }}</RouterLink>
+						<RouterLink v-else :to="item.to">{{ t(`navigation.menu.${item.key}`) }}</RouterLink>
+					</template>
 				</div>
 
 				<div class="overlay-controls">
@@ -271,7 +283,7 @@
 		}
 	}
 
-	.services-dropdown {
+	.nav-dropdown {
 		position: absolute;
 		top: 100%;
 		left: 50%;
@@ -362,16 +374,16 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.5rem;
+		gap: .5rem;
 
 		a {
-			font-size: 1.5rem;
+			font-size: 1rem;
 			font-family: "Libre Baskerville", serif;
 			color: var(--vt-c-jannafer-green);
 			text-decoration: none;
 			padding: 0.3rem 1.5rem;
 			border-radius: 2rem;
-			border: 2px solid transparent;
+			border: 1px solid transparent;
 			transition: all var(--vt-c-transition-speed);
 
 			&.router-link-active {
@@ -385,7 +397,7 @@
 		}
 	}
 
-	.overlay-service-group {
+	.overlay-item-group {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -393,7 +405,7 @@
 		width: 100%;
 	}
 
-	.overlay-service-children {
+	.overlay-item-children {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
