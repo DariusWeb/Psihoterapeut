@@ -4,11 +4,13 @@
 	import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 	import ThemeToggle from '@/components/common/ThemeToggle.vue'
 	import LanguageToggle from '@/components/common/LanguageToggle.vue'
+	import { services } from '@/content/services/index.js'
 
 	const { t } = useI18n()
 	const route = useRoute()
 	const isScrolled = ref(false)
 	const isMenuOpen = ref(false)
+	const isServicesOpen = ref(false)
 	const hamburgerRef = ref(null)
 	const closeButtonRef = ref(null)
 
@@ -53,6 +55,7 @@
 	// navigating should land the user on the new page, not back on the hamburger
 	watch(() => route.path, () => {
 		closeMenu({ restoreFocus: false })
+		isServicesOpen.value = false
 	})
 
 	onMounted(() => {
@@ -77,7 +80,21 @@
 		<div class="nav-menu">
 			<RouterLink to="/">{{ t('navigation.menu.home') }}</RouterLink>
 			<RouterLink to="/about">{{ t('navigation.menu.about') }}</RouterLink>
-			<RouterLink to="/services">{{ t('navigation.menu.services') }}</RouterLink>
+			<div class="nav-dropdown-wrapper" @mouseenter="isServicesOpen = true" @mouseleave="isServicesOpen = false">
+				<RouterLink to="/services">
+					{{ t('navigation.menu.services') }}<svg class="chevron" :class="{ 'is-open': isServicesOpen }"
+						xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+						<polyline points="6 9 12 15 18 9" />
+					</svg>
+				</RouterLink>
+				<Transition name="dropdown">
+					<div v-if="isServicesOpen" class="services-dropdown">
+						<RouterLink v-for="service in services" :key="service.id" :to="`/services/${service.slug}`">{{
+							t(`services.${service.key}.title`) }}</RouterLink>
+					</div>
+				</Transition>
+			</div>
 			<RouterLink to="/events">{{ t('navigation.menu.events') }}</RouterLink>
 			<RouterLink to="/articles">{{ t('navigation.menu.articles') }}</RouterLink>
 			<RouterLink to="/news">{{ t('navigation.menu.news') }}</RouterLink>
@@ -113,7 +130,13 @@
 				<div class="overlay-links">
 					<RouterLink to="/">{{ t('navigation.menu.home') }}</RouterLink>
 					<RouterLink to="/about">{{ t('navigation.menu.about') }}</RouterLink>
-					<RouterLink to="/services">{{ t('navigation.menu.services') }}</RouterLink>
+					<div class="overlay-service-group">
+						<RouterLink to="/services">{{ t('navigation.menu.services') }}</RouterLink>
+						<div class="overlay-service-children">
+							<RouterLink v-for="service in services" :key="service.id" :to="`/services/${service.slug}`">
+								{{ t(`services.${service.key}.title`) }}</RouterLink>
+						</div>
+					</div>
 					<RouterLink to="/events">{{ t('navigation.menu.events') }}</RouterLink>
 					<RouterLink to="/articles">{{ t('navigation.menu.articles') }}</RouterLink>
 					<RouterLink to="/news">{{ t('navigation.menu.news') }}</RouterLink>
@@ -182,7 +205,8 @@
 		gap: 1rem;
 	}
 
-	.nav-menu a {
+	.nav-menu>a,
+	.nav-dropdown-wrapper>a {
 		position: relative;
 		margin: 0.8rem 0 1.2rem;
 		padding: .2rem 1rem;
@@ -224,6 +248,73 @@
 				width: 50%;
 			}
 		}
+	}
+
+	.nav-dropdown-wrapper {
+		position: relative;
+
+		>a {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.25rem;
+		}
+	}
+
+	.chevron {
+		width: 0.8rem;
+		height: 0.8rem;
+		flex-shrink: 0;
+		transition: transform var(--vt-c-transition-speed);
+
+		&.is-open {
+			transform: rotate(180deg);
+		}
+	}
+
+	.services-dropdown {
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		min-width: 14rem;
+		background: var(--vt-c-background);
+		border: 1px solid var(--vt-c-jannafer-gray2);
+		border-radius: 0.75rem;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+		z-index: 100;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+
+		a {
+			padding: 0.55rem 1.25rem;
+			font-size: 0.9rem;
+			white-space: nowrap;
+			color: var(--vt-c-black);
+			text-decoration: none;
+			transition: color var(--vt-c-transition-speed), background var(--vt-c-transition-speed);
+
+			&:hover {
+				background: var(--vt-c-jannafer-gray2);
+				color: var(--vt-c-jannafer-green);
+			}
+
+			&.router-link-active {
+				color: var(--vt-c-jannafer-green);
+				font-weight: 700;
+			}
+		}
+	}
+
+	.dropdown-enter-active,
+	.dropdown-leave-active {
+		transition: opacity 0.15s ease, transform 0.15s ease;
+	}
+
+	.dropdown-enter-from,
+	.dropdown-leave-to {
+		opacity: 0;
+		transform: translateX(-50%) translateY(-0.4rem);
 	}
 
 	// Full-screen overlay
@@ -290,6 +381,32 @@
 			&:hover {
 				text-decoration: none;
 				background: var(--vt-c-jannafer-gray2);
+			}
+		}
+	}
+
+	.overlay-service-group {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+		width: 100%;
+	}
+
+	.overlay-service-children {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+
+		a {
+			font-size: 1rem;
+			font-family: inherit;
+			padding: 0.2rem 1.25rem;
+			opacity: 0.75;
+
+			&:hover {
+				opacity: 1;
 			}
 		}
 	}
