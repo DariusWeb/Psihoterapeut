@@ -14,14 +14,14 @@
 				<Leaf class="about-flourish" :size="28" />
 				<p class="about-hero-intro">{{ t('about.hero.intro1') }}</p>
 				<p class="about-hero-intro">{{ t('about.hero.intro2') }}</p>
-				<RouterLink class="button about-hero-cta" to="/contact">
+				<RouterLink class="button about-hero-cta" to="/contact#contact-form">
 					<CalendarDays class="about-hero-cta-icon" :size="18" />
 					{{ t('about.hero.cta') }}
 				</RouterLink>
 			</div>
 
-			<img class="about-photo" :src="andreeaPortrait" :alt="t('about.hero.photoAlt')" width="1050"
-				height="700" decoding="async" loading="eager" fetchpriority="high" />
+			<img class="about-photo" :src="andreeaPortrait" :alt="t('about.hero.photoAlt')" width="1050" height="700"
+				decoding="async" loading="eager" fetchpriority="high" />
 		</section>
 
 		<div class="about-cards">

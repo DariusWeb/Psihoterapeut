@@ -9,7 +9,7 @@
 <template>
 	<div class="hero-home layout-full">
 		<Hero class="layout-container" :title="t('hero.title')" :subtitle="t('hero.subtitle')" :quote="t('hero.quote')"
-			:cta="t('hero.cta')" route="/contact" :image="andreeaImage" :alt="t('about.hero.photoAlt')" />
+			:cta="t('hero.cta')" route="/contact#contact-form" :image="andreeaImage" :alt="t('about.hero.photoAlt')" />
 	</div>
 </template>
 

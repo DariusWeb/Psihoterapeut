@@ -77,7 +77,13 @@ const router = createRouter({
   ],
   // Resolves out-in mode jumps the still-visible page to the top first
   scrollBehavior(to, from, savedPosition) {
-    const target = savedPosition || (to.hash ? { el: to.hash } : { top: 0 })
+    if (savedPosition) return savedPosition
+
+    const headerHeight = document.querySelector('nav.navigation')?.offsetHeight ?? 0
+    const target = to.hash
+      ? { el: to.hash, top: headerHeight, behavior: 'smooth' }
+      : { top: 0 }
+
     if (to.path === from.path) return target
 
     return new Promise((resolve) => {
