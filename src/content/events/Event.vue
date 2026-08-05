@@ -3,11 +3,13 @@
         name: 'Event',
         meta: {
             id: 1,
-            title: 'Event Title 1',
-            details: 'Event details here',
+            title: 'Relația cu mine atunci când încerc să devin mamă',
+            details: 'Un atelier despre compasiune de sine, vinovăție și puterea de a te ține pe tine, nu doar speranța.',
             image: null,
             date: '2026-09-15',
-            location: 'Online',
+            time: '10:00 – 13:00',
+            location: 'Online (Zoom)',
+            online: true,
         }
     }
 </script>

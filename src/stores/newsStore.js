@@ -23,13 +23,11 @@ export const useNewsStore = defineStore('news', () => {
 		[...items.value].sort((a, b) => new Date(b.date) - new Date(a.date))
 	)
 
-	const recentNews = computed(() => allNews.value.slice(0, 3))
-
 	const availableTopics = computed(() => [...new Set(items.value.map((item) => item.topic))])
 
 	function newsByTopic(topic) {
 		return allNews.value.filter((item) => item.topic === topic)
 	}
 
-	return { allNews, recentNews, availableTopics, newsByTopic }
+	return { allNews, availableTopics, newsByTopic }
 })

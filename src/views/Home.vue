@@ -1,56 +1,37 @@
 <script setup>
+	import { useI18n } from 'vue-i18n'
 	import HeroHome from '@/components/home/HeroHome.vue'
-	import AboutYou from '@/components/home/AboutYou.vue'
-	import Operations from '@/components/home/Operations.vue'
-	import Topics from '@/components/home/Topics.vue'
-	import Events from '@/components/home/Events.vue'
-	import Testimonials from '@/components/home/Testimonials.vue'
+	import Reasons from '@/components/home/Reasons.vue'
+	import Areas from '@/components/home/Areas.vue'
+	import HowIWork from '@/components/home/HowIWork.vue'
+	import AboutJourney from '@/components/home/AboutJourney.vue'
 	import RecentArticles from '@/components/home/RecentArticles.vue'
-	import RecentNews from '@/components/home/RecentNews.vue'
+	import Faq from '@/components/home/Faq.vue'
 	import Newsletter from '@/components/common/Newsletter.vue'
+	import CtaBand from '@/components/common/CtaBand.vue'
+
+	const { t } = useI18n()
 </script>
 
 <template>
-	<main class="page-home">
+	<main class="page-home layout-stack">
 		<HeroHome />
-		<AboutYou />
-		<Operations />
-		<Topics />
-		<Events />
-		<Testimonials />
+		<Reasons />
+		<Areas />
+		<HowIWork />
+		<AboutJourney />
 		<RecentArticles />
-		<RecentNews />
+		<Faq />
+
+		<CtaBand :title="t('home.cta.title')" :text="t('home.cta.text')" />
+
 		<Newsletter />
 	</main>
 </template>
 
 <style lang="scss" scoped>
 	.page-home {
-		.header-wrap {
-			position: relative;
-			min-height: 500px;
-
-			img {
-				width: 100%;
-				height: 500px;
-				object-fit: cover;
-			}
-
-			.header-content {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				max-width: 500px;
-				margin: 0 auto;
-				padding: 45px;
-				background-color: rgba(0, 0, 0, 0.5);
-				border-radius: 35px;
-			}
-		}
+		--vt-c-section-gap: 4rem;
+		--page-padding: 0 1rem 0; // the hero media runs flush to the top, behind the fixed nav
 	}
 </style>

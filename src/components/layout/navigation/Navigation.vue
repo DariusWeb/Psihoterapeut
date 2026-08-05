@@ -22,6 +22,7 @@
 			to: '/services',
 			children: services.map(s => ({ to: `/services/${s.slug}`, labelKey: `services.${s.key}.title` })),
 		},
+		{ key: 'resources', to: '/resources' },
 		{ key: 'events', to: '/events' },
 		{ key: 'articles', to: '/articles' },
 		{ key: 'news', to: '/news' },
@@ -292,7 +293,7 @@
 		background: var(--vt-c-background);
 		border: 1px solid var(--vt-c-jannafer-gray2);
 		border-radius: 0.75rem;
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+		box-shadow: var(--vt-c-shadow-raised);
 		z-index: 100;
 		display: flex;
 		flex-direction: column;
@@ -366,7 +367,7 @@
 
 		&:hover {
 			background: var(--vt-c-jannafer-green);
-			color: #fff;
+			color: var(--vt-c-on-accent);
 		}
 	}
 

@@ -1,9 +1,5 @@
-/* color palette from <https://github.com/vuejs/theme> */
 :root {
-	--vt-c-main: #5d6b48;
 	--vt-c-white: #ffffff;
-	--vt-c-white-soft: #f8f8f8;
-	--vt-c-white-mute: #f2f2f2;
 
 	--vt-c-jannafer-green: rgb(93, 107, 72);
 	--vt-c-jannafer-gray: rgb(from var(--vt-c-jannafer-green) r g b / 5%);
@@ -18,28 +14,21 @@
 	--vt-c-black-mute: #282828;
 
 	--vt-c-background: #faf6f3;
+	--nav-bg: rgb(from var(--vt-c-background) r g b / 50%);
 
-	--vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-	--vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-	--vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-	--vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-	--vt-c-text-light-1: var(--vt-c-indigo);
-	--vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-	--vt-c-text-dark-1: var(--vt-c-white);
-	--vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+	--vt-c-surface: #f5efe8;
+	--vt-c-surface-strong: #e6e0d2;
 
 	--vt-c-container-width: 1200px;
 	--vt-c-transition-speed: 0.3s;
 	--vt-c-section-padding: 4rem 0;
 	--vt-c-section-gap: 2rem;
 	--vt-c-split-gap: 2rem;
-	--vt-c-border-radius: .5rem;
+	--vt-c-border-radius: .5rem; // buttons and inputs
+	--vt-c-radius-lg: 1rem; // cards and media
 
-	--nav-bg: rgba(250, 246, 243, 0.5);
-
-	--vt-c-surface: #f5efe8;
-	--vt-c-surface-strong: #e6e0d2;
+	--vt-c-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	--vt-c-shadow-raised: 0 6px 20px rgba(0, 0, 0, 0.12);
 
 	color-scheme: light;
 }
@@ -47,8 +36,6 @@
 html.dark {
 	--vt-c-background: #1c2118;
 	--vt-c-white: #252c1e;
-	--vt-c-white-soft: #2e3726;
-	--vt-c-white-mute: #38422e;
 	--vt-c-black: #e0e4d0;
 	--vt-c-black-soft: #d4d9c0;
 	--vt-c-black-mute: #c8ceb0;
@@ -58,27 +45,14 @@ html.dark {
 	--vt-c-success: #a5d6a7;
 	--vt-c-jannafer-gray: rgb(from var(--vt-c-jannafer-green) r g b / 12%);
 	--vt-c-jannafer-gray2: rgb(from var(--vt-c-jannafer-green) r g b / 32%);
-	--vt-c-divider-light-1: rgba(180, 190, 160, 0.3);
-	--vt-c-divider-light-2: rgba(180, 190, 160, 0.15);
-	--nav-bg: rgba(28, 33, 24, 0.55);
+	--nav-bg: rgb(from var(--vt-c-background) r g b / 55%);
 	--vt-c-surface: #252c1e;
 	--vt-c-surface-strong: #38422e;
+	// black shadows disappear against a dark canvas, so lean on depth rather than tint
+	--vt-c-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+	--vt-c-shadow-raised: 0 6px 20px rgba(0, 0, 0, 0.55);
 	color-scheme: dark;
 }
-
-// @media (prefers-color-scheme: dark) {
-// 	:root {
-// 		--color-background: var(--vt-c-black);
-// 		--color-background-soft: var(--vt-c-black-soft);
-// 		--color-background-mute: var(--vt-c-black-mute);
-
-// 		--color-border: var(--vt-c-divider-dark-2);
-// 		--color-border-hover: var(--vt-c-divider-dark-1);
-
-// 		--color-heading: var(--vt-c-text-dark-1);
-// 		--color-text: var(--vt-c-text-dark-2);
-// 	}
-// }
 
 *,
 *::before,
@@ -163,8 +137,35 @@ html {
 	--vt-c-section-gap: 0;
 }
 
+// Stacking WITHIN a section. Kept separate from .layout-stack because that one reads
+// its gap off the child, so reusing it here would also retune the gap above the section.
+.stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--stack-gap, 1rem);
+}
+
+.stack-loose {
+	--stack-gap: 2rem;
+}
+
+// Full-bleed tint that re-pads its content back onto the container, so a banded
+// section needs no inner wrapper element
+.section-band {
+	margin-inline: calc(50% - 50vw);
+	padding: var(--section-band-padding-block, 3rem) calc(50vw - 50% + 1rem);
+	background: var(--section-band-background, var(--vt-c-jannafer-gray));
+}
+
 hr {
 	border-color: var(--vt-c-jannafer-gray2);
+}
+
+.rule-short {
+	width: 4rem;
+	margin: 0;
+	border: 0;
+	border-top: 2px solid var(--vt-c-jannafer-green);
 }
 
 // Links and buttons
@@ -199,6 +200,13 @@ button,
 .button-primary {
 	background: var(--vt-c-jannafer-green);
 	color: var(--vt-c-on-accent);
+}
+
+// inset ring rather than a border, so it stays the same height as a primary button beside it
+.button-outline {
+	background: transparent;
+	box-shadow: inset 0 0 0 1px var(--vt-c-jannafer-green);
+	color: var(--vt-c-jannafer-green);
 }
 
 :focus-visible {
@@ -273,7 +281,7 @@ select {
 // Forms and labels
 form {
 	padding: 2rem;
-	border-radius: 1rem;
+	border-radius: var(--vt-c-radius-lg);
 	background: var(--vt-c-jannafer-gray);
 
 	.form-row {
@@ -315,8 +323,38 @@ ol {
 // Utils
 .card {
 	background: var(--vt-c-surface);
-	border-radius: 1rem;
+	border-radius: var(--vt-c-radius-lg);
 	padding: 2rem;
+}
+
+.card-compact {
+	padding: 1.5rem;
+}
+
+.card-outlined {
+	border: 1px solid var(--vt-c-jannafer-gray2);
+}
+
+// The whole card is the link: hover recolours the card and nudges its arrow.
+.card-link {
+	color: var(--vt-c-black);
+	transition: var(--vt-c-transition-speed);
+
+	&:hover {
+		text-decoration: none;
+		background: var(--vt-c-surface-strong);
+
+		.link-arrow svg {
+			transform: translateX(0.25rem);
+		}
+	}
+}
+
+.card-title {
+	margin: 0;
+	font-family: "Libre Baskerville", serif;
+	font-size: 1.1rem;
+	font-weight: 400;
 }
 
 .skip-link {
@@ -350,6 +388,112 @@ ol {
 	display: flex;
 	justify-content: space-between;
 	gap: 1rem;
+}
+
+.section-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+
+	h2 {
+		margin: 0;
+	}
+}
+
+// Reads as a text link whether it is an <a> or a <button>, so the button chrome is stripped here.
+// Inside a .card-link the nudge comes from the card's hover instead of its own.
+.link-arrow {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0;
+	background: transparent;
+	font: inherit;
+	color: var(--vt-c-jannafer-green);
+
+	svg {
+		transition: var(--vt-c-transition-speed);
+	}
+
+	&:hover {
+		background: transparent;
+		color: var(--vt-c-jannafer-green);
+
+		svg {
+			transform: translateX(0.25rem);
+		}
+	}
+}
+
+.section-head-center {
+	position: relative; // anchors a .link-arrow to the right of the centred title
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.25rem;
+	text-align: center;
+
+	h2 {
+		margin: 0;
+	}
+
+	.link-arrow {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+.section-flourish {
+	color: var(--vt-c-jannafer-green);
+}
+
+.section-intro {
+	margin: 0;
+	max-width: 60ch;
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--card-columns, 3), 1fr);
+	gap: 1rem;
+	padding: 0;
+	list-style: none;
+}
+
+// Centred icon-over-text column; rides inside a .card-grid
+.feature-column {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	text-align: center;
+}
+
+.feature-column-icon {
+	color: var(--vt-c-jannafer-green);
+}
+
+.meta-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	font-size: 0.9rem;
+}
+
+.meta-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+
+	svg {
+		flex-shrink: 0;
+		color: var(--vt-c-jannafer-green);
+	}
 }
 
 // Image/text split. Direct children of the page root must all be <section> or the alternation miscounts.
@@ -390,10 +534,122 @@ ol {
 	place-items: center;
 	width: 100%;
 	height: 100%;
-	min-height: 24rem;
-	border-radius: 1rem;
+	min-height: var(--vt-c-media-min-height, 24rem);
+	border-radius: var(--vt-c-radius-lg);
 	background: var(--vt-c-surface-strong);
 	color: var(--vt-c-jannafer-green);
+}
+
+// Cancels .card-compact's padding so the media runs to the card edge.
+// After .media-placeholder so it wins — the placeholder ships a 24rem floor and a 100% height.
+.card-media {
+	width: calc(100% + 3rem);
+	height: var(--card-media-height, 10rem);
+	min-height: 0;
+	margin: -1.5rem -1.5rem 0;
+	overflow: hidden;
+	object-fit: cover;
+	border-radius: var(--vt-c-radius-lg) var(--vt-c-radius-lg) 0 0;
+}
+
+// Media beside copy inside a card, as opposed to .split-section's full-width band
+.media-card {
+	--vt-c-media-min-height: 0;
+	display: flex;
+	align-items: stretch;
+	gap: 1rem;
+	padding: 1rem;
+}
+
+.media-card-media {
+	flex: 0 0 40%;
+	min-width: 0; // without this, min-width:auto floors the flex item at the image's intrinsic width
+	height: auto;
+	object-fit: cover;
+	border-radius: var(--vt-c-border-radius);
+	--media-fade-to: left; // dissolves toward the copy on its right
+	--media-fade-stop: 40%;
+}
+
+.media-card-body {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.5rem;
+}
+
+.media-card-label,
+.media-card-text {
+	margin: 0;
+}
+
+.media-card-label {
+	font-family: "Libre Baskerville", serif;
+	color: var(--vt-c-jannafer-green);
+}
+
+.media-card-text {
+	flex: 1;
+}
+
+.media-card-action {
+	margin-top: auto;
+}
+
+// Page hero: copy column beside media that bleeds off the viewport edge
+.page-hero {
+	display: flex;
+	gap: 2rem;
+}
+
+.page-hero-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	padding: 7rem 0 4rem; // clears the fixed nav; the media column stays flush with the top
+}
+
+.page-hero-title {
+	margin: 0;
+	text-align: left;
+}
+
+.page-hero-intro {
+	margin: 0;
+	max-width: 60ch;
+}
+
+// after .media-placeholder so it wins: the media bleeds off the viewport, and a
+// rounded outer edge there would read as a mistake
+.page-hero-media {
+	border-radius: 0;
+}
+
+// Media dissolves into what sits beside it instead of ending on a hard edge.
+// The direction names the edge the gradient travels toward; the far edge is the one that fades.
+.media-fade {
+	-webkit-mask-image: linear-gradient(to var(--media-fade-to, top), transparent, #000 var(--media-fade-stop, 30%));
+	mask-image: linear-gradient(to var(--media-fade-to, top), transparent, #000 var(--media-fade-stop, 30%));
+}
+
+// Media running off one viewport edge while the copy column stays on the container.
+// The properties inherit, so .media-fade may sit here or on a child image.
+.bleed-left,
+.bleed-right {
+	flex: 0 0 calc(50vw - 5%);
+	min-width: 0; // without this, min-width:auto floors the flex item at its intrinsic width and kills the bleed
+}
+
+.bleed-left {
+	margin-left: calc(50% - 50vw);
+	--media-fade-to: left;
+}
+
+.bleed-right {
+	margin-right: calc(50% - 50vw);
+	--media-fade-to: right;
 }
 
 .dot-list {
@@ -568,7 +824,20 @@ html.dark {
 	}
 
 	.media-placeholder {
-		min-height: 18rem;
+		min-height: var(--vt-c-media-min-height, 18rem);
+	}
+
+	.card-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	// stacked, so there is no column beside the media left to blend into.
+	// A 0% stop makes the gradient fully opaque, which reaches a child .media-fade too.
+	.bleed-left,
+	.bleed-right {
+		flex: auto;
+		margin-inline: 0;
+		--media-fade-stop: 0%;
 	}
 
 	.cta-band {
@@ -579,6 +848,22 @@ html.dark {
 
 	.cta-band-action {
 		align-items: flex-start;
+	}
+
+	.page-hero {
+		flex-direction: column;
+	}
+
+	.page-hero-content {
+		padding-bottom: 0;
+	}
+
+	.page-hero-media {
+		border-radius: var(--vt-c-radius-lg);
+	}
+
+	.section-band {
+		--section-band-padding-block: 2rem;
 	}
 }
 
@@ -605,7 +890,22 @@ html.dark {
 	}
 
 	.dot-list-columns,
-	.icon-grid {
+	.icon-grid,
+	.card-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.section-head {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.page-hero-content {
+		padding-top: 5rem;
+	}
+
+	// no room beside the title at this width, so the link rejoins the flow below it
+	.section-head-center .section-head-link {
+		position: static;
 	}
 }

@@ -1,62 +1,89 @@
 <script setup>
+    import { RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
+    import { ArrowRight, Image, Leaf } from '@lucide/vue'
     import { useArticlesStore } from '@/stores/articlesStore'
-    import ArticleItem from '@/components/articles/ArticleItem.vue'
 
-    const { t } = useI18n()
+    const { t, locale } = useI18n()
     const articlesStore = useArticlesStore()
+
+    const formatDate = (date) => new Date(date).toLocaleDateString(locale.value, {
+        day: 'numeric', month: 'long', year: 'numeric'
+    })
 </script>
 
 <template>
-    <section class="recent-articles">
-        <div class="section-header">
-            <h2>{{ t('home.recentArticles.title') }}</h2>
+    <section class="stack stack-loose">
+        <div class="section-head-center">
+            <h2>{{ t('home.resources.title') }}</h2>
+            <Leaf class="section-flourish" :size="20" />
+
+            <RouterLink class="link-arrow" to="/articles">
+                {{ t('resources.articles.viewAll') }}
+                <ArrowRight :size="16" />
+            </RouterLink>
         </div>
 
-        <div class="articles-grid">
-            <ArticleItem v-for="article in articlesStore.recentArticles" :key="article.id" v-bind="article">
-                <p>{{ article.content }}</p>
-            </ArticleItem>
-        </div>
+        <div class="card-grid home-resources-grid">
+            <RouterLink v-for="article in articlesStore.homeArticles" :key="article.id" class="home-article"
+                :to="`/articles/${article.id}`">
+                <img v-if="article.image" class="home-article-media media-fade" :src="article.image"
+                    :alt="article.title" width="600" height="400" decoding="async" loading="lazy" />
+                <div v-else class="media-placeholder home-article-media media-fade" role="img"
+                    :aria-label="article.title">
+                    <Image :size="32" />
+                </div>
 
-        <RouterLink to="/articles" class="view-more-articles">
-            {{ t('button.viewAll') }}
-        </RouterLink>
+                <h3 class="home-article-title">{{ article.title }}</h3>
+
+                <p class="home-article-meta">
+                    <time :datetime="article.createdAt">{{ formatDate(article.createdAt) }}</time>
+                    &middot;
+                    {{ t('resources.articles.readTime', { minutes: article.readTime }) }}
+                </p>
+            </RouterLink>
+        </div>
     </section>
 </template>
 
-<style lang="scss" scoped>
-    .recent-articles {
-        padding: 4rem 2rem;
-        background: var(--color-background-soft);
+<style scoped lang="scss">
+    .home-resources-grid {
+        --card-columns: 4;
     }
 
-    .section-header {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
+    .home-article {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        color: var(--vt-c-black);
 
-    .articles-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-        margin-bottom: 2rem;
-    }
+        &:hover {
+            text-decoration: none;
 
-    .view-more-articles {
-        display: table;
-        margin: 0 auto;
-    }
-
-    @media (max-width: 1024px) {
-        .articles-grid {
-            grid-template-columns: repeat(2, 1fr);
+            .home-article-title {
+                color: var(--vt-c-jannafer-green);
+            }
         }
     }
 
-    @media (max-width: 768px) {
-        .articles-grid {
-            grid-template-columns: 1fr;
-        }
+    .home-article-media {
+        --vt-c-media-min-height: 0;
+        height: 10rem;
+        width: 100%;
+        object-fit: cover;
+        border-radius: var(--vt-c-border-radius);
+    }
+
+    .home-article-title {
+        margin: 0;
+        font-size: 1rem;
+        transition: var(--vt-c-transition-speed);
+    }
+
+    // opacity rather than a grey token, so it stays readable against both themes' text colour
+    .home-article-meta {
+        margin: 0;
+        font-size: 0.85rem;
+        opacity: 0.7;
     }
 </style>

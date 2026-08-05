@@ -1,600 +1,725 @@
 {
-	"navigation": {
-		"skipToContent": "Skip to content",
-		"menu": {
-			"home": "Home",
-			"services": "For you",
-			"about": "About",
-			"articles": "Articles",
-			"events": "Events",
-			"news": "News",
-			"contact": "Contact"
-		},
-		"cta": {
-			"book": "Book Appointment",
-			"language": "Language"
-		}
-	},
-	"footer": {
-		"contact": {
-			"title": "Contact",
-			"phone": "Phone",
-			"email": "Email",
-			"facebook": "Facebook Page",
-			"instagram": "Instagram Page"
-		},
-		"schedule": {
-			"title": "Schedule",
-			"hours": "Monday - Friday: 9:00 - 18:00"
-		},
-		"info": {
-			"title": "Information",
-			"terms": "Terms of Service",
-			"privacy": "Privacy Policy"
-		}
-	},
-	"home": {
-		"welcome": "Welcome to Our Service",
-		"subtitle": "Your journey to well-being starts here.",
-		"learnMore": "Learn More",
-		"recentArticles": {
-			"title": "Recent Articles",
-			"viewAll": "View All Articles"
-		}
-	},
-	"hero": {
-		"title": "Psiholog Andreea Butacu",
-		"subtitle": "Psiholog clinician si Psihoterapeut integrativ in formare",
-		"quote": "o vorba de duh…. / descriere a mea in o propozitie",
-		"cta": "Programeaza o sedinta"
-	},
-	"aboutYou": {
-		"section": {
-			"title": "About You",
-			"mainQuestion": "Where can you start the change?",
-			"rhetoricalQuestions": {
-				"q1": "Intrebare retorica 1",
-				"q2": "Intrebare retorica 2",
-				"q3": "Intrebare retorica 3"
-			}
-		},
-		"steps": {
-			"step1": {
-				"title": "Step 1",
-				"cta": "Schedule a Discussion",
-				"details": "Details"
-			},
-			"step2": {
-				"title": "Step 2",
-				"discussion": "First Discussion Details",
-				"partnership": "Partnership Idea"
-			}
-		}
-	},
-	"operations": {
-		"title": "Servicii oferite",
-		"location": "Online sau la cabinet"
-	},
-	"services": {
-		"index": {
-			"title": "Arii în care te pot însoți",
-			"intro": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
-			"cta": "Află mai mult",
-			"notFound": "Nu am găsit această pagină.",
-			"back": "Vezi toate ariile"
-		},
-		"credentials": [
-			"Psihoterapeut integrativ & cognitiv-comportamental",
-			"Membră a Colegiului Psihologilor din România",
-			"Membră a Federației Române de Psihoterapie",
-			"Reproductive Mental Health Specialist"
-		],
-		"cta": {
-			"button": "Programează o primă ședință",
-			"note": "Sunt aici să te ascult, să te înțeleg și să te însoțesc cu blândețe."
-		},
-		"infertility": {
-			"title": "În fața infertilității",
-			"imageAlt": "Femeie privind pe fereastră, cu o cană de ceai în mâini",
-			"hero": {
-				"title": "Când fiecare lună pare să înceapă cu speranță și să se termine cu o nouă pierdere.",
-				"p1": "Infertilitatea nu înseamnă doar investigații și tratamente. Pentru multe femei și cupluri, ea aduce o formă de doliu care nu se vede: pentru planurile care se amână, pentru corpul în care începi să nu mai ai încredere, pentru viața pe care credeai că o vei avea până acum.",
-				"p2": "Poate că în continuare mergi la serviciu, răspunzi la mesaje și zâmbești atunci când este nevoie. Dar în interior porți o povară pe care foarte puțini o văd.",
-				"closing": "Nu trebuie să o porți singură."
-			},
-			"recognise": {
-				"title": "Poate te regăsești aici...",
-				"imageAlt": "Vas cu ramuri verzi pe pervazul unei ferestre luminoase",
-				"items": [
-					"Viața ta pare organizată în jurul ovulației, analizelor și rezultatelor.",
-					"Te surprinzi comparându-te cu femeile care rămân însărcinate „atât de ușor”.",
-					"Eviți aniversări sau întâlniri în care știi că vor apărea întrebări despre copii.",
-					"Simți că ai pierdut spontaneitatea și că fiecare decizie trebuie calculată.",
-					"Ai obosit să auzi „Relaxează-te.”, „Se va întâmpla când te aștepți mai puțin.”, „Poate că nu era momentul.”",
-					"Te simți vinovată că nu mai recunoști persoana care ai fost."
-				]
-			},
-			"therapy": {
-				"title": "Cum te poate ajuta terapia?",
-				"imageAlt": "Carnet deschis și o lumânare aprinsă pe o masă de lemn",
-				"intro": "Terapia nu poate controla rezultatul tratamentelor medicale. Poate însă să îți ofere un loc în care:",
-				"items": [
-					"să nu mai fii singură cu ceea ce trăiești",
-					"să înțelegi impactul infertilității asupra identității tale",
-					"să faci loc emoțiilor pe care poate le-ai amânat",
-					"să reduci presiunea de a fi permanent puternică",
-					"să reconstruiești relația cu propriul corp",
-					"să existe viață și între tratamente"
-				],
-				"closing": "Lucrăm împreună, în ritmul tău, cu empatie, claritate și respect pentru ceea ce trăiești."
-			},
-			"losses": {
-				"title": "Ce se pierde, dincolo de diagnostic",
-				"imageAlt": "Cană de ceai și o ramură verde pe o pătură moale",
-				"intro": "Infertilitatea poate aduce pierderi invizibile, dar profund resimțite. Este în regulă să le simți, să le recunoști și să le onorezi.",
-				"items": [
-					"Sentimentul că îți poți planifica viața",
-					"Încrederea în propriul corp",
-					"Spontaneitatea în relația de cuplu",
-					"Sentimentul că aparții printre ceilalți",
-					"Identitatea pe care ți-o imaginai pentru această etapă a vieții",
-					"Speranța care vine fără teamă",
-					"Capacitatea de a te bucura sincer pentru alții",
-					"Încrederea că lucrurile vor merge bine"
-				]
-			},
-			"cta": {
-				"title": "Nu trebuie să aștepți să îți fie mai greu.",
-				"text": "Poți veni oricând simți că ai nevoie de un spațiu în care să te oprești, să înțelegi mai bine ce se întâmplă în tine și să nu mai fii singură cu ceea ce trăiești."
-			}
-		},
-		"motherhood": {
-			"title": "În maternitate",
-			"imageAlt": "Mamă așezată pe podea lângă un pătuț, privind pe fereastră",
-			"hero": {
-				"title": "Maternitatea poate aduce multă iubire. Dar și multă singurătate.",
-				"p1": "Poate îți iubești copilul mai mult decât ai crezut vreodată că este posibil. Și, în același timp, te întrebi unde ai rămas tu.",
-				"p2": "Poate zilele tale sunt pline, dar simți că nu mai există aproape niciun spațiu în care să fii doar tu, fără să răspunzi unei nevoi, fără să planifici ceva sau fără să ai grijă de cineva. Poate ai așteptat mult acest copil. Sau poate maternitatea a venit firesc. Indiferent cum ai ajuns aici, schimbarea pe care o aduce poate fi mult mai profundă decât lasă lumea să se vadă.",
-				"closing": "Nu înseamnă că îți iubești copilul mai puțin. Înseamnă că și tu ai nevoie de un loc în care să exiști."
-			},
-			"recognise": {
-				"title": "Poate te regăsești aici",
-				"imageAlt": "Vas cu flori uscate și o cană pe o masă rotundă de lemn",
-				"items": [
-					"Te simți copleșită de responsabilitatea de a fi permanent disponibilă.",
-					"Ai impresia că ai dispărut în spatele rolului de mamă.",
-					"Simți vinovăție ori de câte ori îți dorești timp doar pentru tine.",
-					"Te compari cu alte mame care par că se descurcă mai bine.",
-					"Nu îți mai recunoști corpul sau relația cu el.",
-					"Relația cu partenerul s-a schimbat și nu mai știi cum să vă regăsiți.",
-					"Ai obosit să auzi: „Bucură-te de perioada asta.”, „Trece repede.”, „Toate mamele trec prin asta.”"
-				]
-			},
-			"changes": {
-				"title": "Ce se schimbă odată cu maternitatea",
-				"imageAlt": "Femeie așezată pe pat, privind spre fereastră",
-				"intro": "Maternitatea nu schimbă doar rutina. Schimbă felul în care te raportezi la tine. Uneori, ceea ce doare nu este doar oboseala. Este faptul că ai impresia că ai pierdut:",
-				"items": [
-					"timpul care îți aparținea",
-					"încrederea în tine",
-					"libertatea de a decide doar pentru tine",
-					"relația cu propriul corp",
-					"apropierea de partener",
-					"sentimentul că încă ești aceeași femeie",
-					"bucuria de a face lucruri doar pentru tine",
-					"spontaneitatea"
-				],
-				"closing": "Nu trebuie să alegi între a fi o mamă bună și a avea grijă de tine. Cele două pot exista împreună."
-			},
-			"therapy": {
-				"title": "Cum poate arăta terapia pentru tine",
-				"imageAlt": "Scaun cu o pătură și o masă cu lumânare lângă fereastră",
-				"intro": "Un spațiu în care să nu fie nevoie să demonstrezi că ești recunoscătoare în fiecare moment. Un spațiu în care să poți vorbi și despre iubire, și despre oboseală. Și despre vinovăție. Și despre furie. Și despre dorul de cine erai înainte.",
-				"body": "În terapie putem explora împreună schimbările prin care treci, relația cu tine, cu corpul tău, cu partenerul și cu noua identitate care se construiește în această etapă.",
-				"closing": "Nu îți pot promite că maternitatea va deveni ușoară. Dar îți pot oferi un loc în care să nu mai fie nevoie să fii singură cu tot ceea ce este greu."
-			},
-			"cta": {
-				"title": "Nu este doar despre maternitate. Este despre cine devii.",
-				"text": "Maternitatea nu înseamnă doar să ai grijă de un copil. Înseamnă să renegociezi relația cu corpul tău, cu timpul tău, cu partenerul, cu munca, cu libertatea și cu identitatea ta. În terapie nu lucrăm doar cu oboseala sau anxietatea. Lucrăm și cu femeia care încearcă să își găsească locul într-o viață care s-a schimbat profund."
-			}
-		},
-		"career": {
-			"title": "În carieră",
-			"imageAlt": "Femeie cu o cană în mână, privind pe fereastră de la birou",
-			"hero": {
-				"title": "Când continui să funcționezi, dar nu te mai regăsești în ceea ce faci.",
-				"p1": "Poate încă îți faci bine treaba. Respecți termene, participi la ședințe, răspunzi la e-mailuri și, pentru cei din jur, pari aceeași persoană competentă și implicată. Dar în interior simți că ceva s-a schimbat.",
-				"p2": "Poate te trezești fără energie pentru o zi care înainte te motiva. Poate ai senzația că doar bifezi sarcini, fără să mai simți că ceea ce faci are sens. Sau poate ai ajuns într-un punct în care îți dorești o schimbare, dar nu mai știi încotro să mergi.",
-				"closing": "Nu este doar despre carieră. Este despre relația cu tine însăți, despre identitate și despre felul în care vrei să îți trăiești viața mai departe."
-			},
-			"recognise": {
-				"title": "Poate te regăsești aici",
-				"imageAlt": "Birou cu laptop, carnet și o cană lângă fereastră",
-				"items": [
-					"Îți începi ziua deja obosită, înainte să fi făcut ceva.",
-					"Ai impresia că funcționezi pe pilot automat.",
-					"Continui să livrezi rezultate, dar nu mai simți satisfacție.",
-					"Te întrebi dacă ai ales drumul potrivit.",
-					"Simți că ai pierdut contactul cu ceea ce îți dorești cu adevărat.",
-					"Îți este greu să iei o decizie de schimbare, chiar dacă simți că actuala situație nu îți mai face bine.",
-					"Îți spui că ar trebui să fii recunoscătoare pentru ceea ce ai.",
-					"Ai obosit să auzi: „Toată lumea este stresată.”, „E doar o perioadă.”, „Ai un job bun, ce îți mai lipsește?”"
-				]
-			},
-			"losses": {
-				"title": "Ce se pierde atunci când rămâi prea mult într-un loc care nu te mai reprezintă",
-				"imageAlt": "Femeie mergând pe o alee cu copaci, la apus",
-				"intro": "Uneori, ceea ce doare nu este volumul de muncă. Este faptul că începi să pierzi, încet, legătura cu tine. Poate simți că ai pierdut:",
-				"items": [
-					"încrederea în propriile alegeri",
-					"curiozitatea",
-					"energia de a începe ceva nou",
-					"sentimentul că ai libertatea să alegi",
-					"creativitatea",
-					"entuziasmul",
-					"încrederea că meriți mai mult",
-					"spontaneitatea",
-					"echilibrul dintre viața profesională și cea personală"
-				],
-				"closing": "Nu este nevoie să alegi între succes și starea ta de bine. Cele două pot exista împreună."
-			},
-			"becoming": {
-				"title": "Nu este doar despre carieră. Este despre cine devii.",
-				"imageAlt": "Carnet deschis și o cană de cafea pe o masă de lemn",
-				"intro": "În terapie putem explora împreună ce se află dincolo de epuizare sau nemulțumire.",
-				"body": "Uneori descoperim că nu jobul este adevărata problemă, ci presiunea de a performa permanent, dificultatea de a pune limite, teama de a dezamăgi sau convingerea că valoarea ta depinde de ceea ce reușești să faci.",
-				"closing": "Terapia nu îți spune ce decizie să iei. Îți oferă spațiul și claritatea necesare pentru a lua decizii care sunt în acord cu cine ești astăzi, nu cu cine ai simțit că trebuie să fii."
-			},
-			"cta": {
-				"title": "Poate că schimbarea nu începe cu un nou job.",
-				"text": "Poate începe cu o conversație în care, pentru prima dată după mult timp, există loc și pentru tine."
-			}
-		}
-	},
-	"topics": {
-		"title": "Cateva tematici abordate",
-		"footer": "Si lista poate continua. Tu esti cel care stabileste directia schimbarii tale.",
-		"items": {
-			"stress": {
-				"title": "Managementul stresului",
-				"details": "Detalii specifice"
-			},
-			"anxiety": {
-				"title": "Anxietate",
-				"details": "Similar 1"
-			},
-			"depression": {
-				"title": "Depresie",
-				"details": "Similar 1"
-			},
-			"discovery": {
-				"title": "Autodescoperire",
-				"details": "Similar 1"
-			},
-			"career": {
-				"title": "Cariera",
-				"details": "Similar 1"
-			},
-			"fertility": {
-				"title": "Infertilitate si probleme de cuplu",
-				"details": "Similar 1"
-			}
-		}
-	},
-	"events": {
-		"title": "Evenimente planificate",
-		"notFound": {
-			"message": "This event could not be found.",
-			"back": "Back to events"
-		},
-		"testimonials": {
-			"title": "Testimoniale",
-			"items": [
-				{
-					"text": "Testimonial text 1",
-					"author": "Anonymous 1"
-				},
-				{
-					"text": "Testimonial text 2",
-					"author": "Anonymous 2"
-				},
-				{
-					"text": "Testimonial text 3",
-					"author": "Anonymous3"
-				}
-			]
-		}
-	},
-	"articles": {
-		"title": "Articles",
-		"description": "Explore our latest articles on mental health and well-being."
-	},
-	"newsletter": {
-		"title": "Subscribe to Newsletter",
-		"description": "Stay updated with our latest articles and events",
-		"emailPlaceholder": "Enter your email address",
-		"consent": "I agree to receive the newsletter by email. I can unsubscribe at any time — see the"
-	},
-	"contact": {
-		"hero": {
-			"eyebrow": "Contact",
-			"title": "Primul pas nu trebuie să fie perfect. Poate începe cu un simplu mesaj.",
-			"intro1": "Uneori, cea mai grea parte nu este terapia. Este decizia de a scrie primul mesaj.",
-			"intro2": "Nu trebuie să știi exact ce să spui și nici să fii sigură că terapia este ceea ce ai nevoie. Dacă simți că ar fi de ajutor să vorbim, poți începe chiar de aici.",
-			"cta": "Trimite-mi un mesaj",
-			"photoAlt": "Birou cu laptop și carnet, pregătit pentru o ședință de psihoterapie online"
-		},
-		"note": {
-			"sessions": "Ședințele se desfășoară online sau față în față",
-			"place": "în București sau din confortul spațiului tău"
-		},
-		"reach": {
-			"title": "Cum putem lua legătura",
-			"subtitle": "Alege varianta care ți se potrivește cel mai bine.",
-			"email": {
-				"label": "Email",
-				"value": "contact{'@'}cabinetultau.ro"
-			},
-			"phone": {
-				"label": "Telefon",
-				"value": "07XX XXX XXX",
-				"hours": "Luni – Vineri, 9:00 – 18:00"
-			},
-			"whatsapp": {
-				"label": "WhatsApp",
-				"value": "07XX XXX XXX"
-			},
-			"booking": {
-				"label": "Programare",
-				"value": "Trimite-mi un mesaj și stabilim împreună ziua și ora potrivită."
-			}
-		},
-		"form": {
-			"title": "Nu trebuie să găsești cuvintele potrivite.",
-			"intro1": "Poți să îmi scrii exact așa cum ești acum.",
-			"intro2": "Poate fi doar: „Aș vrea să aflu cum decurge terapia” sau „Nu știu de unde să încep” sau „Cred că am nevoie de ajutor”. Este suficient.",
-			"name": "Prenume",
-			"email": "Email",
-			"phone": "Telefon (opțional)",
-			"message": "Mesaj",
-			"send": "Trimite mesajul",
-			"messageHint": "Nu e nevoie să intri în detalii despre diagnostic, simptome sau istoric — îmi ajunge să știu că vrei să vorbim. Despre restul discutăm în ședință.",
-			"consent": "Sunt de acord ca datele de mai sus să fie folosite pentru a-mi răspunde. Am citit",
-			"consentLink": "politica de confidențialitate",
-			"privacy": "Datele tale rămân confidențiale și nu sunt distribuite nimănui.",
-			"success": "Mesajul a fost trimis!",
-			"error": "A apărut o eroare la trimiterea mesajului."
-		},
-		"steps": {
-			"title": "Ce se întâmplă după ce îmi scrii?",
-			"s1": "Îți răspund în maximum 48 de ore.",
-			"s2": "Stabilim împreună o primă întâlnire.",
-			"s3": "În prima ședință ne cunoaștem și explorăm împreună ce te aduce aici și ce ai nevoie acum.",
-			"s4": "La final, vei putea decide în ritmul tău dacă acest spațiu este potrivit pentru tine."
-		},
-		"reassure": {
-			"title": "Nu trebuie să vii...",
-			"i1": "... cu toate răspunsurile.",
-			"i2": "... cu o poveste spusă perfect.",
-			"i3": "... convinsă că terapia este soluția.",
-			"i4": "... într-un punct de colaps.",
-			"i5": "... „destul de rău” ca să meriți ajutor.",
-			"closing": "Este suficient să vii așa cum ești."
-		},
-		"closing": {
-			"title": "Terapia nu înseamnă să repari ceva „stricat”. Înseamnă să ai un loc în care să nu mai fii singură cu ceea ce este greu.",
-			"text": "Te susțin cu empatie, claritate și respect pentru ritmul tău. Ședințele se desfășoară online sau față în față, în București.",
-			"banner": "Dacă simți că este momentul să vorbești, sunt aici.",
-			"cta": "Trimite-mi un mesaj",
-			"photoAlt": "Colț de living liniștit, cu canapea, flori și o lumânare aprinsă"
-		},
-		"strip": {
-			"s1": {
-				"title": "Ședințe online",
-				"text": "pe platforme securizate (Google Meet / Zoom)"
-			},
-			"s2": {
-				"title": "Program flexibil",
-				"text": "împreună găsim ora potrivită pentru tine"
-			},
-			"s3": {
-				"title": "Confidențialitate",
-				"text": "spațiul tău este în siguranță"
-			},
-			"s4": {
-				"title": "Lucru individual",
-				"text": "și în cuplu, în funcție de nevoile tale"
-			}
-		}
-	},
-	"about": {
-		"hero": {
-			"title": "Sunt Andreea Butacu, psihoterapeut",
-			"intro1": "Lucrez cu femei care trec prin perioade de vulnerabilitate, tranziție sau blocaj — femei care, de multe ori, continuă să funcționeze și să „se descurce”, dar care pe dinăuntru duc mult mai mult decât se vede.",
-			"intro2": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
-			"cta": "Programează o ședință",
-			"photoAlt": "Andreea Butacu, psihoterapeut integrativ și cognitiv-comportamental"
-		},
-		"story": {
-			"title": "Povestea ta",
-			"p1": "Din exterior pari bine, îți faci treaba, răspunzi la mesaje, ții lucrurile în mișcare și, pentru cei din jur, pari o persoană care se descurcă. Dar pe dinăuntru ceva s-a strâns, s-a pierdut pe drum sau doar a obosit.",
-			"p2": "Poate treci prin infertilitate și simți că viața ta s-a redus la un ciclu de așteptare, speranță, control și dezamăgire. Poate ai devenit proaspătă mamă și te surprinde cât de singură, copleșită sau departe de tine te poți simți într-o perioadă despre care „ar trebui” să fie doar frumoasă. Sau poate, profesional, continui să funcționezi, să livrezi, să fii competentă și apreciată, dar în interior te simți blocată, epuizată și tot mai puțin conectată la ceea ce faci și la cine ești.",
-			"p3": "Poate te-ai surprins gândind: „Nu mă mai recunosc.” „Toată lumea pare să meargă înainte, iar eu parcă am rămas blocată.” „Dacă încă funcționez, înseamnă că nu e chiar atât de rău — ar trebui să mă descurc singură.”",
-			"p4": "Știu cât de invizibilă poate deveni această formă de oboseală. Cât de ușor este să pari „bine” în timp ce pe dinăuntru duci mult mai mult decât se vede: presiune, vină, confuzie, furie, comparație, singurătate sau doliul după o versiune a ta care părea mai vie, mai spontană sau mai întreagă."
-		},
-		"journey": {
-			"title": "Parcursul meu",
-			"p1": "Interesul meu pentru oameni și pentru felul în care traversează perioadele de schimbare, pierdere și reconstrucție m-a condus firesc către psihoterapie.",
-			"p2": "Sunt psihoterapeut integrativ și cognitiv-comportamental, membră a Colegiului Psihologilor din România și a Federației Române de Psihoterapie. De asemenea, sunt certificată ca Reproductive Mental Health Specialist, o formare dedicată înțelegerii impactului emoțional al experiențelor din parcursul reproductiv – de la infertilitate și pierdere de sarcină până la tranziția către maternitate și schimbările de identitate pe care acestea le pot aduce.",
-			"p3": "Formarea mea include studiile în cadrul Facultății de Psihologie, Masterul în Psihoterapie Cognitiv-Comportamentală și formarea în Psihoterapie Integrativă în cadrul Institutului Român de Psihoterapie Integrativă. Acest parcurs este completat constant prin formări și specializări dedicate sănătății mintale reproductive și psihoterapiei bazate pe dovezi.",
-			"p4": "Înainte de psihoterapie, am lucrat peste 10 ani în domeniul resurselor umane, în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse.",
-			"p5": "Cred că expertiza profesională este importantă, dar la fel de important este modul în care o folosești. De aceea, îmi propun ca fiecare persoană care ajunge în cabinet să găsească nu doar competență profesională, ci și un spațiu în care să se simtă înțeleasă, în siguranță și însoțită cu respect pe parcursul propriei povești."
-		},
-		"therapy": {
-			"title": "Cum poate arăta terapia pentru tine",
-			"p1": "Un spațiu sigur, empatic și lipsit de judecată, în care să nu mai fie nevoie să porți singură tot ce nu se vede. Un spațiu în care să poți înțelege mai bine ce trăiești, să te reconectezi cu tine și să găsești forme mai suportive de a sta cu durerea, presiunea, blocajul, schimbarea sau întrebările care te însoțesc.",
-			"p2": "Nu îți pot promite răspunsuri simple și nici un drum liniar. Dar îți pot oferi prezență, claritate, grijă și un cadru în care să nu mai fie nevoie să te descurci singură cu tot ceea ce este greu.",
-			"moment": {
-				"title": "Dacă simți că a venit momentul să nu mai duci singură tot ceea ce este greu",
-				"p1": "Dacă te regăsești în cele de mai sus și simți că ai nevoie de un spațiu în care să te oprești puțin din a ține totul, să înțelegi mai bine ce se întâmplă în tine și să nu mai fii singură cu ceea ce trăiești, te invit cu deschidere să lucrăm împreună.",
-				"p2": "Starea de bine este un drum personal. Dar nu trebuie parcurs în singurătate."
-			}
-		},
-		"work": {
-			"title": "Cum lucrez",
-			"p1": "Terapia este un spațiu în care poți începe să înțelegi ce ți se întâmplă, să pui în cuvinte lucruri pe care poate le-ai ținut mult timp doar în tine și să construiești, treptat, o relație mai blândă și mai stabilă cu tine însăți.",
-			"p2": "Abordarea mea este integrativă, cu o bază cognitiv-comportamentală. Asta înseamnă că, în terapie, putem lucra atât cu gândurile și emoțiile care te însoțesc, cât și cu felul în care corpul, relațiile, istoria ta personală și contextul de viață participă la ceea ce trăiești acum.",
-			"p3": "În practica mea mă interesează în mod special lucrul cu doliul, trauma și identitatea – experiențe care, deși adesea invizibile pentru cei din jur, pot schimba profund relația unei femei cu propriul corp, cu partenerul și cu ea însăși.",
-			"p4": "În lucrul cu fiecare femeie mă interesează nu doar „problema” cu care vine, ci și tot ceea ce se adună în jurul ei: felul în care se raportează la sine, la ceilalți, la presiune, la limite, la vină, la nevoia de control sau la teama de a nu dezamăgi."
-		}
-	},
-	"news": {
-		"title": "News",
-		"subtitle": "Latest updates and research from the mental health world.",
-		"readOriginal": "Read Article",
-		"noResults": "No news found for this topic.",
-		"filter": {
-			"label": "Filter by topic",
-			"all": "All Topics"
-		},
-		"recentNews": {
-			"title": "In the News",
-			"viewAll": "View All News"
-		},
-		"topics": {
-			"anxietate": "Anxiety",
-			"caut-psiholog-pentru-interviu": "Pre-Interview Psychologist",
-			"depresie": "Depression",
-			"expert-sanatate-mintala": "Mental Health Expert",
-			"infertility-psychotherapy": "Infertility & Psychotherapy",
-			"infertility-workshop": "Infertility Workshop",
-			"interviu-psiholog": "Psychologist Interview",
-			"psiholog-opinie": "Psychologist Opinion",
-			"research-infertility": "Infertility Research",
-			"research-psychotherapy": "Psychotherapy Research",
-			"terapie-de-cuplu-bucuresti": "Couples Therapy Bucharest"
-		}
-	},
-	"privacy": {
-		"title": "Privacy Policy",
-		"updated": "Last updated: 23 July 2026",
-		"intro": "This notice describes what this website actually does with your information. It is deliberately short, because the site collects very little.",
-		"controller": {
-			"title": "1. Who is responsible",
-			"body": "The controller of your personal data is [full name / PFA], [registered address], registered with the Romanian College of Psychologists under number [registration number].",
-			"contact": "For anything in this notice, including any request under section 7, write to andreea.ardei{'@'}gmail.com."
-		},
-		"collect": {
-			"title": "2. What is collected",
-			"intro": "Three things, and nothing else.",
-			"form": {
-				"title": "When you send a message through the contact form",
-				"body": "Your first name, email address, phone number (optional) and the text of your message. Used only to reply to you and to arrange a first session."
-			},
-			"newsletter": {
-				"title": "When you subscribe to the newsletter",
-				"body": "Your email address, used only to send the newsletter. Every message carries an unsubscribe link."
-			},
-			"storage": {
-				"title": "Preferences saved in your browser",
-				"body": "Two values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
-				"theme": "theme-preference — remembers whether you chose the light or dark theme.",
-				"language": "language-preference — remembers whether you chose Romanian or English.",
-				"life": "Both remain until you clear your browser storage. Neither identifies you, and neither is used for statistics, advertising or tracking."
-			}
-		},
-		"health": {
-			"title": "3. About health information",
-			"body": "Information about your mental health is a special category of data under Article 9 GDPR and deserves more protection than a web form can give it. Please do not describe symptoms, diagnoses or history in a first message — telling me you would like to talk is enough. Anything you do choose to share is processed only with your explicit consent and is covered by professional confidentiality."
-		},
-		"basis": {
-			"title": "4. The legal basis",
-			"i1": "Messages you send — steps taken at your request before entering into a contract (Article 6(1)(b) GDPR).",
-			"i2": "Newsletter — your consent (Article 6(1)(a) GDPR), which you may withdraw at any time.",
-			"i3": "Any health information you volunteer — your explicit consent (Article 9(2)(a) GDPR).",
-			"i4": "Browser preferences — strictly necessary to deliver the display settings you asked for, so no consent is required."
-		},
-		"sharing": {
-			"title": "5. Who else sees it",
-			"body": "No one. This site runs no analytics, no advertising, no social media trackers and no third-party scripts. Fonts are served from this site rather than an external network, so no outside provider sees your visit. Nothing is sold, rented or shared, and nothing is transferred outside the European Economic Area.",
-			"note": "If this ever changes, this section is updated before the change goes live, and anything requiring your consent will ask for it first."
-		},
-		"retention": {
-			"title": "6. How long it is kept",
-			"i1": "Enquiries that do not lead to a session: up to 12 months, then deleted.",
-			"i2": "Newsletter subscriptions: until you unsubscribe.",
-			"i3": "Once therapy begins, client records are held separately under the rules of the Romanian College of Psychologists and are not governed by this website notice."
-		},
-		"rights": {
-			"title": "7. Your rights",
-			"intro": "You may ask, free of charge, to:",
-			"i1": "see what data is held about you",
-			"i2": "have it corrected if it is wrong",
-			"i3": "have it deleted",
-			"i4": "restrict or object to how it is used",
-			"i5": "receive it in a portable format",
-			"i6": "withdraw a consent you gave, without affecting what was done beforehand",
-			"response": "Requests are answered within one month. There is no automated decision-making or profiling on this site.",
-			"complaint": "You may also complain to the Romanian supervisory authority, ANSPDCP — dataprotection.ro."
-		},
-		"security": {
-			"title": "8. Security",
-			"body": "The site is served over HTTPS. Because so little is collected, there is little to lose — that is the main safeguard, and it is a deliberate choice."
-		},
-		"changes": {
-			"title": "9. Changes to this notice",
-			"body": "Any update appears on this page with a new date above. Material changes to what is collected will be flagged on the site itself, not only here."
-		}
-	},
-	"terms": {
-		"title": "Terms of Use",
-		"updated": "Last updated: 23 July 2026",
-		"intro": "By using this website you accept the terms below. If you do not agree with them, please do not use the site.",
-		"crisis": {
-			"title": "If you are in crisis",
-			"body": "This website is not a channel for emergencies and messages are not monitored continuously. If you or someone else is in immediate danger, call 112, or the Romanian anti-suicide helpline on 0800 801 200."
-		},
-		"purpose": {
-			"title": "1. What this site is",
-			"body": "It presents a psychotherapy practice and publishes general information about mental health. That information is educational. It is not a diagnosis, not a treatment plan and not a substitute for a consultation — reading it does not create a therapeutic relationship."
-		},
-		"use": {
-			"title": "2. Acceptable use",
-			"i1": "Do not use the site for unlawful purposes, or to send abusive, misleading or automated content through its forms.",
-			"i2": "Articles and other content belong to their author. You may link to them and quote them with attribution; republishing them elsewhere requires permission."
-		},
-		"accuracy": {
-			"title": "3. Accuracy",
-			"body": "Content is offered in good faith and reviewed periodically, but it is provided as it is, without a guarantee that it is complete, current or applicable to your situation."
-		},
-		"liability": {
-			"title": "4. Liability",
-			"body": "Nothing here limits liability for death, personal injury or anything else that cannot lawfully be excluded. Beyond that, we are not liable for decisions taken on the basis of general information published on this site, or for the site being temporarily unavailable."
-		},
-		"links": {
-			"title": "5. Links to other sites",
-			"body": "Some pages link to external sites. Those sites have their own terms and privacy practices, and we are not responsible for their content."
-		},
-		"changes": {
-			"title": "6. Changes",
-			"body": "These terms may be updated. The date above shows when they last changed."
-		},
-		"contact": {
-			"title": "7. Contact",
-			"body": "Questions about these terms: andreea.ardei{'@'}gmail.com. How your data is handled is covered separately in the"
-		}
-	},
-	"button": {
-		"readMore": "Read More",
-		"viewAll": "View All",
-		"bookNow": "Book Now",
-		"findOutMore": "Find Out More",
-		"subscribe": "Subscribe",
-		"book": "Book Appointment"
-	},
-	"notFound": {
-		"title": "404 - Page Not Found",
-		"message": "Sorry, the page you are looking for does not exist.",
-		"backToHome": "Back to Home"
-	}
+  "navigation": {
+    "skipToContent": "Skip to content",
+    "menu": {
+      "home": "Home",
+      "services": "For you",
+      "about": "About",
+      "articles": "Articles",
+      "resources": "Resources",
+      "events": "Events",
+      "news": "News",
+      "contact": "Contact"
+    },
+    "cta": {
+      "book": "Book Appointment",
+      "language": "Language"
+    }
+  },
+  "footer": {
+    "contact": {
+      "title": "Contact",
+      "phone": "Phone",
+      "email": "Email",
+      "facebook": "Facebook Page",
+      "instagram": "Instagram Page"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "hours": "Monday - Friday: 9:00 - 18:00"
+    },
+    "info": {
+      "title": "Information",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Poți continua să mergi înainte. Dar nu trebuie să faci asta singură.",
+      "intro": "Indiferent dacă treci prin infertilitate, maternitate sau o perioadă de blocaj profesional, există un loc în care poți să te oprești și să ai grijă și de tine.",
+      "ctaPrimary": "Programează o ședință",
+      "ctaSecondary": "Descoperă cum lucrez",
+      "imageAlt": "Andreea Butacu așezată într-un fotoliu, într-o încăpere luminoasă cu plante"
+    },
+    "reasons": {
+      "title": "Poate ai ajuns aici pentru că...",
+      "items": [
+        "te simți epuizată și nu mai ai resurse.",
+        "treci printr-un moment care îți zguduie planurile.",
+        "nu te mai recunoști în viața ta de zi cu zi.",
+        "simți că ai pierdut legătura cu tine.",
+        "îți este greu să spui ce se întâmplă, dar știi că nu mai poți continua la fel.",
+        "ai obosit să fii puternică pentru toată lumea."
+      ],
+      "closing": "Nu trebuie să ai toate răspunsurile înainte să ceri ajutor."
+    },
+    "work": {
+      "title": "Cum lucrez",
+      "items": [
+        {
+          "title": "Fără judecată",
+          "text": "Un spațiu sigur în care poți fi tu însăți, cu tot ce trăiești."
+        },
+        {
+          "title": "În ritmul tău",
+          "text": "Nu există presiunea de a „fi gata”. Lucrăm pas cu pas, în ritmul tău."
+        },
+        {
+          "title": "Cu empatie și claritate",
+          "text": "Te ascult cu empatie și te ajut să înțelegi mai clar ceea ce trăiești."
+        },
+        {
+          "title": "Bazat pe dovezi",
+          "text": "Abordarea mea este integrativă, cu o bază cognitiv-comportamentală, adaptată poveștii tale."
+        }
+      ],
+      "closing": "Îmbin tehnici validate științific cu o înțelegere profundă a contextului tău de viață, pentru ca terapia să fie un proces care are sens pentru tine, nu doar un set de tehnici."
+    },
+    "about": {
+      "title": "Despre parcursul meu",
+      "text": "Experiența mea personală și profesională m-a adus aproape de femei care trec prin experiențe care le schimbă viața. Am învățat că vindecarea începe atunci când nu mai este nevoie să porți totul singură.",
+      "cta": "Află mai multe despre mine",
+      "imageAlt": "Andreea Butacu în cabinet, așezată într-un fotoliu lângă o bibliotecă"
+    },
+    "resources": {
+      "title": "Resurse pentru minte și suflet"
+    },
+    "faq": {
+      "title": "Poate te întrebi",
+      "items": [
+        {
+          "question": "Cum știu dacă am nevoie de psihoterapie?",
+          "answer": "Nu este nevoie să fii într-o criză sau să ai toate răspunsurile înainte de a începe. Dacă simți că îți este greu de ceva vreme, că te-ai îndepărtat de tine sau că ai nevoie de un spațiu în care să înțelegi mai bine ceea ce trăiești, terapia poate fi un pas potrivit."
+        },
+        {
+          "question": "Cum decurge prima ședință?",
+          "answer": "Prima întâlnire este despre cunoaștere. Vom vorbi despre ceea ce te-a adus în terapie, despre contextul în care te afli și despre ceea ce îți dorești de la acest proces, fără presiunea de a spune totul din prima."
+        },
+        {
+          "question": "Cât timp durează terapia?",
+          "answer": "Nu există o durată standard. Uneori sunt suficiente câteva ședințe, iar alteori procesul este mai amplu. Vom stabili împreună obiectivele și vom adapta ritmul terapiei în funcție de nevoile tale."
+        },
+        {
+          "question": "Lucrezi online sau doar în București?",
+          "answer": "Ședințele pot avea loc atât în cabinet, în București, cât și online. Împreună alegem varianta care se potrivește cel mai bine contextului și stilului tău de viață."
+        },
+        {
+          "question": "Cât durează o ședință?",
+          "answer": "O ședință durează 50 de minute."
+        },
+        {
+          "question": "Tot ceea ce discutăm rămâne confidențial?",
+          "answer": "Da. Confidențialitatea este unul dintre principiile fundamentale ale relației terapeutice și este respectată conform Codului Deontologic al Colegiului Psihologilor din România."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Nu trebuie să aștepți să îți fie mai greu.",
+      "text": "Poate fi suficient faptul că simți că ai obosit să duci totul singură."
+    }
+  },
+  "services": {
+    "index": {
+      "title": "Arii în care te pot însoți",
+      "intro": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
+      "cta": "Află mai mult",
+      "notFound": "Nu am găsit această pagină.",
+      "back": "Vezi toate ariile"
+    },
+    "credentials": [
+      "Psihoterapeut integrativ & cognitiv-comportamental",
+      "Membră a Colegiului Psihologilor din România",
+      "Membră a Federației Române de Psihoterapie",
+      "Reproductive Mental Health Specialist"
+    ],
+    "infertility": {
+      "title": "În fața infertilității",
+      "imageAlt": "Femeie privind pe fereastră, cu o cană de ceai în mâini",
+      "hero": {
+        "title": "Când fiecare lună pare să înceapă cu speranță și să se termine cu o nouă pierdere.",
+        "p1": "Infertilitatea nu înseamnă doar investigații și tratamente. Pentru multe femei și cupluri, ea aduce o formă de doliu care nu se vede: pentru planurile care se amână, pentru corpul în care începi să nu mai ai încredere, pentru viața pe care credeai că o vei avea până acum.",
+        "p2": "Poate că în continuare mergi la serviciu, răspunzi la mesaje și zâmbești atunci când este nevoie. Dar în interior porți o povară pe care foarte puțini o văd.",
+        "closing": "Nu trebuie să o porți singură."
+      },
+      "recognise": {
+        "title": "Poate te regăsești aici...",
+        "imageAlt": "Vas cu ramuri verzi pe pervazul unei ferestre luminoase",
+        "items": [
+          "Viața ta pare organizată în jurul ovulației, analizelor și rezultatelor.",
+          "Te surprinzi comparându-te cu femeile care rămân însărcinate „atât de ușor”.",
+          "Eviți aniversări sau întâlniri în care știi că vor apărea întrebări despre copii.",
+          "Simți că ai pierdut spontaneitatea și că fiecare decizie trebuie calculată.",
+          "Ai obosit să auzi „Relaxează-te.”, „Se va întâmpla când te aștepți mai puțin.”, „Poate că nu era momentul.”",
+          "Te simți vinovată că nu mai recunoști persoana care ai fost."
+        ]
+      },
+      "therapy": {
+        "title": "Cum te poate ajuta terapia?",
+        "imageAlt": "Carnet deschis și o lumânare aprinsă pe o masă de lemn",
+        "intro": "Terapia nu poate controla rezultatul tratamentelor medicale. Poate însă să îți ofere un loc în care:",
+        "items": [
+          "să nu mai fii singură cu ceea ce trăiești",
+          "să înțelegi impactul infertilității asupra identității tale",
+          "să faci loc emoțiilor pe care poate le-ai amânat",
+          "să reduci presiunea de a fi permanent puternică",
+          "să reconstruiești relația cu propriul corp",
+          "să existe viață și între tratamente"
+        ],
+        "closing": "Lucrăm împreună, în ritmul tău, cu empatie, claritate și respect pentru ceea ce trăiești."
+      },
+      "losses": {
+        "title": "Ce se pierde, dincolo de diagnostic",
+        "imageAlt": "Cană de ceai și o ramură verde pe o pătură moale",
+        "intro": "Infertilitatea poate aduce pierderi invizibile, dar profund resimțite. Este în regulă să le simți, să le recunoști și să le onorezi.",
+        "items": [
+          "Sentimentul că îți poți planifica viața",
+          "Încrederea în propriul corp",
+          "Spontaneitatea în relația de cuplu",
+          "Sentimentul că aparții printre ceilalți",
+          "Identitatea pe care ți-o imaginai pentru această etapă a vieții",
+          "Speranța care vine fără teamă",
+          "Capacitatea de a te bucura sincer pentru alții",
+          "Încrederea că lucrurile vor merge bine"
+        ]
+      },
+      "cta": {
+        "title": "Nu trebuie să aștepți să îți fie mai greu.",
+        "text": "Poți veni oricând simți că ai nevoie de un spațiu în care să te oprești, să înțelegi mai bine ce se întâmplă în tine și să nu mai fii singură cu ceea ce trăiești."
+      }
+    },
+    "motherhood": {
+      "title": "În maternitate",
+      "imageAlt": "Mamă așezată pe podea lângă un pătuț, privind pe fereastră",
+      "hero": {
+        "title": "Maternitatea poate aduce multă iubire. Dar și multă singurătate.",
+        "p1": "Poate îți iubești copilul mai mult decât ai crezut vreodată că este posibil. Și, în același timp, te întrebi unde ai rămas tu.",
+        "p2": "Poate zilele tale sunt pline, dar simți că nu mai există aproape niciun spațiu în care să fii doar tu, fără să răspunzi unei nevoi, fără să planifici ceva sau fără să ai grijă de cineva. Poate ai așteptat mult acest copil. Sau poate maternitatea a venit firesc. Indiferent cum ai ajuns aici, schimbarea pe care o aduce poate fi mult mai profundă decât lasă lumea să se vadă.",
+        "closing": "Nu înseamnă că îți iubești copilul mai puțin. Înseamnă că și tu ai nevoie de un loc în care să exiști."
+      },
+      "recognise": {
+        "title": "Poate te regăsești aici",
+        "imageAlt": "Vas cu flori uscate și o cană pe o masă rotundă de lemn",
+        "items": [
+          "Te simți copleșită de responsabilitatea de a fi permanent disponibilă.",
+          "Ai impresia că ai dispărut în spatele rolului de mamă.",
+          "Simți vinovăție ori de câte ori îți dorești timp doar pentru tine.",
+          "Te compari cu alte mame care par că se descurcă mai bine.",
+          "Nu îți mai recunoști corpul sau relația cu el.",
+          "Relația cu partenerul s-a schimbat și nu mai știi cum să vă regăsiți.",
+          "Ai obosit să auzi: „Bucură-te de perioada asta.”, „Trece repede.”, „Toate mamele trec prin asta.”"
+        ]
+      },
+      "changes": {
+        "title": "Ce se schimbă odată cu maternitatea",
+        "imageAlt": "Femeie așezată pe pat, privind spre fereastră",
+        "intro": "Maternitatea nu schimbă doar rutina. Schimbă felul în care te raportezi la tine. Uneori, ceea ce doare nu este doar oboseala. Este faptul că ai impresia că ai pierdut:",
+        "items": [
+          "timpul care îți aparținea",
+          "încrederea în tine",
+          "libertatea de a decide doar pentru tine",
+          "relația cu propriul corp",
+          "apropierea de partener",
+          "sentimentul că încă ești aceeași femeie",
+          "bucuria de a face lucruri doar pentru tine",
+          "spontaneitatea"
+        ],
+        "closing": "Nu trebuie să alegi între a fi o mamă bună și a avea grijă de tine. Cele două pot exista împreună."
+      },
+      "therapy": {
+        "title": "Cum poate arăta terapia pentru tine",
+        "imageAlt": "Scaun cu o pătură și o masă cu lumânare lângă fereastră",
+        "intro": "Un spațiu în care să nu fie nevoie să demonstrezi că ești recunoscătoare în fiecare moment. Un spațiu în care să poți vorbi și despre iubire, și despre oboseală. Și despre vinovăție. Și despre furie. Și despre dorul de cine erai înainte.",
+        "body": "În terapie putem explora împreună schimbările prin care treci, relația cu tine, cu corpul tău, cu partenerul și cu noua identitate care se construiește în această etapă.",
+        "closing": "Nu îți pot promite că maternitatea va deveni ușoară. Dar îți pot oferi un loc în care să nu mai fie nevoie să fii singură cu tot ceea ce este greu."
+      },
+      "cta": {
+        "title": "Nu este doar despre maternitate. Este despre cine devii.",
+        "text": "Maternitatea nu înseamnă doar să ai grijă de un copil. Înseamnă să renegociezi relația cu corpul tău, cu timpul tău, cu partenerul, cu munca, cu libertatea și cu identitatea ta. În terapie nu lucrăm doar cu oboseala sau anxietatea. Lucrăm și cu femeia care încearcă să își găsească locul într-o viață care s-a schimbat profund."
+      }
+    },
+    "career": {
+      "title": "În carieră",
+      "imageAlt": "Femeie cu o cană în mână, privind pe fereastră de la birou",
+      "hero": {
+        "title": "Când continui să funcționezi, dar nu te mai regăsești în ceea ce faci.",
+        "p1": "Poate încă îți faci bine treaba. Respecți termene, participi la ședințe, răspunzi la e-mailuri și, pentru cei din jur, pari aceeași persoană competentă și implicată. Dar în interior simți că ceva s-a schimbat.",
+        "p2": "Poate te trezești fără energie pentru o zi care înainte te motiva. Poate ai senzația că doar bifezi sarcini, fără să mai simți că ceea ce faci are sens. Sau poate ai ajuns într-un punct în care îți dorești o schimbare, dar nu mai știi încotro să mergi.",
+        "closing": "Nu este doar despre carieră. Este despre relația cu tine însăți, despre identitate și despre felul în care vrei să îți trăiești viața mai departe."
+      },
+      "recognise": {
+        "title": "Poate te regăsești aici",
+        "imageAlt": "Birou cu laptop, carnet și o cană lângă fereastră",
+        "items": [
+          "Îți începi ziua deja obosită, înainte să fi făcut ceva.",
+          "Ai impresia că funcționezi pe pilot automat.",
+          "Continui să livrezi rezultate, dar nu mai simți satisfacție.",
+          "Te întrebi dacă ai ales drumul potrivit.",
+          "Simți că ai pierdut contactul cu ceea ce îți dorești cu adevărat.",
+          "Îți este greu să iei o decizie de schimbare, chiar dacă simți că actuala situație nu îți mai face bine.",
+          "Îți spui că ar trebui să fii recunoscătoare pentru ceea ce ai.",
+          "Ai obosit să auzi: „Toată lumea este stresată.”, „E doar o perioadă.”, „Ai un job bun, ce îți mai lipsește?”"
+        ]
+      },
+      "losses": {
+        "title": "Ce se pierde atunci când rămâi prea mult într-un loc care nu te mai reprezintă",
+        "imageAlt": "Femeie mergând pe o alee cu copaci, la apus",
+        "intro": "Uneori, ceea ce doare nu este volumul de muncă. Este faptul că începi să pierzi, încet, legătura cu tine. Poate simți că ai pierdut:",
+        "items": [
+          "încrederea în propriile alegeri",
+          "curiozitatea",
+          "energia de a începe ceva nou",
+          "sentimentul că ai libertatea să alegi",
+          "creativitatea",
+          "entuziasmul",
+          "încrederea că meriți mai mult",
+          "spontaneitatea",
+          "echilibrul dintre viața profesională și cea personală"
+        ],
+        "closing": "Nu este nevoie să alegi între succes și starea ta de bine. Cele două pot exista împreună."
+      },
+      "becoming": {
+        "title": "Nu este doar despre carieră. Este despre cine devii.",
+        "imageAlt": "Carnet deschis și o cană de cafea pe o masă de lemn",
+        "intro": "În terapie putem explora împreună ce se află dincolo de epuizare sau nemulțumire.",
+        "body": "Uneori descoperim că nu jobul este adevărata problemă, ci presiunea de a performa permanent, dificultatea de a pune limite, teama de a dezamăgi sau convingerea că valoarea ta depinde de ceea ce reușești să faci.",
+        "closing": "Terapia nu îți spune ce decizie să iei. Îți oferă spațiul și claritatea necesare pentru a lua decizii care sunt în acord cu cine ești astăzi, nu cu cine ai simțit că trebuie să fii."
+      },
+      "cta": {
+        "title": "Poate că schimbarea nu începe cu un nou job.",
+        "text": "Poate începe cu o conversație în care, pentru prima dată după mult timp, există loc și pentru tine."
+      }
+    }
+  },
+  "resources": {
+    "hero": {
+      "title": "Resurse pentru mintea și inima ta",
+      "intro": "Articole, ghiduri, recomandări și resurse practice create pentru a te informa și a te susține în călătoria ta.",
+      "imageAlt": "Cană de ceai și cărți pe o masă de lemn, lângă un vas cu eucalipt"
+    },
+    "articles": {
+      "title": "Articole recente",
+      "viewAll": "Vezi toate articolele",
+      "readTime": "{minutes} min de citit",
+      "read": "Citește articolul"
+    },
+    "freeGuides": {
+      "title": "Ghiduri gratuite",
+      "intro": "Materiale create cu grijă pe care le poți descărca gratuit și folosi în propriul ritm.",
+      "download": "Descarcă gratuit",
+      "anxiety": {
+        "title": "5 pași pentru a gestiona anxietatea în tratamentele de fertilitate",
+        "imageAlt": "Coperta ghidului despre anxietate în tratamentele de fertilitate"
+      },
+      "journal": {
+        "title": "Jurnal de reflecție pentru mame",
+        "imageAlt": "Coperta jurnalului de reflecție pentru mame"
+      },
+      "couple": {
+        "title": "Ghid de comunicare în cuplu",
+        "imageAlt": "Coperta ghidului de comunicare în cuplu"
+      }
+    },
+    "practical": {
+      "title": "Resurse practice",
+      "intro": "Teste și exerciții practice pe care le poți folosi când ai nevoie de mai multă claritate, reglare emoțională sau un punct de plecare.",
+      "stressTest": {
+        "label": "Test",
+        "title": "Cât de prezent este stresul în viața ta?",
+        "duration": "2–3 min",
+        "action": "Începe testul"
+      },
+      "lifeWheel": {
+        "label": "Exercițiu",
+        "title": "Roata vieții",
+        "duration": "10–15 min",
+        "action": "Descarcă fișa",
+        "imageAlt": "Carnet deschis cu un creion, pe o pătură deschisă la culoare"
+      },
+      "breathing": {
+        "label": "Practica",
+        "title": "Respirație pentru reglarea anxietății",
+        "duration": "5 min",
+        "action": "Descarcă ghidul"
+      },
+      "thoughtJournal": {
+        "label": "Exercițiu",
+        "title": "Jurnal de gânduri",
+        "duration": "10–15 min",
+        "action": "Descarcă fișa",
+        "imageAlt": "Cană de ceramică așezată pe o pătură deschisă la culoare"
+      }
+    },
+    "premium": {
+      "title": "Ghiduri premium",
+      "intro": "Ghiduri detaliate și programe pentru aprofundare și susținere pe termen lung.",
+      "viewAll": "Vezi toate ghidurile premium",
+      "details": "Vezi detalii",
+      "loss": {
+        "title": "Vindecarea după o pierdere de sarcină",
+        "text": "Un ghid complet pentru a înțelege și procesa durerea, cu exerciții și resurse terapeutice.",
+        "price": "89 RON",
+        "imageAlt": "Ghid tipărit așezat lângă un vas cu flori albe"
+      },
+      "identity": {
+        "title": "Redefinirea identității după infertilitate",
+        "text": "Un program pas cu pas pentru a-ți reconstrui stima de sine și încrederea în viitor.",
+        "price": "129 RON",
+        "imageAlt": "Jurnal tipărit așezat pe o pătură, lângă o ramură de eucalipt"
+      },
+      "balance": {
+        "title": "Program de echilibru pentru mame ocupate",
+        "text": "6 module practice pentru mai multă claritate, grijă de sine și echilibru în viața de zi cu zi.",
+        "price": "199 RON",
+        "imageAlt": "Teanc de cărți lângă un vas de ceramică"
+      }
+    },
+    "cta": {
+      "title": "Ai nevoie de sprijin personalizat?",
+      "text": "Programează o ședință și hai să lucrăm împreună."
+    }
+  },
+  "events": {
+    "title": "Evenimente planificate",
+    "hero": {
+      "title": "Ateliere",
+      "intro": "Spații de învățare, reflecție și conectare în care te poți opri din alergare și ai grijă de ceea ce contează pentru tine.",
+      "imageAlt": "Birou cu laptop, carnet și o cană lângă o fereastră luminoasă"
+    },
+    "upcoming": {
+      "title": "Următoarele ateliere",
+      "intro": "Ateliere gândite pentru a te ajuta să înțelegi mai bine ceea ce trăiești și să descoperi resurse pe care le poți folosi în viața de zi cu zi.",
+      "viewAll": "Vezi toate atelierele",
+      "viewLess": "Vezi mai puține",
+      "badge": "Atelier live",
+      "limitedSeats": "Locuri limitate",
+      "details": "Detalii și înscriere"
+    },
+    "groups": {
+      "title": "Grupuri de sprijin",
+      "intro": "Întâlniri recurente în grupuri mici, pentru femei care trec prin experiențe similare. Un spațiu sigur în care poți vorbi liber și poți fi ascultată.",
+      "viewAll": "Vezi toate grupurile",
+      "viewLess": "Vezi mai puține",
+      "infertility": {
+        "title": "Grup de sprijin – Infertilitate",
+        "text": "Pentru femei care sunt în tratamente sau în așteptarea unui copil.",
+        "location": "Online (Zoom)",
+        "frequency": "Întâlniri bilunare"
+      },
+      "motherhood": {
+        "title": "Grup de sprijin – Maternitate",
+        "text": "Pentru mame în postpartum, obosite, copleșite sau singure.",
+        "location": "Online (Zoom)",
+        "frequency": "Întâlniri bilunare"
+      },
+      "career": {
+        "title": "Grup de sprijin – Carieră",
+        "text": "Pentru femei care se simt blocate, epuizate sau în căutare de sens.",
+        "location": "Online (Zoom)",
+        "frequency": "Întâlniri lunare"
+      }
+    },
+    "cta": {
+      "title": "Ai nevoie de sprijin personalizat?",
+      "text": "Programează o ședință și hai să lucrăm împreună."
+    },
+    "notFound": {
+      "message": "This event could not be found.",
+      "back": "Back to events"
+    }
+  },
+  "articles": {
+    "title": "Articles",
+    "description": "Explore our latest articles on mental health and well-being.",
+    "categories": {
+      "infertility": "Infertilitate",
+      "motherhood": "Maternitate",
+      "career": "Carieră & identitate"
+    }
+  },
+  "newsletter": {
+    "title": "Subscribe to Newsletter",
+    "description": "Stay updated with our latest articles and events",
+    "emailPlaceholder": "Enter your email address",
+    "consent": "I agree to receive the newsletter by email. I can unsubscribe at any time — see the",
+    "aside": "Primești articole, ateliere și resurse utile, direct pe email."
+  },
+  "contact": {
+    "hero": {
+      "eyebrow": "Contact",
+      "title": "Primul pas nu trebuie să fie perfect. Poate începe cu un simplu mesaj.",
+      "intro1": "Uneori, cea mai grea parte nu este terapia. Este decizia de a scrie primul mesaj.",
+      "intro2": "Nu trebuie să știi exact ce să spui și nici să fii sigură că terapia este ceea ce ai nevoie. Dacă simți că ar fi de ajutor să vorbim, poți începe chiar de aici.",
+      "cta": "Trimite-mi un mesaj",
+      "photoAlt": "Birou cu laptop și carnet, pregătit pentru o ședință de psihoterapie online"
+    },
+    "note": {
+      "sessions": "Ședințele se desfășoară online sau față în față",
+      "place": "în București sau din confortul spațiului tău"
+    },
+    "reach": {
+      "title": "Cum putem lua legătura",
+      "subtitle": "Alege varianta care ți se potrivește cel mai bine.",
+      "email": {
+        "label": "Email",
+        "value": "contact{'@'}cabinetultau.ro"
+      },
+      "phone": {
+        "label": "Telefon",
+        "value": "07XX XXX XXX",
+        "hours": "Luni – Vineri, 9:00 – 18:00"
+      },
+      "whatsapp": {
+        "label": "WhatsApp",
+        "value": "07XX XXX XXX"
+      },
+      "booking": {
+        "label": "Programare",
+        "value": "Trimite-mi un mesaj și stabilim împreună ziua și ora potrivită."
+      }
+    },
+    "form": {
+      "title": "Nu trebuie să găsești cuvintele potrivite.",
+      "intro1": "Poți să îmi scrii exact așa cum ești acum.",
+      "intro2": "Poate fi doar: „Aș vrea să aflu cum decurge terapia” sau „Nu știu de unde să încep” sau „Cred că am nevoie de ajutor”. Este suficient.",
+      "name": "Prenume",
+      "email": "Email",
+      "phone": "Telefon (opțional)",
+      "message": "Mesaj",
+      "send": "Trimite mesajul",
+      "messageHint": "Nu e nevoie să intri în detalii despre diagnostic, simptome sau istoric — îmi ajunge să știu că vrei să vorbim. Despre restul discutăm în ședință.",
+      "consent": "Sunt de acord ca datele de mai sus să fie folosite pentru a-mi răspunde. Am citit",
+      "consentLink": "politica de confidențialitate",
+      "privacy": "Datele tale rămân confidențiale și nu sunt distribuite nimănui.",
+      "success": "Mesajul a fost trimis!",
+      "error": "A apărut o eroare la trimiterea mesajului."
+    },
+    "steps": {
+      "title": "Ce se întâmplă după ce îmi scrii?",
+      "s1": "Îți răspund în maximum 48 de ore.",
+      "s2": "Stabilim împreună o primă întâlnire.",
+      "s3": "În prima ședință ne cunoaștem și explorăm împreună ce te aduce aici și ce ai nevoie acum.",
+      "s4": "La final, vei putea decide în ritmul tău dacă acest spațiu este potrivit pentru tine."
+    },
+    "reassure": {
+      "title": "Nu trebuie să vii...",
+      "i1": "... cu toate răspunsurile.",
+      "i2": "... cu o poveste spusă perfect.",
+      "i3": "... convinsă că terapia este soluția.",
+      "i4": "... într-un punct de colaps.",
+      "i5": "... „destul de rău” ca să meriți ajutor.",
+      "closing": "Este suficient să vii așa cum ești."
+    },
+    "closing": {
+      "title": "Terapia nu înseamnă să repari ceva „stricat”. Înseamnă să ai un loc în care să nu mai fii singură cu ceea ce este greu.",
+      "text": "Te susțin cu empatie, claritate și respect pentru ritmul tău. Ședințele se desfășoară online sau față în față, în București.",
+      "banner": "Dacă simți că este momentul să vorbești, sunt aici.",
+      "cta": "Trimite-mi un mesaj",
+      "photoAlt": "Colț de living liniștit, cu canapea, flori și o lumânare aprinsă"
+    },
+    "strip": {
+      "s1": {
+        "title": "Ședințe online",
+        "text": "pe platforme securizate (Google Meet / Zoom)"
+      },
+      "s2": {
+        "title": "Program flexibil",
+        "text": "împreună găsim ora potrivită pentru tine"
+      },
+      "s3": {
+        "title": "Confidențialitate",
+        "text": "spațiul tău este în siguranță"
+      },
+      "s4": {
+        "title": "Lucru individual",
+        "text": "și în cuplu, în funcție de nevoile tale"
+      }
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Sunt Andreea Butacu, psihoterapeut",
+      "intro1": "Lucrez cu femei care trec prin perioade de vulnerabilitate, tranziție sau blocaj — femei care, de multe ori, continuă să funcționeze și să „se descurce”, dar care pe dinăuntru duc mult mai mult decât se vede.",
+      "intro2": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
+      "cta": "Programează o ședință",
+      "photoAlt": "Andreea Butacu, psihoterapeut integrativ și cognitiv-comportamental"
+    },
+    "story": {
+      "title": "Povestea ta",
+      "p1": "Din exterior pari bine, îți faci treaba, răspunzi la mesaje, ții lucrurile în mișcare și, pentru cei din jur, pari o persoană care se descurcă. Dar pe dinăuntru ceva s-a strâns, s-a pierdut pe drum sau doar a obosit.",
+      "p2": "Poate treci prin infertilitate și simți că viața ta s-a redus la un ciclu de așteptare, speranță, control și dezamăgire. Poate ai devenit proaspătă mamă și te surprinde cât de singură, copleșită sau departe de tine te poți simți într-o perioadă despre care „ar trebui” să fie doar frumoasă. Sau poate, profesional, continui să funcționezi, să livrezi, să fii competentă și apreciată, dar în interior te simți blocată, epuizată și tot mai puțin conectată la ceea ce faci și la cine ești.",
+      "p3": "Poate te-ai surprins gândind: „Nu mă mai recunosc.” „Toată lumea pare să meargă înainte, iar eu parcă am rămas blocată.” „Dacă încă funcționez, înseamnă că nu e chiar atât de rău — ar trebui să mă descurc singură.”",
+      "p4": "Știu cât de invizibilă poate deveni această formă de oboseală. Cât de ușor este să pari „bine” în timp ce pe dinăuntru duci mult mai mult decât se vede: presiune, vină, confuzie, furie, comparație, singurătate sau doliul după o versiune a ta care părea mai vie, mai spontană sau mai întreagă."
+    },
+    "journey": {
+      "title": "Parcursul meu",
+      "p1": "Interesul meu pentru oameni și pentru felul în care traversează perioadele de schimbare, pierdere și reconstrucție m-a condus firesc către psihoterapie.",
+      "p2": "Sunt psihoterapeut integrativ și cognitiv-comportamental, membră a Colegiului Psihologilor din România și a Federației Române de Psihoterapie. De asemenea, sunt certificată ca Reproductive Mental Health Specialist, o formare dedicată înțelegerii impactului emoțional al experiențelor din parcursul reproductiv – de la infertilitate și pierdere de sarcină până la tranziția către maternitate și schimbările de identitate pe care acestea le pot aduce.",
+      "p3": "Formarea mea include studiile în cadrul Facultății de Psihologie, Masterul în Psihoterapie Cognitiv-Comportamentală și formarea în Psihoterapie Integrativă în cadrul Institutului Român de Psihoterapie Integrativă. Acest parcurs este completat constant prin formări și specializări dedicate sănătății mintale reproductive și psihoterapiei bazate pe dovezi.",
+      "p4": "Înainte de psihoterapie, am lucrat peste 10 ani în domeniul resurselor umane, în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse.",
+      "p5": "Cred că expertiza profesională este importantă, dar la fel de important este modul în care o folosești. De aceea, îmi propun ca fiecare persoană care ajunge în cabinet să găsească nu doar competență profesională, ci și un spațiu în care să se simtă înțeleasă, în siguranță și însoțită cu respect pe parcursul propriei povești."
+    },
+    "therapy": {
+      "title": "Cum poate arăta terapia pentru tine",
+      "p1": "Un spațiu sigur, empatic și lipsit de judecată, în care să nu mai fie nevoie să porți singură tot ce nu se vede. Un spațiu în care să poți înțelege mai bine ce trăiești, să te reconectezi cu tine și să găsești forme mai suportive de a sta cu durerea, presiunea, blocajul, schimbarea sau întrebările care te însoțesc.",
+      "p2": "Nu îți pot promite răspunsuri simple și nici un drum liniar. Dar îți pot oferi prezență, claritate, grijă și un cadru în care să nu mai fie nevoie să te descurci singură cu tot ceea ce este greu.",
+      "moment": {
+        "title": "Dacă simți că a venit momentul să nu mai duci singură tot ceea ce este greu",
+        "p1": "Dacă te regăsești în cele de mai sus și simți că ai nevoie de un spațiu în care să te oprești puțin din a ține totul, să înțelegi mai bine ce se întâmplă în tine și să nu mai fii singură cu ceea ce trăiești, te invit cu deschidere să lucrăm împreună.",
+        "p2": "Starea de bine este un drum personal. Dar nu trebuie parcurs în singurătate."
+      }
+    },
+    "work": {
+      "title": "Cum lucrez",
+      "p1": "Terapia este un spațiu în care poți începe să înțelegi ce ți se întâmplă, să pui în cuvinte lucruri pe care poate le-ai ținut mult timp doar în tine și să construiești, treptat, o relație mai blândă și mai stabilă cu tine însăți.",
+      "p2": "Abordarea mea este integrativă, cu o bază cognitiv-comportamentală. Asta înseamnă că, în terapie, putem lucra atât cu gândurile și emoțiile care te însoțesc, cât și cu felul în care corpul, relațiile, istoria ta personală și contextul de viață participă la ceea ce trăiești acum.",
+      "p3": "În practica mea mă interesează în mod special lucrul cu doliul, trauma și identitatea – experiențe care, deși adesea invizibile pentru cei din jur, pot schimba profund relația unei femei cu propriul corp, cu partenerul și cu ea însăși.",
+      "p4": "În lucrul cu fiecare femeie mă interesează nu doar „problema” cu care vine, ci și tot ceea ce se adună în jurul ei: felul în care se raportează la sine, la ceilalți, la presiune, la limite, la vină, la nevoia de control sau la teama de a nu dezamăgi."
+    }
+  },
+  "news": {
+    "title": "News",
+    "subtitle": "Latest updates and research from the mental health world.",
+    "readOriginal": "Read Article",
+    "noResults": "No news found for this topic.",
+    "filter": {
+      "label": "Filter by topic",
+      "all": "All Topics"
+    },
+    "topics": {
+      "anxietate": "Anxiety",
+      "caut-psiholog-pentru-interviu": "Pre-Interview Psychologist",
+      "depresie": "Depression",
+      "expert-sanatate-mintala": "Mental Health Expert",
+      "infertility-psychotherapy": "Infertility & Psychotherapy",
+      "infertility-workshop": "Infertility Workshop",
+      "interviu-psiholog": "Psychologist Interview",
+      "psiholog-opinie": "Psychologist Opinion",
+      "research-infertility": "Infertility Research",
+      "research-psychotherapy": "Psychotherapy Research",
+      "terapie-de-cuplu-bucuresti": "Couples Therapy Bucharest"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "updated": "Last updated: 23 July 2026",
+    "intro": "This notice describes what this website actually does with your information. It is deliberately short, because the site collects very little.",
+    "controller": {
+      "title": "1. Who is responsible",
+      "body": "The controller of your personal data is [full name / PFA], [registered address], registered with the Romanian College of Psychologists under number [registration number].",
+      "contact": "For anything in this notice, including any request under section 7, write to andreea.ardei{'@'}gmail.com."
+    },
+    "collect": {
+      "title": "2. What is collected",
+      "intro": "Three things, and nothing else.",
+      "form": {
+        "title": "When you send a message through the contact form",
+        "body": "Your first name, email address, phone number (optional) and the text of your message. Used only to reply to you and to arrange a first session."
+      },
+      "newsletter": {
+        "title": "When you subscribe to the newsletter",
+        "body": "Your email address, used only to send the newsletter. Every message carries an unsubscribe link."
+      },
+      "storage": {
+        "title": "Preferences saved in your browser",
+        "body": "Two values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
+        "theme": "theme-preference — remembers whether you chose the light or dark theme.",
+        "language": "language-preference — remembers whether you chose Romanian or English.",
+        "life": "Both remain until you clear your browser storage. Neither identifies you, and neither is used for statistics, advertising or tracking."
+      }
+    },
+    "health": {
+      "title": "3. About health information",
+      "body": "Information about your mental health is a special category of data under Article 9 GDPR and deserves more protection than a web form can give it. Please do not describe symptoms, diagnoses or history in a first message — telling me you would like to talk is enough. Anything you do choose to share is processed only with your explicit consent and is covered by professional confidentiality."
+    },
+    "basis": {
+      "title": "4. The legal basis",
+      "i1": "Messages you send — steps taken at your request before entering into a contract (Article 6(1)(b) GDPR).",
+      "i2": "Newsletter — your consent (Article 6(1)(a) GDPR), which you may withdraw at any time.",
+      "i3": "Any health information you volunteer — your explicit consent (Article 9(2)(a) GDPR).",
+      "i4": "Browser preferences — strictly necessary to deliver the display settings you asked for, so no consent is required."
+    },
+    "sharing": {
+      "title": "5. Who else sees it",
+      "body": "No one. This site runs no analytics, no advertising, no social media trackers and no third-party scripts. Fonts are served from this site rather than an external network, so no outside provider sees your visit. Nothing is sold, rented or shared, and nothing is transferred outside the European Economic Area.",
+      "note": "If this ever changes, this section is updated before the change goes live, and anything requiring your consent will ask for it first."
+    },
+    "retention": {
+      "title": "6. How long it is kept",
+      "i1": "Enquiries that do not lead to a session: up to 12 months, then deleted.",
+      "i2": "Newsletter subscriptions: until you unsubscribe.",
+      "i3": "Once therapy begins, client records are held separately under the rules of the Romanian College of Psychologists and are not governed by this website notice."
+    },
+    "rights": {
+      "title": "7. Your rights",
+      "intro": "You may ask, free of charge, to:",
+      "i1": "see what data is held about you",
+      "i2": "have it corrected if it is wrong",
+      "i3": "have it deleted",
+      "i4": "restrict or object to how it is used",
+      "i5": "receive it in a portable format",
+      "i6": "withdraw a consent you gave, without affecting what was done beforehand",
+      "response": "Requests are answered within one month. There is no automated decision-making or profiling on this site.",
+      "complaint": "You may also complain to the Romanian supervisory authority, ANSPDCP — dataprotection.ro."
+    },
+    "security": {
+      "title": "8. Security",
+      "body": "The site is served over HTTPS. Because so little is collected, there is little to lose — that is the main safeguard, and it is a deliberate choice."
+    },
+    "changes": {
+      "title": "9. Changes to this notice",
+      "body": "Any update appears on this page with a new date above. Material changes to what is collected will be flagged on the site itself, not only here."
+    }
+  },
+  "terms": {
+    "title": "Terms of Use",
+    "updated": "Last updated: 23 July 2026",
+    "intro": "By using this website you accept the terms below. If you do not agree with them, please do not use the site.",
+    "crisis": {
+      "title": "If you are in crisis",
+      "body": "This website is not a channel for emergencies and messages are not monitored continuously. If you or someone else is in immediate danger, call 112, or the Romanian anti-suicide helpline on 0800 801 200."
+    },
+    "purpose": {
+      "title": "1. What this site is",
+      "body": "It presents a psychotherapy practice and publishes general information about mental health. That information is educational. It is not a diagnosis, not a treatment plan and not a substitute for a consultation — reading it does not create a therapeutic relationship."
+    },
+    "use": {
+      "title": "2. Acceptable use",
+      "i1": "Do not use the site for unlawful purposes, or to send abusive, misleading or automated content through its forms.",
+      "i2": "Articles and other content belong to their author. You may link to them and quote them with attribution; republishing them elsewhere requires permission."
+    },
+    "accuracy": {
+      "title": "3. Accuracy",
+      "body": "Content is offered in good faith and reviewed periodically, but it is provided as it is, without a guarantee that it is complete, current or applicable to your situation."
+    },
+    "liability": {
+      "title": "4. Liability",
+      "body": "Nothing here limits liability for death, personal injury or anything else that cannot lawfully be excluded. Beyond that, we are not liable for decisions taken on the basis of general information published on this site, or for the site being temporarily unavailable."
+    },
+    "links": {
+      "title": "5. Links to other sites",
+      "body": "Some pages link to external sites. Those sites have their own terms and privacy practices, and we are not responsible for their content."
+    },
+    "changes": {
+      "title": "6. Changes",
+      "body": "These terms may be updated. The date above shows when they last changed."
+    },
+    "contact": {
+      "title": "7. Contact",
+      "body": "Questions about these terms: andreea.ardei{'@'}gmail.com. How your data is handled is covered separately in the"
+    }
+  },
+  "button": {
+    "readMore": "Read More",
+    "subscribe": "Subscribe"
+  },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "message": "Sorry, the page you are looking for does not exist.",
+    "backToHome": "Back to Home"
+  },
+  "cta": {
+    "button": "Programează o primă ședință",
+    "note": "Sunt aici să te ascult, să te înțeleg și să te însoțesc cu blândețe."
+  }
 }

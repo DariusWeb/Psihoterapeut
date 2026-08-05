@@ -2,9 +2,10 @@
     import { computed } from 'vue'
     import { useRoute, RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
-    import { CalendarDays, CircleSmall, Heart, Leaf } from '@lucide/vue'
+    import { CircleSmall, Leaf } from '@lucide/vue'
     import { useServicesStore } from '@/stores/servicesStore'
     import SplitSection from '@/components/common/SplitSection.vue'
+    import CtaBand from '@/components/common/CtaBand.vue'
 
     const route = useRoute()
     const servicesStore = useServicesStore()
@@ -33,7 +34,7 @@
             </p>
 
             <h1 class="service-hero-title">{{ t(`${base}.hero.title`) }}</h1>
-            <hr class="service-rule" />
+            <hr class="rule-short" />
 
             <p class="service-text">{{ t(`${base}.hero.p1`) }}</p>
             <p class="service-text">{{ t(`${base}.hero.p2`) }}</p>
@@ -42,7 +43,7 @@
 
         <SplitSection v-for="section in service.sections" :key="section.key" :image="section.image"
             :alt="t(`${base}.${section.key}.imageAlt`)">
-            <div class="service-card card">
+            <div class="service-card card card-outlined">
                 <h2 class="service-section-title">
                     <Leaf class="service-section-icon" :size="22" />
                     {{ t(`${base}.${section.key}.title`) }}
@@ -77,27 +78,7 @@
             </div>
         </SplitSection>
 
-        <section class="cta-band card">
-            <div class="cta-band-content">
-                <h2 class="service-section-title">
-                    <Leaf class="service-section-icon" :size="22" />
-                    {{ t(`${base}.cta.title`) }}
-                </h2>
-                <p class="service-text">{{ t(`${base}.cta.text`) }}</p>
-            </div>
-
-            <div class="cta-band-action">
-                <RouterLink class="button button-primary cta-band-button" to="/contact#contact-form">
-                    <CalendarDays :size="18" />
-                    {{ t('services.cta.button') }}
-                </RouterLink>
-
-                <p class="cta-band-note">
-                    <Heart :size="16" />
-                    {{ t('services.cta.note') }}
-                </p>
-            </div>
-        </section>
+        <CtaBand :icon="Leaf" :title="t(`${base}.cta.title`)" :text="t(`${base}.cta.text`)" />
     </main>
 
     <main v-else class="service-page">
@@ -122,13 +103,6 @@
         text-align: left;
     }
 
-    .service-rule {
-        width: 4rem;
-        margin: 0;
-        border: 0;
-        border-top: 2px solid var(--vt-c-jannafer-green);
-    }
-
     .service-text {
         margin: 0;
         line-height: 1.7;
@@ -146,7 +120,6 @@
         gap: 1.5rem;
         height: 100%;
         justify-content: center;
-        border: 1px solid var(--vt-c-jannafer-gray2);
     }
 
     .service-section-title {

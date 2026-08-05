@@ -6,7 +6,7 @@ Companion to [PROJECT-STATUS.md](./PROJECT-STATUS.md) (what state the project is
 
 Everything global lives in [`src/assets/base.scss`](../src/assets/base.scss). Everything else is scoped to its component.
 
-**Last updated:** 2026-07-30 · written after the `/services` build (index + three detail pages), which is the reference implementation for most of what follows.
+**Last updated:** 2026-08-05 · written after the `/services` build, then revised after the Home / Ateliere / Resurse consolidation pass that promoted the shared card, link and media-fade utilities.
 
 ---
 
@@ -55,8 +55,10 @@ Defined in `:root` at the top of `base.scss`.
 | `--vt-c-split-gap` | `2rem` | Horizontal gap inside `.split-section` |
 | `--vt-c-section-padding` | `4rem 0` | Padding on full-bleed bands |
 | `--vt-c-container-width` | `1200px` | Max content width |
-| `--vt-c-border-radius` | `.5rem` | Buttons and inputs. **Cards and media use `1rem`** — see §6. |
+| `--vt-c-border-radius` | `.5rem` | Buttons and inputs |
+| `--vt-c-radius-lg` | `1rem` | Cards and media |
 | `--vt-c-transition-speed` | `0.3s` | Every transition. Don't invent durations. |
+| `--vt-c-shadow` / `-raised` | | Resting / lifted elevation. Deeper in dark mode, where a light shadow would vanish. |
 
 ### The two spacing tokens are the consistency mechanism
 
@@ -87,8 +89,15 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 |---|---|
 | `.layout-container` | Centres content at `--vt-c-container-width` with a 1rem gutter |
 | `.layout-full` | Full-bleed: `margin-inline: calc(50% - 50vw)`. No `100vw`, no nudge hacks. |
-| `.layout-stack` | Vertical rhythm. Applies `--vt-c-section-gap` **on the child** (`> * + *`), so a section can retune its own spacing. |
+| `.layout-stack` | Vertical rhythm **between** sections. Applies `--vt-c-section-gap` on the child (`> * + *`), so a section can retune its own spacing. |
 | `.section-tight` / `.section-flush` | Retune the gap to `1rem` / `0` |
+| `.stack` / `.stack-loose` | Vertical rhythm **inside** a section — flex column at `1rem` / `2rem` |
+
+⚠️ **`.stack` and `.layout-stack` are not interchangeable.** `.layout-stack` reads its gap off the *child*, so putting it on a section to space that section's contents also retunes the gap above the section itself. Page rhythm is `.layout-stack`; anything inside a section is `.stack`.
+
+### Page padding
+
+`.main-content` in `App.vue` is `padding: var(--page-padding, 10rem 1rem 8rem)`. A page whose hero runs flush to the top behind the fixed nav sets `--page-padding` in its own scoped root rule — `App.vue` never learns page names.
 
 ### Split — image beside text, alternating
 
@@ -103,9 +112,19 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 ⚠️ **`.split-media` needs `min-width: 0`.** Without it, `min-width: auto` floors the flex item at the image's intrinsic width and the edge bleed silently collapses.
 
+### Page hero
+
+`.page-hero` / `-content` / `-title` / `-intro` / `-media` — copy column beside media that bleeds off the viewport edge. `-content` carries the `7rem` top padding that clears the fixed nav. **Home, Ateliere, Resurse and Contact all use these** — do not write a page-local hero. About is the one exception: its photo is an inset column, not a bleed.
+
 ### Media
 
 `.media-placeholder` — tinted block (`--vt-c-surface-strong`) with a centred icon, filling the same box a real image would. This is a **supported state**, not scaffolding: `SplitSection` renders it whenever `image` is absent, so a page can be built and reviewed before photography exists.
+
+`.media-fade` — the dissolve (see §5). Direction and stop come from `--media-fade-to` / `--media-fade-stop`; both **inherit**, so the class can sit on the element itself or on a child image whose parent sets the direction.
+
+`.bleed-left` / `.bleed-right` — media running off one viewport edge while the copy column stays on the container. Each sets `--media-fade-to` for you; add `.media-fade` to whichever element should actually dissolve.
+
+`.card-media` — media that runs to the edge of a `.card-compact`, cancelling its padding. Height via `--card-media-height` (default `10rem`).
 
 ### Lists
 
@@ -126,12 +145,19 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 | Class | Purpose |
 |---|---|
-| `.card` | `--vt-c-surface` background, `1rem` radius, `2rem` padding |
-| `.cta-band` | Closing call-to-action: copy left, button + reassurance right. Sub-parts `-content` / `-action` / `-button` / `-note`. Stacks under 1024px. |
+| `.card` | `--vt-c-surface` background, `--vt-c-radius-lg`, `2rem` padding |
+| `.card-compact` | Modifier — `1.5rem` padding. Pairs with `.card-media`. |
+| `.card-outlined` | Modifier — 1px `--vt-c-jannafer-gray2` border |
+| `.card-link` | The card **is** the `<a>`: hover recolours it and nudges its `.link-arrow` |
+| `.card-title` | Serif card heading — Libre Baskerville 400 at `1.1rem` |
+| `.link-arrow` | Text link with a trailing arrow that nudges on hover. Reads the same as `<a>` or `<button>`. |
+| `.section-head` / `.section-head-center` | Section heading rows — see §5 for which to use |
+| `.section-intro` | Lead paragraph under a section head, capped at `60ch` |
+| `.cta-band` | Closing call-to-action. Ships as the `CtaBand` component — see §4. |
 | `.credentials` | The practitioner's qualifications stack, above a page's leading heading. Sub-part `-icon`. |
 | `.icon-chip` | 3rem circular icon badge on `--vt-c-surface-strong` |
 
-`.cta-band` and `.credentials` are **page-agnostic** — drop them on any page, not just services.
+**Compose the card, don't rebuild it.** A bordered, tightly-padded card is `class="card card-compact card-outlined"` — never a local rule that re-declares background, radius and padding.
 
 ---
 
@@ -150,11 +176,14 @@ The one shared visual component. Structure only; all sizing and alternation live
 
 Content goes in the default slot, so the caller decides whether the copy sits in a `.card` or bare.
 
+### `CtaBand` — [`src/components/common/CtaBand.vue`](../src/components/common/CtaBand.vue)
+
+The closing call-to-action every page ends on. Props `title`, `text`, optional `icon` (a lucide component rendered before the title). The button and the reassurance note are **fixed** — they read `cta.button` / `cta.note` and always point at `/contact#contact-form`, because that is the one action the whole site drives toward. Used by Home, Ateliere, Resurse and every service page.
+
 ### Deliberate non-extractions
 
 Don't "helpfully" abstract these — the decision was to leave them inline:
 
-- **The services index card** is three cards rendered in one `v-for` inside `Services.vue`. Fifteen lines of template; a component would add a file and a prop contract for nothing.
 - **`ServiceDetail.vue` renders all three service pages** from a data description. Adding a fourth page is a data entry, not a new component.
 
 ---
@@ -181,26 +210,37 @@ The photo goes flush to the card edge while the text keeps its inset, and the bo
 
 ### Mask, don't hard-crop
 
-Photos dissolve into adjacent content rather than ending on a hard line:
+Photos dissolve into adjacent content rather than ending on a hard line. **Never type the gradient — add `.media-fade`:**
 
-```scss
-mask-image: linear-gradient(to top, transparent, #000 30%);
+```html
+<img class="card-media media-fade" …>                        <!-- fades into the card body below -->
+<div class="page-hero-media media-fade bleed-right" …>        <!-- fades into the copy column beside it -->
 ```
 
-Mirror the direction per edge (`to top` for a card header, `to right` / `to left` for a side-by-side hero). Always pair with the `-webkit-` prefix.
+Direction defaults to `to top` (a card header dissolving downward) and is retuned with `--media-fade-to`; `--media-fade-stop` moves where the image reaches full opacity. `.bleed-left` / `.bleed-right` set the direction for you. Under 1024px they set `--media-fade-stop: 0%`, which makes the gradient fully opaque — stacked, there is no column left to blend into.
+
+The `#000` inside the gradient is **not a colour**. A mask reads alpha only; `#000` means "opaque". Don't token-ise it.
 
 ### Hover belongs to the whole card
 
-The card **is** the `<a>`. Hovering it changes the background *and* nudges the arrow — the arrow never gets its own hover target:
+The card **is** the `<a>`. Hovering it changes the background *and* nudges the arrow — the arrow never gets its own hover target. This is `.card-link`, and the arrow is `.link-arrow`:
 
-```scss
-.service-card-link:hover {
-    background: var(--vt-c-surface-strong);
-    .services-card-cta svg { transform: translateX(0.25rem); }
-}
+```html
+<RouterLink class="card card-compact card-link" :to="…">
+    <img class="card-media media-fade" …>
+    <h2 class="card-title">…</h2>
+    <span class="link-arrow">… <ArrowRight :size="16" /></span>
+</RouterLink>
 ```
 
-Put the transition on the moving element (`svg`), not the parent, so only the transform animates.
+The transition lives on the moving element (`svg`), not the parent, so only the transform animates.
+
+### Section headings: centred markets, left-aligned indexes
+
+Two patterns, one deliberate split — pick by what the page is doing, don't copy whatever was nearest:
+
+- **`.section-head-center`** + a `<Leaf class="section-flourish">` — the marketing rhythm. Home only. A `.link-arrow` inside it is positioned to the right of the centred title automatically, and rejoins the flow under 768px.
+- **`.section-head`** — title left, `.link-arrow` right. Index and listing pages (Ateliere, Resurse), where the heading is a label on a collection rather than a beat in a narrative.
 
 ### One-sided full bleed
 
@@ -250,6 +290,13 @@ Two files, two jobs:
 
 Adding a page is a data entry in the first plus a copy block in the second. No new component, no new route.
 
+**But `content/` holds two different kinds of thing, and they follow opposite rules:**
+
+- **List-config** — `services`, `resources`, `groups`. A fixed set of cards the site itself defines. Keys + icons in the content file, **all copy in `en.json`**.
+- **Item-content** — `articles`, `events`. Individually authored pieces, each its own `.vue` with a `meta` block and a body. **Copy lives inline**, in Romanian, because translating a whole article is not a UI-string job.
+
+If you find yourself writing a sentence in a list-config file, it belongs in `en.json`.
+
 ### Images
 
 WebP, imported (never a raw `/public` path — the `/Psihoterapeut/` base path breaks those), with explicit `width`/`height` to reserve layout, `decoding="async"`, and `loading="lazy"` unless it's the hero.
@@ -260,18 +307,18 @@ WebP, imported (never a raw `/public` path — the `/Psihoterapeut/` base path b
 
 Real inconsistencies in the current code. **Do not copy these as though they were decisions** — they need a call.
 
-1. **Card padding is inconsistent.** `.card` is `2rem`; the services index card is `1.5rem` and hand-rolls its own `background` + `border-radius` rather than composing `.card`. Should the index card adopt `.card`, or should `.card` gain a compact modifier?
+1. **`.split-flush` still declares `gap: 2rem`**, overriding `--vt-c-split-gap` and defeating the token for the hero specifically. Either drop the literal or make it a separate token.
 
-2. **`.split-flush` still declares `gap: 2rem`**, overriding `--vt-c-split-gap` and defeating the token for the hero specifically. Either drop the literal or make it a separate token.
+2. **`.dot-list-columns` triggers at ≥ 8 items.** Carieră's "Poate te regăsești aici" goes two-column while the same section on the other two pages stays single — a visible inconsistency driven by item count rather than intent. Either force one column per section type, or move the choice into the content data.
 
-3. **`.dot-list-columns` triggers at ≥ 8 items.** Carieră's "Poate te regăsești aici" goes two-column while the same section on the other two pages stays single — a visible inconsistency driven by item count rather than intent. Either force one column per section type, or move the choice into the content data.
+3. **Icon-grid semantics are half-derived.** 8 of the 25 icons are read off the Infertilitate mock; the other 17 (Maternitate, Carieră) were chosen — those mocks had no icon grid to copy. Worth a review pass.
 
-4. **`.card` is bypassed in several places.** `About.vue`'s `.about-card` and `Services.vue`'s index card both hand-roll `border-radius: 1rem` + a background instead of composing `.card`. Three near-identical card treatments now exist.
+4. **The global `h1` fights every page.** `text-align: center` + `margin-bottom: 4rem` means nearly every page-specific `h1` overrides both. The global default is probably wrong.
 
-5. **`1rem` card/media radius is a literal, not a token.** `--vt-c-border-radius` is `.5rem` and applies to buttons/inputs; every card and image uses a hardcoded `1rem`. Wants a second token (`--vt-c-border-radius-lg`).
+5. **`Reasons.vue` and `HowIWork.vue` map icons to i18n items by array index.** Add a seventh entry to `home.reasons.items` and it silently renders with no icon. The fix is a `content/home/index.js` following the list-config convention above, but that is its own change.
 
-6. **Icon-grid semantics are half-derived.** 8 of the 25 icons are read off the Infertilitate mock; the other 17 (Maternitate, Carieră) were chosen — those mocks had no icon grid to copy. Worth a review pass.
+6. **Breakpoints and z-index are magic numbers.** 33 hardcoded `1024px` / `768px` and four unscaled z-indexes. Custom properties don't work in media queries, so this needs SCSS variables via the commented-out `additionalData` block in `vite.config.js`.
 
-7. **Dead and broken tokens.** `--vt-c-text-light-1` resolves to `var(--vt-c-indigo)`, **which is never defined anywhere**. `--vt-c-main`, `--vt-c-white-soft`, `--vt-c-white-mute`, `--vt-c-black-soft`, `--vt-c-text-*` and `--vt-c-divider-dark-*` have no consumers in any component. Inherited from the Vue starter theme; needs a prune.
+7. **`Articles.vue` / `ArticleItem.vue` / `events/Event.vue` predate the design system.** Three markups now render the same stores in a third visual language (box shadows, `8px` radii, no card composition). Needs a design call, not a refactor.
 
-8. **The global `h1` fights every page.** `text-align: center` + `margin-bottom: 4rem` means nearly every page-specific `h1` overrides both. The global default is probably wrong.
+**Resolved in the 2026-08-05 pass** (was items 1, 4, 5, 7): card padding and the bypassed `.card` are now `.card-compact` / `.card-outlined`; the `1rem` radius is `--vt-c-radius-lg`; the dead starter-theme tokens and the dangling `var(--vt-c-indigo)` are gone.

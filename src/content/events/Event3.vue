@@ -3,11 +3,13 @@
         name: 'Event3',
         meta: {
             id: 3,
-            title: 'Event Title 3',
-            details: 'Event details here',
+            title: 'Identitatea mea dincolo de roluri și așteptări',
+            details: 'Un atelier despre cine ești tu, dincolo de „mamă", „profesionistă", „puternică pentru ceilalți".',
             image: null,
             date: '2026-11-12',
-            location: 'Cabinet',
+            time: '10:00 – 13:00',
+            location: 'București',
+            online: false,
         }
     }
 </script>

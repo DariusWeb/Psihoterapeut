@@ -14,12 +14,10 @@ export const useEventsStore = defineStore('events', () => {
 		return allEvents.value.filter((event) => event.date >= today)
 	})
 
-	const homeEvents = computed(() => upcomingEvents.value.slice(0, 3))
-
 	// Resolves past events too, so a shared link to a finished event still opens.
 	function getEventById(id) {
 		return items.value.find((event) => event.id === id)
 	}
 
-	return { allEvents, upcomingEvents, homeEvents, getEventById }
+	return { allEvents, upcomingEvents, getEventById }
 })

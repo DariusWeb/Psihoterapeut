@@ -53,16 +53,9 @@
 		justify-content: space-between;
 	}
 
+	// pages whose hero runs flush to the top set --page-padding in their own scoped styles
 	.main-content {
-		padding: 10rem 1rem 8rem;
-
-		&.page-home {
-			padding: 4rem 1rem 0;
-		}
-
-		&.contact-page {
-			padding: 0 1rem 0;
-		}
+		padding: var(--page-padding, 10rem 1rem 8rem);
 	}
 
 	@media (min-width: 1024px) {

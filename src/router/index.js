@@ -50,6 +50,11 @@ const router = createRouter({
       component: () => import('@/components/articles/Article.vue'),
     },
     {
+      path: '/resources',
+      name: 'resources',
+      component: () => import('@/views/Resources.vue'),
+    },
+    {
       path: '/news',
       name: 'news',
       component: () => import('@/views/News.vue'),

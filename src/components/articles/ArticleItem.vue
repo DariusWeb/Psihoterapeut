@@ -14,8 +14,8 @@
 
 <template>
     <article class="article-item">
-        <div class="article-image">
-            <img v-if="image" :src="image" :alt="title">
+        <div v-if="image" class="article-image">
+            <img :src="image" :alt="title">
         </div>
 
         <div class="article-content">
@@ -37,9 +37,9 @@
 <style lang="scss" scoped>
     .article-item {
         background: var(--vt-c-white);
-        border-radius: 8px;
+        border-radius: var(--vt-c-border-radius);
         overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--vt-c-shadow);
     }
 
     .article-image {
@@ -60,7 +60,7 @@
     .article-link {
         display: inline-block;
         margin-top: 1rem;
-        color: var(--color-primary);
+        color: var(--vt-c-jannafer-green);
         text-decoration: none;
 
         &:hover {

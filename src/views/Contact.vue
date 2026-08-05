@@ -39,21 +39,21 @@
 
 <template>
 	<main class="contact-page layout-stack">
-		<section class="contact-hero">
-			<div class="contact-hero-content">
+		<section class="page-hero">
+			<div class="page-hero-content">
 				<p class="contact-hero-eyebrow">{{ t('contact.hero.eyebrow') }}</p>
-				<h1 class="contact-hero-title">{{ t('contact.hero.title') }}</h1>
-				<p class="contact-hero-text">{{ t('contact.hero.intro1') }}</p>
-				<p class="contact-hero-text">{{ t('contact.hero.intro2') }}</p>
+				<h1 class="page-hero-title">{{ t('contact.hero.title') }}</h1>
+				<p class="page-hero-intro">{{ t('contact.hero.intro1') }}</p>
+				<p class="page-hero-intro">{{ t('contact.hero.intro2') }}</p>
 				<a class="button button-primary contact-hero-cta" href="#contact-form">
 					<Sprout :size="18" />
 					{{ t('contact.hero.cta') }}
 				</a>
 			</div>
 
-			<div class="contact-hero-media">
-				<img class="contact-photo" :src="contactDesk" :alt="t('contact.hero.photoAlt')" width="1060"
-					height="707" decoding="async" loading="eager" fetchpriority="high" />
+			<div class="contact-hero-media bleed-right">
+				<img class="contact-photo media-fade" :src="contactDesk" :alt="t('contact.hero.photoAlt')"
+					width="1060" height="707" decoding="async" loading="eager" fetchpriority="high" />
 
 				<aside class="contact-note card">
 					<p class="contact-note-item">
@@ -168,7 +168,7 @@
 		</section>
 
 		<section class="contact-closing section-tight">
-			<img class="contact-photo contact-closing-photo" :src="contactLivingRoom"
+			<img class="contact-photo media-fade bleed-left" :src="contactLivingRoom"
 				:alt="t('contact.closing.photoAlt')" width="901" height="600" decoding="async" loading="lazy" />
 
 			<div class="contact-closing-content">
@@ -196,6 +196,10 @@
 </template>
 
 <style scoped lang="scss">
+	.contact-page {
+		--page-padding: 0 1rem 0; // the hero photo runs flush to the top, behind the fixed nav
+	}
+
 	// Shared
 	.contact-photo {
 		width: 100%;
@@ -206,31 +210,9 @@
 	}
 
 	// Hero
-	.contact-hero {
-		display: flex;
-		gap: 2rem;
-	}
-
-	.contact-hero-content {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-		padding: 7rem 0 4rem; // clears the fixed nav; the photo column stays flush with the top
-	}
-
 	.contact-hero-eyebrow {
 		margin: 0;
 		color: var(--vt-c-jannafer-green);
-	}
-
-	.contact-hero-title {
-		margin: 0;
-		text-align: left;
-	}
-
-	.contact-hero-text {
-		margin: 0;
 	}
 
 	.contact-hero-cta {
@@ -240,16 +222,7 @@
 	}
 
 	.contact-hero-media {
-		// 45% of the container plus the right gutter, so the photo bleeds to the viewport edge
-		flex: 0 0 calc(50vw - 5%);
-		margin-right: calc(50% - 50vw);
-		position: relative;
-	}
-
-	// photo dissolves into the copy column beside it, densest at the shared edge
-	.contact-hero-media .contact-photo {
-		-webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
-		mask-image: linear-gradient(to right, transparent, #000 30%);
+		position: relative; // anchors .contact-note
 	}
 
 	.contact-note {
@@ -422,14 +395,6 @@
 		gap: 3rem;
 	}
 
-	.contact-closing-photo {
-		// same 45% + gutter as the hero photo, shifted out so it bleeds off the left edge
-		flex: 0 0 calc(50vw - 5%);
-		margin-left: calc(50% - 50vw);
-		-webkit-mask-image: linear-gradient(to left, transparent, #000 30%);
-		mask-image: linear-gradient(to left, transparent, #000 30%);
-	}
-
 	.contact-closing-content {
 		flex: 1;
 	}
@@ -485,7 +450,6 @@
 
 	@media (max-width: 1024px) {
 
-		.contact-hero,
 		.contact-reach,
 		.contact-after,
 		.contact-closing {
@@ -493,21 +457,9 @@
 			align-items: stretch;
 		}
 
-		.contact-hero-media,
-		.contact-steps,
-		.contact-closing-photo {
+		.contact-steps {
 			flex: auto;
 			margin-inline: 0;
-		}
-
-		// stacked, so there is no column beside the photo left to blend into
-		.contact-hero-media .contact-photo,
-		.contact-closing-photo {
-			-webkit-mask-image: none;
-			mask-image: none;
-		}
-
-		.contact-steps {
 			padding-left: 2rem;
 		}
 
@@ -529,10 +481,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.contact-hero-content {
-			padding-top: 5rem;
-		}
-
 		.contact-steps-list {
 			flex-direction: column;
 		}

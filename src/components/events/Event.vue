@@ -49,7 +49,7 @@
         }
 
         .event-meta {
-            color: var(--color-text-light);
+            color: rgb(from var(--vt-c-black) r g b / 65%);
             margin-bottom: 2rem;
         }
     }

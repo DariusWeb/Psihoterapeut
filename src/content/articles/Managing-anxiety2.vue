@@ -6,6 +6,8 @@
             title: 'Managing Anxiety2',
             subtitle: 'Understanding and coping with anxiety',
             image: null,
+            category: 'motherhood',
+            readTime: 6,
             createdAt: '2025-09-19'
         }
     }

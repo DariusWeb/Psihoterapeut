@@ -1,12 +1,12 @@
 <script>
     export default {
-        name: 'Event2',
+        name: 'Event4',
         meta: {
-            id: 2,
-            title: 'Cum gestionez incertitudinea în infertilitate',
-            details: 'Instrumente practice pentru a face față fricii, așteptării și zilelor grele.',
+            id: 4,
+            title: 'Când corpul spune nu: epuizare și limite sănătoase',
+            details: 'Un atelier despre semnele epuizării și despre cum îți poți așeza limite fără vinovăție.',
             image: null,
-            date: '2026-10-08',
+            date: '2026-12-05',
             time: '10:00 – 13:00',
             location: 'Online (Zoom)',
             online: true,

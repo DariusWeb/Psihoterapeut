@@ -6,6 +6,8 @@
             title: 'Managing Anxiety',
             subtitle: 'Understanding and coping with anxiety',
             image: null,
+            category: 'infertility', // keys into articles.categories in en.json
+            readTime: 8,
             createdAt: '2025-09-18'
         }
     }
