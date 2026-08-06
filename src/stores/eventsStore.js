@@ -15,9 +15,9 @@ export const useEventsStore = defineStore('events', () => {
 	})
 
 	// Resolves past events too, so a shared link to a finished event still opens.
-	function getEventById(id) {
-		return items.value.find((event) => event.id === id)
+	function getEventBySlug(slug) {
+		return items.value.find((event) => event.slug === slug)
 	}
 
-	return { allEvents, upcomingEvents, getEventById }
+	return { allEvents, upcomingEvents, getEventBySlug }
 })

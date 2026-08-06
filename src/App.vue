@@ -1,5 +1,5 @@
 <script setup>
-	import { onMounted, watch } from 'vue'
+	import { onMounted } from 'vue'
 	import { useI18n } from 'vue-i18n'
 	import Navigation from '@/components/layout/navigation/Navigation.vue'
 	import Footer from '@/components/layout/navigation/Footer.vue'
@@ -7,11 +7,10 @@
 	import { useThemeStore } from '@/stores/themeStore'
 
 	const themeStore = useThemeStore()
-	const { locale, t } = useI18n({ useScope: 'global' })
+	const { t } = useI18n({ useScope: 'global' })
 
-	watch(locale, (value) => {
-		document.documentElement.lang = value
-	}, { immediate: true })
+	// `lang` stays "ro" from index.html: en.json holds Romanian copy, so both locales render Romanian
+	// today. Restore a locale watcher here once en.json is genuinely English.
 
 	// unblocks the router's scrollBehavior, which waits for the old page to finish leaving
 	function releaseScroll() {

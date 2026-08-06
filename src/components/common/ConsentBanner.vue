@@ -15,7 +15,7 @@
 		:aria-label="t('consent.title')">
 		<p class="consent-text">
 			{{ t('consent.body') }}
-			<RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>.
+			<RouterLink to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>.
 		</p>
 
 		<div class="consent-actions">

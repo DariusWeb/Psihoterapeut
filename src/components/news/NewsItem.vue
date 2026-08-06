@@ -26,7 +26,7 @@
 <template>
     <article class="news-item">
         <div v-if="image" class="news-image">
-            <img :src="image" :alt="title" loading="lazy" />
+            <img :src="image" :alt="title" width="600" height="400" decoding="async" loading="lazy" />
         </div>
 
         <div class="news-body">
@@ -35,7 +35,7 @@
                 <span class="news-date">{{ formatDate(date) }}</span>
             </div>
 
-            <h3 class="news-title">{{ title }}</h3>
+            <h2 class="news-title">{{ title }}</h2>
 
             <p v-if="description" class="news-description">{{ description }}</p>
 

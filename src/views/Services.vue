@@ -14,11 +14,11 @@
         <p class="section-intro services-intro">{{ t('services.index.intro') }}</p>
 
         <div class="services-list card-grid">
-            <RouterLink v-for="service in servicesStore.allServices" :key="service.id"
-                class="services-card card card-compact card-link" :to="`/services/${service.slug}`">
+            <RouterLink v-for="(service, index) in servicesStore.allServices" :key="service.id"
+                class="services-card card card-compact card-link" :to="`/${service.slug}`">
                 <img class="card-media media-fade" :src="service.image"
                     :alt="t(`services.${service.key}.imageAlt`)" width="1221" height="814" decoding="async"
-                    loading="eager" />
+                    :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : null" />
 
                 <h2 class="services-card-title">{{ t(`services.${service.key}.title`) }}</h2>
                 <p class="services-card-teaser">{{ t(`services.${service.key}.hero.title`) }}</p>

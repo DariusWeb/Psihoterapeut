@@ -1,85 +1,102 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import { services } from '@/content/services'
+import i18n from '@/i18n'
+import { applySeo } from '@/utils/seo'
+
+// `seo` keys into the `seo` block in en.json; `parent` is the breadcrumb trail, walked by route name.
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    meta: { seo: 'home' },
+  },
+  {
+    path: '/despre-mine',
+    name: 'about',
+    component: () => import('@/views/About.vue'),
+    meta: { seo: 'about', parent: 'home' },
+  },
+  {
+    path: '/servicii',
+    name: 'services',
+    component: () => import('@/views/Services.vue'),
+    meta: { seo: 'services', parent: 'home' },
+  },
+  // Service pages sit flat at the root so the URL carries the search term itself (/infertilitate).
+  ...services.map((service) => ({
+    path: `/${service.slug}`,
+    name: `service-${service.key}`,
+    component: () => import('@/components/services/ServiceDetail.vue'),
+    meta: { seo: service.key, parent: 'services', slug: service.slug, ogImage: service.image },
+  })),
+  {
+    path: '/ateliere',
+    name: 'events',
+    component: () => import('@/views/Events.vue'),
+    // flushHero: the hero media runs behind the fixed nav, leaving no room for a breadcrumb bar.
+    meta: { seo: 'events', parent: 'home', flushHero: true },
+  },
+  {
+    path: '/ateliere/:slug',
+    name: 'event',
+    component: () => import('@/components/events/Event.vue'),
+    meta: { parent: 'events' },
+  },
+  {
+    path: '/articole',
+    name: 'articles',
+    component: () => import('@/views/Articles.vue'),
+    meta: { seo: 'articles', parent: 'home' },
+  },
+  {
+    path: '/articole/:slug',
+    name: 'article',
+    component: () => import('@/components/articles/Article.vue'),
+    meta: { parent: 'articles' },
+  },
+  {
+    path: '/resurse',
+    name: 'resources',
+    component: () => import('@/views/Resources.vue'),
+    meta: { seo: 'resources', parent: 'home', flushHero: true },
+  },
+  {
+    path: '/noutati',
+    name: 'news',
+    component: () => import('@/views/News.vue'),
+    meta: { seo: 'news', parent: 'home' },
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('@/views/Contact.vue'),
+    meta: { seo: 'contact', parent: 'home', flushHero: true },
+  },
+  {
+    path: '/confidentialitate',
+    name: 'privacy',
+    component: () => import('@/views/Privacy.vue'),
+    meta: { seo: 'privacy', parent: 'home' },
+  },
+  {
+    path: '/termeni',
+    name: 'terms',
+    component: () => import('@/views/Terms.vue'),
+    meta: { seo: 'terms', parent: 'home' },
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'not-found',
+    component: () => import('@/views/NotFound.vue'),
+    meta: { seo: 'notFound' },
+  },
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/About.vue'),
-    },
-    {
-      path: '/services',
-      children: [
-        {
-          path: '',
-          name: 'services',
-          component: () => import('@/views/Services.vue'),
-        },
-        {
-          path: ':slug',
-          name: 'service',
-          component: () => import('@/components/services/ServiceDetail.vue'),
-        },
-      ],
-    },
-    {
-      path: '/events',
-      name: 'events',
-      component: () => import('@/views/Events.vue'),
-    },
-    {
-      path: '/events/:id',
-      name: 'event',
-      component: () => import('@/components/events/Event.vue'),
-    },
-    {
-      path: '/articles',
-      name: 'articles',
-      component: () => import('@/views/Articles.vue'),
-    },
-    {
-      path: '/articles/:id',
-      name: 'article',
-      component: () => import('@/components/articles/Article.vue'),
-    },
-    {
-      path: '/resources',
-      name: 'resources',
-      component: () => import('@/views/Resources.vue'),
-    },
-    {
-      path: '/news',
-      name: 'news',
-      component: () => import('@/views/News.vue'),
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: () => import('@/views/Contact.vue'),
-    },
-    {
-      path: '/privacy',
-      name: 'privacy',
-      component: () => import('@/views/Privacy.vue'),
-    },
-    {
-      path: '/terms',
-      name: 'terms',
-      component: () => import('@/views/Terms.vue'),
-    },
-    {
-      path: '/:catchAll(.*)',
-      name: 'not-found',
-      component: () => import('@/views/NotFound.vue'),
-    },
-  ],
+  routes,
   // Resolves out-in mode jumps the still-visible page to the top first
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
@@ -95,6 +112,21 @@ const router = createRouter({
       window.addEventListener('page-transition-done', () => resolve(target), { once: true })
     })
   }
+})
+
+// Detail routes have no `seo` key of their own — they show the list page's copy until their
+// lazy chunk lands and the component applies the real title.
+router.afterEach((to) => {
+  const key = to.meta.seo ?? router.resolve({ name: to.meta.parent }).meta.seo
+  if (!key) return
+
+  const { t } = i18n.global
+  applySeo({
+    title: t(`seo.${key}.title`),
+    description: t(`seo.${key}.description`),
+    path: to.path,
+    image: to.meta.ogImage,
+  })
 })
 
 export default router

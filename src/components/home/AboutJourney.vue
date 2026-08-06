@@ -22,7 +22,7 @@
 				</li>
 			</ul>
 
-			<RouterLink class="button button-primary" to="/about">{{ t('home.about.cta') }}</RouterLink>
+			<RouterLink class="button button-primary" to="/despre-mine">{{ t('home.about.cta') }}</RouterLink>
 		</div>
 	</SplitSection>
 </template>

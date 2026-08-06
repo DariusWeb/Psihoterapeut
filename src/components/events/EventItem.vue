@@ -8,6 +8,7 @@
 
     const props = defineProps({
         id: Number,
+        slug: String,
         title: String,
         details: String,
         image: String,
@@ -61,7 +62,7 @@
             </span>
         </p>
 
-        <RouterLink class="button button-primary atelier-cta" :to="`/events/${id}`">
+        <RouterLink class="button button-primary atelier-cta" :to="`/ateliere/${slug}`">
             {{ t('events.upcoming.details') }}
         </RouterLink>
     </article>

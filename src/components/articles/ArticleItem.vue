@@ -8,18 +8,20 @@
         title: String,
         subtitle: String,
         image: String,
-        id: Number
+        imageAlt: String,
+        id: Number,
+        slug: String
     })
 </script>
 
 <template>
     <article class="article-item">
         <div v-if="image" class="article-image">
-            <img :src="image" :alt="title">
+            <img :src="image" :alt="imageAlt ?? title" width="600" height="400" decoding="async" loading="lazy">
         </div>
 
         <div class="article-content">
-            <h3>{{ title }}</h3>
+            <h2 class="article-title">{{ title }}</h2>
             <p v-if="subtitle">{{ subtitle }}</p>
 
             <!-- Slot for flexible content -->
@@ -27,7 +29,7 @@
                 <slot></slot>
             </div>
 
-            <RouterLink :to="`/articles/${id}`" class="article-link">
+            <RouterLink :to="`/articole/${slug}`" class="article-link">
                 {{ t('button.readMore') }}
             </RouterLink>
         </div>
@@ -55,6 +57,12 @@
 
     .article-content {
         padding: 1.5rem;
+    }
+
+    // h2 for the page outline, h3 type scale because it is a card title
+    .article-title {
+        font-size: var(--step-h3);
+        font-weight: 600;
     }
 
     .article-link {

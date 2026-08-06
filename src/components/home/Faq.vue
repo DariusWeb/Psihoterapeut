@@ -1,8 +1,25 @@
 <script setup>
+	import { watchEffect, onUnmounted } from 'vue'
 	import { useI18n } from 'vue-i18n'
 	import { Leaf, Plus } from '@lucide/vue'
+	import { applyJsonLd } from '@/utils/seo'
 
 	const { t, tm, rt } = useI18n()
+
+	// The same Q&A the page renders, handed to search and AI engines as answerable pairs.
+	watchEffect(() => {
+		applyJsonLd('faq', {
+			'@context': 'https://schema.org',
+			'@type': 'FAQPage',
+			mainEntity: tm('home.faq.items').map((item) => ({
+				'@type': 'Question',
+				name: rt(item.question),
+				acceptedAnswer: { '@type': 'Answer', text: rt(item.answer) }
+			}))
+		})
+	})
+
+	onUnmounted(() => applyJsonLd('faq', null))
 </script>
 
 <template>

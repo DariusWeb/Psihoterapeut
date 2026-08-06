@@ -3,6 +3,7 @@
         name: 'Event3',
         meta: {
             id: 3,
+            slug: 'identitatea-mea-dincolo-de-roluri-si-asteptari',
             title: 'Identitatea mea dincolo de roluri și așteptări',
             details: 'Un atelier despre cine ești tu, dincolo de „mamă", „profesionistă", „puternică pentru ceilalți".',
             image: null,

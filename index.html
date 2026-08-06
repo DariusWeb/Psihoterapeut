@@ -1,11 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 
 <head>
 	<meta charset="UTF-8">
 	<link rel="icon" href="/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Andreea Georgiana Butacu</title>
+	<meta name="theme-color" content="#faf6f3" media="(prefers-color-scheme: light)">
+	<meta name="theme-color" content="#1c2118" media="(prefers-color-scheme: dark)">
+
+	<!-- Obfuscation is on and the app ships as an empty shell, so crawlers that do not run JS see only
+	     what is below. The router rewrites all of it per route for the ones that do. -->
+	<title>Psihoterapeut București și online | Andreea Butacu</title>
+	<meta name="description"
+		content="Psihoterapie pentru femei care trec prin infertilitate, maternitate sau epuizare profesională. Ședințe în cabinet, în București, sau online.">
+	<link rel="canonical" href="__SITE_URL__/">
+
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Andreea Georgiana Butacu">
+	<meta property="og:locale" content="ro_RO">
+	<meta property="og:title" content="Psihoterapeut București și online | Andreea Butacu">
+	<meta property="og:description"
+		content="Psihoterapie pentru femei care trec prin infertilitate, maternitate sau epuizare profesională. Ședințe în cabinet, în București, sau online.">
+	<meta property="og:url" content="__SITE_URL__/">
+	<meta name="twitter:card" content="summary">
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "Person",
+				"@id": "__SITE_URL__/#person",
+				"name": "Andreea Georgiana Butacu",
+				"jobTitle": "Psihoterapeut",
+				"url": "__SITE_URL__/",
+				"knowsLanguage": ["ro", "en"],
+				"knowsAbout": [
+					"psihoterapie infertilitate",
+					"suport psihologic infertilitate",
+					"depresie postpartum",
+					"anxietate postpartum",
+					"burnout",
+					"epuizare profesională",
+					"reglare emoțională"
+				]
+			},
+			{
+				"@type": "Psychologist",
+				"@id": "__SITE_URL__/#practice",
+				"name": "Andreea Georgiana Butacu — cabinet de psihoterapie",
+				"url": "__SITE_URL__/",
+				"founder": { "@id": "__SITE_URL__/#person" },
+				"areaServed": [
+					{ "@type": "City", "name": "București" },
+					{ "@type": "Country", "name": "România" }
+				],
+				"availableLanguage": ["ro", "en"],
+				"knowsAbout": ["infertilitate", "maternitate", "carieră", "burnout"]
+			},
+			{
+				"@type": "WebSite",
+				"@id": "__SITE_URL__/#website",
+				"url": "__SITE_URL__/",
+				"name": "Andreea Georgiana Butacu",
+				"inLanguage": "ro",
+				"publisher": { "@id": "__SITE_URL__/#person" }
+			}
+		]
+	}
+	</script>
 
 	<!-- Both required by dark mode and by the CSS bundle, which is loaded asynchronously. The browser will show a white full-viewport until the CSS bundle loads, so we paint the canvas with a background color first. -->
 	<style>

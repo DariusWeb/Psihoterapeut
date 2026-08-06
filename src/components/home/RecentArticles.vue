@@ -18,7 +18,7 @@
             <h2>{{ t('home.resources.title') }}</h2>
             <Leaf class="section-flourish" :size="20" />
 
-            <RouterLink class="link-arrow" to="/articles">
+            <RouterLink class="link-arrow" to="/articole">
                 {{ t('resources.articles.viewAll') }}
                 <ArrowRight :size="16" />
             </RouterLink>
@@ -26,7 +26,7 @@
 
         <div class="card-grid home-resources-grid">
             <RouterLink v-for="article in articlesStore.homeArticles" :key="article.id" class="home-article"
-                :to="`/articles/${article.id}`">
+                :to="`/articole/${article.slug}`">
                 <img v-if="article.image" class="home-article-media media-fade" :src="article.image"
                     :alt="article.title" width="600" height="400" decoding="async" loading="lazy" />
                 <div v-else class="media-placeholder home-article-media media-fade" role="img"

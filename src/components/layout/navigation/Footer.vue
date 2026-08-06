@@ -45,10 +45,10 @@
                 <h3>{{ t('footer.info.title') }}</h3>
                 <ul>
                     <li>
-                        <RouterLink to="/terms">{{ t('footer.info.terms') }}</RouterLink>
+                        <RouterLink to="/termeni">{{ t('footer.info.terms') }}</RouterLink>
                     </li>
                     <li>
-                        <RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>
+                        <RouterLink to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>
                     </li>
                     <li>
                         <button class="footer-link" @click="reopenAnalyticsConsent">

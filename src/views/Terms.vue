@@ -39,7 +39,7 @@
 		<h2>{{ t('terms.contact.title') }}</h2>
 		<p>
 			{{ t('terms.contact.body') }}
-			<RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>.
+			<RouterLink to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>.
 		</p>
 	</div>
 </template>

@@ -1,26 +1,64 @@
 <script setup>
     import { useRoute } from 'vue-router'
-    import { computed } from 'vue'
+    import { computed, watchEffect, onUnmounted } from 'vue'
     import { useI18n } from 'vue-i18n'
     import { useEventsStore } from '@/stores/eventsStore'
+    import { applySeo, applyJsonLd } from '@/utils/seo'
+    import { SITE, absoluteUrl } from '@/seo.config'
     import NotFound from '@/views/NotFound.vue'
 
     const route = useRoute()
     const eventsStore = useEventsStore()
-    const { locale } = useI18n()
+    const { t, locale } = useI18n()
 
     const event = computed(() =>
-        eventsStore.getEventById(Number(route.params.id))
+        eventsStore.getEventBySlug(route.params.slug)
     )
 
     const formattedDate = computed(() =>
         event.value ? new Date(event.value.date).toLocaleDateString(locale.value) : ''
     )
+
+    watchEffect(() => {
+        if (!event.value) {
+            // Without this an unknown slug would serve the list page's title as a soft 404.
+            applySeo({ title: t('seo.notFound.title'), description: t('seo.notFound.description'), path: route.path })
+            applyJsonLd('event', null)
+            return
+        }
+
+        applySeo({
+            title: event.value.title,
+            description: event.value.details,
+            path: route.path,
+            image: event.value.image
+        })
+
+        applyJsonLd('event', {
+            '@context': 'https://schema.org',
+            '@type': 'Event',
+            name: event.value.title,
+            description: event.value.details,
+            startDate: event.value.date,
+            inLanguage: SITE.lang,
+            url: absoluteUrl(route.path),
+            eventAttendanceMode: event.value.online
+                ? 'https://schema.org/OnlineEventAttendanceMode'
+                : 'https://schema.org/OfflineEventAttendanceMode',
+            location: event.value.online
+                ? { '@type': 'VirtualLocation', url: absoluteUrl(route.path) }
+                : { '@type': 'Place', name: event.value.location },
+            organizer: { '@type': 'Person', name: SITE.name }
+        })
+    })
+
+    onUnmounted(() => applyJsonLd('event', null))
 </script>
 
 <template>
     <main v-if="event" class="event-detail">
-        <img v-if="event.image" :src="event.image" :alt="event.title">
+        <img v-if="event.image" :src="event.image" :alt="event.imageAlt ?? event.title" width="800" height="450"
+            decoding="async" loading="eager" fetchpriority="high">
         <h1>{{ event.title }}</h1>
 
         <p class="event-meta">

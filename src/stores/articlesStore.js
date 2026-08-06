@@ -14,9 +14,9 @@ export const useArticlesStore = defineStore('articles', () => {
 	const recentArticles = computed(() => byNewest.value.slice(0, 3))
 	const homeArticles = computed(() => byNewest.value.slice(0, 4))
 
-	function getArticleById(id) {
-		return items.value.find((article) => article.id === id)
+	function getArticleBySlug(slug) {
+		return items.value.find((article) => article.slug === slug)
 	}
 
-	return { allArticles, recentArticles, homeArticles, getArticleById }
+	return { allArticles, recentArticles, homeArticles, getArticleBySlug }
 })

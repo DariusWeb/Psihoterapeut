@@ -1,4 +1,76 @@
 {
+  "seo": {
+    "home": {
+      "title": "Psihoterapeut București și online",
+      "description": "Psihoterapie pentru femei care trec prin infertilitate, maternitate sau epuizare profesională. Ședințe în cabinet, în București, sau online.",
+      "breadcrumb": "Acasă"
+    },
+    "about": {
+      "title": "Despre mine",
+      "description": "Sunt Andreea Butacu, psihoterapeut integrativ. Lucrez cu femei care trec prin perioade de vulnerabilitate, tranziție sau blocaj profesional.",
+      "breadcrumb": "Despre mine"
+    },
+    "services": {
+      "title": "Servicii de psihoterapie",
+      "description": "Arii în care te pot însoți: infertilitate, maternitate timpurie și epuizare profesională. Psihoterapie pentru femei, în București și online.",
+      "breadcrumb": "Pentru tine"
+    },
+    "infertility": {
+      "title": "Psihoterapie pentru infertilitate",
+      "description": "Infertilitatea aduce o formă de doliu care nu se vede. Suport psihologic pentru infertilitate, tratamente FIV și pierdere de sarcină, în București sau online.",
+      "breadcrumb": "Infertilitate"
+    },
+    "motherhood": {
+      "title": "Psiholog postpartum și maternitate",
+      "description": "Îți iubești copilul și, în același timp, te întrebi unde ai rămas tu. Psihoterapie pentru depresie postpartum, anxietate și epuizare maternă.",
+      "breadcrumb": "Maternitate"
+    },
+    "career": {
+      "title": "Psihoterapie pentru burnout și carieră",
+      "description": "Încă îți faci treaba, dar nu te mai regăsești în ea. Psihoterapie pentru burnout, epuizare profesională și schimbare de carieră, în București sau online.",
+      "breadcrumb": "Carieră"
+    },
+    "articles": {
+      "title": "Articole despre sănătate mintală",
+      "description": "Articole despre infertilitate, maternitate, carieră, emoții și relația cu sine, scrise de psihoterapeut Andreea Butacu. Citește-le în ritmul tău.",
+      "breadcrumb": "Articole"
+    },
+    "events": {
+      "title": "Ateliere și grupuri de suport",
+      "description": "Ateliere și grupuri de suport pentru femei, online și în București. Spații de lucru pe infertilitate, maternitate și relația cu sine.",
+      "breadcrumb": "Ateliere"
+    },
+    "resources": {
+      "title": "Resurse și ghiduri gratuite",
+      "description": "Ghiduri, exerciții și resurse gratuite despre reglare emoțională, autocompasiune și relația cu sine, pentru momentele în care ai nevoie de sprijin.",
+      "breadcrumb": "Resurse"
+    },
+    "news": {
+      "title": "Noutăți din sănătatea mintală",
+      "description": "Studii, articole și noutăți din psihologie și sănătate mintală din România, selectate și comentate de psihoterapeut Andreea Butacu.",
+      "breadcrumb": "Noutăți"
+    },
+    "contact": {
+      "title": "Contact și programări",
+      "description": "Programează o ședință de psihoterapie în București sau online. Primul pas nu trebuie să fie perfect — poate începe cu un simplu mesaj.",
+      "breadcrumb": "Contact"
+    },
+    "privacy": {
+      "title": "Politica de confidențialitate",
+      "description": "Cum sunt colectate, folosite și protejate datele tale pe acest site.",
+      "breadcrumb": "Confidențialitate"
+    },
+    "terms": {
+      "title": "Termeni și condiții",
+      "description": "Termenii de utilizare a acestui site și condițiile serviciilor de psihoterapie.",
+      "breadcrumb": "Termeni"
+    },
+    "notFound": {
+      "title": "Pagina nu a fost găsită",
+      "description": "Pagina căutată nu există sau a fost mutată.",
+      "breadcrumb": "Pagina nu a fost găsită"
+    }
+  },
   "navigation": {
     "skipToContent": "Skip to content",
     "menu": {
@@ -429,7 +501,11 @@
     "categories": {
       "infertility": "Infertilitate",
       "motherhood": "Maternitate",
-      "career": "Carieră & identitate"
+      "career": "Carieră & identitate",
+      "emotions": "Emoții",
+      "self": "Relația cu sine",
+      "trauma": "Traume",
+      "burnout": "Burnout"
     }
   },
   "newsletter": {

@@ -6,13 +6,13 @@
     import { useServicesStore } from '@/stores/servicesStore'
     import SplitSection from '@/components/common/SplitSection.vue'
     import CtaBand from '@/components/common/CtaBand.vue'
-    import NotFound from '@/views/NotFound.vue'
 
     const route = useRoute()
     const servicesStore = useServicesStore()
     const { t, tm, rt } = useI18n()
 
-    const service = computed(() => servicesStore.getServiceBySlug(route.params.slug))
+    // One route per service, generated from the same array the store reads, so this always resolves.
+    const service = computed(() => servicesStore.getServiceBySlug(route.meta.slug))
 
     const base = computed(() => `services.${service.value.key}`)
 
@@ -27,7 +27,7 @@
 </script>
 
 <template>
-    <main v-if="service" class="service-page layout-stack">
+    <main class="service-page layout-stack">
         <SplitSection flush priority :image="service.image" :alt="t(`${base}.imageAlt`)">
             <p class="credentials">
                 <Leaf class="credentials-icon" :size="28" />
@@ -81,8 +81,6 @@
 
         <CtaBand :icon="Leaf" :title="t(`${base}.cta.title`)" :text="t(`${base}.cta.text`)" />
     </main>
-
-    <NotFound v-else />
 </template>
 
 <style scoped lang="scss">

@@ -29,7 +29,7 @@
             <div class="section-head">
                 <h2>{{ t('resources.articles.title') }}</h2>
 
-                <RouterLink class="link-arrow" to="/articles">
+                <RouterLink class="link-arrow" to="/articole">
                     {{ t('resources.articles.viewAll') }}
                     <ArrowRight :size="16" />
                 </RouterLink>
@@ -53,7 +53,7 @@
                             {{ t('resources.articles.readTime', { minutes: article.readTime }) }}
                         </span>
 
-                        <RouterLink class="link-arrow" :to="`/articles/${article.id}`">
+                        <RouterLink class="link-arrow" :to="`/articole/${article.slug}`">
                             {{ t('resources.articles.read') }}
                             <ArrowRight :size="16" />
                         </RouterLink>

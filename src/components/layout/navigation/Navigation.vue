@@ -16,16 +16,16 @@
 
 	const navItems = [
 		{ key: 'home', to: '/' },
-		{ key: 'about', to: '/about' },
+		{ key: 'about', to: '/despre-mine' },
 		{
 			key: 'services',
-			to: '/services',
-			children: services.map(s => ({ to: `/services/${s.slug}`, labelKey: `services.${s.key}.title` })),
+			to: '/servicii',
+			children: services.map(s => ({ to: `/${s.slug}`, labelKey: `services.${s.key}.title` })),
 		},
-		{ key: 'resources', to: '/resources' },
-		{ key: 'events', to: '/events' },
-		{ key: 'articles', to: '/articles' },
-		{ key: 'news', to: '/news' },
+		{ key: 'resources', to: '/resurse' },
+		{ key: 'events', to: '/ateliere' },
+		{ key: 'articles', to: '/articole' },
+		{ key: 'news', to: '/noutati' },
 		{ key: 'contact', to: '/contact' },
 	]
 

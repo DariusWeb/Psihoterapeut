@@ -3,6 +3,7 @@
         name: 'Event',
         meta: {
             id: 1,
+            slug: 'relatia-cu-mine-cand-incerc-sa-devin-mama',
             title: 'Relația cu mine atunci când încerc să devin mamă',
             details: 'Un atelier despre compasiune de sine, vinovăție și puterea de a te ține pe tine, nu doar speranța.',
             image: null,

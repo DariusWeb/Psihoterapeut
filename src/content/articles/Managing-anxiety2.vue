@@ -3,6 +3,7 @@
         name: 'ManagingAnxiety2',
         meta: {
             id: 2,
+            slug: 'managing-anxiety-2',
             title: 'Managing Anxiety2',
             subtitle: 'Understanding and coping with anxiety',
             image: null,

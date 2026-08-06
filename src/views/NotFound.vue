@@ -1,5 +1,4 @@
 <script setup>
-	import { onMounted, onUnmounted } from 'vue'
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
 	import { ArrowRight, Leaf } from '@lucide/vue'
@@ -8,22 +7,11 @@
 
 	// Kept in the same order as navItems in Navigation.vue
 	const SUGGESTED_PAGES = [
-		{ key: 'about', path: '/about' },
-		{ key: 'services', path: '/services' },
-		{ key: 'articles', path: '/articles' },
+		{ key: 'about', path: '/despre-mine' },
+		{ key: 'services', path: '/servicii' },
+		{ key: 'articles', path: '/articole' },
 		{ key: 'contact', path: '/contact' },
 	]
-
-	// Read before the first overwrite; no other component touches document.title
-	const SITE_TITLE = document.title
-
-	onMounted(() => {
-		document.title = `${t('notFound.title')} · ${SITE_TITLE}`
-	})
-
-	onUnmounted(() => {
-		document.title = SITE_TITLE
-	})
 </script>
 
 <template>

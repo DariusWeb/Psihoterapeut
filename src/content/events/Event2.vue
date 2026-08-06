@@ -3,6 +3,7 @@
         name: 'Event2',
         meta: {
             id: 2,
+            slug: 'cum-gestionez-incertitudinea-in-infertilitate',
             title: 'Cum gestionez incertitudinea în infertilitate',
             details: 'Instrumente practice pentru a face față fricii, așteptării și zilelor grele.',
             image: null,

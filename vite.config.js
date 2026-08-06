@@ -1,9 +1,10 @@
-import { copyFileSync } from 'node:fs'
+import { copyFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { SITE, SITEMAP_PATHS } from './src/seo.config.js'
 
 // GitHub Pages has no SPA rewrite; it serves 404.html for unknown paths, keeping the URL so the router can boot.
 function emitSpa404Fallback() {
@@ -17,6 +18,41 @@ function emitSpa404Fallback() {
     },
     closeBundle() {
       copyFileSync(resolve(outDir, 'index.html'), resolve(outDir, '404.html'))
+    }
+  }
+}
+
+// Everything that needs the origin reads it from seo.config.js, so switching domains is one constant.
+function emitSeoFiles() {
+  let outDir
+  let isBuild
+
+  return {
+    name: 'emit-seo-files',
+    configResolved(config) {
+      outDir = resolve(config.root, config.build.outDir)
+      isBuild = config.command === 'build'
+    },
+    transformIndexHtml(html) {
+      const robots = SITE.indexable ? '' : '\n\t<meta name="robots" content="noindex, nofollow">'
+      return html.replaceAll('__SITE_URL__', SITE.url).replace('</title>', '</title>' + robots)
+    },
+    closeBundle() {
+      if (!isBuild) return
+
+      const allow = SITE.indexable ? 'Allow: /' : 'Disallow: /'
+      writeFileSync(
+        resolve(outDir, 'robots.txt'),
+        `User-agent: *\n${allow}\n\nSitemap: ${SITE.url}/sitemap.xml\n`
+      )
+
+      const urls = SITEMAP_PATHS.map(
+        (path) => `\t<url><loc>${SITE.url}${path === '/' ? '/' : path}</loc></url>`
+      ).join('\n')
+      writeFileSync(
+        resolve(outDir, 'sitemap.xml'),
+        `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
+      )
     }
   }
 }
@@ -64,6 +100,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     vue(),
     vueDevTools(),
+    emitSeoFiles(),
     emitSpa404Fallback(),
     loadEnv(mode, process.cwd(), '').VITE_OBFUSCATE === 'true' && obfuscateContentStrings(),
   ],
@@ -86,5 +123,5 @@ export default defineConfig(({ mode }) => ({
   //     }
   //   }
   // }
-  base: '/Psihoterapeut/', // IMPORTANT for GitHub Pages
+  base: SITE.base, // IMPORTANT for GitHub Pages
 }))

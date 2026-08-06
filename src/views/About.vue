@@ -26,10 +26,10 @@
 
 		<div class="about-cards card-grid">
 			<section class="about-card">
-				<h3 class="about-card-title">
+				<h2 class="about-card-title">
 					<UserRound class="about-card-icon" :size="24" />
 					{{ t('about.story.title') }}
-				</h3>
+				</h2>
 				<p class="about-card-text">{{ t('about.story.p1') }}</p>
 				<p class="about-card-text">{{ t('about.story.p2') }}</p>
 				<p class="about-card-text">{{ t('about.story.p3') }}</p>
@@ -37,10 +37,10 @@
 			</section>
 
 			<section class="about-card">
-				<h3 class="about-card-title">
+				<h2 class="about-card-title">
 					<BookOpen class="about-card-icon" :size="24" />
 					{{ t('about.journey.title') }}
-				</h3>
+				</h2>
 				<p class="about-card-text">{{ t('about.journey.p1') }}</p>
 				<p class="about-card-text">{{ t('about.journey.p2') }}</p>
 				<p class="about-card-text">{{ t('about.journey.p3') }}</p>
@@ -49,10 +49,10 @@
 			</section>
 
 			<section class="about-card">
-				<h3 class="about-card-title">
+				<h2 class="about-card-title">
 					<Heart class="about-card-icon" :size="24" />
 					{{ t('about.therapy.title') }}
-				</h3>
+				</h2>
 				<p class="about-card-text">{{ t('about.therapy.p1') }}</p>
 				<p class="about-card-text">{{ t('about.therapy.p2') }}</p>
 
@@ -67,10 +67,10 @@
 			</section>
 
 			<section class="about-card">
-				<h3 class="about-card-title">
+				<h2 class="about-card-title">
 					<Sprout class="about-card-icon" :size="24" />
 					{{ t('about.work.title') }}
-				</h3>
+				</h2>
 				<p class="about-card-text">{{ t('about.work.p1') }}</p>
 				<p class="about-card-text">{{ t('about.work.p2') }}</p>
 				<p class="about-card-text">{{ t('about.work.p3') }}</p>
@@ -159,6 +159,9 @@
 		align-items: self-start;
 		gap: 0.75rem;
 		margin: 0;
+		// card titles are h2 for the outline but keep the h3 type scale they were designed at
+		font-size: var(--step-h3);
+		font-weight: 600;
 	}
 
 	.about-card-icon {

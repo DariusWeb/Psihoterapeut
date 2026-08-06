@@ -119,7 +119,7 @@
 					<input id="contact-consent" v-model="consent" type="checkbox" required />
 					<label for="contact-consent">
 						{{ t('contact.form.consent') }}
-						<RouterLink to="/privacy">{{ t('contact.form.consentLink') }}</RouterLink>.
+						<RouterLink to="/confidentialitate">{{ t('contact.form.consentLink') }}</RouterLink>.
 					</label>
 				</div>
 

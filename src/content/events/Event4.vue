@@ -3,6 +3,7 @@
         name: 'Event4',
         meta: {
             id: 4,
+            slug: 'cand-corpul-spune-nu-epuizare-si-limite-sanatoase',
             title: 'Când corpul spune nu: epuizare și limite sănătoase',
             details: 'Un atelier despre semnele epuizării și despre cum îți poți așeza limite fără vinovăție.',
             image: null,
