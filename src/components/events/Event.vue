@@ -1,12 +1,13 @@
 <script setup>
-    import { useRoute, RouterLink } from 'vue-router'
+    import { useRoute } from 'vue-router'
     import { computed } from 'vue'
     import { useI18n } from 'vue-i18n'
     import { useEventsStore } from '@/stores/eventsStore'
+    import NotFound from '@/views/NotFound.vue'
 
     const route = useRoute()
     const eventsStore = useEventsStore()
-    const { t, locale } = useI18n()
+    const { locale } = useI18n()
 
     const event = computed(() =>
         eventsStore.getEventById(Number(route.params.id))
@@ -30,10 +31,7 @@
         <component :is="event.component" />
     </main>
 
-    <main v-else class="event-detail">
-        <h1>{{ t('events.notFound.message') }}</h1>
-        <RouterLink to="/events">{{ t('events.notFound.back') }}</RouterLink>
-    </main>
+    <NotFound v-else />
 </template>
 
 <style scoped lang="scss">

@@ -2,6 +2,7 @@
     import { useRoute } from 'vue-router'
     import { computed } from 'vue'
     import { useArticlesStore } from '@/stores/articlesStore'
+    import NotFound from '@/views/NotFound.vue'
 
     const route = useRoute()
     const articlesStore = useArticlesStore()
@@ -20,4 +21,6 @@
         <!-- Render the article component -->
         <component :is="article.component" />
     </main>
+
+    <NotFound v-else />
 </template>

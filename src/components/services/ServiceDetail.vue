@@ -1,11 +1,12 @@
 <script setup>
     import { computed } from 'vue'
-    import { useRoute, RouterLink } from 'vue-router'
+    import { useRoute } from 'vue-router'
     import { useI18n } from 'vue-i18n'
     import { CircleSmall, Leaf } from '@lucide/vue'
     import { useServicesStore } from '@/stores/servicesStore'
     import SplitSection from '@/components/common/SplitSection.vue'
     import CtaBand from '@/components/common/CtaBand.vue'
+    import NotFound from '@/views/NotFound.vue'
 
     const route = useRoute()
     const servicesStore = useServicesStore()
@@ -81,10 +82,7 @@
         <CtaBand :icon="Leaf" :title="t(`${base}.cta.title`)" :text="t(`${base}.cta.text`)" />
     </main>
 
-    <main v-else class="service-page">
-        <h1>{{ t('services.index.notFound') }}</h1>
-        <RouterLink to="/services">{{ t('services.index.back') }}</RouterLink>
-    </main>
+    <NotFound v-else />
 </template>
 
 <style scoped lang="scss">

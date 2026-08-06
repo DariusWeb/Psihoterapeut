@@ -31,7 +31,8 @@
     "info": {
       "title": "Information",
       "terms": "Terms of Service",
-      "privacy": "Privacy Policy"
+      "privacy": "Privacy Policy",
+      "analytics": "Analytics"
     }
   },
   "home": {
@@ -123,9 +124,7 @@
     "index": {
       "title": "Arii în care te pot însoți",
       "intro": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
-      "cta": "Află mai mult",
-      "notFound": "Nu am găsit această pagină.",
-      "back": "Vezi toate ariile"
+      "cta": "Află mai mult"
     },
     "credentials": [
       "Psihoterapeut integrativ & cognitiv-comportamental",
@@ -422,10 +421,6 @@
     "cta": {
       "title": "Ai nevoie de sprijin personalizat?",
       "text": "Programează o ședință și hai să lucrăm împreună."
-    },
-    "notFound": {
-      "message": "This event could not be found.",
-      "back": "Back to events"
     }
   },
   "articles": {
@@ -445,6 +440,12 @@
     "success": "Almost there — check your inbox and click the confirmation link to complete your subscription.",
     "error": "Something went wrong and you were not subscribed. Please try again in a moment.",
     "aside": "Primești articole, ateliere și resurse utile, direct pe email."
+  },
+  "consent": {
+    "title": "Analytics",
+    "body": "May I measure how this site is used — pages opened, where you arrived from, and roughly where in the world you are — so it can be made more useful? Nothing is recorded of what you read or type, and nothing loads at all unless you accept. You can change this later at the bottom of any page. Details in the",
+    "accept": "Accept",
+    "decline": "Decline"
   },
   "contact": {
     "hero": {
@@ -613,7 +614,7 @@
     },
     "collect": {
       "title": "2. What is collected",
-      "intro": "Three things, and nothing else.",
+      "intro": "Four things, and nothing else.",
       "form": {
         "title": "When you send a message through the contact form",
         "body": "Your first name, email address, phone number (optional) and the text of your message. Used only to reply to you and to arrange a first session."
@@ -623,12 +624,20 @@
         "body": "Your email address, used only to send the newsletter. Subscribing is confirmed by a link sent to that address, and a record of that confirmation — the address, the date, the wording you agreed to, and the page you subscribed from — is kept as proof of your consent. Every message carries an unsubscribe link.",
         "tracking": "Newsletter emails measure whether a message was opened and which links were clicked, so the content can be made more useful. This is stated on the subscription form and is covered by the consent you give there. It is not used to build a profile of you, and it stops the moment you unsubscribe."
       },
+      "analytics": {
+        "title": "If you accept analytics",
+        "body": "Nothing here happens unless you press Accept on the banner. If you do, PostHog measures how the site is used: which pages are opened and in what order, how long a visit lasts, where you arrived from, which links and buttons are clicked, roughly how fast pages loaded, and the country and city your connection resolves to. It also records the device, browser and screen size, the site language you are reading in, and whether you have the light or dark theme on.",
+        "processor": "PostHog processes this in the European Union on my behalf, under a data processing agreement. Your IP address is used to work out the country and is not stored with the rest. To keep it that way, session recording is switched off in the code, so no replay of your screen, your scrolling or your typing is ever made.",
+        "identity": "You are not asked for a name or an email, and none is sent. PostHog assigns a random identifier so that two page views in the same visit can be counted as one visit rather than two, and stores it in your browser. It is not linked to the contact form or to the newsletter.",
+        "withdraw": "You can change your mind at any time through the \"Analytics\" link at the bottom of every page. Declining stops the measurement and clears that identifier, and the analytics code is not even downloaded unless you accept."
+      },
       "storage": {
         "title": "Preferences saved in your browser",
-        "body": "Two values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
+        "body": "Three values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
         "theme": "theme-preference — remembers whether you chose the light or dark theme.",
         "language": "language-preference — remembers whether you chose Romanian or English.",
-        "life": "Both remain until you clear your browser storage. Neither identifies you, and neither is used for statistics, advertising or tracking."
+        "consent": "analytics-consent — remembers whether you accepted or declined analytics, so you are not asked again.",
+        "life": "All three remain until you clear your browser storage. None of them identifies you, and none is used for statistics, advertising or tracking. If you accept analytics, PostHog stores its own separate values, described above."
       }
     },
     "health": {
@@ -719,7 +728,8 @@
   "notFound": {
     "title": "404 - Page Not Found",
     "message": "Sorry, the page you are looking for does not exist.",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "linksTitle": "Or try one of these"
   },
   "cta": {
     "button": "Programează o primă ședință",
