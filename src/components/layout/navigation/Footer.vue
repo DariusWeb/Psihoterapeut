@@ -1,6 +1,7 @@
 <script setup>
     import { useI18n } from 'vue-i18n'
     import { RouterLink } from 'vue-router'
+    import { reopenAnalyticsConsent } from '@/services/analytics'
 
     const { t } = useI18n()
 </script>
@@ -49,6 +50,11 @@
                     <li>
                         <RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>
                     </li>
+                    <li>
+                        <button class="footer-link" @click="reopenAnalyticsConsent">
+                            {{ t('footer.info.analytics') }}
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -82,6 +88,20 @@
 
         p {
             color: rgb(from var(--vt-c-black) r g b / 65%);
+        }
+    }
+
+    // strips the global button chrome so it reads as the link its siblings are
+    .footer-link {
+        padding: 0;
+        background: none;
+        font-size: inherit;
+        color: var(--vt-c-jannafer-green);
+
+        &:hover {
+            background: none;
+            color: var(--vt-c-jannafer-green);
+            text-decoration: underline;
         }
     }
 

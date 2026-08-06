@@ -24,11 +24,18 @@
 		<p>{{ t('privacy.collect.newsletter.body') }}</p>
 		<p>{{ t('privacy.collect.newsletter.tracking') }}</p>
 
+		<h3>{{ t('privacy.collect.analytics.title') }}</h3>
+		<p>{{ t('privacy.collect.analytics.body') }}</p>
+		<p>{{ t('privacy.collect.analytics.processor') }}</p>
+		<p>{{ t('privacy.collect.analytics.identity') }}</p>
+		<p>{{ t('privacy.collect.analytics.withdraw') }}</p>
+
 		<h3>{{ t('privacy.collect.storage.title') }}</h3>
 		<p>{{ t('privacy.collect.storage.body') }}</p>
 		<ul>
 			<li>{{ t('privacy.collect.storage.theme') }}</li>
 			<li>{{ t('privacy.collect.storage.language') }}</li>
+			<li>{{ t('privacy.collect.storage.consent') }}</li>
 		</ul>
 		<p>{{ t('privacy.collect.storage.life') }}</p>
 

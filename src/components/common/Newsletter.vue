@@ -4,6 +4,7 @@
     import { useI18n } from 'vue-i18n'
     import { Heart, Mail } from '@lucide/vue'
     import { subscribe } from '@/services/newsletterService'
+    import { captureEvent } from '@/services/analytics'
 
     const { t, locale } = useI18n()
     const email = ref('')
@@ -20,6 +21,9 @@
                 // the exact wording the visitor agreed to, stored as the consent proof
                 consentText: `${t('newsletter.consent')} ${t('footer.info.privacy')}.`
             })
+
+            // no address — an analytics copy would be personal data with no basis to hold it
+            captureEvent('newsletter_subscribed')
 
             email.value = ''
             consent.value = false

@@ -3,6 +3,7 @@
 	import { useI18n } from 'vue-i18n'
 	import Navigation from '@/components/layout/navigation/Navigation.vue'
 	import Footer from '@/components/layout/navigation/Footer.vue'
+	import ConsentBanner from '@/components/common/ConsentBanner.vue'
 	import { useThemeStore } from '@/stores/themeStore'
 
 	const themeStore = useThemeStore()
@@ -40,6 +41,8 @@
 	<footer>
 		<Footer />
 	</footer>
+
+	<ConsentBanner />
 </template>
 
 <style lang="scss" scoped>

@@ -13,6 +13,7 @@ import App from './App.vue'
 import router from './router'
 import i18n from './i18n'
 import { initUiState } from '@/utils/uiState'
+import { initAnalytics } from '@/services/analytics'
 
 const app = createApp(App)
 
@@ -22,3 +23,4 @@ app.use(i18n)
 
 app.mount('#app')
 initUiState()
+initAnalytics()

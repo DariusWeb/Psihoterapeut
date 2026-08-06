@@ -32,6 +32,7 @@ jobs:
         env:
           VITE_BREVO_FORM_URL: ${{ vars.VITE_BREVO_FORM_URL }}
           VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
+          VITE_POSTHOG_KEY: ${{ vars.VITE_POSTHOG_KEY }}
           VITE_PROTECT_CONTENT: ${{ vars.VITE_PROTECT_CONTENT || 'true' }}
           VITE_PROTECT_DEVTOOLS: ${{ vars.VITE_PROTECT_DEVTOOLS || 'true' }}
           VITE_OBFUSCATE: ${{ vars.VITE_OBFUSCATE || 'true' }}
