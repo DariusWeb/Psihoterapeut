@@ -31,7 +31,9 @@
 
 <style lang="scss" scoped>
 	.page-home {
-		--vt-c-section-gap: 4rem;
-		--page-padding: 0 1rem 0; // the hero media runs flush to the top, behind the fixed nav
+		--vt-c-section-gap: clamp(1.5rem, 0.5rem + 4vw, 4rem);
+		// the hero media runs flush to the top, behind the fixed nav
+		--page-pad-top: 0;
+		--page-pad-bottom: 0;
 	}
 </style>

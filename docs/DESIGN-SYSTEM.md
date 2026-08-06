@@ -6,7 +6,7 @@ Companion to [PROJECT-STATUS.md](./PROJECT-STATUS.md) (what state the project is
 
 Everything global lives in [`src/assets/base.scss`](../src/assets/base.scss). Everything else is scoped to its component.
 
-**Last updated:** 2026-08-05 · written after the `/services` build, then revised after the Home / Ateliere / Resurse consolidation pass that promoted the shared card, link and media-fade utilities.
+**Last updated:** 2026-08-06 · written after the `/services` build, revised after the Home / Ateliere / Resurse consolidation pass that promoted the shared card, link and media-fade utilities, then again after the responsive pass that made the scale fluid and the grids width-driven — see §6.
 
 ---
 
@@ -49,12 +49,25 @@ Defined in `:root` at the top of `base.scss`.
 
 ### Spacing, sizing, motion
 
-| Token | Value | Use for |
+**Every size token below is a `clamp()`, not a literal.** The value shown is the desktop maximum;
+each one scales down continuously with the viewport, which is why almost nothing needs a media
+query to shrink. See §6.
+
+| Token | Range (min → max) | Use for |
 |---|---|---|
-| `--vt-c-section-gap` | `2rem` | Vertical rhythm — consumed by `.layout-stack > * + *` |
-| `--vt-c-split-gap` | `2rem` | Horizontal gap inside `.split-section` |
-| `--vt-c-section-padding` | `4rem 0` | Padding on full-bleed bands |
-| `--vt-c-container-width` | `1200px` | Max content width |
+| `--vt-c-section-gap` | `1rem` → `2rem` | Vertical rhythm — consumed by `.layout-stack > * + *` |
+| `--vt-c-split-gap` | `1rem` → `2rem` | Horizontal gap inside `.split-section`; also the "wide gap" any grid opts into |
+| `--vt-c-section-padding` | `2rem` → `4rem` | Padding on full-bleed bands |
+| `--stack-gap-loose` | `1.25rem` → `2rem` | What `.stack-loose` sets `--stack-gap` to |
+| `--page-gutter` | `1rem` → `3rem` | The page's side gutter. `.main-content`, `.layout-container`, `.section-band` and the nav all read it, so they stay aligned. |
+| `--page-pad-top` / `-bottom` | `5rem` → `10rem` / `3rem` → `8rem` | The page frame — see below |
+| `--card-padding` | `1.1rem` → `2rem` | `.card` and `form` |
+| `--card-padding-compact` | `1rem` → `1.5rem` | `.card-compact`, and the offset `.card-media` cancels |
+| `--card-grid-gap` | `0.75rem` → `1.5rem` | Default `.card-grid` gap |
+| `--icon-chip-size` | `2.25rem` → `3rem` | `.icon-chip` |
+| `--vt-c-media-min-height` | `12rem` → `24rem` | `.media-placeholder`, `.split-image`, `.contact-photo` |
+| `--step-h1` … `--step-card-title` | | The type scale — `h1`/`h2`/`h3`/`.card-title` read these and nothing else |
+| `--vt-c-container-width` | `1200px` | Max content width (fixed) |
 | `--vt-c-border-radius` | `.5rem` | Buttons and inputs |
 | `--vt-c-radius-lg` | `1rem` | Cards and media |
 | `--vt-c-transition-speed` | `0.3s` | Every transition. Don't invent durations. |
@@ -97,7 +110,14 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 ### Page padding
 
-`.main-content` in `App.vue` is `padding: var(--page-padding, 10rem 1rem 8rem)`. A page whose hero runs flush to the top behind the fixed nav sets `--page-padding` in its own scoped root rule — `App.vue` never learns page names.
+`.main-content` in `App.vue` is `padding: var(--page-pad-top) var(--page-gutter) var(--page-pad-bottom)` — three tokens, not one shorthand. A page whose hero runs flush to the top behind the fixed nav zeroes **only the token it needs** in its own scoped root rule:
+
+```scss
+.page-home { --page-pad-top: 0; --page-pad-bottom: 0; }
+.events-page { --page-pad-top: 0; }
+```
+
+`App.vue` never learns page names, and the frame stays retunable from `:root` — a page that overrode the whole shorthand would opt itself out of every future change to it.
 
 ### Split — image beside text, alternating
 
@@ -126,12 +146,14 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 `.card-media` — media that runs to the edge of a `.card-compact`, cancelling its padding. Height via `--card-media-height` (default `10rem`).
 
+⚠️ **`.card-media` is coupled to `--card-padding-compact`.** It cancels the card's padding with `width: calc(100% + 2 * var(--card-padding-compact))` and a matching negative margin. That padding is now fluid, so both must read the token — hardcode either side and the media stops meeting the card edge at some widths but not others. `Areas.vue`'s `.home-area-card .media-card-body` carries the same coupling.
+
 ### Lists
 
 | Class | Purpose |
 |---|---|
 | `.dot-list` | Bulleted list, `0.75rem` gap, no native marker |
-| `.dot-list-columns` | Modifier — two columns. Applied at ≥ 8 items (see §6). |
+| `.dot-list-columns` | Modifier — two columns where the width allows. Applied at ≥ 8 items (see §7). |
 | `.dot-list-item` | Row: `flex`, `align-items: flex-start` |
 | `.dot-list-bullet` | The bullet — `<CircleSmall :size="16" />`, outline, green |
 
@@ -139,23 +161,24 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 ### Icon grid
 
-`.icon-grid` / `.icon-grid-item` / `.icon-grid-icon` — two-column grid where each item carries its **own semantic icon** at `:size="22"`. Use when the items are concepts worth distinguishing; use `.dot-list` when they're a plain enumeration.
+`.icon-grid` / `.icon-grid-item` / `.icon-grid-icon` — grid where each item carries its **own semantic icon** at `:size="22"`. Two columns at most widths, driven by a `10.5rem` track minimum so it holds two even inside a narrowed `.split-body`. Use when the items are concepts worth distinguishing; use `.dot-list` when they're a plain enumeration.
 
 ### Blocks
 
 | Class | Purpose |
 |---|---|
-| `.card` | `--vt-c-surface` background, `--vt-c-radius-lg`, `2rem` padding |
-| `.card-compact` | Modifier — `1.5rem` padding. Pairs with `.card-media`. |
+| `.card` | `--vt-c-surface` background, `--vt-c-radius-lg`, `--card-padding` |
+| `.card-compact` | Modifier — `--card-padding-compact`. Pairs with `.card-media`. |
 | `.card-outlined` | Modifier — 1px `--vt-c-jannafer-gray2` border |
 | `.card-link` | The card **is** the `<a>`: hover recolours it and nudges its `.link-arrow` |
-| `.card-title` | Serif card heading — Libre Baskerville 400 at `1.1rem` |
+| `.card-title` | Serif card heading — Libre Baskerville 400 at `--step-card-title` |
+| `.card-grid` | Width-driven card grid. Set `--card-min` (and `--card-grid-gap` for a wider gutter) — see §6. |
 | `.link-arrow` | Text link with a trailing arrow that nudges on hover. Reads the same as `<a>` or `<button>`. |
 | `.section-head` / `.section-head-center` | Section heading rows — see §5 for which to use |
 | `.section-intro` | Lead paragraph under a section head, capped at `60ch` |
 | `.cta-band` | Closing call-to-action. Ships as the `CtaBand` component — see §4. |
 | `.credentials` | The practitioner's qualifications stack, above a page's leading heading. Sub-part `-icon`. |
-| `.icon-chip` | 3rem circular icon badge on `--vt-c-surface-strong` |
+| `.icon-chip` | Circular icon badge on `--vt-c-surface-strong`, sized by `--icon-chip-size` |
 
 **Compose the card, don't rebuild it.** A bordered, tightly-padded card is `class="card card-compact card-outlined"` — never a local rule that re-declares background, radius and padding.
 
@@ -197,11 +220,11 @@ Techniques that are decided. Copy these rather than inventing an alternative.
 Cancel the card's padding on the media instead of zeroing the card and re-padding the body:
 
 ```scss
-.services-card-media {
-    height: 12rem;                    // fixed, so width/height attrs don't letterbox the card
-    width: calc(100% + 3rem);         // spans the card's 1.5rem padding on both sides
-    margin: -1.5rem -1.5rem 0;
-    border-radius: 1rem 1rem 0 0;     // only the outer corners
+.card-media {
+    height: var(--card-media-height, 10rem);              // fixed, so width/height attrs don't letterbox
+    width: calc(100% + 2 * var(--card-padding-compact));  // spans the card's padding on both sides
+    margin: calc(-1 * var(--card-padding-compact)) calc(-1 * var(--card-padding-compact)) 0;
+    border-radius: var(--vt-c-radius-lg) var(--vt-c-radius-lg) 0 0;   // only the outer corners
     object-fit: cover;
 }
 ```
@@ -217,7 +240,7 @@ Photos dissolve into adjacent content rather than ending on a hard line. **Never
 <div class="page-hero-media media-fade bleed-right" …>        <!-- fades into the copy column beside it -->
 ```
 
-Direction defaults to `to top` (a card header dissolving downward) and is retuned with `--media-fade-to`; `--media-fade-stop` moves where the image reaches full opacity. `.bleed-left` / `.bleed-right` set the direction for you. Under 1024px they set `--media-fade-stop: 0%`, which makes the gradient fully opaque — stacked, there is no column left to blend into.
+Direction defaults to `to top` (a card header dissolving downward) and is retuned with `--media-fade-to`; `--media-fade-stop` moves where the image reaches full opacity. `.bleed-left` / `.bleed-right` set the direction for you. Under 768px, where they stack, they set `--media-fade-stop: 0%`, which makes the gradient fully opaque — there is no column left to blend into. `.media-card-media` flips to `to top` at 480px for the same reason.
 
 The `#000` inside the gradient is **not a colour**. A mask reads alpha only; `#000` means "opaque". Don't token-ise it.
 
@@ -252,7 +275,7 @@ margin-left: calc(50% - 50vw);      // margin-right to bleed the other way
 border-radius: 0 1rem 1rem 0;       // only the inner corners
 ```
 
-Under 1024px it reverts to a normal rounded block — stacked, there's no column left to bleed against.
+Under 768px it reverts to a normal rounded block — stacked, there's no column left to bleed against.
 
 ### Optical alignment beats box alignment
 
@@ -303,22 +326,103 @@ WebP, imported (never a raw `/public` path — the `/Psihoterapeut/` base path b
 
 ---
 
-## 6. Unresolved
+## 6. Responsive
+
+**The rule: a card grid never drops to one column above 480px. A two-column split stacks at 768px.**
+Between those, things get *smaller* — they do not get *fewer*.
+
+The failure this replaced: a grid went from three 370px cards to one 990px card the moment the
+viewport crossed 1024, a 2.7× jump, while `2rem` paddings and a `10rem` page padding stayed put
+all the way to 320px.
+
+### Two mechanisms, and they do different jobs
+
+**1. Fluid tokens handle every size.** Type, gaps, padding, icon and media heights are `clamp()`
+values in `:root` (§2). They scale continuously, so there is no width at which a size suddenly
+jumps — and no media query needed to shrink anything. **If you find yourself writing a media query
+to change a `font-size`, `padding` or `gap`, you want a token instead.**
+
+**2. Media queries handle shape only** — row becoming column, and the rare fixed column count.
+There are three widths and they mean specific things:
+
+| Width | What changes |
+|---|---|
+| `1024` | Splits narrow their media column (`.split-media { flex-basis: 38% }`). Nothing stacks. |
+| `768` | Splits stack: `.split-section`, `.page-hero`, `.cta-band`, `.about-hero`, `.newsletter-card`, `.contact-reach` / `-after` / `-closing`, plus `.form-row` and `.section-head` |
+| `480` | `.media-card` stacks its image above its copy; `.columns-container` and `.contact-steps-list` go column |
+
+Form rows and the newsletter field pair deliberately stack at **768, not 480** — two inputs side by
+side at 481px are ~210px each, which is below usable. The 480 rule is about content sections, not
+input rows.
+
+### Grid columns come from a width, not a count
+
+`.card-grid` is `repeat(auto-fit, minmax(min(var(--card-min, 16rem), 100%), 1fr))`. A grid declares
+how narrow its card may get and the track count follows:
+
+```scss
+.services-list { --card-min: 18rem; }   // 3 / 3 / 2 / 1 across 1440 / 1024 / 768 / 480
+```
+
+The track count then steps down one at a time, so the jump the old ladder produced cannot happen.
+`min(…, 100%)` is load-bearing: without it a track wider than the viewport overflows.
+
+**`auto-fit` collapses only tracks that are empty in *every* row** — a lone last item still occupies
+one track, it does not stretch across the row. But a grid with fewer items than tracks *does* share
+the full width between them, which is why `/articles` shows two very wide cards while the store
+holds only two articles. That self-corrects as content lands.
+
+### When to state the column count instead
+
+Four grids override `grid-template-columns` directly: `.home-reasons-grid` (6 items),
+`.home-work-grid` (4), `.about-cards` (4), `.resources-practical-grid` (4).
+
+**Use an explicit count when the item count is fixed and small.** A width-driven track count will
+eventually land on a number that doesn't divide the item count and strand the last card on its own
+row — 6 items in 5 tracks, 4 in 3. Open-ended collections (`/news`, `/services`, events, articles)
+have no such problem and should stay `--card-min`.
+
+The cost is a jump: 4-across to 2-across roughly doubles the track width, because with four items
+there is no valid 3. That trade is deliberate — a stranded card reads as a bug, a size change does
+not — but it is the reason to reach for `--card-min` first.
+
+`.home-work-grid`'s dividing rules live in the same `min-width: 900px` block that sets its 4
+columns, because a left rule only makes sense while all four share a row.
+
+### Checking a change
+
+Measure, don't eyeball — `html { overflow-x: clip }` hides horizontal overflow, so a broken
+full-bleed looks fine until someone opens it on a phone. At 1440 / 1024 / 768 / 480:
+
+- computed width of every grid item, and the **ratio between adjacent breakpoints** — anything past
+  ~1.6× is the old bug coming back
+- any element whose `getBoundingClientRect().right > window.innerWidth`
+- Chrome's window will not go below ~500px; use device emulation for a true 480
+
+### The nav has its own breakpoint
+
+`Navigation.vue` switches to the hamburger at **1150px**, not 1024 — that is the width where the
+logo, six links and the two toggles stop fitting the bar. Tying it to the page breakpoint left
+1025–1150px overflowing off-screen with no hamburger to fall back to.
+
+---
+
+## 7. Unresolved
 
 Real inconsistencies in the current code. **Do not copy these as though they were decisions** — they need a call.
 
-1. **`.split-flush` still declares `gap: 2rem`**, overriding `--vt-c-split-gap` and defeating the token for the hero specifically. Either drop the literal or make it a separate token.
+1. **`.dot-list-columns` triggers at ≥ 8 items.** Carieră's "Poate te regăsești aici" goes two-column while the same section on the other two pages stays single — a visible inconsistency driven by item count rather than intent. Either force one column per section type, or move the choice into the content data.
 
-2. **`.dot-list-columns` triggers at ≥ 8 items.** Carieră's "Poate te regăsești aici" goes two-column while the same section on the other two pages stays single — a visible inconsistency driven by item count rather than intent. Either force one column per section type, or move the choice into the content data.
+2. **Icon-grid semantics are half-derived.** 8 of the 25 icons are read off the Infertilitate mock; the other 17 (Maternitate, Carieră) were chosen — those mocks had no icon grid to copy. Worth a review pass.
 
-3. **Icon-grid semantics are half-derived.** 8 of the 25 icons are read off the Infertilitate mock; the other 17 (Maternitate, Carieră) were chosen — those mocks had no icon grid to copy. Worth a review pass.
+3. **`Reasons.vue` and `HowIWork.vue` map icons to i18n items by array index.** Add a seventh entry to `home.reasons.items` and it silently renders with no icon. The fix is a `content/home/index.js` following the list-config convention above, but that is its own change.
 
-4. **The global `h1` fights every page.** `text-align: center` + `margin-bottom: 4rem` means nearly every page-specific `h1` overrides both. The global default is probably wrong.
+4. **Breakpoints are still magic numbers, but far fewer and more varied.** 17 media-query blocks, down from 33 hardcoded values, and they now do one job (shape changes). Six of them are *not* on the 1024/768/480 grid — `1150` (nav), `1100` / `900` / `560` (fixed column counts), `640` (About's prose measure) — each set to the width where that specific layout actually breaks rather than to a shared number. That is deliberate, and it is also why the SCSS-variable treatment via the commented-out `additionalData` block in `vite.config.js` buys less than it used to. The four unscaled z-indexes are untouched. Left open.
 
-5. **`Reasons.vue` and `HowIWork.vue` map icons to i18n items by array index.** Add a seventh entry to `home.reasons.items` and it silently renders with no icon. The fix is a `content/home/index.js` following the list-config convention above, but that is its own change.
+5. **`Articles.vue` / `ArticleItem.vue` / `NewsItem.vue` / `events/Event.vue` predate the design system.** They now sit on the shared grid and page frame, but still render their own visual language — box shadows, `10px` radii, no `.card` composition. Needs a design call, not a refactor.
 
-6. **Breakpoints and z-index are magic numbers.** 33 hardcoded `1024px` / `768px` and four unscaled z-indexes. Custom properties don't work in media queries, so this needs SCSS variables via the commented-out `additionalData` block in `vite.config.js`.
+6. **`.home-faq-grid` runs 3-across above ~1200px**, where §3 describes the FAQ as a two-column block. Three columns fill the width better and 6 items divide evenly into both 3 and 2, so the ladder is clean — but it is a change from the documented intent, not a considered redesign.
 
-7. **`Articles.vue` / `ArticleItem.vue` / `events/Event.vue` predate the design system.** Three markups now render the same stores in a third visual language (box shadows, `8px` radii, no card composition). Needs a design call, not a refactor.
+**Resolved in the 2026-08-06 responsive pass** (was items 1, 4, 6-partial): `.split-flush`'s literal `gap: 2rem` is gone — `--vt-c-split-gap` is fluid, which is what that override was faking. The global `h1` is now a single `clamp()` with no per-breakpoint rules, so pages no longer fight three declarations.
 
-**Resolved in the 2026-08-05 pass** (was items 1, 4, 5, 7): card padding and the bypassed `.card` are now `.card-compact` / `.card-outlined`; the `1rem` radius is `--vt-c-radius-lg`; the dead starter-theme tokens and the dangling `var(--vt-c-indigo)` are gone.
+**Resolved in the 2026-08-05 pass**: card padding and the bypassed `.card` are now `.card-compact` / `.card-outlined`; the `1rem` radius is `--vt-c-radius-lg`; the dead starter-theme tokens and the dangling `var(--vt-c-indigo)` are gone.

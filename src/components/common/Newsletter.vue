@@ -3,15 +3,29 @@
     import { RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
     import { Heart, Mail } from '@lucide/vue'
+    import { subscribe } from '@/services/newsletterService'
 
-    const { t } = useI18n()
+    const { t, locale } = useI18n()
     const email = ref('')
     const consent = ref(false)
+    const status = ref('idle')
 
-    const handleSubmit = () => {
-        if (email.value && consent.value) {
+    const handleSubmit = async () => {
+        status.value = 'submitting'
+
+        try {
+            await subscribe({
+                email: email.value,
+                locale: locale.value,
+                // the exact wording the visitor agreed to, stored as the consent proof
+                consentText: `${t('newsletter.consent')} ${t('footer.info.privacy')}.`
+            })
+
             email.value = ''
             consent.value = false
+            status.value = 'success'
+        } catch {
+            status.value = 'error'
         }
     }
 </script>
@@ -28,7 +42,7 @@
                         <input v-model="email" type="email" :placeholder="t('newsletter.emailPlaceholder')"
                             :aria-label="t('newsletter.emailPlaceholder')" required>
 
-                        <button type="submit">
+                        <button type="submit" :disabled="status === 'submitting'">
                             {{ t('button.subscribe') }}
                         </button>
                     </div>
@@ -39,6 +53,14 @@
                             {{ t('newsletter.consent') }}
                             <RouterLink to="/privacy">{{ t('footer.info.privacy') }}</RouterLink>.
                         </label>
+                    </div>
+
+                    <div v-if="status === 'success'" class="success" role="status">
+                        {{ t('newsletter.success') }}
+                    </div>
+
+                    <div v-if="status === 'error'" class="error" role="alert">
+                        {{ t('newsletter.error') }}
                     </div>
                 </form>
             </div>
@@ -57,14 +79,14 @@
 
 <style lang="scss" scoped>
     .newsletter {
-        --section-band-padding-block: 5rem;
+        --section-band-padding-block: clamp(2rem, 0.75rem + 4vw, 5rem);
         --section-band-background: transparent; // the card inside already carries the tint
     }
 
     .newsletter-card {
         display: flex;
         align-items: center;
-        gap: 3rem;
+        gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
     }
 
     .newsletter-body {
@@ -107,13 +129,13 @@
     }
 
     .newsletter-aside {
-        flex: 0 0 15rem;
+        flex: 0 0 clamp(11rem, 6rem + 8vw, 15rem);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1rem;
-        padding: 2rem 1.5rem;
-        border-radius: 1rem;
+        padding: var(--card-padding-compact);
+        border-radius: var(--vt-c-radius-lg);
         background: var(--vt-c-background);
         text-align: center;
     }
@@ -137,23 +159,16 @@
         font-size: 0.9rem;
     }
 
-    @media (max-width: 1024px) {
-        .newsletter {
-            --section-band-padding-block: 3rem;
-        }
-
+    @media (max-width: 768px) {
         .newsletter-card {
             flex-direction: column-reverse; // aside above the form, per the stacked mock
             align-items: stretch;
-            gap: 2rem;
         }
 
         .newsletter-aside {
             flex: auto;
         }
-    }
 
-    @media (max-width: 768px) {
         .newsletter-fields {
             flex-direction: column;
         }

@@ -173,7 +173,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 4rem;
+		padding: 0 var(--page-gutter);
 		background: var(--nav-bg);
 		transition: all var(--vt-c-transition-speed);
 
@@ -442,12 +442,9 @@
 		transform: translateY(-0.75rem);
 	}
 
-	// Responsive: hide desktop links, show hamburger on mobile
-	@media (max-width: 1024px) {
-		.navigation {
-			padding: 0 1.5rem;
-		}
-
+	// Switches at the width where the full link row stops fitting, not at the page breakpoint —
+	// below ~1150px the links, logo and controls overrun the bar.
+	@media (max-width: 1150px) {
 		.nav-menu {
 			display: none;
 		}

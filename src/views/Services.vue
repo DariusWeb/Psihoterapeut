@@ -13,7 +13,7 @@
         <h1>{{ t('services.index.title') }}</h1>
         <p class="section-intro services-intro">{{ t('services.index.intro') }}</p>
 
-        <div class="services-list">
+        <div class="services-list card-grid">
             <RouterLink v-for="service in servicesStore.allServices" :key="service.id"
                 class="services-card card card-compact card-link" :to="`/services/${service.slug}`">
                 <img class="card-media media-fade" :src="service.image"
@@ -34,27 +34,29 @@
 
 <style lang="scss" scoped>
     .services-intro {
-        margin: -2rem auto 3rem;
+        // claws back part of the h1's bottom margin, easing to nothing once that margin is small
+        margin-top: calc(-1 * clamp(0rem, -1rem + 3vw, 2rem));
+        margin-inline: auto;
+        margin-bottom: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
         text-align: center;
         line-height: 1.7;
     }
 
     .services-list {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
+        --card-min: 18rem;
+        --card-grid-gap: var(--vt-c-split-gap);
     }
 
     .services-card {
-        --card-media-height: 12rem;
+        --card-media-height: clamp(8rem, 5rem + 6vw, 12rem);
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
     }
 
     .services-card-title {
         margin: 0;
-        font-size: 1.4rem;
+        font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.4rem);
         font-weight: 600;
     }
 
@@ -62,15 +64,5 @@
         flex: 1;
         margin: 0;
         line-height: 1.6;
-    }
-
-    @media (max-width: 1024px) {
-        .services-list {
-            grid-template-columns: 1fr;
-        }
-
-        .services-intro {
-            margin-top: 0;
-        }
     }
 </style>

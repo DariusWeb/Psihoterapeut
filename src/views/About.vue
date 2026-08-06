@@ -24,7 +24,7 @@
 				decoding="async" loading="eager" fetchpriority="high" />
 		</section>
 
-		<div class="about-cards">
+		<div class="about-cards card-grid">
 			<section class="about-card">
 				<h3 class="about-card-title">
 					<UserRound class="about-card-icon" :size="24" />
@@ -84,21 +84,21 @@
 	.about-page {
 		display: flex;
 		flex-direction: column;
-		gap: 3rem;
+		gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
 	}
 
 	.about-hero {
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
-		gap: 3rem;
+		gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
 	}
 
 	.about-hero-content {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
 	}
 
 	.about-hero-title {
@@ -131,19 +131,26 @@
 		border-radius: 1rem;
 	}
 
+	// Four fixed prose cards read as a 2x2 block; a width-driven track count strands the
+	// fourth at wide viewports, so the column count is stated here instead.
 	.about-cards {
-		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 1rem;
+	}
+
+	// Below this each column is under ~300px, which is too tight a measure for cards this text-heavy
+	@media (max-width: 640px) {
+		.about-cards {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.about-card {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-		padding: 2rem;
+		gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+		padding: var(--card-padding);
 		border: 1px solid var(--vt-c-jannafer-gray2);
-		border-radius: 1rem;
+		border-radius: var(--vt-c-radius-lg);
 	}
 
 	.about-card-title,
@@ -166,14 +173,14 @@
 
 	.about-card-sub {
 		margin-top: 0.5rem;
-		padding-top: 1.5rem;
+		padding-top: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
 		border-top: 2px dashed var(--vt-c-jannafer-gray2);
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
 	}
 
-	@media (max-width: 1024px) {
+	@media (max-width: 768px) {
 		.about-hero {
 			flex-direction: column;
 			align-items: stretch;
@@ -186,20 +193,6 @@
 			width: 100%;
 			aspect-ratio: 3 / 4; // stacked there is no copy column to match, so fall back to a portrait crop
 			max-height: 480px;
-		}
-
-		.about-cards {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.about-page {
-			gap: 2rem;
-		}
-
-		.about-card {
-			padding: 1.5rem;
 		}
 	}
 </style>

@@ -6,7 +6,7 @@
 </script>
 
 <template>
-	<div class="page-terms">
+	<div class="page-terms u-text">
 		<h1>{{ t('terms.title') }}</h1>
 		<p class="terms-updated">{{ t('terms.updated') }}</p>
 		<p>{{ t('terms.intro') }}</p>

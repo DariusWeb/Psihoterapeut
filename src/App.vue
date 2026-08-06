@@ -53,9 +53,9 @@
 		justify-content: space-between;
 	}
 
-	// pages whose hero runs flush to the top set --page-padding in their own scoped styles
+	// pages whose hero runs flush to the top zero --page-pad-top in their own scoped styles
 	.main-content {
-		padding: var(--page-padding, 10rem 1rem 8rem);
+		padding: var(--page-pad-top) var(--page-gutter) var(--page-pad-bottom);
 	}
 
 	@media (min-width: 1024px) {

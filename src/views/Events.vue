@@ -103,7 +103,7 @@
 
 <style scoped lang="scss">
     .events-page {
-        --page-padding: 0 1rem 8rem; // the hero media runs flush to the top, behind the fixed nav
+        --page-pad-top: 0; // the hero media runs flush to the top, behind the fixed nav
     }
 
     .group-card {

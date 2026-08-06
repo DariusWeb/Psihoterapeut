@@ -73,7 +73,7 @@
 				<h2 class="contact-reach-title">{{ t('contact.reach.title') }}</h2>
 				<p class="contact-reach-subtitle">{{ t('contact.reach.subtitle') }}</p>
 
-				<div v-for="method in methods" :key="method.key" class="contact-method">
+				<div v-for="method in methods" :key="method.key" class="contact-method u-text">
 					<span class="icon-chip">
 						<component :is="method.icon" :size="22" />
 					</span>
@@ -197,7 +197,9 @@
 
 <style scoped lang="scss">
 	.contact-page {
-		--page-padding: 0 1rem 0; // the hero photo runs flush to the top, behind the fixed nav
+		// the hero photo runs flush to the top, behind the fixed nav
+		--page-pad-top: 0;
+		--page-pad-bottom: 0;
 	}
 
 	// Shared
@@ -205,7 +207,7 @@
 		width: 100%;
 		height: 100%;
 		min-width: 0; // without this, min-width:auto floors the flex item at the image's intrinsic width and kills the edge bleed
-		min-height: 24rem;
+		min-height: var(--vt-c-media-min-height);
 		object-fit: cover;
 	}
 
@@ -249,7 +251,7 @@
 	.contact-reach {
 		display: flex;
 		align-items: flex-start;
-		gap: 2rem;
+		gap: var(--vt-c-split-gap);
 	}
 
 	.contact-reach-info {
@@ -392,7 +394,7 @@
 	.contact-closing {
 		display: flex;
 		align-items: center;
-		gap: 3rem;
+		gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
 	}
 
 	.contact-closing-content {
@@ -423,8 +425,8 @@
 	// Bottom strip
 	.contact-strip {
 		display: flex;
-		gap: 2rem;
-		padding: 2rem calc(50vw - 50%);
+		gap: var(--vt-c-split-gap);
+		padding: var(--card-padding) calc(50vw - 50%);
 		background: var(--vt-c-surface);
 		color: var(--vt-c-jannafer-green);
 	}
@@ -449,6 +451,16 @@
 	}
 
 	@media (max-width: 1024px) {
+		.contact-strip {
+			flex-wrap: wrap;
+		}
+
+		.contact-strip-item {
+			flex-basis: 40%;
+		}
+	}
+
+	@media (max-width: 768px) {
 
 		.contact-reach,
 		.contact-after,
@@ -460,7 +472,7 @@
 		.contact-steps {
 			flex: auto;
 			margin-inline: 0;
-			padding-left: 2rem;
+			padding-left: var(--card-padding);
 		}
 
 		.contact-note {
@@ -470,17 +482,9 @@
 			justify-content: center;
 			margin-top: 1rem;
 		}
-
-		.contact-strip {
-			flex-wrap: wrap;
-		}
-
-		.contact-strip-item {
-			flex-basis: 40%;
-		}
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 480px) {
 		.contact-steps-list {
 			flex-direction: column;
 		}

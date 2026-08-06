@@ -26,9 +26,23 @@
 </template>
 
 <style scoped lang="scss">
+	// Six fixed items, so only divisors of 6 avoid a stranded last row — a width-driven
+	// track count cannot guarantee that, hence explicit columns on this one grid.
 	.home-reasons-grid {
-		--card-columns: 6;
-		gap: 2rem;
+		--card-grid-gap: var(--vt-c-split-gap);
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (min-width: 560px) {
+		.home-reasons-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (min-width: 900px) {
+		.home-reasons-grid {
+			grid-template-columns: repeat(6, 1fr);
+		}
 	}
 
 	.home-reasons-closing {

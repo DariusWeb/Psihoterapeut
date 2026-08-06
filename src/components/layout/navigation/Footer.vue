@@ -7,9 +7,9 @@
 
 <template>
     <footer class="footer">
-        <div class="footer-content">
+        <div class="footer-content card-grid">
             <!-- Contact Column -->
-            <div class="footer-column">
+            <div class="footer-column u-text">
                 <h3>{{ t('footer.contact.title') }}</h3>
                 <ul>
                     <li>
@@ -58,16 +58,15 @@
 <style lang="scss" scoped>
     .footer {
         border-top: 1px solid rgb(from var(--vt-c-jannafer-green) r g b / 20%);
-        padding: 4rem 2rem;
+        padding: clamp(2rem, 1rem + 3vw, 4rem) var(--page-gutter);
         margin-top: auto;
     }
 
     .footer-content {
-        max-width: 1200px;
+        --card-min: 11rem;
+        --card-grid-gap: var(--vt-c-split-gap);
+        max-width: var(--vt-c-container-width);
         margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
     }
 
     .footer-column {
@@ -86,19 +85,4 @@
         }
     }
 
-    @media (max-width: 1024px) {
-        .footer-content {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .footer {
-            padding: 2.5rem 1rem;
-        }
-
-        .footer-content {
-            grid-template-columns: 1fr;
-        }
-    }
 </style>

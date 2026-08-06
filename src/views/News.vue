@@ -27,7 +27,7 @@
         <section class="news-content">
             <NewsFilter v-model="activeTopic" />
 
-            <div v-if="filteredNews.length" class="news-grid">
+            <div v-if="filteredNews.length" class="news-grid card-grid">
                 <NewsItem v-for="item in filteredNews" :key="item.id" v-bind="item" />
             </div>
 
@@ -37,16 +37,11 @@
 </template>
 
 <style lang="scss" scoped>
-    .page-news {
-        padding-top: 5rem;
-    }
-
     .news-header {
         text-align: center;
-        padding: 4rem 2rem 2rem;
+        margin-bottom: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
 
         h1 {
-            font-size: 2.4rem;
             margin-bottom: 0.75rem;
         }
     }
@@ -58,29 +53,14 @@
         margin: 0 auto;
     }
 
-    .news-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem 2rem 5rem;
-    }
-
     .news-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-
-        @media (max-width: 1024px) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        @media (max-width: 768px) {
-            grid-template-columns: 1fr;
-        }
+        --card-min: 17rem;
+        --card-grid-gap: var(--vt-c-split-gap);
     }
 
     .news-empty {
         text-align: center;
-        padding: 4rem 0;
+        padding: clamp(2rem, 1rem + 3vw, 4rem) 0;
         color: rgb(from var(--vt-c-black) r g b / 65%);
         font-size: 1rem;
     }

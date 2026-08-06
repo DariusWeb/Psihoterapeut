@@ -48,7 +48,7 @@
 
 <style scoped lang="scss">
     .home-resources-grid {
-        --card-columns: 4;
+        --card-min: 13rem;
     }
 
     .home-article {

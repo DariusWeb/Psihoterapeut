@@ -5,7 +5,7 @@
 </script>
 
 <template>
-	<div class="page-privacy">
+	<div class="page-privacy u-text">
 		<h1>{{ t('privacy.title') }}</h1>
 		<p class="privacy-updated">{{ t('privacy.updated') }}</p>
 		<p>{{ t('privacy.intro') }}</p>
@@ -22,6 +22,7 @@
 
 		<h3>{{ t('privacy.collect.newsletter.title') }}</h3>
 		<p>{{ t('privacy.collect.newsletter.body') }}</p>
+		<p>{{ t('privacy.collect.newsletter.tracking') }}</p>
 
 		<h3>{{ t('privacy.collect.storage.title') }}</h3>
 		<p>{{ t('privacy.collect.storage.body') }}</p>

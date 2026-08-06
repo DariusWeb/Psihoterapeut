@@ -30,24 +30,21 @@
     .split-image {
         width: 100%;
         height: 100%;
-        min-height: 24rem;
+        min-height: var(--vt-c-media-min-height);
         object-fit: cover;
-        border-radius: 1rem;
+        border-radius: var(--vt-c-radius-lg);
     }
 
     .split-flush .split-image,
     .split-flush :deep(.media-placeholder) {
-        border-radius: 0 1rem 1rem 0;
+        border-radius: 0 var(--vt-c-radius-lg) var(--vt-c-radius-lg) 0;
     }
 
-    @media (max-width: 1024px) {
+    // stacked, so the outer edge no longer runs off the viewport and should round like any block
+    @media (max-width: 768px) {
         .split-flush .split-image,
         .split-flush :deep(.media-placeholder) {
-            border-radius: 1rem;
-        }
-
-        .split-image {
-            min-height: 18rem;
+            border-radius: var(--vt-c-radius-lg);
         }
     }
 </style>

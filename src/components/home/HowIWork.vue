@@ -31,14 +31,10 @@
 		scroll-margin-top: 6rem; // the hero's "Descoperă cum lucrez" anchor lands here, under a fixed nav
 	}
 
+	// Four fixed steps: a width-driven track count strands the fourth at 3-across widths.
 	.home-work-grid {
-		--card-columns: 4;
-		gap: 2rem;
-	}
-
-	.home-work-grid .feature-column + .feature-column {
-		border-left: 1px solid var(--vt-c-jannafer-gray2);
-		padding-left: 2rem;
+		--card-grid-gap: var(--vt-c-split-gap);
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	.home-work-text {
@@ -52,12 +48,15 @@
 		text-align: center;
 	}
 
-	@media (max-width: 1024px) {
+	// The dividing rules only make sense while all four sit on one row.
+	@media (min-width: 900px) {
+		.home-work-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
 
-		// the columns wrap here, so a left rule would land mid-row
 		.home-work-grid .feature-column + .feature-column {
-			border-left: 0;
-			padding-left: 0;
+			border-left: 1px solid var(--vt-c-jannafer-gray2);
+			padding-left: var(--vt-c-split-gap);
 		}
 	}
 </style>

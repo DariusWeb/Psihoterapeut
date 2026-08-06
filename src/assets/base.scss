@@ -21,11 +21,30 @@
 
 	--vt-c-container-width: 1200px;
 	--vt-c-transition-speed: 0.3s;
-	--vt-c-section-padding: 4rem 0;
-	--vt-c-section-gap: 2rem;
-	--vt-c-split-gap: 2rem;
 	--vt-c-border-radius: .5rem; // buttons and inputs
 	--vt-c-radius-lg: 1rem; // cards and media
+
+	// Fluid scale: everything below shrinks continuously with the viewport, so media
+	// queries are left to handle shape changes (row -> column) only.
+	--page-gutter: clamp(1rem, 3vw, 3rem);
+	--page-pad-top: clamp(5rem, 0.8rem + 8vw, 10rem);
+	--page-pad-bottom: clamp(3rem, 1rem + 6vw, 8rem);
+
+	--vt-c-section-padding: clamp(2rem, 1rem + 3vw, 4rem) 0;
+	--vt-c-section-gap: clamp(1rem, 0.4rem + 2vw, 2rem);
+	--vt-c-split-gap: clamp(1rem, 0.4rem + 2vw, 2rem);
+	--stack-gap-loose: clamp(1.25rem, 0.5rem + 2.4vw, 2rem);
+
+	--card-padding: clamp(1.1rem, 0.7rem + 1.6vw, 2rem);
+	--card-padding-compact: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+	--card-grid-gap: clamp(0.75rem, 0.4rem + 1.4vw, 1.5rem);
+	--icon-chip-size: clamp(2.25rem, 2rem + 1.2vw, 3rem);
+	--vt-c-media-min-height: clamp(12rem, 6rem + 14vw, 24rem);
+
+	--step-h1: clamp(1.6rem, 0.77rem + 1.92vw, 2.5rem);
+	--step-h2: clamp(1.3rem, 0.62rem + 1.54vw, 2rem);
+	--step-h3: clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
+	--step-card-title: clamp(1rem, 0.95rem + 0.3vw, 1.1rem);
 
 	--vt-c-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 	--vt-c-shadow-raised: 0 6px 20px rgba(0, 0, 0, 0.12);
@@ -90,21 +109,21 @@ h6 {
 }
 
 h1 {
-	font-size: 2.5rem;
+	font-size: var(--step-h1);
 	font-weight: 400;
-	margin-bottom: 4rem;
+	margin-bottom: clamp(2rem, 1rem + 3vw, 4rem);
 	font-style: normal;
 	text-align: center;
 }
 
 h2 {
-	font-size: 2rem;
+	font-size: var(--step-h2);
 	font-weight: 400;
 	font-style: normal;
 }
 
 h3 {
-	font-size: 1.2rem;
+	font-size: var(--step-h3);
 	font-weight: 600;
 }
 
@@ -121,7 +140,7 @@ html {
 .layout-container {
 	max-width: var(--vt-c-container-width);
 	margin: 0 auto;
-	padding-inline: 1rem;
+	padding-inline: var(--page-gutter);
 }
 
 // Vertical rhythm: the gap is read on the CHILD, so a section can retune its own spacing
@@ -146,14 +165,14 @@ html {
 }
 
 .stack-loose {
-	--stack-gap: 2rem;
+	--stack-gap: var(--stack-gap-loose);
 }
 
 // Full-bleed tint that re-pads its content back onto the container, so a banded
 // section needs no inner wrapper element
 .section-band {
 	margin-inline: calc(50% - 50vw);
-	padding: var(--section-band-padding-block, 3rem) calc(50vw - 50% + 1rem);
+	padding: var(--section-band-padding-block, clamp(1.5rem, 0.75rem + 2.4vw, 3rem)) calc(50vw - 50% + var(--page-gutter));
 	background: var(--section-band-background, var(--vt-c-jannafer-gray));
 }
 
@@ -280,7 +299,7 @@ select {
 
 // Forms and labels
 form {
-	padding: 2rem;
+	padding: var(--card-padding);
 	border-radius: var(--vt-c-radius-lg);
 	background: var(--vt-c-jannafer-gray);
 
@@ -324,11 +343,11 @@ ol {
 .card {
 	background: var(--vt-c-surface);
 	border-radius: var(--vt-c-radius-lg);
-	padding: 2rem;
+	padding: var(--card-padding);
 }
 
 .card-compact {
-	padding: 1.5rem;
+	padding: var(--card-padding-compact);
 }
 
 .card-outlined {
@@ -353,7 +372,7 @@ ol {
 .card-title {
 	margin: 0;
 	font-family: "Libre Baskerville", serif;
-	font-size: 1.1rem;
+	font-size: var(--step-card-title);
 	font-weight: 400;
 }
 
@@ -374,8 +393,8 @@ ol {
 }
 
 .icon-chip {
-	width: 3rem;
-	height: 3rem;
+	width: var(--icon-chip-size);
+	height: var(--icon-chip-size);
 	flex-shrink: 0;
 	display: grid;
 	place-items: center;
@@ -455,10 +474,13 @@ ol {
 	max-width: 60ch;
 }
 
+// Columns come from a min card width rather than a count, so the track number steps down one
+// at a time instead of jumping when a breakpoint fires. min(…,100%) stops a track overflowing
+// a viewport narrower than --card-min.
 .card-grid {
 	display: grid;
-	grid-template-columns: repeat(var(--card-columns, 3), 1fr);
-	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(var(--card-min, 16rem), 100%), 1fr));
+	gap: var(--card-grid-gap);
 	padding: 0;
 	list-style: none;
 }
@@ -517,16 +539,12 @@ ol {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: 1.5rem;
+	gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
 }
 
-.split-flush {
-	gap: 2rem;
-
-	.split-media {
-		flex: 0 0 calc(50vw - 5%);
-		margin-left: calc(50% - 50vw);
-	}
+.split-flush .split-media {
+	flex: 0 0 calc(50vw - 5%);
+	margin-left: calc(50% - 50vw);
 }
 
 .media-placeholder {
@@ -543,10 +561,10 @@ ol {
 // Cancels .card-compact's padding so the media runs to the card edge.
 // After .media-placeholder so it wins — the placeholder ships a 24rem floor and a 100% height.
 .card-media {
-	width: calc(100% + 3rem);
+	width: calc(100% + 2 * var(--card-padding-compact));
 	height: var(--card-media-height, 10rem);
 	min-height: 0;
-	margin: -1.5rem -1.5rem 0;
+	margin: calc(-1 * var(--card-padding-compact)) calc(-1 * var(--card-padding-compact)) 0;
 	overflow: hidden;
 	object-fit: cover;
 	border-radius: var(--vt-c-radius-lg) var(--vt-c-radius-lg) 0 0;
@@ -557,8 +575,8 @@ ol {
 	--vt-c-media-min-height: 0;
 	display: flex;
 	align-items: stretch;
-	gap: 1rem;
-	padding: 1rem;
+	gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+	padding: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
 }
 
 .media-card-media {
@@ -600,15 +618,16 @@ ol {
 // Page hero: copy column beside media that bleeds off the viewport edge
 .page-hero {
 	display: flex;
-	gap: 2rem;
+	gap: var(--vt-c-split-gap);
 }
 
 .page-hero-content {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	gap: 1.5rem;
-	padding: 7rem 0 4rem; // clears the fixed nav; the media column stays flush with the top
+	gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+	// clears the fixed nav; the media column stays flush with the top
+	padding: clamp(5rem, 3.4rem + 3.2vw, 7rem) 0 clamp(2rem, 1rem + 3vw, 4rem);
 }
 
 .page-hero-title {
@@ -660,8 +679,8 @@ ol {
 }
 
 .dot-list-columns {
-	grid-template-columns: repeat(2, 1fr);
-	column-gap: 2rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+	column-gap: var(--vt-c-split-gap);
 }
 
 .dot-list-item {
@@ -680,8 +699,9 @@ ol {
 	list-style: none;
 	padding: 0;
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 1.5rem 2rem;
+	// 10.5rem keeps two across even inside a narrowed .split-body, before the split stacks
+	grid-template-columns: repeat(auto-fit, minmax(min(10.5rem, 100%), 1fr));
+	gap: clamp(1rem, 0.6rem + 1.6vw, 1.5rem) var(--vt-c-split-gap);
 }
 
 .icon-grid-item {
@@ -713,7 +733,7 @@ ol {
 .cta-band {
 	display: flex;
 	align-items: center;
-	gap: 3rem;
+	gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
 }
 
 .cta-band-content {
@@ -795,23 +815,16 @@ html.dark {
 	}
 }
 
+// Media queries carry shape changes only — every size and gap above scales fluidly on its own.
+
+// Splits narrow their media column here rather than stacking; stacking waits for 768.
 @media (max-width: 1024px) {
-	h1 {
-		font-size: 2rem;
+	.split-media {
+		flex-basis: 38%;
 	}
+}
 
-	h2 {
-		font-size: 1.6rem;
-	}
-
-	:root {
-		--vt-c-section-padding: 3rem 0;
-	}
-
-	.split-flush {
-		gap: 1rem;
-	}
-
+@media (max-width: 768px) {
 	.split-section,
 	.split-section:nth-of-type(even) {
 		flex-direction: column;
@@ -821,14 +834,6 @@ html.dark {
 	.split-flush .split-media {
 		flex: auto;
 		margin-left: 0;
-	}
-
-	.media-placeholder {
-		min-height: var(--vt-c-media-min-height, 18rem);
-	}
-
-	.card-grid {
-		grid-template-columns: repeat(2, 1fr);
 	}
 
 	// stacked, so there is no column beside the media left to blend into.
@@ -843,7 +848,6 @@ html.dark {
 	.cta-band {
 		flex-direction: column;
 		align-items: stretch;
-		gap: 2rem;
 	}
 
 	.cta-band-action {
@@ -862,37 +866,8 @@ html.dark {
 		border-radius: var(--vt-c-radius-lg);
 	}
 
-	.section-band {
-		--section-band-padding-block: 2rem;
-	}
-}
-
-@media (max-width: 768px) {
-	h1 {
-		font-size: 1.6rem;
-		margin-bottom: 2rem;
-	}
-
-	h2 {
-		font-size: 1.3rem;
-	}
-
-	:root {
-		--vt-c-section-padding: 2rem 0;
-	}
-
-	.columns-container {
-		flex-direction: column;
-	}
-
 	.form-row {
 		flex-direction: column;
-	}
-
-	.dot-list-columns,
-	.icon-grid,
-	.card-grid {
-		grid-template-columns: 1fr;
 	}
 
 	.section-head {
@@ -900,12 +875,62 @@ html.dark {
 		align-items: flex-start;
 	}
 
-	.page-hero-content {
-		padding-top: 5rem;
-	}
-
 	// no room beside the title at this width, so the link rejoins the flow below it
 	.section-head-center .section-head-link {
 		position: static;
+	}
+}
+
+@media (max-width: 480px) {
+	.columns-container {
+		flex-direction: column;
+	}
+
+	.media-card {
+		flex-direction: column;
+	}
+
+	// stacked, so the copy is now below the media rather than beside it
+	.media-card-media {
+		flex: auto;
+		height: 10rem;
+		--media-fade-to: top;
+	}
+}
+
+// Toggled by initUiState(), so VITE_PROTECT_CONTENT gates these rules and the JS together.
+html.ui-ready {
+	body {
+		user-select: none;
+		-webkit-user-select: none;
+		-webkit-touch-callout: none; // iOS long-press "Save Image" sheet
+	}
+
+	// Anything a visitor legitimately needs to select, copy, or type into.
+	input,
+	textarea,
+	select,
+	[contenteditable],
+	a[href^='tel:'],
+	a[href^='mailto:'],
+	.u-text,
+	.u-text * {
+		user-select: text;
+		-webkit-user-select: text;
+		-webkit-touch-callout: default;
+	}
+
+	img {
+		-webkit-user-drag: none;
+	}
+}
+
+@media print {
+	html.ui-ready body > * {
+		display: none;
+	}
+
+	html.ui-ready body::after {
+		content: '© Andreea Georgiana Butacu';
 	}
 }

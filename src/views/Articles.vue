@@ -12,7 +12,7 @@
         <section class="articles-header">
             <h1>{{ t('articles.title') }}</h1>
 
-            <div class="articles-grid">
+            <div class="articles-grid card-grid">
                 <ArticleItem v-for="(article, index) in articlesStore.allArticles" :key="index" v-bind="article">
                     <p>{{ article.content }}</p>
                 </ArticleItem>
@@ -23,21 +23,8 @@
 
 <style lang="scss" scoped>
     .articles-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-        margin-bottom: 4rem;
-    }
-
-    @media (max-width: 1024px) {
-        .articles-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .articles-grid {
-            grid-template-columns: 1fr;
-        }
+        --card-min: 17rem;
+        --card-grid-gap: var(--vt-c-split-gap);
+        margin-bottom: clamp(2rem, 1rem + 3vw, 4rem);
     }
 </style>

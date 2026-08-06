@@ -27,9 +27,9 @@
 
 <style scoped lang="scss">
 	.home-faq-grid {
-		--card-columns: 2;
+		--card-min: 20rem;
 		align-items: start; // an open item grows on its own instead of stretching its row partner
-		column-gap: 2rem;
+		column-gap: var(--vt-c-split-gap);
 	}
 
 	.home-faq-item {

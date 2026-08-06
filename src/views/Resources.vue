@@ -156,20 +156,34 @@
 
 <style scoped lang="scss">
     .resources-page {
-        --page-padding: 0 1rem 8rem; // the hero media runs flush to the top, behind the fixed nav
+        --page-pad-top: 0; // the hero media runs flush to the top, behind the fixed nav
     }
 
     .resources-panel {
         background: var(--vt-c-jannafer-gray);
     }
 
+    // Four fixed cards: 4-across only once each still has room for its icon beside the copy,
+    // 2-across below that. A width-driven track count strands the fourth in between.
     .resources-practical-grid {
-        --card-columns: 4;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1100px) {
+        .resources-practical-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .resources-practical-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .resources-practical-icon {
-        width: 5rem;
-        height: 5rem;
+        width: clamp(3.5rem, 2.5rem + 3.2vw, 5rem);
+        height: clamp(3.5rem, 2.5rem + 3.2vw, 5rem);
         align-self: center;
     }
 
@@ -200,11 +214,5 @@
         margin: 0;
         font-weight: 600;
         color: var(--vt-c-jannafer-green);
-    }
-
-    @media (max-width: 1024px) {
-        .resources-practical-grid {
-            --card-columns: 2;
-        }
     }
 </style>
