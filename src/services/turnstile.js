@@ -25,8 +25,9 @@ export const turnstileEnabled = Boolean(SITEKEY)
 export async function getToken(element) {
     if (!SITEKEY) throw new Error('Turnstile is not configured: VITE_TURNSTILE_SITEKEY must be set.')
 
+    // No turnstile.ready() here: it throws when api.js is loaded async, and the script's
+    // own onload already guarantees window.turnstile exists.
     await loadScript()
-    await window.turnstile.ready?.()
 
     return new Promise((resolve, reject) => {
         window.turnstile.render(element, {
