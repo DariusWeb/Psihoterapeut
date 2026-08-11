@@ -112,6 +112,21 @@ await run('unknown route is a 404', async () => {
     assert.equal(res.status, 404)
 })
 
+// The signup log is the only view of people who subscribe and never confirm, since Brevo
+// hides pending double-opt-in contacts — but losing it must never cost a real subscription.
+await run('a failing signup log still lets the subscription through', async () => {
+    const res = await worker.fetch(
+        new Request('https://worker.dev/newsletter', {
+            method: 'POST',
+            headers: { Origin: ORIGIN, 'Content-Type': 'application/json', 'CF-Connecting-IP': '1.2.3.4' },
+            body: JSON.stringify(valid)
+        }),
+        { ...env, FIREBASE_SERVICE_ACCOUNT: '{"not":"valid json for a service account"}' }
+    )
+    assert.equal(res.status, 200)
+    assert.equal(brevoCalls.length, 1)
+})
+
 // Regression: workerd sets no CF-Connecting-IP outside production, and a null rate-limit
 // key crashed the request into a 500 that leaked past the captcha check as an opaque error.
 await run('missing CF-Connecting-IP still rejects cleanly, not a 500', async () => {

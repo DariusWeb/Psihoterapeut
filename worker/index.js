@@ -1,6 +1,8 @@
 // Verifies Turnstile, then talks to Brevo server-side. The browser never touches Brevo directly:
 // its form hosts are on EasyPrivacy, so ad blockers were silently killing signups.
 
+import { logSignup } from './firestore.js'
+
 const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 const BREVO_CONTACTS = 'https://api.brevo.com/v3/contacts/doubleOptinConfirmation'
 const BREVO_EMAIL = 'https://api.brevo.com/v3/smtp/email'
@@ -69,6 +71,19 @@ async function brevo(url, apiKey, payload) {
 async function handleNewsletter(data, env) {
     const email = cleanString(data.email, LIMITS.email)
     if (!isEmail(email)) return { ok: false, error: 'invalid_email' }
+
+    // Logged before Brevo so the record survives a Brevo failure, and never blocks the
+    // subscription: a lost log is recoverable, a lost signup is not.
+    if (env.FIREBASE_SERVICE_ACCOUNT) {
+        await logSignup(env, {
+            email,
+            locale: ['en', 'ro'].includes(data.locale) ? data.locale : 'ro',
+            source: 'newsletter-form',
+            consentText: cleanString(data.consentText, LIMITS.consentText),
+            consentVersion: cleanString(data.consentVersion, 20),
+            pageUrl: cleanString(data.pageUrl, LIMITS.pageUrl)
+        }).catch((error) => console.error('signup log failed', error))
+    }
 
     await brevo(BREVO_CONTACTS, env.BREVO_API_KEY, {
         email,

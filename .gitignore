@@ -41,5 +41,7 @@ PROJECT-STATUS.md
 # xlsx files
 Site psihoterapie.xlsx
 
-# Wrangler build output
-worker/.wrangler/
+# Wrangler build output. Scoped to what it generates, not the whole folder, so anything
+# new it starts writing there shows up in git status instead of vanishing silently.
+worker/.wrangler/tmp/
+worker/.wrangler/state/
