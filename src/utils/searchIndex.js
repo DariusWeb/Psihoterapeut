@@ -108,7 +108,7 @@ function entry(type, title, to, text, extra = {}) {
 
 function serviceEntries() {
 	return services.map((service) =>
-		entry('service', line(`seo.${service.key}.title`), `/${service.slug}`, [
+		entry('service', line(`seo.${service.key}.title`), `/servicii/${service.slug}`, [
 			...block(`services.${service.key}`),
 			line(`seo.${service.key}.description`)
 		])
@@ -298,7 +298,7 @@ function runSelfCheck() {
 	console.assert(fold('anxietăți') === 'anxietati', 'search: diacritic fold broken')
 	console.assert(run('a').length === 0, 'search: single char should not match')
 	console.assert(index.every((item) => item.title), 'search: an entry has no title')
-	console.assert(hits('infertilitate', '/infertilitate'), 'search: service title match broken')
+	console.assert(hits('infertilitate', '/servicii/infertilitate'), 'search: service title match broken')
 	console.assert(hits('bucuresti', '/'), 'search: diacritic-insensitive body match broken')
 	console.assert(run('termeni')[0]?.type === 'legal', 'search: title should outrank body match')
 

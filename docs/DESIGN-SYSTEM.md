@@ -283,14 +283,16 @@ Under 768px it reverts to a normal rounded block — stacked, there's no column 
 
 ### Nested routes preserve `router-link-active`
 
-`/services/:slug` is a **child** of `/services`, not a sibling:
+`/servicii/<slug>` is a **child** of `/servicii`, not a sibling:
 
 ```js
-{ path: '/services', children: [
-    { path: '',      name: 'services', component: … },
-    { path: ':slug', name: 'service',  component: … },
+{ path: '/servicii', children: [
+    { path: '',            name: 'services',            component: … },
+    { path: service.slug,  name: `service-${key}`,      component: … },
 ]}
 ```
+
+One route per service rather than a `:slug` param — the slug rides in `meta.slug`, so `ServiceDetail.vue` resolves the service without a param lookup.
 
 `router-link-active` matches on route *ancestry*, not URL prefix. As siblings, the nav highlight drops off on detail pages.
 

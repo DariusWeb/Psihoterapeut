@@ -21,11 +21,10 @@
 		{
 			key: 'services',
 			to: '/servicii',
-			children: services.map(s => ({ to: `/${s.slug}`, labelKey: `services.${s.key}.title` })),
+			children: services.map(s => ({ to: `/servicii/${s.slug}`, labelKey: `services.${s.key}.title` })),
 		},
 		{ key: 'resources', to: '/resurse' },
 		{ key: 'events', to: '/ateliere' },
-		{ key: 'articles', to: '/articole' },
 		{ key: 'news', to: '/noutati' },
 		{ key: 'contact', to: '/contact' },
 	]

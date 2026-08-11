@@ -17,7 +17,7 @@
 
 		<div class="card-grid">
 			<RouterLink v-for="service in servicesStore.homeServices" :key="service.id"
-				class="media-card card card-outlined card-link home-area-card" :to="`/${service.slug}`">
+				class="media-card card card-outlined card-link home-area-card" :to="`/servicii/${service.slug}`">
 				<div class="media-placeholder media-card-media media-fade" role="img"
 					:aria-label="t(`services.${service.key}.imageAlt`)">
 					<Image :size="32" />

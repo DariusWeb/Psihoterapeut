@@ -20,17 +20,21 @@ const routes = [
   },
   {
     path: '/servicii',
-    name: 'services',
-    component: () => import('@/views/Services.vue'),
-    meta: { seo: 'services', parent: 'home' },
+    children: [
+      {
+        path: '',
+        name: 'services',
+        component: () => import('@/views/Services.vue'),
+        meta: { seo: 'services', parent: 'home' },
+      },
+      ...services.map((service) => ({
+        path: service.slug,
+        name: `service-${service.key}`,
+        component: () => import('@/components/services/ServiceDetail.vue'),
+        meta: { seo: service.key, parent: 'services', slug: service.slug, ogImage: service.image },
+      })),
+    ],
   },
-  // Service pages sit flat at the root so the URL carries the search term itself (/infertilitate).
-  ...services.map((service) => ({
-    path: `/${service.slug}`,
-    name: `service-${service.key}`,
-    component: () => import('@/components/services/ServiceDetail.vue'),
-    meta: { seo: service.key, parent: 'services', slug: service.slug, ogImage: service.image },
-  })),
   {
     path: '/ateliere',
     name: 'events',
