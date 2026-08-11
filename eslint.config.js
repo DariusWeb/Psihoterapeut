@@ -42,4 +42,15 @@ export default [
       'vue/multi-word-component-names': 'off',
     },
   },
+
+  {
+    name: 'worker/runtime-globals',
+    files: ['worker/**/*.js'],
+    languageOptions: {
+      globals: {
+        Response: 'readonly',
+        Request: 'readonly',
+      },
+    },
+  },
 ]

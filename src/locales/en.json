@@ -718,7 +718,7 @@
       },
       "newsletter": {
         "title": "When you subscribe to the newsletter",
-        "body": "Your email address, used only to send the newsletter. Subscribing is confirmed by a link sent to that address, and a record of that confirmation — the address, the date, the wording you agreed to, and the page you subscribed from — is kept as proof of your consent. Every message carries an unsubscribe link.",
+        "body": "Your email address, used only to send the newsletter. Subscribing is confirmed by a link sent to that address, and Brevo records that confirmation — the date, the wording you agreed to, and the page you subscribed from — as proof of your consent. Every message carries an unsubscribe link.",
         "tracking": "Newsletter emails measure whether a message was opened and which links were clicked, so the content can be made more useful. This is stated on the subscription form and is covered by the consent you give there. It is not used to build a profile of you, and it stops the moment you unsubscribe."
       },
       "analytics": {
@@ -750,7 +750,7 @@
     },
     "sharing": {
       "title": "5. Who else sees it",
-      "body": "Two service providers, and no one else. Brevo (Sendinblue SAS, France) holds newsletter subscriptions and sends the emails. Google Firebase holds the newsletter consent records, in a database located in Frankfurt, Germany. Both act only on written instructions and both keep the data inside the European Union; Google is a US-parented company, so that arrangement additionally relies on the European Commission's standard contractual clauses. Beyond these two, this site runs no analytics, no advertising, no social media trackers and no third-party scripts. Fonts are served from this site rather than an external network, so no outside provider sees your visit. Nothing is sold or rented.",
+      "body": "Two service providers, and no one else. Brevo (Sendinblue SAS, France) holds newsletter subscriptions, stores the record of your consent, and sends the emails; it also delivers messages sent through the contact form. Cloudflare (Cloudflare, Inc.) provides the spam check on both forms and passes submissions on to Brevo without storing them. Both act only on written instructions; Cloudflare is a US-parented company, so that arrangement additionally relies on the European Commission's standard contractual clauses. Beyond these two, this site runs no analytics, no advertising and no social media trackers. The only third-party script is Cloudflare's spam check, which loads when you submit a form. Fonts are served from this site rather than an external network, so no outside provider sees your visit. Nothing is sold or rented.",
       "note": "If this ever changes, this section is updated before the change goes live, and anything requiring your consent will ask for it first."
     },
     "retention": {

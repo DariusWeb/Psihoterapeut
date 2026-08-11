@@ -5,8 +5,9 @@
 	import { Sprout, Laptop, Mail, Phone, MessageCircle, CalendarDays, UserRound, Heart, Lock, Clock } from '@lucide/vue'
 	import contactDesk from '@/assets/images/contact/contact-desk.webp'
 	import contactLivingRoom from '@/assets/images/contact/contact-living-room.webp'
+	import { useFormSubmit } from '@/composables/useFormSubmit'
 
-	const { t } = useI18n()
+	const { t, locale } = useI18n()
 
 	const form = ref({
 		name: '',
@@ -16,14 +17,20 @@
 	})
 
 	const consent = ref(false)
-	const status = ref('idle')
+	const { status, captcha, submit } = useFormSubmit('/contact')
 
-	// TODO: POST to the Firebase Cloud Function; until it exists nothing is sent and 'error' is unreachable.
-	const sendMessage = () => {
-		status.value = 'submitting'
+	const sendMessage = async () => {
+		const sent = await submit({
+			...form.value,
+			locale: locale.value,
+			// the exact wording the visitor agreed to, stored as the consent proof
+			consentText: `${t('contact.form.consent')} ${t('contact.form.consentLink')}.`
+		})
+
+		if (!sent) return
+
 		form.value = { name: '', email: '', phone: '', message: '' }
 		consent.value = false
-		status.value = 'success'
 	}
 
 	const methods = [
@@ -122,6 +129,8 @@
 						<RouterLink to="/confidentialitate">{{ t('contact.form.consentLink') }}</RouterLink>.
 					</label>
 				</div>
+
+				<div ref="captcha" class="contact-form-captcha"></div>
 
 				<button type="submit" class="button-primary contact-form-submit" :disabled="status === 'submitting'">
 					{{ t('contact.form.send') }}
@@ -311,6 +320,11 @@
 		label {
 			cursor: pointer;
 		}
+	}
+
+	// empty until a challenge actually renders, so it must not reserve space
+	.contact-form-captcha:not(:empty) {
+		margin-bottom: 1rem;
 	}
 
 	.contact-form-submit {
