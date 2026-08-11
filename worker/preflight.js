@@ -21,6 +21,17 @@ for (const name of REQUIRED_VARS) {
     check(value, `${name} = ${value}`, `${name} is empty — fill it before deploying`)
 }
 
+// Brevo's UI shows ids as "#5"; the API needs the bare integer, and Number('#5') is NaN.
+for (const name of ['BREVO_LIST_ID', 'BREVO_OPTIN_TEMPLATE_ID']) {
+    const value = readVar(name)
+    if (value) check(/^\d+$/.test(value), `${name} is a plain integer`, `${name} = "${value}" — use the bare number, no "#" or spaces`)
+}
+
+for (const name of ['CONTACT_TO_EMAIL', 'CONTACT_FROM_EMAIL']) {
+    const value = readVar(name)
+    if (value) check(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value), `${name} looks like an address`, `${name} = "${value}" is not a valid email`)
+}
+
 const origins = readVar('ALLOWED_ORIGINS').split(',').map((o) => o.trim()).filter(Boolean)
 check(
     origins.every((o) => o.startsWith('https://')),
