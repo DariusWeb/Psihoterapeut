@@ -1,0 +1,23 @@
+name = "psihoterapeut-forms"
+main = "index.js"
+compatibility_date = "2026-08-11"
+
+# Secrets (never here — set with `npx wrangler secret put <NAME>`):
+#   TURNSTILE_SECRET_KEY, BREVO_API_KEY
+
+[vars]
+ALLOWED_ORIGINS = "https://dariusweb.github.io"
+BREVO_LIST_ID = "5"
+BREVO_OPTIN_TEMPLATE_ID = "1"
+BREVO_OPTIN_REDIRECT_URL = "https://dariusweb.github.io/Psihoterapeut/"
+# ponytail: temporary test address — replace with a domain sender before launch, or replies land in spam.
+CONTACT_TO_EMAIL = "maury_4u@yahoo.com"
+CONTACT_FROM_EMAIL = "maury_4u@yahoo.com"
+
+# 5 submissions per minute per IP — generous for a human, useless for a flood.
+# ponytail: the edge counter is per-PoP and eventually consistent, so the effective limit
+# varies either side of 5. Fine as a flood brake; not a precise quota.
+[[ratelimits]]
+name = "SUBMIT_RATE_LIMIT"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }

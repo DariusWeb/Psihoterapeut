@@ -1,33 +1,11 @@
 rules_version = '2';
 
+// Consent proof now lives in Brevo, recorded by its double opt-in confirmation. Nothing
+// writes here any more, so the collection is sealed rather than left open to anonymous creates.
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Write-once proof of opt-in. Never readable or editable by any client — the only
-    // reader is the Firebase console, so a leaked project id exposes nothing.
-    match /newsletterConsent/{subscriberId} {
-      allow read, update, delete: if false;
-      allow create: if isValidConsentRecord(request.resource.data);
-    }
-
-    function isValidConsentRecord(data) {
-      return data.keys().hasOnly(['email', 'locale', 'source', 'consentText', 'consentVersion', 'pageUrl', 'createdAt'])
-          && data.keys().hasAll(['email', 'locale', 'source', 'consentText', 'consentVersion', 'pageUrl', 'createdAt'])
-          && data.email is string
-          && data.email.size() <= 254
-          && data.email.matches('^[^@]+@[^@]+[.][^@]+$')
-          && data.locale in ['en', 'ro']
-          && data.source == 'newsletter-form'
-          && data.consentText is string
-          && data.consentText.size() <= 500
-          && data.consentVersion is string
-          && data.consentVersion.size() <= 20
-          && data.pageUrl is string
-          && data.pageUrl.size() <= 500
-          // the REST API cannot send a server-timestamp sentinel, so the clock is bounded instead
-          && data.createdAt is timestamp
-          && data.createdAt > request.time - duration.value(5, 'm')
-          && data.createdAt < request.time + duration.value(5, 'm');
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

@@ -3,34 +3,29 @@
     import { RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
     import { Heart, Mail } from '@lucide/vue'
-    import { subscribe } from '@/services/newsletterService'
+    import { useNewsletter } from '@/services/newsletterService'
     import { captureEvent } from '@/services/analytics'
 
     const { t, locale } = useI18n()
     const email = ref('')
     const consent = ref(false)
-    const status = ref('idle')
+    const { status, captcha, subscribe } = useNewsletter()
 
     const handleSubmit = async () => {
-        status.value = 'submitting'
+        const sent = await subscribe({
+            email: email.value,
+            locale: locale.value,
+            // the exact wording the visitor agreed to, stored as the consent proof
+            consentText: `${t('newsletter.consent')} ${t('footer.info.privacy')}.`
+        })
 
-        try {
-            await subscribe({
-                email: email.value,
-                locale: locale.value,
-                // the exact wording the visitor agreed to, stored as the consent proof
-                consentText: `${t('newsletter.consent')} ${t('footer.info.privacy')}.`
-            })
+        if (!sent) return
 
-            // no address — an analytics copy would be personal data with no basis to hold it
-            captureEvent('newsletter_subscribed')
+        // no address — an analytics copy would be personal data with no basis to hold it
+        captureEvent('newsletter_subscribed')
 
-            email.value = ''
-            consent.value = false
-            status.value = 'success'
-        } catch {
-            status.value = 'error'
-        }
+        email.value = ''
+        consent.value = false
     }
 </script>
 
@@ -58,6 +53,8 @@
                             <RouterLink to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>.
                         </label>
                     </div>
+
+                    <div ref="captcha" class="newsletter-captcha"></div>
 
                     <div v-if="status === 'success'" class="success" role="status">
                         {{ t('newsletter.success') }}
@@ -118,6 +115,11 @@
         input[type="email"] {
             width: 100%;
         }
+    }
+
+    // empty until a challenge actually renders, so it must not reserve space
+    .newsletter-captcha:not(:empty) {
+        margin-top: 0.75rem;
     }
 
     .newsletter-consent {

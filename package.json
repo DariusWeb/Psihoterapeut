@@ -7,6 +7,9 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
+    "worker:test": "node worker/test.js",
+    "worker:preflight": "node worker/preflight.js",
+    "worker:deploy": "npm run worker:test && npm run worker:preflight && wrangler deploy --config worker/wrangler.toml",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
@@ -35,6 +38,7 @@
     "prettier": "^3.9.5",
     "sass": "^1.101.0",
     "vite": "^8.1.5",
-    "vite-plugin-vue-devtools": "^8.1.5"
+    "vite-plugin-vue-devtools": "^8.1.5",
+    "wrangler": "4.120.1"
   }
 }

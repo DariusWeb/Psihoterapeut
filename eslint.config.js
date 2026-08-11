@@ -27,7 +27,7 @@ export default [
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.wrangler/**'],
   },
 
   js.configs.recommended,
@@ -40,6 +40,28 @@ export default [
     files: ['**/*.vue'],
     rules: {
       'vue/multi-word-component-names': 'off',
+    },
+  },
+
+  {
+    name: 'worker/runtime-globals',
+    files: ['worker/**/*.js'],
+    languageOptions: {
+      globals: {
+        Response: 'readonly',
+        Request: 'readonly',
+      },
+    },
+  },
+
+  // Build and tooling scripts run in Node, not the browser or the Workers runtime.
+  {
+    name: 'node/tooling-globals',
+    files: ['vite.config.js', 'worker/test.js', 'worker/preflight.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
     },
   },
 ]
