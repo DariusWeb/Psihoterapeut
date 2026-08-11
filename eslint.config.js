@@ -53,4 +53,15 @@ export default [
       },
     },
   },
+
+  // Build and tooling scripts run in Node, not the browser or the Workers runtime.
+  {
+    name: 'node/tooling-globals',
+    files: ['vite.config.js', 'worker/test.js', 'worker/preflight.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
+    },
+  },
 ]
