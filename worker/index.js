@@ -44,7 +44,7 @@ async function verifyTurnstile(token, ip, secret) {
     const body = new FormData()
     body.append('secret', secret)
     body.append('response', token)
-    if (ip) body.append('remoteip', ip)
+    if (ip !== 'unknown') body.append('remoteip', ip)
 
     const response = await fetch(TURNSTILE_VERIFY, { method: 'POST', body })
     if (!response.ok) return false
@@ -133,9 +133,10 @@ export default {
         const handler = ROUTES[new URL(request.url).pathname]
         if (!handler) return json(404, { ok: false, error: 'not_found' }, origin)
 
-        const ip = request.headers.get('CF-Connecting-IP')
+        // The binding rejects a null key, and Cloudflare only sets this header in production.
+        const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
 
-        const { success: withinLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip ?? 'unknown' })
+        const { success: withinLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip })
         if (!withinLimit) return json(429, { ok: false, error: 'rate_limited' }, origin)
 
         let data

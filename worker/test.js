@@ -14,7 +14,13 @@ const env = {
     BREVO_OPTIN_TEMPLATE_ID: '2',
     CONTACT_TO_EMAIL: 'to@example.com',
     CONTACT_FROM_EMAIL: 'from@example.com',
-    SUBMIT_RATE_LIMIT: { limit: async () => ({ success: true }) }
+    // Mirrors the real binding, which throws on a null key rather than coercing it.
+    SUBMIT_RATE_LIMIT: {
+        limit: async ({ key }) => {
+            if (typeof key !== 'string' || !key) throw new Error('rate limit key must be a non-empty string')
+            return { success: true }
+        }
+    }
 }
 
 let brevoCalls = []
@@ -28,15 +34,12 @@ globalThis.fetch = async (url) => {
     return new Response('{}', { status: 201 })
 }
 
-const post = (path, body, origin = ORIGIN) =>
-    worker.fetch(
-        new Request(`https://worker.dev${path}`, {
-            method: 'POST',
-            headers: { Origin: origin, 'Content-Type': 'application/json', 'CF-Connecting-IP': '1.2.3.4' },
-            body: JSON.stringify(body)
-        }),
-        env
-    )
+const post = (path, body, origin = ORIGIN, ip = '1.2.3.4') => {
+    const headers = { Origin: origin, 'Content-Type': 'application/json' }
+    if (ip) headers['CF-Connecting-IP'] = ip
+
+    return worker.fetch(new Request(`https://worker.dev${path}`, { method: 'POST', headers, body: JSON.stringify(body) }), env)
+}
 
 const valid = { email: 'a@b.co', locale: 'ro', consentText: 'ok', turnstileToken: 'tok' }
 
@@ -107,6 +110,15 @@ await run('valid contact submit reaches Brevo', async () => {
 await run('unknown route is a 404', async () => {
     const res = await post('/whatever', valid)
     assert.equal(res.status, 404)
+})
+
+// Regression: workerd sets no CF-Connecting-IP outside production, and a null rate-limit
+// key crashed the request into a 500 that leaked past the captcha check as an opaque error.
+await run('missing CF-Connecting-IP still rejects cleanly, not a 500', async () => {
+    turnstilePasses = false
+    const res = await post('/newsletter', valid, ORIGIN, null)
+    assert.equal(res.status, 403)
+    assert.deepEqual(brevoCalls, [])
 })
 
 console.log('\nall worker checks passed')

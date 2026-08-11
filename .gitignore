@@ -40,3 +40,6 @@ PROJECT-STATUS.md
 
 # xlsx files
 Site psihoterapie.xlsx
+
+# Wrangler build output
+worker/.wrangler/
