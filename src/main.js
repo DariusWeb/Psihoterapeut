@@ -1,8 +1,6 @@
 import '@fontsource-variable/mulish/wght.css'
-import '@fontsource-variable/mulish/wght-italic.css'
 import '@fontsource/libre-baskerville/400.css'
 import '@fontsource/libre-baskerville/700.css'
-import '@fontsource/libre-baskerville/400-italic.css'
 
 import '@/assets/main.scss'
 
@@ -13,7 +11,10 @@ import App from './App.vue'
 import router from './router'
 import i18n from './i18n'
 import { initUiState } from '@/utils/uiState'
+import { initRenderCapability } from '@/utils/renderCapability'
 import { initAnalytics } from '@/services/analytics'
+
+initRenderCapability()
 
 const app = createApp(App)
 

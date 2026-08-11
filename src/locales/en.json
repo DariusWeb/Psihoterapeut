@@ -88,6 +88,27 @@
       "language": "Language"
     }
   },
+  "search": {
+    "label": "Search the site",
+    "placeholder": "Search articles, workshops, pages…",
+    "close": "Close search",
+    "resultCount": "{count} results",
+    "empty": "Nothing found for \"{query}\"",
+    "types": {
+      "service": "Service",
+      "article": "Article",
+      "event": "Workshop",
+      "page": "Page",
+      "group": "Support group",
+      "resource": "Resource",
+      "legal": "Legal",
+      "news": "News"
+    },
+    "hints": {
+      "eventPast": "Took place {date}",
+      "freeDownload": "Free download"
+    }
+  },
   "footer": {
     "contact": {
       "title": "Contact",

@@ -57,7 +57,7 @@
             </div>
         </section>
 
-        <section class="stack">
+        <section id="grupuri" class="stack">
             <div class="section-head">
                 <h2>{{ t('events.groups.title') }}</h2>
 

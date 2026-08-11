@@ -20,6 +20,7 @@ export default [
         Event: 'readonly',
         console: 'readonly',
         MutationObserver: 'readonly',
+        Intl: 'readonly',
       },
     },
   },

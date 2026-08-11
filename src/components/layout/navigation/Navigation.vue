@@ -4,6 +4,7 @@
 	import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 	import ThemeToggle from '@/components/common/ThemeToggle.vue'
 	import LanguageToggle from '@/components/common/LanguageToggle.vue'
+	import SiteSearch from '@/components/common/SiteSearch.vue'
 	import { services } from '@/content/services/index.js'
 
 	const { t } = useI18n()
@@ -117,6 +118,7 @@
 		</div>
 
 		<div class="nav-controls">
+			<SiteSearch />
 			<ThemeToggle />
 			<LanguageToggle />
 			<button ref="hamburgerRef" class="hamburger" @click="toggleMenu" :aria-expanded="isMenuOpen"
@@ -179,6 +181,11 @@
 
 		&.is-scrolled {
 			backdrop-filter: blur(20px);
+
+			:root.no-gpu-blur & {
+				backdrop-filter: none;
+				background: var(--vt-c-background);
+			}
 		}
 	}
 
