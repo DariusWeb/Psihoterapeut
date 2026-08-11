@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { getToken, reset } from '@/services/turnstile'
+import { getToken } from '@/services/turnstile'
 
 const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT
 
@@ -37,8 +37,6 @@ export function useFormSubmit(path) {
         } catch {
             status.value = 'error'
             return false
-        } finally {
-            reset(captcha.value)
         }
     }
 
