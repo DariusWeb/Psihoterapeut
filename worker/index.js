@@ -2,6 +2,8 @@
 // its form hosts are on EasyPrivacy, so ad blockers were silently killing signups.
 
 import { logSignup } from './firestore.js'
+import { readLive, readLiveAdmin, writeLive } from './live.js'
+import { adminPage } from './admin-page.js'
 
 const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 const BREVO_CONTACTS = 'https://api.brevo.com/v3/contacts/doubleOptinConfirmation'
@@ -19,7 +21,7 @@ function corsHeaders(origin) {
     return origin
         ? {
               'Access-Control-Allow-Origin': origin,
-              'Access-Control-Allow-Methods': 'POST, OPTIONS',
+              'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
               'Access-Control-Allow-Headers': 'Content-Type'
           }
         : {}
@@ -136,20 +138,48 @@ const ROUTES = { '/newsletter': handleNewsletter, '/contact': handleContact }
 
 export default {
     async fetch(request, env) {
+        const { pathname } = new URL(request.url)
         const origin = allowedOrigin(request, env)
+
+        // The binding rejects a null key, and Cloudflare only sets this header in production.
+        const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
+
+        // Admin routes sit ahead of the origin gate: opening the page is a top-level
+        // navigation, which carries no Origin header at all. The token is the auth.
+        if (pathname === '/live/admin') {
+            return new Response(adminPage(), {
+                headers: { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' }
+            })
+        }
+
+        // POST, not GET: the token rides in the body rather than a URL that lands in logs.
+        if (pathname === '/live/admin/state' && request.method === 'POST') {
+            const { status, body } = await readLiveAdmin(request, env)
+            return json(status, body, origin)
+        }
+
+        if (pathname === '/live' && request.method === 'POST') {
+            const { success: withinWriteLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip })
+            if (!withinWriteLimit) return json(429, { ok: false, error: 'rate_limited' }, origin)
+
+            const { status, body } = await writeLive(request, env)
+            return json(status, body, origin)
+        }
 
         if (request.method === 'OPTIONS') {
             return new Response(null, { status: 204, headers: corsHeaders(origin) })
         }
 
         if (!origin) return json(403, { ok: false, error: 'forbidden_origin' }, null)
+
+        if (pathname === '/live' && request.method === 'GET') {
+            return json(200, await readLive(env), origin)
+        }
+
         if (request.method !== 'POST') return json(405, { ok: false, error: 'method' }, origin)
 
-        const handler = ROUTES[new URL(request.url).pathname]
+        const handler = ROUTES[pathname]
         if (!handler) return json(404, { ok: false, error: 'not_found' }, origin)
-
-        // The binding rejects a null key, and Cloudflare only sets this header in production.
-        const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
 
         const { success: withinLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip })
         if (!withinLimit) return json(429, { ok: false, error: 'rate_limited' }, origin)

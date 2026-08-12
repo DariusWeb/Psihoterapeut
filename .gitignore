@@ -45,3 +45,4 @@ Site psihoterapie.xlsx
 # new it starts writing there shows up in git status instead of vanishing silently.
 worker/.wrangler/tmp/
 worker/.wrangler/state/
+worker/.wrangler/cache/

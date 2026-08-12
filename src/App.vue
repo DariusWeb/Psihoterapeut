@@ -4,6 +4,7 @@
 	import Navigation from '@/components/layout/navigation/Navigation.vue'
 	import Footer from '@/components/layout/navigation/Footer.vue'
 	import ConsentBanner from '@/components/common/ConsentBanner.vue'
+	import LiveBanner from '@/components/common/LiveBanner.vue'
 	import { useThemeStore } from '@/stores/themeStore'
 
 	const themeStore = useThemeStore()
@@ -42,6 +43,7 @@
 	</footer>
 
 	<ConsentBanner />
+	<LiveBanner />
 </template>
 
 <style lang="scss" scoped>

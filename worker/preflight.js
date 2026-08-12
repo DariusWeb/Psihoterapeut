@@ -39,6 +39,22 @@ check(
     'every ALLOWED_ORIGINS entry must be an https origin, with no trailing slash or path'
 )
 
+console.log('\nlive banner')
+check(
+    /^\[\[kv_namespaces\]\][\s\S]*?id\s*=\s*"[0-9a-f]{8,}"/m.test(toml),
+    'KV namespace id is filled',
+    'the LIVE kv_namespaces id is empty — run: npx wrangler kv namespace create LIVE --config worker/wrangler.toml'
+)
+
+// Guessable here means the whole banner is guessable: it is the only thing between a
+// stranger and a message shown to every visitor.
+const adminToken = process.env.LIVE_ADMIN_TOKEN
+if (!adminToken) {
+    skip('LIVE_ADMIN_TOKEN not in env — export it to check its strength')
+} else {
+    check(adminToken.length >= 20, 'LIVE_ADMIN_TOKEN is long enough', 'LIVE_ADMIN_TOKEN is under 20 characters')
+}
+
 // The sitekey is public and belongs in the client; the secret must never be in the repo.
 console.log('\nsecrets')
 const secret = process.env.TURNSTILE_SECRET_KEY

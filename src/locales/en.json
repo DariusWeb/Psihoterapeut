@@ -538,6 +538,10 @@
     "error": "Something went wrong and you were not subscribed. Please try again in a moment.",
     "aside": "Primești articole, ateliere și resurse utile, direct pe email."
   },
+  "live": {
+    "watch": "Vezi acum",
+    "dismiss": "Închide anunțul"
+  },
   "consent": {
     "title": "Analytics",
     "body": "May I measure how this site is used — pages opened, where you arrived from, and roughly where in the world you are — so it can be made more useful? Nothing is recorded of what you read or type, and nothing loads at all unless you accept. You can change this later at the bottom of any page. Details in the",
@@ -730,11 +734,12 @@
       },
       "storage": {
         "title": "Preferences saved in your browser",
-        "body": "Three values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
+        "body": "Four values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
         "theme": "theme-preference — remembers whether you chose the light or dark theme.",
         "language": "language-preference — remembers whether you chose Romanian or English.",
         "consent": "analytics-consent — remembers whether you accepted or declined analytics, so you are not asked again.",
-        "life": "All three remain until you clear your browser storage. None of them identifies you, and none is used for statistics, advertising or tracking. If you accept analytics, PostHog stores its own separate values, described above."
+        "live": "live-dismissed — remembers that you closed an announcement banner, so it is not shown to you again. This one is cleared automatically when you close the tab.",
+        "life": "The first three remain until you clear your browser storage. None of them identifies you, and none is used for statistics, advertising or tracking. If you accept analytics, PostHog stores its own separate values, described above."
       }
     },
     "health": {

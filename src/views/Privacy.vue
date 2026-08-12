@@ -36,6 +36,7 @@
 			<li>{{ t('privacy.collect.storage.theme') }}</li>
 			<li>{{ t('privacy.collect.storage.language') }}</li>
 			<li>{{ t('privacy.collect.storage.consent') }}</li>
+			<li>{{ t('privacy.collect.storage.live') }}</li>
 		</ul>
 		<p>{{ t('privacy.collect.storage.life') }}</p>
 

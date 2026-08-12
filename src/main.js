@@ -13,6 +13,7 @@ import i18n from './i18n'
 import { initUiState } from '@/utils/uiState'
 import { initRenderCapability } from '@/utils/renderCapability'
 import { initAnalytics } from '@/services/analytics'
+import { initLiveBanner } from '@/services/liveBanner'
 
 initRenderCapability()
 
@@ -25,3 +26,4 @@ app.use(i18n)
 app.mount('#app')
 initUiState()
 initAnalytics()
+initLiveBanner()
