@@ -14,7 +14,7 @@
 			<p class="page-hero-intro home-hero-intro">{{ t('home.hero.intro') }}</p>
 
 			<div class="home-hero-actions">
-				<RouterLink class="button button-primary" to="/contact#contact-form">
+				<RouterLink class="button button-primary" to="/programare">
 					{{ t('home.hero.ctaPrimary') }}
 				</RouterLink>
 

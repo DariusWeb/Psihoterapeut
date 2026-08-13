@@ -65,6 +65,53 @@ check(
     'ADMIN_UIDS is empty — nobody can sign in. Add your Firebase uid.'
 )
 
+// Booking is opt-in: an empty calendar id means the feature is off, and that must not block
+// a deploy of everything else.
+console.log('\nbooking')
+const calendarId = readVar('BOOKING_CALENDAR_ID')
+const eventsUrl = (id) => `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(id)}/events`
+
+if (!calendarId) {
+    skip('BOOKING_CALENDAR_ID is empty — booking is off, /booking/slots will answer not_configured')
+} else {
+    // The two that otherwise fail silently in production: a calendar that was never shared, and
+    // one that is readable but empty — which looks identical to a broken integration on the page.
+    const serviceAccount = process.env.GOOGLE_CALENDAR_SERVICE_ACCOUNT
+    if (!serviceAccount) {
+        skip('GOOGLE_CALENDAR_SERVICE_ACCOUNT not in env — export it to check the calendar is shared')
+    } else {
+        const { accessToken } = await import('./google-auth.js')
+        const token = await accessToken(JSON.parse(serviceAccount), 'https://www.googleapis.com/auth/calendar')
+
+        const query = new URLSearchParams({
+            timeMin: new Date().toISOString(),
+            timeMax: new Date(Date.now() + 21 * 86_400_000).toISOString(),
+            singleEvents: 'true',
+            maxResults: '2500'
+        })
+
+        const listed = await fetch(`${eventsUrl(calendarId)}?${query}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
+        if (!listed.ok) {
+            fail(`cannot read ${calendarId} (${listed.status}) — share it with the service account's client_email`)
+        } else {
+            pass(`${calendarId} is shared with the service account`)
+
+            const items = (await listed.json()).items ?? []
+            const timed = items.filter((item) => item.start?.dateTime)
+            const windows = timed.filter((item) => !item.extendedProperties?.private?.siteBooking)
+
+            check(
+                windows.length,
+                `${windows.length} open window(s) in the next 21 days, ${timed.length - windows.length} booked`,
+                `${calendarId} has no open windows in the next 21 days — the booking page will show nothing`
+            )
+        }
+    }
+}
+
 // The sitekey is public and belongs in the client; the secret must never be in the repo.
 console.log('\nsecrets')
 const secret = process.env.TURNSTILE_SECRET_KEY

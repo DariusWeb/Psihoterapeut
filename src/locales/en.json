@@ -69,6 +69,11 @@
       "title": "Pagina nu a fost găsită",
       "description": "Pagina căutată nu există sau a fost mutată.",
       "breadcrumb": "Pagina nu a fost găsită"
+    },
+    "booking": {
+      "title": "Programează o ședință",
+      "description": "Alege singură ziua și ora unei ședințe de psihoterapie, online sau la cabinet în București. Vezi orele libere și rezervă în câteva secunde.",
+      "breadcrumb": "Programare"
     }
   },
   "navigation": {
@@ -901,5 +906,48 @@
   "cta": {
     "button": "Programează o primă ședință",
     "note": "Sunt aici să te ascult, să te înțeleg și să te însoțesc cu blândețe."
+  },
+  "booking": {
+    "hero": {
+      "eyebrow": "Programare online",
+      "title": "Alege ora care ți se potrivește",
+      "intro1": "Vezi orele rămase libere și rezervă direct. Nu trebuie să aștepți un răspuns ca să știi când ne vedem.",
+      "intro2": "Prima ședință este o discuție de cunoaștere: îmi spui ce te aduce aici, iar eu îți spun cum putem lucra împreună. Nimic nu e stabilit dinainte.",
+      "a1": "O ședință durează 50 de minute.",
+      "a2": "Online, pe platforme securizate, sau la cabinet în București.",
+      "a3": "Datele tale rămân confidențiale.",
+      "a4": "Poți muta sau anula ședința, printr-un simplu email.",
+      "alternative": "Preferi să vorbim înainte de a rezerva?",
+      "alternativeLink": "Scrie-mi un mesaj"
+    },
+    "widget": {
+      "loading": "Se încarcă orele disponibile…",
+      "error": "Nu am putut încărca orele disponibile chiar acum. Îmi poți scrie și stabilim împreună ziua și ora.",
+      "empty": "Nu mai sunt ore libere în perioada următoare. Scrie-mi și găsim un moment potrivit.",
+      "fallbackCta": "Trimite-mi un mesaj",
+      "pickDay": "Alege ziua",
+      "pickTime": "Alege ora",
+      "timezoneNote": "Orele sunt afișate în fusul tău orar. O ședință durează {minutes} de minute."
+    },
+    "form": {
+      "title": "Rezervi pentru {slot}",
+      "name": "Prenume",
+      "email": "Email",
+      "phone": "Telefon",
+      "message": "Vrei să îmi spui ceva dinainte? (opțional)",
+      "modeLabel": "Cum preferi să ne vedem",
+      "modeOnline": "Online",
+      "modeCabinet": "La cabinet, în București",
+      "consent": "Sunt de acord ca datele de mai sus să fie folosite pentru a-mi confirma programarea. Am citit",
+      "consentLink": "politica de confidențialitate",
+      "submit": "Confirmă programarea",
+      "privacy": "Datele tale rămân confidențiale și nu sunt distribuite nimănui.",
+      "error": "Nu am putut salva programarea. Poate ora tocmai a fost ocupată — alege alta sau scrie-mi."
+    },
+    "success": {
+      "title": "Ne vedem atunci.",
+      "text": "Ți-am trimis un email cu detaliile ședinței.",
+      "note": "Dacă vrei să muți sau să anulezi ședința, răspunde la acel email."
+    }
   }
 }

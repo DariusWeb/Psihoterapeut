@@ -73,6 +73,12 @@ const routes = [
     meta: { seo: 'news', parent: 'home' },
   },
   {
+    path: '/programare',
+    name: 'booking',
+    component: () => import('@/views/Booking.vue'),
+    meta: { seo: 'booking', parent: 'home' },
+  },
+  {
     path: '/contact',
     name: 'contact',
     component: () => import('@/views/Contact.vue'),

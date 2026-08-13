@@ -25,6 +25,7 @@ export const SITEMAP_PATHS = [
 	'/ateliere',
 	'/resurse',
 	'/noutati',
+	'/programare',
 	'/contact',
 	'/confidentialitate',
 	'/termeni'

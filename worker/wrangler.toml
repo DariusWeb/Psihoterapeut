@@ -3,7 +3,7 @@ main = "index.js"
 compatibility_date = "2026-08-11"
 
 # Secrets (never here — set with `npx wrangler secret put <NAME>`):
-#   TURNSTILE_SECRET_KEY, BREVO_API_KEY, FIREBASE_SERVICE_ACCOUNT
+#   TURNSTILE_SECRET_KEY, BREVO_API_KEY, FIREBASE_SERVICE_ACCOUNT, GOOGLE_CALENDAR_SERVICE_ACCOUNT
 
 [vars]
 # localhost is included so the dashboard and forms work in `npm run dev`. A page can only
@@ -16,6 +16,23 @@ BREVO_OPTIN_REDIRECT_URL = "https://dariusweb.github.io/Psihoterapeut/"
 # ponytail: temporary test address — replace with a domain sender before launch, or replies land in spam.
 CONTACT_TO_EMAIL = "maury_4u@yahoo.com"
 CONTACT_FROM_EMAIL = "maury_4u@yahoo.com"
+
+# Booking. One dedicated calendar (e.g. "Disponibil"), shared with the service account's
+# client_email at "Make changes to events". No other calendar is read, so nothing personal is
+# exposed. Every timed event created in it from the Google Calendar app opens that window on
+# the site, repeats included; all-day entries are ignored, since a bare date says nothing about
+# which hours are open. Bookings are written back here and subtract from the window they sit in.
+#
+# Keep this calendar for availability only: an event added by hand is read as an open window,
+# so a personal note parked here would be offered to visitors as bookable time.
+BOOKING_CALENDAR_ID = "d71666e5e1eb22f61254411d2f1aac9c535c2548679dc5cd67f70af0af2cb25d@group.calendar.google.com"
+BOOKING_TIMEZONE = "Europe/Bucharest"
+# A 50-minute session on an hourly grid leaves the 10 minutes between clients. The grid starts
+# at each availability window's own start, so a 10:00 window offers 10:00, 11:00, 12:00…
+BOOKING_SLOT_MINUTES = "50"
+BOOKING_STEP_MINUTES = "60"
+BOOKING_LEAD_HOURS = "24"
+BOOKING_DAYS_AHEAD = "21"
 
 # Dashboard access. Neither is a secret: the project id is public, and a uid grants nothing
 # without a Google-signed token proving you are that user.

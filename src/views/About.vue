@@ -14,7 +14,7 @@
 				<Leaf class="about-flourish" :size="28" />
 				<p class="about-hero-intro">{{ t('about.hero.intro1') }}</p>
 				<p class="about-hero-intro">{{ t('about.hero.intro2') }}</p>
-				<RouterLink class="button about-hero-cta" to="/contact#contact-form">
+				<RouterLink class="button about-hero-cta" to="/programare">
 					<CalendarDays class="about-hero-cta-icon" :size="18" />
 					{{ t('about.hero.cta') }}
 				</RouterLink>

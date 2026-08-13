@@ -1,13 +1,13 @@
 // Verifies Turnstile, then talks to Brevo server-side. The browser never touches Brevo directly:
 // its form hosts are on EasyPrivacy, so ad blockers were silently killing signups.
 
+import { BREVO_CONTACTS, BREVO_EMAIL, brevo } from './brevo.js'
+import { availableSlots, bookingConfigured, handleBooking } from './calendar.js'
 import { logSignup } from './firestore.js'
 import { readLive, readLiveAdmin, writeLive } from './live.js'
 import { authorizeAdmin } from './verify-token.js'
 
 const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
-const BREVO_CONTACTS = 'https://api.brevo.com/v3/contacts/doubleOptinConfirmation'
-const BREVO_EMAIL = 'https://api.brevo.com/v3/smtp/email'
 
 const LIMITS = { email: 254, name: 100, phone: 40, message: 5000, consentText: 500, pageUrl: 500 }
 
@@ -54,18 +54,6 @@ async function verifyTurnstile(token, ip, secret) {
     if (!response.ok) return false
 
     return (await response.json()).success === true
-}
-
-async function brevo(url, apiKey, payload) {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', accept: 'application/json', 'api-key': apiKey },
-        body: JSON.stringify(payload)
-    })
-
-    if (!response.ok) {
-        throw new Error(`Brevo ${response.status}: ${await response.text()}`)
-    }
 }
 
 // Brevo sends the opt-in email and only creates the contact once it is confirmed, so the
@@ -134,7 +122,7 @@ async function handleContact(data, env) {
     return { ok: true }
 }
 
-const ROUTES = { '/newsletter': handleNewsletter, '/contact': handleContact }
+const ROUTES = { '/newsletter': handleNewsletter, '/contact': handleContact, '/booking': handleBooking }
 
 export default {
     async fetch(request, env) {
@@ -152,6 +140,19 @@ export default {
 
         if (pathname === '/live' && request.method === 'GET') {
             return json(200, await readLive(env), origin)
+        }
+
+        // Free slots are public by design, and nothing but start times leaves the calendar —
+        // there is no detail here to gate behind a challenge.
+        if (pathname === '/booking/slots' && request.method === 'GET') {
+            if (!bookingConfigured(env)) return json(503, { ok: false, error: 'not_configured' }, origin)
+
+            try {
+                return json(200, await availableSlots(env), origin)
+            } catch (error) {
+                console.error(error)
+                return json(502, { ok: false, error: 'calendar_unavailable' }, origin)
+            }
         }
 
         // Dashboard routes: a signed-in, allowlisted Google account, verified server-side.

@@ -23,7 +23,7 @@
         </div>
 
         <div class="cta-band-action">
-            <RouterLink class="button button-primary cta-band-button" to="/contact#contact-form">
+            <RouterLink class="button button-primary cta-band-button" to="/programare">
                 <CalendarDays :size="18" />
                 {{ t('cta.button') }}
             </RouterLink>
