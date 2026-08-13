@@ -7,23 +7,6 @@ const LIMITS = { title: 80, text: 200, ctaLabel: 40, url: 500 }
 const DELAYS = [0, 10, 20, 30]
 const DURATIONS = [30, 60, 120, 240, 0] // 0 = no expiry, cleared by hand
 
-const encoder = new TextEncoder()
-
-// Constant-time by hand rather than crypto.subtle.timingSafeEqual, which is a Workers-only
-// extension and would leave this path untestable under Node.
-function tokenMatches(supplied, expected) {
-    if (typeof supplied !== 'string' || !expected) return false
-
-    const a = encoder.encode(supplied)
-    const b = encoder.encode(expected)
-    if (a.byteLength !== b.byteLength) return false
-
-    let mismatch = 0
-    for (let i = 0; i < a.byteLength; i++) mismatch |= a[i] ^ b[i]
-
-    return mismatch === 0
-}
-
 const clean = (value, max) => (typeof value === 'string' ? value.trim().slice(0, max) : '')
 
 const pick = (value, allowed) => (allowed.includes(Number(value)) ? Number(value) : allowed[0])
@@ -40,15 +23,9 @@ export async function readLive(env) {
     return { live: true, ...visible }
 }
 
-// What the admin page needs that visitors must not get: whether something is pending.
-// Token-gated, because a scheduled announcement is not public until it starts.
-export async function readLiveAdmin(request, env) {
-    const body = await request.json().catch(() => null)
-
-    if (!tokenMatches(body?.token, env.LIVE_ADMIN_TOKEN)) {
-        return { status: 403, body: { ok: false, error: 'forbidden' } }
-    }
-
+// What the dashboard needs that visitors must not get: whether something is pending.
+// A scheduled announcement is not public until it starts, so this is gated too.
+export async function readLiveAdmin(env) {
     const stored = await env.LIVE.get(KEY, 'json')
     if (!stored) return { status: 200, body: { state: 'none' } }
 
@@ -67,13 +44,10 @@ export async function readLiveAdmin(request, env) {
     }
 }
 
+// Callers reach here only once authorizeAdmin has verified the signed-in user.
 export async function writeLive(request, env) {
     const body = await request.json().catch(() => null)
     if (!body) return { status: 400, body: { ok: false, error: 'bad_json' } }
-
-    if (!tokenMatches(body.token, env.LIVE_ADMIN_TOKEN)) {
-        return { status: 403, body: { ok: false, error: 'forbidden' } }
-    }
 
     if (body.off === true) {
         await env.LIVE.delete(KEY)

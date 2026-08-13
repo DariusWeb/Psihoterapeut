@@ -2,9 +2,14 @@
 // The load-bearing check: a request without a valid Turnstile token must never reach Brevo.
 
 import assert from 'node:assert'
-import worker from './index.js'
+import { ADMIN_UID, PROJECT_ID, installCertStub, signToken, validClaims } from './test-tokens.js'
 
 const ORIGIN = 'https://dariusweb.github.io'
+
+const adminToken = signToken(validClaims())
+const strangerToken = signToken(validClaims({ sub: 'uid-stranger' }))
+
+const worker = (await import('./index.js')).default
 
 const env = {
     ALLOWED_ORIGINS: ORIGIN,
@@ -14,7 +19,8 @@ const env = {
     BREVO_OPTIN_TEMPLATE_ID: '2',
     CONTACT_TO_EMAIL: 'to@example.com',
     CONTACT_FROM_EMAIL: 'from@example.com',
-    LIVE_ADMIN_TOKEN: 'correct-horse-battery-staple',
+    FIREBASE_PROJECT_ID: PROJECT_ID,
+    ADMIN_UIDS: ADMIN_UID,
     LIVE: kvMock(),
     // Mirrors the real binding, which throws on a null key rather than coercing it.
     SUBMIT_RATE_LIMIT: {
@@ -51,6 +57,9 @@ globalThis.fetch = async (url) => {
     brevoCalls.push(String(url))
     return new Response('{}', { status: 201 })
 }
+
+// Layered after the stub above so cert fetches are served without counting as Brevo calls.
+installCertStub(globalThis.fetch)
 
 const post = (path, body, origin = ORIGIN, ip = '1.2.3.4') => {
     const headers = { Origin: origin, 'Content-Type': 'application/json' }
@@ -159,18 +168,23 @@ await run('missing CF-Connecting-IP still rejects cleanly, not a 500', async () 
 const getLive = () =>
     worker.fetch(new Request('https://worker.dev/live', { headers: { Origin: ORIGIN } }), env)
 
-const setLive = (body) =>
+// Signed with the throwaway key from the auth fixture, so the real verification path runs.
+const setLive = (body, token = adminToken) =>
     worker.fetch(
         new Request('https://worker.dev/live', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '1.2.3.4' },
+            headers: {
+                Origin: ORIGIN,
+                'Content-Type': 'application/json',
+                'CF-Connecting-IP': '1.2.3.4',
+                ...(token ? { Authorization: `Bearer ${token}` } : {})
+            },
             body: JSON.stringify(body)
         }),
         env
     )
 
 const announcement = {
-    token: 'correct-horse-battery-staple',
     title: 'Sunt live pe YouTube',
     text: 'Intră acum',
     ctaLabel: 'Vezi',
@@ -225,14 +239,21 @@ await runLive('"until I stop it" stores no expiry', async () => {
     assert.equal(env.LIVE.store.get('announcement').expirationTtl, undefined)
 })
 
-await runLive('a wrong token is refused and writes nothing', async () => {
-    const res = await setLive({ ...announcement, token: 'wrong' })
+await runLive('a forged token is refused and writes nothing', async () => {
+    const res = await setLive(announcement, 'not.a.token')
     assert.equal(res.status, 403)
     assert.equal(env.LIVE.store.size, 0)
 })
 
-await runLive('a missing token is refused and writes nothing', async () => {
-    const res = await setLive({ ...announcement, token: undefined })
+await runLive('no token is refused and writes nothing', async () => {
+    const res = await setLive(announcement, null)
+    assert.equal(res.status, 403)
+    assert.equal(env.LIVE.store.size, 0)
+})
+
+// Signing in with any Google account is not authorisation.
+await runLive('a valid token from a non-allowlisted uid writes nothing', async () => {
+    const res = await setLive(announcement, strangerToken)
     assert.equal(res.status, 403)
     assert.equal(env.LIVE.store.size, 0)
 })
@@ -252,42 +273,50 @@ await runLive('a missing title is refused', async () => {
 
 await runLive('off clears the announcement', async () => {
     await setLive(announcement)
-    assert.equal((await setLive({ token: announcement.token, off: true })).status, 200)
+    assert.equal((await setLive({ off: true })).status, 200)
     assert.deepEqual(await (await getLive()).json(), { live: false })
 })
 
 const adminState = (token) =>
     worker.fetch(
-        new Request('https://worker.dev/live/admin/state', {
+        new Request('https://worker.dev/live/state', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token })
+            headers: {
+                Origin: ORIGIN,
+                'CF-Connecting-IP': '1.2.3.4',
+                ...(token ? { Authorization: `Bearer ${token}` } : {})
+            }
         }),
         env
     )
 
-await runLive('the admin state endpoint reports a pending announcement', async () => {
+await runLive('the dashboard state endpoint reports a pending announcement', async () => {
     await setLive({ ...announcement, delayMinutes: 20 })
 
-    const state = await (await adminState(announcement.token)).json()
+    const state = await (await adminState(adminToken)).json()
     assert.equal(state.state, 'scheduled')
     assert.equal(state.minutesUntilVisible, 20)
 })
 
-// A scheduled announcement is not public until it starts, so its contents must not leak
-// to anyone who simply knows the admin URL.
-await runLive('the admin state endpoint refuses a wrong token', async () => {
-    await setLive({ ...announcement, delayMinutes: 20 })
+// A scheduled announcement is not public until it starts, so its contents must not leak.
+// Regression: the dashboard sends Authorization, which triggers a CORS preflight. Omitting
+// the header from the allowlist let every unit test pass while the browser blocked the call.
+await runLive('the preflight allows the Authorization header', async () => {
+    const res = await worker.fetch(
+        new Request('https://worker.dev/live', { method: 'OPTIONS', headers: { Origin: ORIGIN } }),
+        env
+    )
 
-    const res = await adminState('wrong')
-    assert.equal(res.status, 403)
-    assert.equal((await res.json()).announcement, undefined)
+    assert.equal(res.status, 204)
+    assert.match(res.headers.get('Access-Control-Allow-Headers'), /Authorization/i)
 })
 
-await runLive('the admin page is served without an Origin header', async () => {
-    const res = await worker.fetch(new Request('https://worker.dev/live/admin'), env)
-    assert.equal(res.status, 200)
-    assert.match(res.headers.get('Content-Type'), /text\/html/)
+await runLive('the dashboard state endpoint refuses an unauthorised caller', async () => {
+    await setLive({ ...announcement, delayMinutes: 20 })
+
+    const res = await adminState(strangerToken)
+    assert.equal(res.status, 403)
+    assert.equal((await res.json()).announcement, undefined)
 })
 
 console.log('\nall worker checks passed')

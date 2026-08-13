@@ -33,27 +33,37 @@ for (const name of ['CONTACT_TO_EMAIL', 'CONTACT_FROM_EMAIL']) {
 }
 
 const origins = readVar('ALLOWED_ORIGINS').split(',').map((o) => o.trim()).filter(Boolean)
+
+// http is allowed only for localhost, where TLS is not available and the origin cannot be
+// sent by anything but a local dev server. Every deployed host still has to be https.
+const isLocalhost = (origin) => /^http:\/\/localhost(:\d+)?$/.test(origin)
+
 check(
-    origins.every((o) => o.startsWith('https://')),
-    `origins are https (${origins.length})`,
-    'every ALLOWED_ORIGINS entry must be an https origin, with no trailing slash or path'
+    origins.every((o) => o.startsWith('https://') || isLocalhost(o)),
+    `origins are https, or localhost (${origins.length})`,
+    'every ALLOWED_ORIGINS entry must be an https origin (or http://localhost:PORT), with no trailing slash or path'
 )
 
-console.log('\nlive banner')
+console.log('\ndashboard')
 check(
     /^\[\[kv_namespaces\]\][\s\S]*?id\s*=\s*"[0-9a-f]{8,}"/m.test(toml),
     'KV namespace id is filled',
     'the LIVE kv_namespaces id is empty — run: npx wrangler kv namespace create LIVE --config worker/wrangler.toml'
 )
 
-// Guessable here means the whole banner is guessable: it is the only thing between a
-// stranger and a message shown to every visitor.
-const adminToken = process.env.LIVE_ADMIN_TOKEN
-if (!adminToken) {
-    skip('LIVE_ADMIN_TOKEN not in env — export it to check its strength')
-} else {
-    check(adminToken.length >= 20, 'LIVE_ADMIN_TOKEN is long enough', 'LIVE_ADMIN_TOKEN is under 20 characters')
-}
+check(
+    readVar('FIREBASE_PROJECT_ID'),
+    `FIREBASE_PROJECT_ID = ${readVar('FIREBASE_PROJECT_ID')}`,
+    'FIREBASE_PROJECT_ID is empty — ID tokens cannot be validated against a project'
+)
+
+// An empty allowlist locks everyone out, including you; it is not a safe default to ship.
+const adminUids = readVar('ADMIN_UIDS').split(',').map((uid) => uid.trim()).filter(Boolean)
+check(
+    adminUids.length,
+    `ADMIN_UIDS lists ${adminUids.length} account(s)`,
+    'ADMIN_UIDS is empty — nobody can sign in. Add your Firebase uid.'
+)
 
 // The sitekey is public and belongs in the client; the secret must never be in the repo.
 console.log('\nsecrets')

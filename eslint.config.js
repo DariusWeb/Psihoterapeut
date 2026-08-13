@@ -53,6 +53,7 @@ export default [
         Response: 'readonly',
         Request: 'readonly',
         TextEncoder: 'readonly',
+        TextDecoder: 'readonly',
         URLSearchParams: 'readonly',
         btoa: 'readonly',
         atob: 'readonly',
@@ -63,10 +64,17 @@ export default [
   // Build and tooling scripts run in Node, not the browser or the Workers runtime.
   {
     name: 'node/tooling-globals',
-    files: ['vite.config.js', 'worker/test.js', 'worker/preflight.js'],
+    files: [
+      'vite.config.js',
+      'worker/test.js',
+      'worker/verify-token.test.js',
+      'worker/test-tokens.js',
+      'worker/preflight.js',
+    ],
     languageOptions: {
       globals: {
         process: 'readonly',
+        Buffer: 'readonly',
       },
     },
   },

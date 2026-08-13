@@ -542,6 +542,71 @@
     "watch": "Vezi acum",
     "dismiss": "Închide anunțul"
   },
+  "dashboard": {
+    "title": "Panou de control",
+    "loading": "Se încarcă…",
+    "notConfigured": "Autentificarea nu este configurată. Lipsesc variabilele VITE_FIREBASE_* din .env.",
+    "signInPrompt": "Autentifică-te pentru a administra site-ul.",
+    "signIn": "Autentifică-te cu Google",
+    "signInError": "Autentificarea nu a reușit. Încearcă din nou.",
+    "signOut": "Ieși din cont",
+    "sectionsLabel": "Secțiuni",
+    "panels": {
+      "live": "Anunț live"
+    },
+    "live": {
+      "stateLive": "🔴 Activ acum: {title}",
+      "stateScheduled": "⏳ Programat, apare peste ~{minutes} min: {title}",
+      "stateNone": "⚪ Niciun anunț activ.",
+      "stateUnknown": "Nu am putut citi starea curentă.",
+      "publish": "Sunt live",
+      "stop": "Oprește",
+      "published": "Publicat. Apare la toți vizitatorii în ~1 minut.",
+      "scheduled": "Programat. Apare peste ~{minutes} min.",
+      "stopped": "Anunțul a fost oprit.",
+      "confirmScheduled": "Un anunț este deja programat și încă nu a apărut (peste ~{minutes} min). Îl înlocuiești? Cel programat se pierde.",
+      "confirmLive": "Un anunț este activ acum. Îl înlocuiești?",
+      "confirmYes": "Da, înlocuiește",
+      "confirmNo": "Anulează",
+      "fields": {
+        "title": "Titlu",
+        "text": "Text",
+        "ctaLabel": "Text buton",
+        "platform": "Platformă",
+        "url": "Link",
+        "delay": "Întârziere",
+        "duration": "Durată"
+      },
+      "platforms": {
+        "youtube": "YouTube",
+        "linkedin": "LinkedIn",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "other": "Altceva"
+      },
+      "delays": {
+        "0": "Imediat",
+        "10": "Peste 10 min",
+        "20": "Peste 20 min",
+        "30": "Peste 30 min"
+      },
+      "durations": {
+        "0": "Până îl opresc",
+        "30": "30 min",
+        "60": "1 oră",
+        "120": "2 ore",
+        "240": "4 ore"
+      },
+      "errors": {
+        "generic": "Ceva nu a mers. Încearcă din nou.",
+        "forbidden": "Contul tău nu are acces la panou.",
+        "not_signed_in": "Sesiunea a expirat. Autentifică-te din nou.",
+        "title_required": "Titlul este obligatoriu.",
+        "url_must_be_https": "Linkul trebuie să înceapă cu https://",
+        "rate_limited": "Prea multe încercări. Așteaptă un minut."
+      }
+    }
+  },
   "consent": {
     "title": "Analytics",
     "body": "May I measure how this site is used — pages opened, where you arrived from, and roughly where in the world you are — so it can be made more useful? Nothing is recorded of what you read or type, and nothing loads at all unless you accept. You can change this later at the bottom of any page. Details in the",

@@ -3,7 +3,7 @@
 
 import { logSignup } from './firestore.js'
 import { readLive, readLiveAdmin, writeLive } from './live.js'
-import { adminPage } from './admin-page.js'
+import { authorizeAdmin } from './verify-token.js'
 
 const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 const BREVO_CONTACTS = 'https://api.brevo.com/v3/contacts/doubleOptinConfirmation'
@@ -22,7 +22,7 @@ function corsHeaders(origin) {
         ? {
               'Access-Control-Allow-Origin': origin,
               'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-              'Access-Control-Allow-Headers': 'Content-Type'
+              'Access-Control-Allow-Headers': 'Content-Type, Authorization'
           }
         : {}
 }
@@ -144,28 +144,6 @@ export default {
         // The binding rejects a null key, and Cloudflare only sets this header in production.
         const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
 
-        // Admin routes sit ahead of the origin gate: opening the page is a top-level
-        // navigation, which carries no Origin header at all. The token is the auth.
-        if (pathname === '/live/admin') {
-            return new Response(adminPage(), {
-                headers: { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' }
-            })
-        }
-
-        // POST, not GET: the token rides in the body rather than a URL that lands in logs.
-        if (pathname === '/live/admin/state' && request.method === 'POST') {
-            const { status, body } = await readLiveAdmin(request, env)
-            return json(status, body, origin)
-        }
-
-        if (pathname === '/live' && request.method === 'POST') {
-            const { success: withinWriteLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip })
-            if (!withinWriteLimit) return json(429, { ok: false, error: 'rate_limited' }, origin)
-
-            const { status, body } = await writeLive(request, env)
-            return json(status, body, origin)
-        }
-
         if (request.method === 'OPTIONS') {
             return new Response(null, { status: 204, headers: corsHeaders(origin) })
         }
@@ -174,6 +152,25 @@ export default {
 
         if (pathname === '/live' && request.method === 'GET') {
             return json(200, await readLive(env), origin)
+        }
+
+        // Dashboard routes: a signed-in, allowlisted Google account, verified server-side.
+        // The browser is never trusted — the Vue route guard is only there for the UX.
+        if (pathname === '/live' || pathname === '/live/state') {
+            const { success: withinWriteLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip })
+            if (!withinWriteLimit) return json(429, { ok: false, error: 'rate_limited' }, origin)
+
+            if (!(await authorizeAdmin(request, env))) {
+                return json(403, { ok: false, error: 'forbidden' }, origin)
+            }
+
+            if (pathname === '/live/state') {
+                const { status, body } = await readLiveAdmin(env)
+                return json(status, body, origin)
+            }
+
+            const { status, body } = await writeLive(request, env)
+            return json(status, body, origin)
         }
 
         if (request.method !== 'POST') return json(405, { ok: false, error: 'method' }, origin)

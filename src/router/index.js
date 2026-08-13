@@ -90,6 +90,13 @@ const routes = [
     component: () => import('@/views/Terms.vue'),
     meta: { seo: 'terms', parent: 'home' },
   },
+  // No `seo` key, so it stays out of the search index and the breadcrumb trail entirely.
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('@/views/Dashboard.vue'),
+    meta: { title: 'Dashboard', noindex: true },
+  },
   {
     path: '/:catchAll(.*)',
     name: 'not-found',
@@ -121,6 +128,12 @@ const router = createRouter({
 // Detail routes have no `seo` key of their own — they show the list page's copy until their
 // lazy chunk lands and the component applies the real title.
 router.afterEach((to) => {
+  // Private pages carry no shareable metadata — just a title, and never indexed.
+  if (to.meta.noindex) {
+    document.title = to.meta.title
+    return
+  }
+
   const key = to.meta.seo ?? router.resolve({ name: to.meta.parent }).meta.seo
   if (!key) return
 

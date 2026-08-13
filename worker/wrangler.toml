@@ -3,16 +3,25 @@ main = "index.js"
 compatibility_date = "2026-08-11"
 
 # Secrets (never here — set with `npx wrangler secret put <NAME>`):
-#   TURNSTILE_SECRET_KEY, BREVO_API_KEY, FIREBASE_SERVICE_ACCOUNT, LIVE_ADMIN_TOKEN
+#   TURNSTILE_SECRET_KEY, BREVO_API_KEY, FIREBASE_SERVICE_ACCOUNT
 
 [vars]
-ALLOWED_ORIGINS = "https://dariusweb.github.io"
+# localhost is included so the dashboard and forms work in `npm run dev`. A page can only
+# send that Origin if it is genuinely served from localhost, and CORS is not what protects
+# these routes anyway — Turnstile guards the forms, a Google token and uid allowlist the rest.
+ALLOWED_ORIGINS = "https://dariusweb.github.io,http://localhost:5173"
 BREVO_LIST_ID = "5"
 BREVO_OPTIN_TEMPLATE_ID = "1"
 BREVO_OPTIN_REDIRECT_URL = "https://dariusweb.github.io/Psihoterapeut/"
 # ponytail: temporary test address — replace with a domain sender before launch, or replies land in spam.
 CONTACT_TO_EMAIL = "maury_4u@yahoo.com"
 CONTACT_FROM_EMAIL = "maury_4u@yahoo.com"
+
+# Dashboard access. Neither is a secret: the project id is public, and a uid grants nothing
+# without a Google-signed token proving you are that user.
+FIREBASE_PROJECT_ID = "psihoterapeut"
+# Comma-separated Firebase uids allowed into the dashboard. Empty means nobody gets in.
+ADMIN_UIDS = "aZ1J95snTTex2WwkMUU3Z7qUm2A3"
 
 # 5 submissions per minute per IP — generous for a human, useless for a flood.
 # ponytail: the edge counter is per-PoP and eventually consistent, so the effective limit
@@ -22,8 +31,11 @@ name = "SUBMIT_RATE_LIMIT"
 namespace_id = "1001"
 simple = { limit = 5, period = 60 }
 
-# Holds the one live-announcement key. Create with:
+# Holds the one live-announcement key. Create the namespace with:
 #   npx wrangler kv namespace create LIVE --config worker/wrangler.toml
+# then uncomment the three lines below and paste the id it prints.
+# Kept commented rather than left as id = "", which fails config validation and blocks
+# the very command that produces the id.
 [[kv_namespaces]]
 binding = "LIVE"
-id = ""
+id = "46c20d35a93746aaa9c4f67ef2275ddf"
