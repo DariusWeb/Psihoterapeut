@@ -80,7 +80,7 @@ if (!calendarId) {
     if (!serviceAccount) {
         skip('GOOGLE_CALENDAR_SERVICE_ACCOUNT not in env — export it to check the calendar is shared')
     } else {
-        const { accessToken } = await import('./google-auth.js')
+        const { accessToken } = await import('./lib/google-auth.js')
         const token = await accessToken(JSON.parse(serviceAccount), 'https://www.googleapis.com/auth/calendar')
 
         const query = new URLSearchParams({

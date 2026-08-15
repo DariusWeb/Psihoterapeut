@@ -1,21 +1,19 @@
-// Verifies Turnstile, then talks to Brevo server-side. The browser never touches Brevo directly:
-// its form hosts are on EasyPrivacy, so ad blockers were silently killing signups.
+// The only entry point: every route is gated here — origin, rate limit, then Turnstile — before
+// a handler ever sees the request.
 
-import { BREVO_CONTACTS, BREVO_EMAIL, brevo } from './brevo.js'
-import { availableSlots, bookingConfigured, handleBooking } from './calendar.js'
-import { logSignup } from './firestore.js'
-import { readLive, readLiveAdmin, writeLive } from './live.js'
+import { availableSlots, bookingConfigured, handleBooking } from './handlers/booking.js'
+import { handleContact } from './handlers/contact.js'
+import { readLive, readLiveAdmin, writeLive } from './handlers/live.js'
+import { handleNewsletter } from './handlers/newsletter.js'
 import {
     catalogueResponse,
     handleAccess,
     handleCheckout,
     handleDownload,
     handleStripeWebhook
-} from './resources.js'
-import { LIMITS, cleanString, isEmail } from './validate.js'
-import { authorizeAdmin } from './verify-token.js'
-
-const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+} from './handlers/resources.js'
+import { verifyTurnstile } from './lib/turnstile.js'
+import { authorizeAdmin } from './lib/verify-token.js'
 
 const json = (status, body, origin) =>
     new Response(JSON.stringify(body), {
@@ -37,86 +35,6 @@ function allowedOrigin(request, env) {
     const origin = request.headers.get('Origin')
     const allowed = (env.ALLOWED_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean)
     return allowed.includes(origin) ? origin : null
-}
-
-async function verifyTurnstile(token, ip, secret) {
-    if (!token) return false
-
-    const body = new FormData()
-    body.append('secret', secret)
-    body.append('response', token)
-    if (ip !== 'unknown') body.append('remoteip', ip)
-
-    const response = await fetch(TURNSTILE_VERIFY, { method: 'POST', body })
-    if (!response.ok) return false
-
-    return (await response.json()).success === true
-}
-
-// Brevo sends the opt-in email and only creates the contact once it is confirmed, so the
-// confirmation timestamp and IP it records are the consent proof — nothing is stored here.
-async function handleNewsletter(data, env) {
-    const email = cleanString(data.email, LIMITS.email)
-    if (!isEmail(email)) return { ok: false, error: 'invalid_email' }
-
-    // Logged before Brevo so the record survives a Brevo failure, and never blocks the
-    // subscription: a lost log is recoverable, a lost signup is not.
-    if (env.FIREBASE_SERVICE_ACCOUNT) {
-        await logSignup(env, {
-            email,
-            locale: ['en', 'ro'].includes(data.locale) ? data.locale : 'ro',
-            source: 'newsletter-form',
-            consentText: cleanString(data.consentText, LIMITS.consentText),
-            consentVersion: cleanString(data.consentVersion, 20),
-            pageUrl: cleanString(data.pageUrl, LIMITS.pageUrl)
-        }).catch((error) => console.error('signup log failed', error))
-    }
-
-    await brevo(BREVO_CONTACTS, env.BREVO_API_KEY, {
-        email,
-        includeListIds: [Number(env.BREVO_LIST_ID)],
-        templateId: Number(env.BREVO_OPTIN_TEMPLATE_ID),
-        redirectionUrl: env.BREVO_OPTIN_REDIRECT_URL,
-        attributes: {
-            CONSENT_TEXT: cleanString(data.consentText, LIMITS.consentText),
-            CONSENT_VERSION: cleanString(data.consentVersion, 20),
-            CONSENT_URL: cleanString(data.pageUrl, LIMITS.pageUrl),
-            CONSENT_AT: new Date().toISOString(),
-            LOCALE: ['en', 'ro'].includes(data.locale) ? data.locale : 'ro'
-        }
-    })
-
-    return { ok: true }
-}
-
-async function handleContact(data, env) {
-    const email = cleanString(data.email, LIMITS.email)
-    const name = cleanString(data.name, LIMITS.name)
-    const message = cleanString(data.message, LIMITS.message)
-    const phone = cleanString(data.phone, LIMITS.phone)
-
-    if (!isEmail(email) || !name || !message) return { ok: false, error: 'invalid_fields' }
-
-    const lines = [
-        `Nume: ${name}`,
-        `Email: ${email}`,
-        phone ? `Telefon: ${phone}` : null,
-        '',
-        message,
-        '',
-        `— trimis din formularul de contact (${cleanString(data.pageUrl, LIMITS.pageUrl)})`,
-        `Consimțământ: ${cleanString(data.consentText, LIMITS.consentText)}`
-    ].filter((line) => line !== null)
-
-    await brevo(BREVO_EMAIL, env.BREVO_API_KEY, {
-        sender: { email: env.CONTACT_FROM_EMAIL, name: 'Formular contact' },
-        to: [{ email: env.CONTACT_TO_EMAIL }],
-        replyTo: { email, name },
-        subject: `Mesaj nou de la ${name}`,
-        textContent: lines.join('\n')
-    })
-
-    return { ok: true }
 }
 
 const ROUTES = {

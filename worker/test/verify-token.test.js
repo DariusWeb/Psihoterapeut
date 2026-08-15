@@ -1,4 +1,4 @@
-// Run: node worker/verify-token.test.js
+// Run: node worker/test/verify-token.test.js
 // The load-bearing check: a token this Worker did not get from Google, or from a uid that is
 // not allowlisted, must never authorise a write. Tokens here are signed with a throwaway key
 // and the certificate endpoint is stubbed, so the real signature path is exercised.
@@ -14,11 +14,11 @@ import {
     signToken,
     signingKey,
     validClaims
-} from './test-tokens.js'
+} from './tokens.js'
 
 installCertStub()
 
-const { verifyIdToken, authorizeAdmin } = await import('./verify-token.js')
+const { verifyIdToken, authorizeAdmin } = await import('../lib/verify-token.js')
 
 const env = { FIREBASE_PROJECT_ID: PROJECT_ID, ADMIN_UIDS: UID }
 

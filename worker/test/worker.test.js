@@ -1,8 +1,8 @@
-// Run: node worker/test.js
+// Run: node worker/test/worker.test.js
 // The load-bearing check: a request without a valid Turnstile token must never reach Brevo.
 
 import assert from 'node:assert'
-import { ADMIN_UID, PROJECT_ID, installCertStub, signToken, signingKey, validClaims } from './test-tokens.js'
+import { ADMIN_UID, PROJECT_ID, installCertStub, signToken, signingKey, validClaims } from './tokens.js'
 
 const ORIGIN = 'https://dariusweb.github.io'
 const CALENDAR_ID = 'disponibil@group.calendar.google.com'
@@ -27,7 +27,7 @@ const bookedSlot = (iso) => ({
 const adminToken = signToken(validClaims())
 const strangerToken = signToken(validClaims({ sub: 'uid-stranger' }))
 
-const worker = (await import('./index.js')).default
+const worker = (await import('../index.js')).default
 
 const env = {
     ALLOWED_ORIGINS: ORIGIN,

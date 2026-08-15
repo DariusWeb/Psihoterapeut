@@ -1,12 +1,12 @@
 // Paid downloads. Delivery hangs off the Stripe webhook rather than the redirect, so a buyer
 // who closes the tab, loses the connection or cancels the save still gets the guide by email.
 
-import { BREVO_EMAIL, brevo } from './brevo.js'
-import { CURRENCY, RESOURCES, publicCatalogue } from './catalogue.js'
-import { patchDoc, readDoc, writeDoc } from './firestore.js'
-import { b64url } from './google-auth.js'
-import { createCheckoutSession, retrieveSession, verifyWebhook } from './stripe.js'
-import { LIMITS, cleanString, isEmail } from './validate.js'
+import { BREVO_EMAIL, brevo } from '../lib/brevo.js'
+import { CURRENCY, RESOURCES, publicCatalogue } from '../lib/catalogue.js'
+import { patchDoc, readDoc, writeDoc } from '../lib/firestore.js'
+import { b64url } from '../lib/google-auth.js'
+import { createCheckoutSession, retrieveSession, verifyWebhook } from '../lib/stripe.js'
+import { LIMITS, cleanString, isEmail } from '../lib/validate.js'
 
 const ORDERS = 'resourceOrders'
 

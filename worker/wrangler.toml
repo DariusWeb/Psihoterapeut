@@ -69,7 +69,7 @@ id = "46c20d35a93746aaa9c4f67ef2275ddf"
 # Paid guides. KV rather than R2, which cannot be enabled without billing details on the
 # account; a guide has to fit in a 25 MiB value, which every PDF does. Upload each file with:
 #   npx wrangler kv key put loss.pdf --path ./loss.pdf --binding RESOURCE_FILES --remote --config worker/wrangler.toml
-# Key names are set in worker/catalogue.js, which is also the only place a price lives.
+# Key names are set in worker/lib/catalogue.js, which is also the only place a price lives.
 [[kv_namespaces]]
 binding = "RESOURCE_FILES"
 id = "183e5f0b1897470da8183d51b3ef0f97"

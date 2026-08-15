@@ -1,17 +1,17 @@
-// Run: node worker/resources.test.js
+// Run: node worker/test/resources.test.js
 // The load-bearing checks: the browser can never choose what it is charged, and nothing is
 // delivered without a signature that only Stripe or this Worker could have produced.
 
 import assert from 'node:assert'
-import { RESOURCES } from './catalogue.js'
-import { b64url } from './google-auth.js'
-import { signingKey } from './test-tokens.js'
+import { RESOURCES } from '../lib/catalogue.js'
+import { b64url } from '../lib/google-auth.js'
+import { signingKey } from './tokens.js'
 
 const ORIGIN = 'https://dariusweb.github.io'
 const WEBHOOK_SECRET = 'whsec_test_secret'
 const SESSION_ID = 'cs_test_session_1'
 
-const worker = (await import('./index.js')).default
+const worker = (await import('../index.js')).default
 
 const bucket = new Map([['loss.pdf', 'a pdf'], ['identity.pdf', 'another pdf']])
 

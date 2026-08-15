@@ -5,8 +5,8 @@
 // bookings, marked with a private extended property Google never shows in the app, and they
 // subtract from the windows they sit in. Nothing else is read, so no other calendar is exposed.
 
-import { accessToken } from './google-auth.js'
-import { BREVO_EMAIL, brevo } from './brevo.js'
+import { accessToken } from '../lib/google-auth.js'
+import { BREVO_EMAIL, brevo } from '../lib/brevo.js'
 
 const SCOPE = 'https://www.googleapis.com/auth/calendar'
 const BOOKING_TAG = 'siteBooking'
