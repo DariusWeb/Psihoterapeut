@@ -39,6 +39,13 @@ const env = {
     CONTACT_FROM_EMAIL: 'from@example.com',
     FIREBASE_PROJECT_ID: PROJECT_ID,
     ADMIN_UIDS: ADMIN_UID,
+    // Set in production, so the suite has to run with the consent log switched on — without it
+    // logSignup is skipped entirely and could no-op forever unnoticed.
+    FIREBASE_SERVICE_ACCOUNT: JSON.stringify({
+        project_id: 'psihoterapeut-test',
+        client_email: 'forms@test.iam.gserviceaccount.com',
+        private_key: signingKey.export({ type: 'pkcs8', format: 'pem' })
+    }),
     // A real key, so the token exchange runs the real WebCrypto signing path.
     GOOGLE_CALENDAR_SERVICE_ACCOUNT: JSON.stringify({
         client_email: 'booking@test.iam.gserviceaccount.com',
@@ -80,6 +87,7 @@ let brevoCalls = []
 let turnstilePasses = true
 let calendarItems = []
 let calendarInserts = []
+let firestoreWrites = []
 
 globalThis.fetch = async (url, options) => {
     const target = String(url)
@@ -101,8 +109,19 @@ globalThis.fetch = async (url, options) => {
         return new Response('{"id":"evt_1"}', { status: 200 })
     }
 
-    brevoCalls.push(target)
-    return new Response('{}', { status: 201 })
+    if (target.includes('firestore.googleapis.com')) {
+        firestoreWrites.push(JSON.parse(options.body).fields)
+        return new Response('{}', { status: 200 })
+    }
+
+    // Matched by host rather than used as a fallback: a stray call to anything else would
+    // otherwise be counted as a Brevo call and quietly satisfy an assertion.
+    if (target.includes('api.brevo.com')) {
+        brevoCalls.push({ target, body: JSON.parse(options.body) })
+        return new Response('{}', { status: 201 })
+    }
+
+    throw new Error(`unstubbed request to ${target}`)
 }
 
 // Layered after the stub above so cert fetches are served without counting as Brevo calls.
@@ -119,6 +138,7 @@ const valid = { email: 'a@b.co', locale: 'ro', consentText: 'ok', turnstileToken
 
 async function run(name, fn) {
     brevoCalls = []
+    firestoreWrites = []
     turnstilePasses = true
     await fn()
     console.log(`  ok  ${name}`)
@@ -141,6 +161,39 @@ await run('valid newsletter submit reaches Brevo', async () => {
     const res = await post('/newsletter', valid)
     assert.equal(res.status, 200)
     assert.equal(brevoCalls.length, 1)
+})
+
+// These five attributes are the consent proof Brevo stores against the contact. Dropping one
+// would leave the double opt-in unprovable while every other assertion here still passed.
+await run('the newsletter payload carries the consent attributes', async () => {
+    await post('/newsletter', {
+        ...valid,
+        consentText: 'Sunt de acord',
+        consentVersion: 'v2',
+        pageUrl: 'https://site.ro/newsletter'
+    })
+
+    const { attributes, includeListIds, templateId } = brevoCalls[0].body
+    assert.equal(attributes.CONSENT_TEXT, 'Sunt de acord')
+    assert.equal(attributes.CONSENT_VERSION, 'v2')
+    assert.equal(attributes.CONSENT_URL, 'https://site.ro/newsletter')
+    assert.equal(attributes.LOCALE, 'ro')
+    assert.ok(Date.parse(attributes.CONSENT_AT))
+    assert.deepEqual(includeListIds, [1])
+    assert.equal(templateId, 2)
+})
+
+// The failure case below only proves a broken log is survivable; without this, a log that never
+// ran at all would look identical.
+await run('a successful signup is written to the consent log', async () => {
+    await post('/newsletter', { ...valid, consentText: 'Sunt de acord', consentVersion: 'v2' })
+
+    assert.equal(firestoreWrites.length, 1)
+    assert.equal(firestoreWrites[0].email.stringValue, 'a@b.co')
+    assert.equal(firestoreWrites[0].consentText.stringValue, 'Sunt de acord')
+    assert.equal(firestoreWrites[0].source.stringValue, 'newsletter-form')
+    // Brevo owns the confirmation; this row only records that the form was submitted.
+    assert.equal(firestoreWrites[0].confirmed.booleanValue, false)
 })
 
 await run('foreign origin is refused before anything else', async () => {
@@ -175,10 +228,18 @@ await run('contact requires name and message', async () => {
     assert.deepEqual(brevoCalls, [])
 })
 
+// A mail that arrives without the message in it is worse than one that never arrives.
 await run('valid contact submit reaches Brevo', async () => {
     const res = await post('/contact', { ...valid, name: 'Ana', message: 'Salut' })
     assert.equal(res.status, 200)
     assert.equal(brevoCalls.length, 1)
+
+    const { textContent, replyTo, to } = brevoCalls[0].body
+    assert.match(textContent, /Salut/)
+    assert.match(textContent, /Ana/)
+    // Replying to the notification has to reach the visitor, not the mailbox it was sent to.
+    assert.equal(replyTo.email, 'a@b.co')
+    assert.equal(to[0].email, 'to@example.com')
 })
 
 await run('unknown route is a 404', async () => {
@@ -395,6 +456,30 @@ await runBooking('an availability window becomes a grid of start times', async (
         body.slots,
         [0, 1, 2, 3].map((hour) => new Date(windowStart + hour * 3_600_000).toISOString())
     )
+})
+
+// The 24h lead time is why every other booking test puts its window three days out — nothing
+// was checking that a window inside it is actually withheld.
+await runBooking('a window inside the lead time offers nothing', async () => {
+    calendarItems = [openWindow(Date.now() + 2 * 3_600_000)]
+
+    assert.deepEqual((await (await getSlots()).json()).slots, [])
+})
+
+// All-day entries carry a bare date, which parses to NaN. Skipping them is what stops one from
+// landing in `busy` as [NaN, NaN], where every isFree comparison is false and the whole day's
+// real availability disappears.
+await runBooking('an all-day entry never eats a real window', async () => {
+    calendarItems = [
+        openWindow(),
+        {
+            start: { date: '2030-01-01' },
+            end: { date: '2030-01-02' },
+            extendedProperties: { private: { siteBooking: '1' } }
+        }
+    ]
+
+    assert.equal((await (await getSlots()).json()).slots.length, 4)
 })
 
 // The load-bearing check: the tag is the only thing separating a booking from an open window.
