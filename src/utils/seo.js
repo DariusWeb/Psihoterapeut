@@ -38,12 +38,12 @@ export function applySeo({ title, description, path, image, type = 'website' }) 
 	upsertMeta('og:type', type, 'property')
 	upsertMeta('og:locale', SITE.locale, 'property')
 	upsertMeta('og:site_name', SITE.name, 'property')
-	upsertMeta('og:image', shareImage && absoluteUrl(shareImage), 'property')
+	upsertMeta('og:image', shareImage, 'property')
 
 	upsertMeta('twitter:card', shareImage ? 'summary_large_image' : 'summary')
 	upsertMeta('twitter:title', fullTitle)
 	upsertMeta('twitter:description', description)
-	upsertMeta('twitter:image', shareImage && absoluteUrl(shareImage))
+	upsertMeta('twitter:image', shareImage)
 }
 
 // `id` scopes the block so pages can own one graph each without clobbering the static one in index.html.

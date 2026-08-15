@@ -26,6 +26,14 @@ jobs:
       - name: Install
         run: npm ci
 
+      # Gate, not decoration: a failure here stops the deploy before anything is built.
+      # `lint` runs with --fix, so CI checks the tree is already clean rather than fixing it.
+      - name: Lint
+        run: npm run lint && git diff --exit-code
+
+      - name: Worker tests
+        run: npm run worker:test
+
       # Repository variables, not secrets — all are public values baked into the bundle.
       - name: Build
         run: npm run build

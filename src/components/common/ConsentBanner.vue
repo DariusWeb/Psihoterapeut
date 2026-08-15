@@ -22,7 +22,7 @@
 			<button class="button-outline" @click="denyAnalyticsConsent">
 				{{ t('consent.decline') }}
 			</button>
-			<button class="button-primary" @click="grantAnalyticsConsent">
+			<button class="button-outline" @click="grantAnalyticsConsent">
 				{{ t('consent.accept') }}
 			</button>
 		</div>
