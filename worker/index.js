@@ -5,11 +5,17 @@ import { BREVO_CONTACTS, BREVO_EMAIL, brevo } from './brevo.js'
 import { availableSlots, bookingConfigured, handleBooking } from './calendar.js'
 import { logSignup } from './firestore.js'
 import { readLive, readLiveAdmin, writeLive } from './live.js'
+import {
+    catalogueResponse,
+    handleAccess,
+    handleCheckout,
+    handleDownload,
+    handleStripeWebhook
+} from './resources.js'
+import { LIMITS, cleanString, isEmail } from './validate.js'
 import { authorizeAdmin } from './verify-token.js'
 
 const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
-
-const LIMITS = { email: 254, name: 100, phone: 40, message: 5000, consentText: 500, pageUrl: 500 }
 
 const json = (status, body, origin) =>
     new Response(JSON.stringify(body), {
@@ -31,15 +37,6 @@ function allowedOrigin(request, env) {
     const origin = request.headers.get('Origin')
     const allowed = (env.ALLOWED_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean)
     return allowed.includes(origin) ? origin : null
-}
-
-function cleanString(value, max) {
-    return typeof value === 'string' ? value.trim().slice(0, max) : ''
-}
-
-// Deliberately permissive — the authoritative check is Brevo's double opt-in, not a regex.
-function isEmail(value) {
-    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
 }
 
 async function verifyTurnstile(token, ip, secret) {
@@ -122,7 +119,12 @@ async function handleContact(data, env) {
     return { ok: true }
 }
 
-const ROUTES = { '/newsletter': handleNewsletter, '/contact': handleContact, '/booking': handleBooking }
+const ROUTES = {
+    '/newsletter': handleNewsletter,
+    '/contact': handleContact,
+    '/booking': handleBooking,
+    '/resources/checkout': handleCheckout
+}
 
 export default {
     async fetch(request, env) {
@@ -136,7 +138,39 @@ export default {
             return new Response(null, { status: 204, headers: corsHeaders(origin) })
         }
 
+        // Dispatched above the origin gate: neither a Stripe callback nor a link clicked in an
+        // email sends an Origin, and each carries its own signature to be authorised by.
+        if (pathname === '/stripe/webhook') {
+            if (request.method !== 'POST') return new Response('method', { status: 405 })
+
+            try {
+                return await handleStripeWebhook(request, env)
+            } catch (error) {
+                // A 5xx is what makes Stripe retry, so a Firestore or Brevo blip is not a lost sale.
+                console.error(error)
+                return new Response('delivery failed', { status: 500 })
+            }
+        }
+
+        if (pathname === '/resources/download' && request.method === 'GET') {
+            return handleDownload(request, env)
+        }
+
         if (!origin) return json(403, { ok: false, error: 'forbidden_origin' }, null)
+
+        if (pathname === '/resources/catalogue' && request.method === 'GET') {
+            return json(200, catalogueResponse(), origin)
+        }
+
+        if (pathname === '/resources/access' && request.method === 'GET') {
+            try {
+                const { status, body } = await handleAccess(request, env)
+                return json(status, body, origin)
+            } catch (error) {
+                console.error(error)
+                return json(502, { ok: false, error: 'upstream_failed' }, origin)
+            }
+        }
 
         if (pathname === '/live' && request.method === 'GET') {
             return json(200, await readLive(env), origin)
@@ -194,7 +228,7 @@ export default {
         }
 
         try {
-            const result = await handler(data, env)
+            const result = await handler(data, env, origin)
             return json(result.ok ? 200 : 400, result, origin)
         } catch (error) {
             console.error(error)

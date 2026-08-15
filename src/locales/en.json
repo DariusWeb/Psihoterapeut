@@ -78,6 +78,7 @@
   },
   "navigation": {
     "skipToContent": "Skip to content",
+    "logoAlt": "Andreea Georgiana Butacu — psychotherapist, home",
     "menu": {
       "home": "Home",
       "services": "For you",
@@ -451,25 +452,42 @@
       "title": "Ghiduri premium",
       "intro": "Ghiduri detaliate și programe pentru aprofundare și susținere pe termen lung.",
       "viewAll": "Vezi toate ghidurile premium",
-      "details": "Vezi detalii",
+      "buy": "Cumpără ghidul",
       "loss": {
         "title": "Vindecarea după o pierdere de sarcină",
         "text": "Un ghid complet pentru a înțelege și procesa durerea, cu exerciții și resurse terapeutice.",
-        "price": "89 RON",
         "imageAlt": "Ghid tipărit așezat lângă un vas cu flori albe"
       },
       "identity": {
         "title": "Redefinirea identității după infertilitate",
         "text": "Un program pas cu pas pentru a-ți reconstrui stima de sine și încrederea în viitor.",
-        "price": "129 RON",
         "imageAlt": "Jurnal tipărit așezat pe o pătură, lângă o ramură de eucalipt"
       },
       "balance": {
         "title": "Program de echilibru pentru mame ocupate",
         "text": "6 module practice pentru mai multă claritate, grijă de sine și echilibru în viața de zi cu zi.",
-        "price": "199 RON",
         "imageAlt": "Teanc de cărți lângă un vas de ceramică"
       }
+    },
+    "checkout": {
+      "title": "Finalizează achiziția",
+      "intro": "Primești ghidul pe email imediat după plată, plus un link de descărcare aici.",
+      "emailLabel": "Adresa de email",
+      "emailHint": "Aici trimit ghidul, așa că verifică să fie scrisă corect.",
+      "terms": "Am citit și accept",
+      "termsLink": "termenii de vânzare",
+      "withdrawal": "Sunt de acord ca ghidul să îmi fie livrat imediat și înțeleg că îmi pierd dreptul de retragere în 14 zile.",
+      "submit": "Continuă spre plată",
+      "submitting": "Se pregătește plata…",
+      "secure": "Plata este procesată de Stripe. Datele cardului nu ajung niciodată pe acest site.",
+      "error": "Nu am putut porni plata. Încearcă din nou în câteva momente.",
+      "close": "Închide",
+      "verifying": "Confirm plata…",
+      "readyTitle": "Mulțumesc pentru achiziție.",
+      "readyText": "Ți-am trimis ghidul și pe email. Linkul funcționează un an, de pe orice dispozitiv.",
+      "download": "Descarcă ghidul",
+      "view": "Deschide în browser",
+      "failed": "Nu am putut confirma această plată. Dacă ai fost taxat, scrie-mi și rezolv imediat."
     },
     "cta": {
       "title": "Ai nevoie de sprijin personalizat?",

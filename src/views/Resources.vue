@@ -1,13 +1,30 @@
 <script setup>
-    import { RouterLink } from 'vue-router'
+    import { onMounted, ref } from 'vue'
+    import { RouterLink, useRoute, useRouter } from 'vue-router'
     import { useI18n } from 'vue-i18n'
     import { ArrowRight, Clock, Image, Leaf } from '@lucide/vue'
     import { useArticlesStore } from '@/stores/articlesStore'
     import { freeGuides, practicalResources, premiumGuides } from '@/content/resources'
+    import { formatPrice, loadCatalogue, priceOf } from '@/services/resources'
     import CtaBand from '@/components/common/CtaBand.vue'
+    import ResourceCheckout from '@/components/resources/ResourceCheckout.vue'
 
     const { t } = useI18n()
+    const route = useRoute()
+    const router = useRouter()
     const articlesStore = useArticlesStore()
+
+    const checkoutKey = ref(null)
+    const sessionId = ref(route.query.session_id ?? null)
+
+    onMounted(loadCatalogue)
+
+    // Dropped from the URL so a refresh does not re-run the payment check on a spent session.
+    function closeCheckout() {
+        checkoutKey.value = null
+        if (sessionId.value) router.replace({ query: {} })
+        sessionId.value = null
+    }
 </script>
 
 <template>
@@ -140,10 +157,13 @@
                     <div class="media-card-body">
                         <h3 class="card-title">{{ t(`resources.premium.${guide.key}.title`) }}</h3>
                         <p class="media-card-text">{{ t(`resources.premium.${guide.key}.text`) }}</p>
-                        <p class="resources-price">{{ t(`resources.premium.${guide.key}.price`) }}</p>
+                        <p class="resources-price">
+                            {{ priceOf(guide.key) ? formatPrice(priceOf(guide.key)) : '' }}
+                        </p>
 
-                        <button type="button" class="media-card-action">
-                            {{ t('resources.premium.details') }}
+                        <button type="button" class="media-card-action" :disabled="!priceOf(guide.key)"
+                            @click="checkoutKey = guide.key">
+                            {{ t('resources.premium.buy') }}
                         </button>
                     </div>
                 </article>
@@ -151,6 +171,8 @@
         </section>
 
         <CtaBand :title="t('resources.cta.title')" :text="t('resources.cta.text')" />
+
+        <ResourceCheckout :resource-key="checkoutKey" :session-id="sessionId" @close="closeCheckout" />
     </main>
 </template>
 
@@ -210,9 +232,16 @@
         border-top: 1px solid var(--vt-c-jannafer-gray2);
     }
 
+    // Reserved so the card does not jump when the price arrives from the Worker.
     .resources-price {
         margin: 0;
+        min-height: 1.5em;
         font-weight: 600;
         color: var(--vt-c-jannafer-green);
+    }
+
+    .media-card-action:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 </style>

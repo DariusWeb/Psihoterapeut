@@ -7,6 +7,8 @@
 	import SiteSearch from '@/components/common/SiteSearch.vue'
 	import { services } from '@/content/services/index.js'
 
+	const logoUrl = import.meta.env.BASE_URL + 'logo.svg'
+
 	const { t } = useI18n()
 	const route = useRoute()
 	const isScrolled = ref(false)
@@ -89,7 +91,9 @@
 <template>
 	<nav class="navigation" :class="{ 'is-scrolled': isScrolled }">
 		<div class="nav-logo">
-			<RouterLink to="/">Logo</RouterLink>
+			<RouterLink to="/">
+				<img :src="logoUrl" :alt="t('navigation.logoAlt')" width="502" height="139">
+			</RouterLink>
 		</div>
 
 		<div class="nav-menu">
@@ -186,6 +190,12 @@
 				background: var(--vt-c-background);
 			}
 		}
+	}
+
+	.nav-logo img {
+		display: block;
+		height: 2.8rem;
+		width: auto;
 	}
 
 	.nav-controls {

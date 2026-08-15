@@ -30,10 +30,13 @@ export function useFormSubmit(path) {
                 })
             })
 
-            if (!response.ok || !(await response.json()).ok) throw new Error(`Submit failed: ${response.status}`)
+            const payload = await response.json()
+            if (!response.ok || !payload.ok) throw new Error(`Submit failed: ${response.status}`)
 
             status.value = 'success'
-            return true
+            // The payload, not a bare true: checkout needs the Stripe URL back. Still truthy,
+            // so the forms that only test for success are unaffected.
+            return payload
         } catch {
             status.value = 'error'
             return false

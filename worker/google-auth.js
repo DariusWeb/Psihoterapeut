@@ -5,7 +5,7 @@ const TOKEN_URL = 'https://oauth2.googleapis.com/token'
 
 const cache = new Map()
 
-const b64url = (bytes) =>
+export const b64url = (bytes) =>
     btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 
 function pemToPkcs8(pem) {

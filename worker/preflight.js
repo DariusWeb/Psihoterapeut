@@ -112,6 +112,43 @@ if (!calendarId) {
     }
 }
 
+// Paid downloads are opt-in the same way booking is: no bucket means the feature is off, and
+// that must not block a deploy of everything else.
+console.log('\npaid resources')
+const returnPath = readVar('RESOURCE_RETURN_PATH')
+
+check(
+    /binding\s*=\s*"RESOURCE_FILES"\s*\n\s*id\s*=\s*"[0-9a-f]{8,}"/m.test(toml),
+    'RESOURCE_FILES namespace id is filled',
+    'RESOURCE_FILES is not bound — run: npx wrangler kv namespace create RESOURCE_FILES --config worker/wrangler.toml'
+)
+
+// Joined onto a request origin, so a missing leading slash silently builds a broken return URL.
+check(
+    returnPath.startsWith('/') && !returnPath.endsWith('/'),
+    `RESOURCE_RETURN_PATH = ${returnPath}`,
+    `RESOURCE_RETURN_PATH = "${returnPath}" — must start with "/" and have no trailing slash`
+)
+
+const stripeKey = process.env.STRIPE_SECRET_KEY
+
+if (!stripeKey) {
+    skip('STRIPE_SECRET_KEY not in env — export it to check the key against Stripe')
+} else if (stripeKey.startsWith('pk_')) {
+    fail('STRIPE_SECRET_KEY is a publishable key — the secret one starts with sk_ or rk_')
+} else {
+    const balance = await fetch('https://api.stripe.com/v1/balance', {
+        headers: { Authorization: `Bearer ${stripeKey}` }
+    })
+
+    check(balance.ok, 'Stripe accepts the secret key', `Stripe rejects STRIPE_SECRET_KEY (${balance.status})`)
+
+    // A test key deployed to production takes no money and looks like a working checkout.
+    if (balance.ok && stripeKey.includes('_test_')) {
+        fail('STRIPE_SECRET_KEY is a test key — live payments will silently collect nothing')
+    }
+}
+
 // The sitekey is public and belongs in the client; the secret must never be in the repo.
 console.log('\nsecrets')
 const secret = process.env.TURNSTILE_SECRET_KEY

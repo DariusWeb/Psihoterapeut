@@ -29,7 +29,6 @@
 
 	<header>
 		<Navigation />
-		<!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" /> -->
 	</header>
 
 	<RouterView v-slot="{ Component }">
@@ -60,11 +59,5 @@
 	// pages whose hero runs flush to the top zero --page-pad-top in their own scoped styles
 	.main-content {
 		padding: var(--page-pad-top) var(--page-gutter) var(--page-pad-bottom);
-	}
-
-	@media (min-width: 1024px) {
-		.logo {
-			margin: 0 2rem 0 0;
-		}
 	}
 </style>
