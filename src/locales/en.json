@@ -552,6 +552,17 @@
       "burnout": "Burnout"
     }
   },
+  "forms": {
+    "errors": {
+      "generic": "Ceva nu a mers. Încearcă din nou.",
+      "not_configured": "Formularul nu este disponibil momentan. Scrie-mi direct pe email.",
+      "rate_limited": "Prea multe încercări. Așteaptă un minut și încearcă din nou.",
+      "failed_captcha": "Verificarea antispam nu a trecut. Reîncarcă pagina și încearcă din nou.",
+      "invalid_email": "Adresa de email nu pare validă.",
+      "invalid_fields": "Verifică datele completate și încearcă din nou.",
+      "upstream_failed": "Serviciul nu răspunde acum. Încearcă din nou în câteva momente."
+    }
+  },
   "newsletter": {
     "title": "Subscribe to Newsletter",
     "description": "Stay updated with our latest articles and events",
@@ -960,7 +971,8 @@
       "consentLink": "politica de confidențialitate",
       "submit": "Confirmă programarea",
       "privacy": "Datele tale rămân confidențiale și nu sunt distribuite nimănui.",
-      "error": "Nu am putut salva programarea. Poate ora tocmai a fost ocupată — alege alta sau scrie-mi."
+      "error": "Nu am putut salva programarea. Încearcă din nou sau scrie-mi.",
+      "error_slot_unavailable": "Ora tocmai a fost ocupată. Alege alta sau scrie-mi."
     },
     "success": {
       "title": "Ne vedem atunci.",

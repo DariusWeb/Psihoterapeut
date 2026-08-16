@@ -3,16 +3,20 @@
     import { RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
     import { Heart, Mail } from '@lucide/vue'
-    import { useNewsletter } from '@/services/newsletterService'
+    import { useFormSubmit } from '@/composables/useFormSubmit'
+    import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
     import { captureEvent } from '@/services/analytics'
 
     const { t, locale } = useI18n()
     const email = ref('')
     const consent = ref(false)
-    const { status, captcha, subscribe } = useNewsletter()
+    // Brevo owns the list and the consent proof: its double opt-in records the confirmation
+    // timestamp and IP, which is stronger evidence than a log written before confirmation.
+    const { status, errorCode, captcha, submit } = useFormSubmit('/newsletter')
+    const errorMessage = useFormErrorMessage(errorCode, 'newsletter.error')
 
     const handleSubmit = async () => {
-        const sent = await subscribe({
+        const sent = await submit({
             email: email.value,
             locale: locale.value,
             // the exact wording the visitor agreed to, stored as the consent proof
@@ -61,7 +65,7 @@
                     </div>
 
                     <div v-if="status === 'error'" class="error" role="alert">
-                        {{ t('newsletter.error') }}
+                        {{ errorMessage }}
                     </div>
                 </form>
             </div>

@@ -4,6 +4,7 @@
 	import { useI18n } from 'vue-i18n'
 	import { CalendarDays, Clock, Laptop, Lock, Sprout } from '@lucide/vue'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
+	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
 
 	const { t, locale } = useI18n()
 
@@ -15,7 +16,8 @@
 
 	const form = ref({ name: '', email: '', phone: '', mode: 'online', message: '' })
 	const consent = ref(false)
-	const { status, captcha, submit } = useFormSubmit('/booking')
+	const { status, errorCode, captcha, submit } = useFormSubmit('/booking')
+	const errorMessage = useFormErrorMessage(errorCode, 'booking.form.error')
 
 	const assurances = [Clock, Laptop, Lock, Sprout]
 
@@ -201,7 +203,7 @@
 							{{ t('booking.form.privacy') }}
 						</p>
 
-						<div v-if="status === 'error'" class="error" role="alert">{{ t('booking.form.error') }}</div>
+						<div v-if="status === 'error'" class="error" role="alert">{{ errorMessage }}</div>
 					</form>
 				</template>
 			</section>

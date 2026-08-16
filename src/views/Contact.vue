@@ -6,6 +6,7 @@
 	import contactDesk from '@/assets/images/contact/contact-desk.webp'
 	import contactLivingRoom from '@/assets/images/contact/contact-living-room.webp'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
+	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
 
 	const { t, locale } = useI18n()
 
@@ -17,7 +18,8 @@
 	})
 
 	const consent = ref(false)
-	const { status, captcha, submit } = useFormSubmit('/contact')
+	const { status, errorCode, captcha, submit } = useFormSubmit('/contact')
+	const errorMessage = useFormErrorMessage(errorCode, 'contact.form.error')
 
 	const sendMessage = async () => {
 		const sent = await submit({
@@ -146,7 +148,7 @@
 				</div>
 
 				<div v-if="status === 'error'" class="error" role="alert">
-					{{ t('contact.form.error') }}
+					{{ errorMessage }}
 				</div>
 			</form>
 		</section>

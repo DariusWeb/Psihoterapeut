@@ -4,6 +4,7 @@
 	import { useI18n } from 'vue-i18n'
 	import { Download, ExternalLink, Lock, X } from '@lucide/vue'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
+	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
 	import { captureEvent } from '@/services/analytics'
 	import { formatPrice, priceOf, verifyPayment } from '@/services/resources'
 
@@ -15,7 +16,8 @@
 	const emit = defineEmits(['close'])
 
 	const { t, locale } = useI18n()
-	const { status, captcha, submit } = useFormSubmit('/resources/checkout')
+	const { status, errorCode, captcha, submit } = useFormSubmit('/resources/checkout')
+	const errorMessage = useFormErrorMessage(errorCode, 'resources.checkout.error')
 
 	const email = ref('')
 	const acceptedTerms = ref(false)
@@ -156,7 +158,7 @@
 							{{ t('resources.checkout.secure') }}
 						</p>
 
-						<p v-if="status === 'error'" class="error" role="alert">{{ t('resources.checkout.error') }}</p>
+						<p v-if="status === 'error'" class="error" role="alert">{{ errorMessage }}</p>
 					</form>
 				</div>
 			</div>
