@@ -6,7 +6,6 @@ const VALID_MODES = ['light', 'dark', 'system']
 
 export const useThemeStore = defineStore('theme', () => {
 	const mode = ref('system')
-	let mediaQueryList = null
 
 	const resolvedTheme = computed(() => {
 		if (mode.value === 'system') {
@@ -36,6 +35,7 @@ export const useThemeStore = defineStore('theme', () => {
 		}
 	}
 
+	// Called once from App.vue; the listener lives as long as the app, so there is no teardown.
 	function initTheme() {
 		const saved = localStorage.getItem(STORAGE_KEY)
 		if (saved && VALID_MODES.includes(saved)) {
@@ -43,15 +43,8 @@ export const useThemeStore = defineStore('theme', () => {
 		}
 		applyTheme()
 
-		mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
-		mediaQueryList.addEventListener('change', handleSystemChange)
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleSystemChange)
 	}
 
-	function cleanup() {
-		if (mediaQueryList) {
-			mediaQueryList.removeEventListener('change', handleSystemChange)
-		}
-	}
-
-	return { mode, resolvedTheme, setMode, initTheme, cleanup }
+	return { mode, resolvedTheme, setMode, initTheme }
 })
