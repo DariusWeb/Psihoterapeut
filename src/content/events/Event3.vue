@@ -7,6 +7,8 @@
             title: 'Identitatea mea dincolo de roluri și așteptări',
             details: 'Un atelier despre cine ești tu, dincolo de „mamă", „profesionistă", „puternică pentru ceilalți".',
             image: null,
+            // set alongside `image`: the alt text carries the description, not the filename
+            imageAlt: null,
             date: '2026-11-12',
             time: '10:00 – 13:00',
             location: 'București',

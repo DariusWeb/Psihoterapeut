@@ -7,6 +7,8 @@
             title: 'Relația cu mine atunci când încerc să devin mamă',
             details: 'Un atelier despre compasiune de sine, vinovăție și puterea de a te ține pe tine, nu doar speranța.',
             image: null,
+            // set alongside `image`: the alt text carries the description, not the filename
+            imageAlt: null,
             date: '2026-09-15',
             time: '10:00 – 13:00',
             location: 'Online (Zoom)',

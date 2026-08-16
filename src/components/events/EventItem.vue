@@ -12,6 +12,7 @@
         title: String,
         details: String,
         image: String,
+        imageAlt: String,
         date: String,
         time: String,
         location: String,
@@ -28,7 +29,7 @@
 <template>
     <article class="atelier-card card card-compact card-outlined">
         <div class="atelier-media card-media media-fade">
-            <img v-if="image" class="atelier-image" :src="image" :alt="title" width="600" height="400"
+            <img v-if="image" class="atelier-image" :src="image" :alt="imageAlt ?? title" width="600" height="400"
                 decoding="async" loading="lazy" />
             <div v-else class="media-placeholder atelier-image" role="img" :aria-label="title">
                 <Image :size="32" />

@@ -16,7 +16,11 @@
     )
 
     const formattedDate = computed(() =>
-        event.value ? new Date(event.value.date).toLocaleDateString(locale.value) : ''
+        event.value
+            ? new Date(event.value.date).toLocaleDateString(locale.value, {
+                day: 'numeric', month: 'long', year: 'numeric'
+            })
+            : ''
     )
 
     watchEffect(() => {

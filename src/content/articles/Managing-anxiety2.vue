@@ -7,6 +7,8 @@
             title: 'Managing Anxiety2',
             subtitle: 'Understanding and coping with anxiety',
             image: null,
+            // set alongside `image`: the alt text carries the description, not the filename
+            imageAlt: null,
             category: 'motherhood',
             readTime: 6,
             createdAt: '2025-09-19'

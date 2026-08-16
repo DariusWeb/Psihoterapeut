@@ -7,6 +7,8 @@
             title: 'Când corpul spune nu: epuizare și limite sănătoase',
             details: 'Un atelier despre semnele epuizării și despre cum îți poți așeza limite fără vinovăție.',
             image: null,
+            // set alongside `image`: the alt text carries the description, not the filename
+            imageAlt: null,
             date: '2026-12-05',
             time: '10:00 – 13:00',
             location: 'Online (Zoom)',

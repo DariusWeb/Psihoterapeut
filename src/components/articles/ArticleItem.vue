@@ -24,11 +24,6 @@
             <h2 class="article-title">{{ title }}</h2>
             <p v-if="subtitle">{{ subtitle }}</p>
 
-            <!-- Slot for flexible content -->
-            <div class="article-body">
-                <slot></slot>
-            </div>
-
             <RouterLink :to="`/articole/${slug}`" class="article-link">
                 {{ t('button.readMore') }}
             </RouterLink>

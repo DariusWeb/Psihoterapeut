@@ -13,9 +13,7 @@
             <h1>{{ t('articles.title') }}</h1>
 
             <div class="articles-grid card-grid">
-                <ArticleItem v-for="(article, index) in articlesStore.allArticles" :key="index" v-bind="article">
-                    <p>{{ article.content }}</p>
-                </ArticleItem>
+                <ArticleItem v-for="article in articlesStore.allArticles" :key="article.id" v-bind="article" />
             </div>
         </section>
     </main>

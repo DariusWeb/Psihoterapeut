@@ -1,7 +1,7 @@
 <script setup>
     import { useI18n } from 'vue-i18n'
 
-    const { t } = useI18n()
+    const { t, locale } = useI18n()
 
     defineProps({
         id: { type: [Number, String], required: true },
@@ -14,8 +14,9 @@
         image: { type: String, default: null },
     })
 
+    // `month: 'short'` on purpose — the news list is dense and the date sits in a meta row.
     function formatDate(dateStr) {
-        return new Date(dateStr).toLocaleDateString(undefined, {
+        return new Date(dateStr).toLocaleDateString(locale.value, {
             year: 'numeric',
             month: 'short',
             day: 'numeric',

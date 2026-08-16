@@ -55,7 +55,8 @@
             <div class="card-grid">
                 <article v-for="article in articlesStore.recentArticles" :key="article.id"
                     class="article-card card card-compact card-outlined">
-                    <img v-if="article.image" class="card-media media-fade" :src="article.image" :alt="article.title"
+                    <img v-if="article.image" class="card-media media-fade" :src="article.image"
+                        :alt="article.imageAlt ?? article.title"
                         width="600" height="400" decoding="async" loading="lazy" />
                     <div v-else class="media-placeholder card-media media-fade" role="img" :aria-label="article.title">
                         <Image :size="32" />

@@ -7,6 +7,8 @@
             title: 'Cum gestionez incertitudinea în infertilitate',
             details: 'Instrumente practice pentru a face față fricii, așteptării și zilelor grele.',
             image: null,
+            // set alongside `image`: the alt text carries the description, not the filename
+            imageAlt: null,
             date: '2026-10-08',
             time: '10:00 – 13:00',
             location: 'Online (Zoom)',

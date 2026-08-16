@@ -28,7 +28,8 @@
             <RouterLink v-for="article in articlesStore.homeArticles" :key="article.id" class="home-article"
                 :to="`/articole/${article.slug}`">
                 <img v-if="article.image" class="home-article-media media-fade" :src="article.image"
-                    :alt="article.title" width="600" height="400" decoding="async" loading="lazy" />
+                    :alt="article.imageAlt ?? article.title" width="600" height="400" decoding="async"
+                    loading="lazy" />
                 <div v-else class="media-placeholder home-article-media media-fade" role="img"
                     :aria-label="article.title">
                     <Image :size="32" />
