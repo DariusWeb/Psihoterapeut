@@ -15,10 +15,12 @@ export const consentBannerPending = computed(() => analyticsConsent.value === nu
 let posthog = null
 
 // Only what PostHog cannot infer from the request itself — the site's own display and language state.
-function siteContext() {
+// Theme comes from the store rather than localStorage/the dark class, so this reports the same
+// value the app is actually rendering.
+function siteContext(themeStore) {
 	return {
-		theme_mode: localStorage.getItem('theme-preference') ?? 'system',
-		theme_resolved: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+		theme_mode: themeStore.mode,
+		theme_resolved: themeStore.resolvedTheme,
 		site_language: i18n.global.locale.value,
 		reduced_motion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 		connection: window.navigator.connection?.effectiveType ?? 'unknown'
@@ -45,10 +47,13 @@ async function load() {
 		disable_session_recording: true
 	})
 
-	posthog.register(siteContext())
-
 	const themeStore = useThemeStore()
-	watch([i18n.global.locale, () => themeStore.resolvedTheme], () => posthog.register(siteContext()))
+	posthog.register(siteContext(themeStore))
+
+	watch(
+		[i18n.global.locale, () => themeStore.resolvedTheme],
+		() => posthog.register(siteContext(themeStore))
+	)
 }
 
 export function initAnalytics() {
