@@ -7,16 +7,14 @@
 
 import { accessToken } from '../lib/google-auth.js'
 import { BREVO_EMAIL, brevo } from '../lib/brevo.js'
+import { LIMITS as SHARED_LIMITS, cleanString as clean, isEmail } from '../lib/validate.js'
 
 const SCOPE = 'https://www.googleapis.com/auth/calendar'
 const BOOKING_TAG = 'siteBooking'
 
-const LIMITS = { email: 254, name: 100, phone: 40, message: 2000, consentText: 500 }
+// Shorter than the contact form's: this text lands in a calendar event description.
+const LIMITS = { ...SHARED_LIMITS, message: 2000 }
 const MODES = ['online', 'cabinet']
-
-const clean = (value, max) => (typeof value === 'string' ? value.trim().slice(0, max) : '')
-
-const isEmail = (value) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
 
 const eventsUrl = (calendarId) =>
     `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`

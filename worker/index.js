@@ -31,6 +31,8 @@ function corsHeaders(origin) {
         : {}
 }
 
+const withinRateLimit = async (env, ip) => (await env.SUBMIT_RATE_LIMIT.limit({ key: ip })).success
+
 function allowedOrigin(request, env) {
     const origin = request.headers.get('Origin')
     const allowed = (env.ALLOWED_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean)
@@ -81,6 +83,11 @@ export default {
         }
 
         if (pathname === '/resources/access' && request.method === 'GET') {
+            // Unauthenticated and it calls Stripe, so it is rate limited like a write.
+            if (!(await withinRateLimit(env, ip))) {
+                return json(429, { ok: false, error: 'rate_limited' }, origin)
+            }
+
             try {
                 const { status, body } = await handleAccess(request, env)
                 return json(status, body, origin)
@@ -99,6 +106,11 @@ export default {
         if (pathname === '/booking/slots' && request.method === 'GET') {
             if (!bookingConfigured(env)) return json(503, { ok: false, error: 'not_configured' }, origin)
 
+            // Every call is a live Google Calendar read, so it gets the same brake as a write.
+            if (!(await withinRateLimit(env, ip))) {
+                return json(429, { ok: false, error: 'rate_limited' }, origin)
+            }
+
             try {
                 return json(200, await availableSlots(env), origin)
             } catch (error) {
@@ -110,8 +122,9 @@ export default {
         // Dashboard routes: a signed-in, allowlisted Google account, verified server-side.
         // The browser is never trusted — the Vue route guard is only there for the UX.
         if (pathname === '/live' || pathname === '/live/state') {
-            const { success: withinWriteLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip })
-            if (!withinWriteLimit) return json(429, { ok: false, error: 'rate_limited' }, origin)
+            if (!(await withinRateLimit(env, ip))) {
+                return json(429, { ok: false, error: 'rate_limited' }, origin)
+            }
 
             if (!(await authorizeAdmin(request, env))) {
                 return json(403, { ok: false, error: 'forbidden' }, origin)
@@ -131,8 +144,9 @@ export default {
         const handler = ROUTES[pathname]
         if (!handler) return json(404, { ok: false, error: 'not_found' }, origin)
 
-        const { success: withinLimit } = await env.SUBMIT_RATE_LIMIT.limit({ key: ip })
-        if (!withinLimit) return json(429, { ok: false, error: 'rate_limited' }, origin)
+        if (!(await withinRateLimit(env, ip))) {
+            return json(429, { ok: false, error: 'rate_limited' }, origin)
+        }
 
         let data
         try {

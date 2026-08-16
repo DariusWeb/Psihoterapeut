@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import i18n from '@/i18n'
 import { useThemeStore } from '@/stores/themeStore'
 
@@ -7,6 +7,10 @@ const CONSENT_KEY = 'analytics-consent'
 
 // 'granted' | 'denied' | null, where null means the visitor has not answered the banner yet.
 export const analyticsConsent = ref(localStorage.getItem(CONSENT_KEY))
+
+// The consent banner owns the bottom of the screen until it is answered; anything else that
+// docks there waits its turn.
+export const consentBannerPending = computed(() => analyticsConsent.value === null)
 
 let posthog = null
 
@@ -54,21 +58,30 @@ export function initAnalytics() {
 export function grantAnalyticsConsent() {
 	localStorage.setItem(CONSENT_KEY, 'granted')
 	analyticsConsent.value = 'granted'
-	load()
+	// Granting after a previous decline: the library is already loaded but opted out,
+	// and load() would return early without ever opting back in.
+	if (posthog) posthog.opt_in_capturing()
+	else load()
+}
+
+// reset() wipes PostHog's own stored opt-out, so opting out has to follow it or it is undone.
+function stopCapturing() {
+	posthog?.reset(true)
+	posthog?.opt_out_capturing()
 }
 
 export function denyAnalyticsConsent() {
 	localStorage.setItem(CONSENT_KEY, 'denied')
 	analyticsConsent.value = 'denied'
-	// reset() wipes PostHog's own stored opt-out, so opting out has to follow it or it is undone
-	posthog?.reset(true)
-	posthog?.opt_out_capturing()
+	stopCapturing()
 }
 
 // Withdrawing has to be as easy as consenting, so the footer can put the banner back.
+// Capturing stops immediately: until the banner is answered again there is no consent to rely on.
 export function reopenAnalyticsConsent() {
 	localStorage.removeItem(CONSENT_KEY)
 	analyticsConsent.value = null
+	stopCapturing()
 }
 
 export function captureEvent(name, properties) {

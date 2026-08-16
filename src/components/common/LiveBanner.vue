@@ -1,7 +1,7 @@
 <script setup>
 	import { useI18n } from 'vue-i18n'
 	import { Radio, X } from '@lucide/vue'
-	import { analyticsConsent } from '@/services/analytics'
+	import { consentBannerPending } from '@/services/analytics'
 	import { liveAnnouncement, dismissLive, reportLiveClick } from '@/services/liveBanner'
 
 	const { t } = useI18n()
@@ -11,7 +11,7 @@
 	<!-- The wrapper stays mounted so the live region exists before its text does; inserting
 	     both at once is unreliably announced, and this appears while someone is reading. -->
 	<aside class="live-region" role="status">
-		<div v-if="liveAnnouncement && analyticsConsent !== null" class="live-banner card">
+		<div v-if="liveAnnouncement && !consentBannerPending" class="live-banner card">
 			<Radio class="live-icon" :size="24" />
 
 			<div class="live-copy">

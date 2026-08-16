@@ -2,7 +2,7 @@
 	import { useI18n } from 'vue-i18n'
 	import { RouterLink } from 'vue-router'
 	import {
-		analyticsConsent,
+		consentBannerPending,
 		grantAnalyticsConsent,
 		denyAnalyticsConsent
 	} from '@/services/analytics'
@@ -11,7 +11,7 @@
 </script>
 
 <template>
-	<aside v-if="analyticsConsent === null" class="consent-banner card" role="region"
+	<aside v-if="consentBannerPending" class="consent-banner card" role="region"
 		:aria-label="t('consent.title')">
 		<p class="consent-text">
 			{{ t('consent.body') }}

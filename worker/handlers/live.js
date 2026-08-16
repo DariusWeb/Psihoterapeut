@@ -2,12 +2,13 @@
 // Auth is a shared token, not an origin check — the admin page is opened directly, so
 // a top-level navigation carries no Origin header at all.
 
+import { cleanString as clean } from '../lib/validate.js'
+
 const KEY = 'announcement'
+// Its own fields, not the form ones: this is banner copy, not a submission.
 const LIMITS = { title: 80, text: 200, ctaLabel: 40, url: 500 }
 const DELAYS = [0, 10, 20, 30]
 const DURATIONS = [30, 60, 120, 240, 0] // 0 = no expiry, cleared by hand
-
-const clean = (value, max) => (typeof value === 'string' ? value.trim().slice(0, max) : '')
 
 const pick = (value, allowed) => (allowed.includes(Number(value)) ? Number(value) : allowed[0])
 
