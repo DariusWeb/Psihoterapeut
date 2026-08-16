@@ -3,16 +3,18 @@
 	import { RouterLink, useRoute, useRouter } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
 	import { ExternalLink, Search, X } from '@lucide/vue'
+	import { useOverlay } from '@/composables/useOverlay'
 
 	const { t, locale } = useI18n()
 	const route = useRoute()
 	const router = useRouter()
 
-	const isOpen = ref(false)
 	const query = ref('')
 	const activeIndex = ref(0)
 	const inputRef = ref(null)
 	const triggerRef = ref(null)
+
+	const { isOpen, open: openOverlay, close: closeOverlay } = useOverlay({ onEscape: () => close() })
 
 	// The index pulls the whole content corpus; keeping it out of the header's chunk keeps it out of boot.
 	const searchApi = ref(null)
@@ -34,30 +36,16 @@
 		searchApi.value ? searchApi.value.search(query.value, { t, d: formatDate }) : []
 	)
 
-	// `inert` hands keyboard trapping to the platform instead of a hand-rolled Tab cycle
-	function setBackgroundInert(inert) {
-		document.querySelectorAll('header, #main, footer').forEach((el) => {
-			el.toggleAttribute('inert', inert)
-		})
-	}
-
-	async function open() {
-		isOpen.value = true
+	function open() {
 		ensureIndex()
-		document.body.style.overflow = 'hidden'
-		await nextTick()
-		setBackgroundInert(true)
-		inputRef.value?.focus()
+		openOverlay(inputRef)
 	}
 
 	function close({ restoreFocus = true } = {}) {
 		if (!isOpen.value) return
-		isOpen.value = false
 		query.value = ''
 		activeIndex.value = 0
-		document.body.style.overflow = ''
-		setBackgroundInert(false)
-		if (restoreFocus) triggerRef.value?.focus()
+		closeOverlay(restoreFocus ? triggerRef : null)
 	}
 
 	function move(step) {
@@ -86,9 +74,7 @@
 			e.preventDefault()
 			if (isOpen.value) close()
 			else open()
-			return
 		}
-		if (e.key === 'Escape' && isOpen.value) close()
 	}
 
 	watch(query, () => (activeIndex.value = 0))
@@ -98,11 +84,7 @@
 
 	onMounted(() => window.addEventListener('keydown', handleKeydown))
 
-	onUnmounted(() => {
-		window.removeEventListener('keydown', handleKeydown)
-		document.body.style.overflow = ''
-		setBackgroundInert(false)
-	})
+	onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
 </script>
 
 <template>

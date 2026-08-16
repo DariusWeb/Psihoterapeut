@@ -1,10 +1,11 @@
 <script setup>
 	import { RouterLink, useRoute } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
+	import { ref, onMounted, onUnmounted, watch } from 'vue'
 	import ThemeToggle from '@/components/common/ThemeToggle.vue'
 	import LanguageToggle from '@/components/common/LanguageToggle.vue'
 	import SiteSearch from '@/components/common/SiteSearch.vue'
+	import { useOverlay } from '@/composables/useOverlay'
 	import { services } from '@/content/services/index.js'
 
 	const logoUrl = import.meta.env.BASE_URL + 'logo.svg'
@@ -12,10 +13,11 @@
 	const { t } = useI18n()
 	const route = useRoute()
 	const isScrolled = ref(false)
-	const isMenuOpen = ref(false)
 	const openDropdown = ref(null)
 	const hamburgerRef = ref(null)
 	const closeButtonRef = ref(null)
+
+	const { isOpen: isMenuOpen, open, close } = useOverlay({ onEscape: () => closeMenu() })
 
 	const navItems = [
 		{ key: 'home', to: '/' },
@@ -35,38 +37,13 @@
 		isScrolled.value = window.scrollY > 0
 	}
 
-	// `inert` hands keyboard trapping to the platform instead of a hand-rolled Tab cycle
-	function setBackgroundInert(inert) {
-		document.querySelectorAll('header, #main, footer').forEach((el) => {
-			el.toggleAttribute('inert', inert)
-		})
-	}
-
-	async function openMenu() {
-		isMenuOpen.value = true
-		document.body.style.overflow = 'hidden'
-		await nextTick()
-		setBackgroundInert(true)
-		closeButtonRef.value?.focus()
-	}
-
 	function toggleMenu() {
 		if (isMenuOpen.value) closeMenu()
-		else openMenu()
+		else open(closeButtonRef)
 	}
 
 	function closeMenu({ restoreFocus = true } = {}) {
-		if (!isMenuOpen.value) return
-		isMenuOpen.value = false
-		document.body.style.overflow = ''
-		setBackgroundInert(false)
-		if (restoreFocus) hamburgerRef.value?.focus()
-	}
-
-	function handleKeydown(e) {
-		if (e.key === 'Escape' && isMenuOpen.value) {
-			closeMenu()
-		}
+		close(restoreFocus ? hamburgerRef : null)
 	}
 
 	// navigating should land the user on the new page, not back on the hamburger
@@ -75,17 +52,9 @@
 		openDropdown.value = null
 	})
 
-	onMounted(() => {
-		window.addEventListener('scroll', handleScroll, { passive: true })
-		window.addEventListener('keydown', handleKeydown)
-	})
+	onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true }))
 
-	onUnmounted(() => {
-		window.removeEventListener('scroll', handleScroll)
-		window.removeEventListener('keydown', handleKeydown)
-		document.body.style.overflow = ''
-		setBackgroundInert(false)
-	})
+	onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 </script>
 
 <template>

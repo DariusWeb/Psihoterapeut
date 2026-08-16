@@ -1,10 +1,11 @@
 <script setup>
-	import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+	import { computed, nextTick, onMounted, ref, watch } from 'vue'
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
 	import { Download, ExternalLink, Lock, X } from '@lucide/vue'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
 	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
+	import { useOverlay } from '@/composables/useOverlay'
 	import { captureEvent } from '@/services/analytics'
 	import { formatPrice, priceOf, verifyPayment } from '@/services/resources'
 
@@ -31,16 +32,11 @@
 	const shownKey = computed(() => access.value?.resourceKey ?? props.resourceKey)
 	const price = computed(() => (props.resourceKey ? priceOf(props.resourceKey) : null))
 
-	// `inert` hands keyboard trapping to the platform instead of a hand-rolled Tab cycle
-	function setBackgroundInert(inert) {
-		document.querySelectorAll('header, #main, footer').forEach((el) => {
-			el.toggleAttribute('inert', inert)
-		})
-	}
+	// The panel's open state is the parent's to own, so only the page lock is taken here.
+	const { hold, release } = useOverlay()
 
 	function close() {
-		document.body.style.overflow = ''
-		setBackgroundInert(false)
+		release()
 		emit('close')
 	}
 
@@ -59,9 +55,8 @@
 	}
 
 	async function openPanel() {
-		document.body.style.overflow = 'hidden'
+		hold()
 		await nextTick()
-		setBackgroundInert(true)
 		panelRef.value?.focus()
 
 		if (!props.sessionId) return
@@ -77,11 +72,6 @@
 
 	// Returning from Stripe opens the panel on the first render, before the watcher can fire.
 	onMounted(() => isOpen.value && openPanel())
-
-	onUnmounted(() => {
-		document.body.style.overflow = ''
-		setBackgroundInert(false)
-	})
 </script>
 
 <template>
