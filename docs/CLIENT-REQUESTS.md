@@ -59,9 +59,17 @@ its label sitting on top of the text being typed — she has not reported it yet
 |---|---|---|
 | G3 | Hide the Ateliere page in the first phase | done |
 
-Decision: add `meta.hidden` to the route and derive nav, sitemap and search index from it,
-so re-enabling later is one boolean instead of a four-file edit. The groups list stays on
+Decision: one `HIDDEN_PATHS` list in `src/seo.config.js` drives the router, the nav, the
+sitemap and site search, so re-enabling is one edit instead of four. The groups list stays on
 `/ateliere` and comes back with it.
+
+**Currently hidden (2026-09-02):** `/ateliere`, `/grupuri`, `/noutati`. Prefix-matched, so
+detail routes (`/ateliere/:slug`, `/grupuri/:slug`) and anchors hide with their parent.
+
+> **News needed a second mechanism.** Its search entries link straight out to the press
+> (`digi24.ro`, `protv.ro`…), so the path filter cannot see them — 29 external results would
+> have stayed searchable after the page was hidden. `buildSearchIndex` now skips
+> `newsEntries()` entirely when `/noutati` is hidden.
 
 ---
 

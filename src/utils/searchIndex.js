@@ -203,11 +203,15 @@ let index = []
 
 // Called once from the router-aware caller so page entries can walk the real route table.
 export function buildSearchIndex(routes) {
+	// News entries link straight out to the press, so the path filter below cannot see them —
+	// they hide with the page that lists them instead.
+	const newsHidden = isHiddenPath('/noutati')
+
 	index = [
 		...serviceEntries(),
 		...articleEntries(),
 		...eventEntries(),
-		...newsEntries(),
+		...(newsHidden ? [] : newsEntries()),
 		...groupEntries(),
 		...resourceEntries(),
 		...pageEntries(routes)

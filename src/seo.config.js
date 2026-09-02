@@ -15,7 +15,7 @@ export const TITLE_SUFFIX = ' | Andreea Butacu'
 
 // Built but not launched yet. Emptying this list brings a page back everywhere at once:
 // router, navigation, sitemap and site search all filter on it.
-export const HIDDEN_PATHS = []
+export const HIDDEN_PATHS = ['/ateliere', '/grupuri', '/noutati']
 
 // Matches the page and everything under it — detail routes and in-page anchors included.
 export function isHiddenPath(path = '') {
