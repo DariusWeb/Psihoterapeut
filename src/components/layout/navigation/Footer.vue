@@ -17,7 +17,7 @@
                         <a href="tel:+40123456789">{{ t('footer.contact.phone') }}</a>
                     </li>
                     <li>
-                        <a href="mailto:andreea.ardei@gmail.com">
+                        <a href="mailto:andreea.butacu.psiholog@gmail.com">
                             {{ t('footer.contact.email') }}
                         </a>
                     </li>

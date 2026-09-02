@@ -2,7 +2,7 @@
 	import { computed, onMounted, ref } from 'vue'
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { CalendarDays, Clock, Laptop, Lock, Sprout } from '@lucide/vue'
+	import { CalendarDays, Clock, Laptop, Lock, Sprout, Wallet } from '@lucide/vue'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
 	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
 
@@ -19,7 +19,10 @@
 	const { status, errorCode, captcha, submit } = useFormSubmit('/booking')
 	const errorMessage = useFormErrorMessage(errorCode, 'booking.form.error')
 
-	const assurances = [Clock, Laptop, Lock, Sprout]
+	const assurances = [Clock, Wallet, Laptop, Lock, Sprout]
+
+	// Display only — sessions are paid outside the site.
+	const sessionPriceRon = 250
 
 	// The site renders Romanian copy in both locales, so the dates beside it are Romanian too.
 	const dayFormat = new Intl.DateTimeFormat('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' })
@@ -96,7 +99,7 @@
 				<div class="booking-assurances">
 					<p v-for="(icon, index) in assurances" :key="index" class="booking-assurance">
 						<component :is="icon" :size="18" />
-						{{ t(`booking.hero.a${index + 1}`) }}
+						{{ t(`booking.hero.a${index + 1}`, { minutes: slotMinutes, price: sessionPriceRon }) }}
 					</p>
 				</div>
 

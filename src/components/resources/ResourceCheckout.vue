@@ -77,8 +77,9 @@
 <template>
 	<Teleport to="body">
 		<Transition name="overlay">
-			<div v-if="isOpen" class="checkout-overlay" @click.self="close" @keydown.esc="close">
-				<div ref="panelRef" class="checkout-panel card" role="dialog" aria-modal="true" tabindex="-1"
+			<div v-if="isOpen" class="overlay checkout-overlay" @click.self="close" @keydown.esc="close">
+				<div ref="panelRef" class="overlay-panel checkout-panel card" role="dialog" aria-modal="true"
+					tabindex="-1"
 					:aria-label="t('resources.checkout.title')">
 					<button class="checkout-close" :aria-label="t('resources.checkout.close')" @click="close">
 						<X :size="18" aria-hidden="true" />
@@ -158,29 +159,13 @@
 
 <style scoped lang="scss">
 	.checkout-overlay {
-		position: fixed;
-		inset: 0;
-		z-index: 200;
-		background: rgb(from var(--vt-c-background) r g b / 80%);
-		backdrop-filter: blur(8px);
-
-		:root.no-gpu-blur & {
-			backdrop-filter: none;
-		}
-
-		display: flex;
-		justify-content: center;
-		padding: clamp(1rem, 8vh, 6rem) var(--page-gutter) 2rem;
 		overflow-y: auto;
 	}
 
+	// position: anchors the close button
 	.checkout-panel {
 		position: relative;
-		width: 100%;
-		max-width: 30rem;
 		height: fit-content;
-		background: var(--vt-c-white);
-		box-shadow: var(--vt-c-shadow-raised);
 	}
 
 	.checkout-close {
@@ -274,10 +259,10 @@
 
 	.overlay-enter-active,
 	.overlay-leave-active {
-		transition: opacity 0.2s ease;
+		transition: opacity var(--vt-c-transition-speed) ease;
 
 		.checkout-panel {
-			transition: transform 0.2s ease;
+			transition: transform var(--vt-c-transition-speed) ease;
 		}
 	}
 
@@ -291,14 +276,8 @@
 	}
 
 	@media (max-width: 640px) {
-		.checkout-overlay {
-			padding: 0;
-		}
-
 		.checkout-panel {
-			max-width: none;
 			min-height: 100%;
-			border-radius: 0;
 		}
 	}
 </style>

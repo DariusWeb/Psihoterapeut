@@ -532,11 +532,20 @@
         "text": "Pentru femei care se simt blocate, epuizate sau în căutare de sens.",
         "location": "Online (Zoom)",
         "frequency": "Întâlniri lunare"
+      },
+      "detailsCta": "Detalii și înscriere",
+      "signup": {
+        "title": "Vreau să mă înscriu",
+        "intro": "Lasă-mi datele tale și revin cu detaliile despre următoarea serie de întâlniri.",
+        "message": "Ce te aduce către acest grup (opțional)",
+        "send": "Trimite înscrierea",
+        "messagePrefix": "Înscriere la: {group}",
+        "success": "Mulțumesc. Am primit înscrierea ta și revin cu detaliile despre următoarea serie de întâlniri."
       }
     },
     "cta": {
-      "title": "Ai nevoie de sprijin personalizat?",
-      "text": "Programează o ședință și hai să lucrăm împreună."
+      "title": "Poate că acum ai nevoie de ceva mai personal.",
+      "text": "Ședințele individuale îți oferă un spațiu în care putem privi cu atenție ceea ce te preocupă și putem lucra în ritmul tău."
     }
   },
   "articles": {
@@ -564,12 +573,12 @@
     }
   },
   "newsletter": {
-    "title": "Subscribe to Newsletter",
-    "description": "Stay updated with our latest articles and events",
-    "emailPlaceholder": "Enter your email address",
-    "consent": "I agree to receive the newsletter by email, and to opens and link clicks being measured so the content can be improved. I can unsubscribe at any time — see the",
-    "success": "Almost there — check your inbox and click the confirmation link to complete your subscription.",
-    "error": "Something went wrong and you were not subscribed. Please try again in a moment.",
+    "title": "Abonează-te la newsletter",
+    "description": "Primești articole, informații privind atelierele planificate și resurse utile direct pe mail.",
+    "emailPlaceholder": "Adresa ta de email",
+    "consent": "Sunt de acord să primesc newsletterul pe email și ca deschiderile și clicurile pe linkuri să fie măsurate, pentru a îmbunătăți conținutul. Mă pot dezabona oricând — vezi",
+    "success": "Mă bucur că vrei să rămâi aproape. Verifică-ți inboxul și confirmă adresa de email pentru a începe să primești articole și resurse create cu grijă pentru tine.",
+    "error": "Ceva nu a funcționat și nu am putut finaliza abonarea. Te rog să încerci din nou în câteva momente.",
     "aside": "Primești articole, ateliere și resurse utile, direct pe email."
   },
   "live": {
@@ -657,15 +666,15 @@
       "photoAlt": "Birou cu laptop și carnet, pregătit pentru o ședință de psihoterapie online"
     },
     "note": {
-      "sessions": "Ședințele se desfășoară online sau față în față",
-      "place": "în București sau din confortul spațiului tău"
+      "sessions": "Ședințele se desfășoară online",
+      "place": "sau față în față, în București"
     },
     "reach": {
       "title": "Cum putem lua legătura",
       "subtitle": "Alege varianta care ți se potrivește cel mai bine.",
       "email": {
         "label": "Email",
-        "value": "contact{'@'}cabinetultau.ro"
+        "value": "andreea.butacu.psiholog{'@'}gmail.com"
       },
       "phone": {
         "label": "Telefon",
@@ -694,8 +703,8 @@
       "consent": "Sunt de acord ca datele de mai sus să fie folosite pentru a-mi răspunde. Am citit",
       "consentLink": "politica de confidențialitate",
       "privacy": "Datele tale rămân confidențiale și nu sunt distribuite nimănui.",
-      "success": "Mesajul a fost trimis!",
-      "error": "A apărut o eroare la trimiterea mesajului."
+      "success": "Mulțumesc pentru mesaj. L-am primit și voi reveni în cel mai scurt timp pentru a vorbi despre următorul pas.",
+      "error": "Mesajul tău nu a putut fi trimis de această dată. Te rog să încerci din nou sau să mă contactezi direct."
     },
     "steps": {
       "title": "Ce se întâmplă după ce îmi scrii?",
@@ -722,8 +731,8 @@
     },
     "strip": {
       "s1": {
-        "title": "Ședințe online",
-        "text": "pe platforme securizate (Google Meet / Zoom)"
+        "title": "În ritmul tău",
+        "text": "fiecare proces terapeutic este diferit și îl construim împreună"
       },
       "s2": {
         "title": "Program flexibil",
@@ -809,15 +818,19 @@
     "intro": "This notice describes what this website actually does with your information. It is deliberately short, because the site collects very little.",
     "controller": {
       "title": "1. Who is responsible",
-      "body": "The controller of your personal data is [full name / PFA], [registered address], registered with the Romanian College of Psychologists under number [registration number].",
-      "contact": "For anything in this notice, including any request under section 7, write to andreea.ardei{'@'}gmail.com."
+      "body": "The controller of your personal data is Andreea Butacu, registered in București and licenced with the Romanian College of Psychologists under number 1708 / 27.03.2025.",
+      "contact": "For anything in this notice, including any request under section 7, write to andreea.butacu.psiholog{'@'}gmail.com."
     },
     "collect": {
       "title": "2. What is collected",
-      "intro": "Four things, and nothing else.",
+      "intro": "Five things, and nothing else.",
       "form": {
         "title": "When you send a message through the contact form",
         "body": "Your first name, email address, phone number (optional) and the text of your message. Used only to reply to you and to arrange a first session."
+      },
+      "likes": {
+        "title": "When you like an article or a workshop",
+        "body": "A single number per page — how many people pressed the button. No name, no email, no identifier of you is stored or sent, and the count cannot be traced back to anyone. Your own browser remembers that you already pressed it, so the button does not offer itself twice; clearing your site data resets that and nothing else."
       },
       "newsletter": {
         "title": "When you subscribe to the newsletter",
@@ -833,12 +846,13 @@
       },
       "storage": {
         "title": "Preferences saved in your browser",
-        "body": "Four values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
+        "body": "Five values are stored on your own device so the site remembers how you left it. Each is written only when you click the matching control, is read only to restore that choice, and is never transmitted anywhere.",
         "theme": "theme-preference — remembers whether you chose the light or dark theme.",
         "language": "language-preference — remembers whether you chose Romanian or English.",
         "consent": "analytics-consent — remembers whether you accepted or declined analytics, so you are not asked again.",
         "live": "live-dismissed — remembers that you closed an announcement banner, so it is not shown to you again. This one is cleared automatically when you close the tab.",
-        "life": "The first three remain until you clear your browser storage. None of them identifies you, and none is used for statistics, advertising or tracking. If you accept analytics, PostHog stores its own separate values, described above."
+        "likes": "liked:… — remembers which articles or workshops you already liked, so the button is not offered to you twice.",
+        "life": "All but the announcement one remain until you clear your browser storage. None of them identifies you, and none is used for statistics, advertising or tracking. If you accept analytics, PostHog stores its own separate values, described above."
       }
     },
     "health": {
@@ -919,12 +933,26 @@
     },
     "contact": {
       "title": "7. Contact",
-      "body": "Questions about these terms: andreea.ardei{'@'}gmail.com. How your data is handled is covered separately in the"
+      "body": "Questions about these terms: andreea.butacu.psiholog{'@'}gmail.com. How your data is handled is covered separately in the"
     }
+  },
+  "share": {
+    "like": "Apreciază",
+    "share": "Distribuie",
+    "title": "Distribuie acest articol",
+    "subtitle": "Trimite linkul mai departe, cuiva pentru care ar conta.",
+    "viaNetworks": "Distribuie prin rețelele sociale",
+    "close": "Închide",
+    "copyLink": "Copiază linkul",
+    "copied": "Copiat",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "email": "Email"
   },
   "button": {
     "readMore": "Read More",
-    "subscribe": "Subscribe"
+    "subscribe": "Abonează-te"
   },
   "notFound": {
     "title": "404 - Page Not Found",
@@ -939,13 +967,14 @@
   "booking": {
     "hero": {
       "eyebrow": "Programare online",
-      "title": "Alege ora care ți se potrivește",
-      "intro1": "Vezi orele rămase libere și rezervă direct. Nu trebuie să aștepți un răspuns ca să știi când ne vedem.",
-      "intro2": "Prima ședință este o discuție de cunoaștere: îmi spui ce te aduce aici, iar eu îți spun cum putem lucra împreună. Nimic nu e stabilit dinainte.",
-      "a1": "O ședință durează 50 de minute.",
-      "a2": "Online, pe platforme securizate, sau la cabinet în București.",
-      "a3": "Datele tale rămân confidențiale.",
-      "a4": "Poți muta sau anula ședința, printr-un simplu email.",
+      "title": "Alege intervalul orar care ți se potrivește",
+      "intro1": "Vezi intervalele orare disponibile și rezervă intervalul preferat. Apoi vei primi pe mail confirmarea programării.",
+      "intro2": "Prima ședință este o discuție de cunoaștere: îmi spui ce te aduce aici, decidem dacă putem lucra împreună și construim un plan.",
+      "a1": "O ședință durează {minutes} de minute.",
+      "a2": "Prețul unei ședințe individuale este de {price} RON.",
+      "a3": "Ne putem vedea online sau la cabinet, în București.",
+      "a4": "Datele tale rămân confidențiale.",
+      "a5": "Poți muta sau anula ședința, printr-un simplu email.",
       "alternative": "Preferi să vorbim înainte de a rezerva?",
       "alternativeLink": "Scrie-mi un mesaj"
     },

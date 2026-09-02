@@ -58,6 +58,7 @@ const env = {
     BOOKING_LEAD_HOURS: '24',
     BOOKING_DAYS_AHEAD: '7',
     LIVE: kvMock(),
+    LIKES: kvMock(),
     // Mirrors the real binding, which throws on a null key rather than coercing it.
     SUBMIT_RATE_LIMIT: {
         limit: async ({ key }) => {
@@ -527,6 +528,85 @@ await runBooking('a booking still needs a passing challenge', async () => {
 
     assert.equal(res.status, 403)
     assert.deepEqual(calendarInserts, [])
+})
+
+const getLikes = (query, origin = ORIGIN) =>
+    worker.fetch(new Request(`https://worker.dev/likes?${query}`, { headers: { Origin: origin } }), env)
+
+const like = (body) =>
+    worker.fetch(
+        new Request('https://worker.dev/likes', {
+            method: 'POST',
+            headers: { Origin: ORIGIN, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        }),
+        env
+    )
+
+async function runLikes(name, fn) {
+    env.LIKES.store.clear()
+    await run(name, fn)
+}
+
+await runLikes('an unknown slug counts zero rather than failing', async () => {
+    const res = await getLikes('slugs=nobody-liked-this')
+
+    assert.equal(res.status, 200)
+    assert.deepEqual((await res.json()).counts, { 'nobody-liked-this': 0 })
+})
+
+await runLikes('a like increments, and reads back at the new count', async () => {
+    assert.equal((await (await like({ slug: 'un-atelier' })).json()).count, 1)
+    assert.equal((await (await like({ slug: 'un-atelier' })).json()).count, 2)
+
+    const counts = (await (await getLikes('slugs=un-atelier')).json()).counts
+    assert.equal(counts['un-atelier'], 2)
+})
+
+await runLikes('slugs are counted separately', async () => {
+    await like({ slug: 'unu' })
+    await like({ slug: 'doi' })
+    await like({ slug: 'doi' })
+
+    const counts = (await (await getLikes('slugs=unu,doi')).json()).counts
+    assert.deepEqual(counts, { unu: 1, doi: 2 })
+})
+
+// The KV key is built from the slug, so anything but a plain slug must never reach it.
+await runLikes('a malformed slug is refused and writes nothing', async () => {
+    for (const slug of ['../secret', 'has space', 'UPPER', '', 'x'.repeat(81), 42, null]) {
+        const res = await like({ slug })
+
+        assert.equal(res.status, 400, `accepted ${JSON.stringify(slug)}`)
+        assert.equal((await res.json()).error, 'invalid_fields')
+    }
+
+    assert.equal(env.LIKES.store.size, 0)
+})
+
+await runLikes('a like needs no captcha but still answers the origin gate', async () => {
+    const res = await worker.fetch(
+        new Request('https://worker.dev/likes', {
+            method: 'POST',
+            headers: { Origin: 'https://evil.example', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: 'un-atelier' })
+        }),
+        env
+    )
+
+    assert.equal(res.status, 403)
+    assert.equal(env.LIKES.store.size, 0)
+})
+
+await runLikes('the route reports itself unconfigured when the namespace is missing', async () => {
+    const { LIKES: _LIKES, ...withoutKv } = env
+    const res = await worker.fetch(
+        new Request('https://worker.dev/likes?slugs=unu', { headers: { Origin: ORIGIN } }),
+        withoutKv
+    )
+
+    assert.equal(res.status, 503)
+    assert.equal((await res.json()).error, 'not_configured')
 })
 
 console.log('\nall worker checks passed')

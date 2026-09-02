@@ -95,8 +95,9 @@
 
 	<Teleport to="body">
 		<Transition name="overlay">
-			<div v-if="isOpen" class="search-overlay" @click.self="close()">
-				<div class="search-panel" role="dialog" aria-modal="true" :aria-label="t('search.label')">
+			<div v-if="isOpen" class="overlay search-overlay" @click.self="close()">
+				<div class="overlay-panel search-panel" role="dialog" aria-modal="true"
+					:aria-label="t('search.label')">
 					<div class="search-field">
 						<Search class="search-field-icon" :size="18" aria-hidden="true" />
 
@@ -177,30 +178,15 @@
 	}
 
 	.search-overlay {
-		position: fixed;
-		inset: 0;
-		z-index: 200;
-		background: rgb(from var(--vt-c-background) r g b / 80%);
-		backdrop-filter: blur(8px);
-
-		:root.no-gpu-blur & {
-			backdrop-filter: none;
-		}
-		display: flex;
-		justify-content: center;
-		padding: clamp(1rem, 8vh, 6rem) var(--page-gutter) 2rem;
+		--overlay-panel-width: 40rem;
 	}
 
 	.search-panel {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		max-width: 40rem;
 		max-height: 100%;
 		padding: 1rem;
 		border-radius: var(--vt-c-radius-lg);
-		background: var(--vt-c-white);
-		box-shadow: var(--vt-c-shadow-raised);
 	}
 
 	.search-field {
@@ -358,10 +344,10 @@
 
 	.overlay-enter-active,
 	.overlay-leave-active {
-		transition: opacity 0.2s ease;
+		transition: opacity var(--vt-c-transition-speed) ease;
 
 		.search-panel {
-			transition: transform 0.2s ease;
+			transition: transform var(--vt-c-transition-speed) ease;
 		}
 	}
 
@@ -375,13 +361,7 @@
 	}
 
 	@media (max-width: 640px) {
-		.search-overlay {
-			padding: 0;
-		}
-
 		.search-panel {
-			max-width: none;
-			border-radius: 0;
 			padding-top: 1.5rem;
 		}
 	}

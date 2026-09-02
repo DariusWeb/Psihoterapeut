@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import { SITE, SITEMAP_PATHS } from './src/seo.config.js'
+import { SITE, VISIBLE_SITEMAP_PATHS } from './src/seo.config.js'
 
 // GitHub Pages has no SPA rewrite; it serves 404.html for unknown paths, keeping the URL so the router can boot.
 function emitSpa404Fallback() {
@@ -46,7 +46,7 @@ function emitSeoFiles() {
         `User-agent: *\n${allow}\n\nSitemap: ${SITE.url}/sitemap.xml\n`
       )
 
-      const urls = SITEMAP_PATHS.map(
+      const urls = VISIBLE_SITEMAP_PATHS.map(
         (path) => `\t<url><loc>${SITE.url}${path === '/' ? '/' : path}</loc></url>`
       ).join('\n')
       writeFileSync(

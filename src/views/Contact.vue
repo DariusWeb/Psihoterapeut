@@ -43,7 +43,7 @@
 	]
 
 	const stepIcons = [Mail, CalendarDays, UserRound, Heart]
-	const stripIcons = [Laptop, Clock, Lock, Heart]
+	const stripIcons = [Sprout, Clock, Lock, Heart]
 </script>
 
 <template>
@@ -66,11 +66,11 @@
 
 				<aside class="contact-note card">
 					<p class="contact-note-item">
-						<Sprout :size="24" />
+						<Laptop :size="24" />
 						{{ t('contact.note.sessions') }}
 					</p>
 					<p class="contact-note-item">
-						<Laptop :size="24" />
+						<Sprout :size="24" />
 						{{ t('contact.note.place') }}
 					</p>
 				</aside>

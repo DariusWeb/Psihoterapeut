@@ -46,7 +46,7 @@
         font-weight: 600;
         cursor: pointer;
         color: var(--vt-c-black);
-        transition: all 0.18s ease;
+        transition: all var(--vt-c-transition-speed) ease;
 
         &:hover {
             border-color: var(--vt-c-jannafer-green);

@@ -7,6 +7,7 @@
 	import SiteSearch from '@/components/common/SiteSearch.vue'
 	import { useOverlay } from '@/composables/useOverlay'
 	import { services } from '@/content/services/index.js'
+	import { isHiddenPath } from '@/seo.config'
 
 	const logoUrl = import.meta.env.BASE_URL + 'logo.svg'
 
@@ -31,7 +32,7 @@
 		{ key: 'events', to: '/ateliere' },
 		{ key: 'news', to: '/noutati' },
 		{ key: 'contact', to: '/contact' },
-	]
+	].filter(item => !isHiddenPath(item.to))
 
 	const handleScroll = () => {
 		isScrolled.value = window.scrollY > 0
@@ -306,7 +307,7 @@
 
 	.dropdown-enter-active,
 	.dropdown-leave-active {
-		transition: opacity 0.15s ease, transform 0.15s ease;
+		transition: opacity var(--vt-c-transition-speed) ease, transform var(--vt-c-transition-speed) ease;
 	}
 
 	.dropdown-enter-from,
@@ -418,7 +419,7 @@
 	// Overlay transition
 	.overlay-enter-active,
 	.overlay-leave-active {
-		transition: opacity 0.25s ease, transform 0.25s ease;
+		transition: opacity var(--vt-c-transition-speed) ease, transform var(--vt-c-transition-speed) ease;
 	}
 
 	.overlay-enter-from,

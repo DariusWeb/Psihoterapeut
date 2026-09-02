@@ -15,6 +15,8 @@ export default [
         localStorage: 'readonly',
         sessionStorage: 'readonly',
         setInterval: 'readonly',
+        setTimeout: 'readonly',
+        navigator: 'readonly',
         fetch: 'readonly',
         FormData: 'readonly',
         crypto: 'readonly',

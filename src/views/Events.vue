@@ -1,5 +1,6 @@
 <script setup>
     import { computed, ref } from 'vue'
+    import { RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
     import { ArrowRight, Image, Leaf, Monitor, Repeat } from '@lucide/vue'
     import { useEventsStore } from '@/stores/eventsStore'
@@ -52,7 +53,7 @@
 
             <p class="section-intro">{{ t('events.upcoming.intro') }}</p>
 
-            <div class="card-grid">
+            <div class="card-grid events-grid">
                 <EventItem v-for="event in visibleEvents" :key="event.id" v-bind="event" />
             </div>
         </section>
@@ -90,6 +91,10 @@
                                 {{ t(`events.groups.${group.key}.frequency`) }}
                             </span>
                         </p>
+
+                        <RouterLink class="button button-primary" :to="`/grupuri/${group.slug}`">
+                            {{ t('events.groups.detailsCta') }}
+                        </RouterLink>
                     </div>
                 </article>
             </div>
@@ -104,6 +109,22 @@
 <style scoped lang="scss">
     .events-page {
         --page-pad-top: 0; // the hero media runs flush to the top, behind the fixed nav
+    }
+
+    .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1100px) {
+        .events-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .events-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .group-card {

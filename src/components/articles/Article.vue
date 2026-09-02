@@ -6,6 +6,7 @@
     import { applySeo, applyJsonLd } from '@/utils/seo'
     import { SITE, absoluteUrl } from '@/seo.config'
     import NotFound from '@/views/NotFound.vue'
+    import ShareLike from '@/components/common/ShareLike.vue'
 
     const route = useRoute()
     const articlesStore = useArticlesStore()
@@ -55,6 +56,8 @@
 
         <!-- Render the article component -->
         <component :is="article.component" />
+
+        <ShareLike :slug="article.slug" :title="article.title" />
     </main>
 
     <NotFound v-else />

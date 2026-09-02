@@ -1,7 +1,7 @@
 <script setup>
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { Leaf } from '@lucide/vue'
+	import { ArrowRight, Leaf } from '@lucide/vue'
 	import SplitSection from '@/components/common/SplitSection.vue'
 
 	const { t, tm, rt } = useI18n()
@@ -22,7 +22,10 @@
 				</li>
 			</ul>
 
-			<RouterLink class="button button-primary" to="/despre-mine">{{ t('home.about.cta') }}</RouterLink>
+			<RouterLink class="link-arrow" to="/despre-mine">
+				{{ t('home.about.cta') }}
+				<ArrowRight :size="16" />
+			</RouterLink>
 		</div>
 	</SplitSection>
 </template>

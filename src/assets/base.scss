@@ -228,6 +228,39 @@ button,
 	color: var(--vt-c-jannafer-green);
 }
 
+.button-swap {
+	display: grid;
+	place-items: center;
+}
+
+.button-swap-label,
+.button-swap-sizer {
+	grid-area: 1 / 1;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	white-space: nowrap;
+}
+
+.button-swap-sizer {
+	visibility: hidden;
+}
+
+.swap-enter-active,
+.swap-leave-active {
+	transition: opacity var(--vt-c-transition-speed) ease, transform var(--vt-c-transition-speed) ease;
+}
+
+.swap-enter-from {
+	opacity: 0;
+	transform: translateY(0.4rem);
+}
+
+.swap-leave-to {
+	opacity: 0;
+	transform: translateY(-0.4rem);
+}
+
 :focus-visible {
 	outline: 2px solid var(--vt-c-jannafer-green);
 	outline-offset: 2px;
@@ -289,12 +322,6 @@ select {
 		}
 	}
 
-	&:not(:placeholder-shown) {
-		+label {
-			left: 0 !important;
-			top: -1.2rem !important;
-		}
-	}
 }
 
 // Forms and labels
@@ -319,6 +346,12 @@ form {
 		position: relative;
 		margin: .5rem 0;
 
+		input,
+		textarea {
+			padding-top: 1.2rem;
+			padding-bottom: .4rem;
+		}
+
 		label {
 			display: inline-block;
 			position: absolute;
@@ -327,6 +360,15 @@ form {
 			font-size: 0.7rem;
 			pointer-events: none;
 			transition: var(--vt-c-transition-speed)
+		}
+
+		input:focus+label,
+		textarea:focus+label,
+		input:not(:placeholder-shown)+label,
+		textarea:not(:placeholder-shown)+label {
+			top: .3rem;
+			font-size: .62rem;
+			opacity: .75;
 		}
 	}
 }
@@ -337,6 +379,28 @@ ol {
 	margin: 0;
 	padding: 0 0 0 1rem;
 	list-style: circle;
+}
+
+.overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+	display: flex;
+	justify-content: center;
+	padding: clamp(1rem, 8vh, 6rem) var(--page-gutter) 2rem;
+	background: rgb(from var(--vt-c-background) r g b / 80%);
+	backdrop-filter: blur(8px);
+
+	:root.no-gpu-blur & {
+		backdrop-filter: none;
+	}
+}
+
+.overlay-panel {
+	width: 100%;
+	max-width: var(--overlay-panel-width, 30rem);
+	background: var(--vt-c-white);
+	box-shadow: var(--vt-c-shadow-raised);
 }
 
 // Utils
@@ -352,6 +416,17 @@ ol {
 
 .card-outlined {
 	border: 1px solid var(--vt-c-jannafer-gray2);
+}
+
+@media (max-width: 640px) {
+	.overlay {
+		padding: 0;
+	}
+
+	.overlay-panel {
+		max-width: none;
+		border-radius: 0;
+	}
 }
 
 // The whole card is the link: hover recolours the card and nudges its arrow.
@@ -781,7 +856,7 @@ ol {
 // Animation
 .fade-enter-active,
 .fade-leave-active {
-	transition: .3s;
+	transition: var(--vt-c-transition-speed);
 }
 
 .fade-enter-from,

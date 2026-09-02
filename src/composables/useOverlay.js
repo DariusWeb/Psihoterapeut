@@ -7,7 +7,11 @@ let openCount = 0
 // `inert` hands keyboard trapping to the platform instead of a hand-rolled Tab cycle
 function applyPageLock() {
     const locked = openCount > 0
+    const root = document.documentElement
+    root.style.scrollbarGutter = locked ? 'stable' : ''
+    root.style.overflow = locked ? 'hidden' : ''
     document.body.style.overflow = locked ? 'hidden' : ''
+
     document.querySelectorAll('header, #main, footer').forEach((el) => {
         el.toggleAttribute('inert', locked)
     })

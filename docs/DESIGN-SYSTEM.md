@@ -24,6 +24,8 @@ Everything global lives in [`src/assets/base.scss`](../src/assets/base.scss). Ev
 
 **Icons are lucide only** (`@lucide/vue`), imported by name, sized with `:size`, coloured by setting `color` on the element (they inherit `currentColor`). No icon fonts, no inline SVG paths, no second icon library.
 
+> **One exception: brand marks.** lucide ships no Facebook/WhatsApp/LinkedIn icons, and a share sheet without them is unreadable. They live as inline paths in `src/components/common/BrandIcon.vue` and nowhere else — that file is the whole carve-out. It still behaves like a lucide icon (`:size`, `fill="currentColor"`, `aria-hidden`), so it colours by inheritance like everything else. Reach for lucide first; add a path here only for a real brand.
+
 **Comment the non-obvious *why*, and keep it to one line.** Never restate what the code says. `// optical: aligns the dot to the first line's x-height` earns its place; `// set the gap` does not.
 
 ---
@@ -72,6 +74,24 @@ query to shrink. See §6.
 | `--vt-c-radius-lg` | `1rem` | Cards and media |
 | `--vt-c-transition-speed` | `0.3s` | Every transition. Don't invent durations. |
 | `--vt-c-shadow` / `-raised` | | Resting / lifted elevation. Deeper in dark mode, where a light shadow would vanish. |
+
+#### Every state change animates — no exceptions
+
+If an interaction changes a **colour, background, border, shadow, opacity or position** (a
+hover fill, an arrow nudge, a fading panel, an icon swap), it gets a transition, and that
+transition uses `var(--vt-c-transition-speed)`. A hover that snaps is a bug.
+
+```scss
+// yes — scoped to what actually changes
+transition: background-color var(--vt-c-transition-speed), color var(--vt-c-transition-speed);
+
+// no — an invented duration
+transition: background-color 0.2s ease;
+```
+
+Prefer naming the properties over `transition: all`; `all` also animates whatever a parent
+happens to change, which is how a 0.3s swap starts feeling laggy. The one deliberate
+exception in the codebase is `body`'s `0.5s` theme cross-fade, which is slower on purpose.
 
 ### The two spacing tokens are the consistency mechanism
 
@@ -179,8 +199,58 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 | `.cta-band` | Closing call-to-action. Ships as the `CtaBand` component — see §4. |
 | `.credentials` | The practitioner's qualifications stack, above a page's leading heading. Sub-part `-icon`. |
 | `.icon-chip` | Circular icon badge on `--vt-c-surface-strong`, sized by `--icon-chip-size` |
+| `.button-swap` | Button whose label swaps to a confirmation and back, without reflow — see below |
 
 **Compose the card, don't rebuild it.** A bordered, tightly-padded card is `class="card card-compact card-outlined"` — never a local rule that re-declares background, radius and padding.
+
+### Buttons with a confirmation state
+
+`.button-swap` — for a button whose label swaps to a confirmation and back: **Copiază linkul →
+Copiat**, *Salvează → Salvat*, *Trimite → Trimis*.
+
+| Class | Role |
+|---|---|
+| `.button-swap` | On the `<button>`, alongside `.button` + a variant. Makes it a 1×1 grid. |
+| `.button-swap-label` | The live label, keyed and wrapped in `<Transition name="swap">` |
+| `.button-swap-sizer` | The resting label repeated and hidden, holding the width |
+| `swap` | The Vue transition name — global, so it works from inside a scoped component |
+
+```vue
+<button class="button button-primary button-swap" @click="save">
+    <Transition name="swap">
+        <span :key="saved" class="button-swap-label">
+            <component :is="saved ? Check : Save" :size="16" aria-hidden="true" />
+            {{ saved ? t('form.saved') : t('form.save') }}
+        </span>
+    </Transition>
+
+    <span class="button-swap-sizer">
+        <Save :size="16" />
+        {{ t('form.save') }}
+    </span>
+</button>
+```
+
+Both labels occupy the **same grid cell**, so they cross-fade in place — the old one rises out
+as the new one rises in. Two things this buys that the obvious version does not:
+
+- **No empty frame.** `<Transition mode="out-in">` waits for the leave before the enter, so the
+  button renders blank in between. Overlapping them removes that.
+- **No reflow.** A shorter confirmation would otherwise shrink the button mid-animation
+  (*Copiază linkul* 153px → *Copiat* 109px). The hidden sizer pins the resting width.
+  Skip the sizer only when both labels are genuinely the same length.
+
+Pair it with a timer that returns to the resting state — 3s is the value in use:
+
+```js
+copied.value = true
+setTimeout(() => (copied.value = false), 3000)
+```
+
+The visible label is not announced, so put the confirmation in a live region beside it —
+`<p class="share-status" role="status">` in `ShareModal.vue` is the reference.
+
+**First use:** `src/components/common/ShareModal.vue`.
 
 ---
 

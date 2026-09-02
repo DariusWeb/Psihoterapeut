@@ -4,6 +4,7 @@
 import { availableSlots, bookingConfigured, handleBooking } from './handlers/booking.js'
 import { handleContact } from './handlers/contact.js'
 import { readLive, readLiveAdmin, writeLive } from './handlers/live.js'
+import { addLike, likesConfigured, readLikes } from './handlers/likes.js'
 import { handleNewsletter } from './handlers/newsletter.js'
 import {
     catalogueResponse,
@@ -43,8 +44,10 @@ const ROUTES = {
     '/newsletter': handleNewsletter,
     '/contact': handleContact,
     '/booking': handleBooking,
-    '/resources/checkout': handleCheckout
+    '/resources/checkout': handleCheckout,
+    '/likes': addLike
 }
+const NO_CAPTCHA = new Set(['/likes'])
 
 export default {
     async fetch(request, env) {
@@ -97,6 +100,11 @@ export default {
             }
         }
 
+        if (pathname === '/likes' && request.method === 'GET') {
+            if (!likesConfigured(env)) return json(503, { ok: false, error: 'not_configured' }, origin)
+            return json(200, await readLikes(request, env), origin)
+        }
+
         if (pathname === '/live' && request.method === 'GET') {
             return json(200, await readLive(env), origin)
         }
@@ -144,6 +152,10 @@ export default {
         const handler = ROUTES[pathname]
         if (!handler) return json(404, { ok: false, error: 'not_found' }, origin)
 
+        if (pathname === '/likes' && !likesConfigured(env)) {
+            return json(503, { ok: false, error: 'not_configured' }, origin)
+        }
+
         if (!(await withinRateLimit(env, ip))) {
             return json(429, { ok: false, error: 'rate_limited' }, origin)
         }
@@ -155,7 +167,8 @@ export default {
             return json(400, { ok: false, error: 'bad_json' }, origin)
         }
 
-        if (!(await verifyTurnstile(data.turnstileToken, ip, env.TURNSTILE_SECRET_KEY))) {
+        if (!NO_CAPTCHA.has(pathname) &&
+            !(await verifyTurnstile(data.turnstileToken, ip, env.TURNSTILE_SECRET_KEY))) {
             return json(403, { ok: false, error: 'failed_captcha' }, origin)
         }
 

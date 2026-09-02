@@ -70,6 +70,14 @@ id = "46c20d35a93746aaa9c4f67ef2275ddf"
 # account; a guide has to fit in a 25 MiB value, which every PDF does. Upload each file with:
 #   npx wrangler kv key put loss.pdf --path ./loss.pdf --binding RESOURCE_FILES --remote --config worker/wrangler.toml
 # Key names are set in worker/lib/catalogue.js, which is also the only place a price lives.
+# Like counts, one key per slug. Create the namespace with:
+#   npx wrangler kv namespace create LIKES --config worker/wrangler.toml
+# then uncomment the two lines below and paste the id it prints. Until then the route
+# answers 503 and the buttons render without a count.
+[[kv_namespaces]]
+binding = "LIKES"
+id = "6932101db31d48dbaf32b730c9aa619b"
+
 [[kv_namespaces]]
 binding = "RESOURCE_FILES"
 id = "183e5f0b1897470da8183d51b3ef0f97"

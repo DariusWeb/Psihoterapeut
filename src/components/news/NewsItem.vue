@@ -65,7 +65,7 @@
         box-shadow: var(--vt-c-shadow);
         display: flex;
         flex-direction: column;
-        transition: box-shadow 0.2s ease, transform 0.2s ease;
+        transition: box-shadow var(--vt-c-transition-speed) ease, transform var(--vt-c-transition-speed) ease;
 
         &:hover {
             box-shadow: var(--vt-c-shadow-raised);

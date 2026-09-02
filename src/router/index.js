@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import { services } from '@/content/services'
 import i18n from '@/i18n'
 import { applySeo } from '@/utils/seo'
+import { isHiddenPath } from '@/seo.config'
 
 // `seo` keys into the `seo` block in en.json; `parent` is the breadcrumb trail, walked by route name.
 const routes = [
@@ -46,6 +47,12 @@ const routes = [
     path: '/ateliere/:slug',
     name: 'event',
     component: () => import('@/components/events/Event.vue'),
+    meta: { parent: 'events' },
+  },
+  {
+    path: '/grupuri/:slug',
+    name: 'group',
+    component: () => import('@/components/groups/Group.vue'),
     meta: { parent: 'events' },
   },
   {
@@ -113,7 +120,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+  routes: routes.filter((route) => !isHiddenPath(route.path)),
   // Resolves out-in mode jumps the still-visible page to the top first
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition

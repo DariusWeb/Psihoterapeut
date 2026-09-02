@@ -20,6 +20,9 @@
 		<h3>{{ t('privacy.collect.form.title') }}</h3>
 		<p>{{ t('privacy.collect.form.body') }}</p>
 
+		<h3>{{ t('privacy.collect.likes.title') }}</h3>
+		<p>{{ t('privacy.collect.likes.body') }}</p>
+
 		<h3>{{ t('privacy.collect.newsletter.title') }}</h3>
 		<p>{{ t('privacy.collect.newsletter.body') }}</p>
 		<p>{{ t('privacy.collect.newsletter.tracking') }}</p>
@@ -37,6 +40,7 @@
 			<li>{{ t('privacy.collect.storage.language') }}</li>
 			<li>{{ t('privacy.collect.storage.consent') }}</li>
 			<li>{{ t('privacy.collect.storage.live') }}</li>
+			<li>{{ t('privacy.collect.storage.likes') }}</li>
 		</ul>
 		<p>{{ t('privacy.collect.storage.life') }}</p>
 

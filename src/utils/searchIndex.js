@@ -9,6 +9,7 @@ import { services } from '@/content/services'
 import { groups } from '@/content/groups'
 import { freeGuides, practicalResources, premiumGuides } from '@/content/resources'
 import en from '@/locales/en.json'
+import { isHiddenPath } from '@/seo.config'
 
 // Add a content type by adding a key here; nothing else in the app knows the type names.
 // `hint` receives the entry plus `t` (vue-i18n) and `d` (locale-aware date formatter) from the caller.
@@ -155,7 +156,7 @@ function groupEntries() {
 		entry(
 			'group',
 			line(`events.groups.${group.key}.title`),
-			'/ateliere#grupuri',
+			`/grupuri/${group.slug}`,
 			block(`events.groups.${group.key}`),
 			{ key: group.key }
 		)
@@ -210,7 +211,7 @@ export function buildSearchIndex(routes) {
 		...groupEntries(),
 		...resourceEntries(),
 		...pageEntries(routes)
-	]
+	].filter((item) => !isHiddenPath(item.to))
 
 	if (import.meta.env.DEV) runSelfCheck()
 

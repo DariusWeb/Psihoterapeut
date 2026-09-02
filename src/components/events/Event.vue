@@ -6,6 +6,7 @@
     import { applySeo, applyJsonLd } from '@/utils/seo'
     import { SITE, absoluteUrl } from '@/seo.config'
     import NotFound from '@/views/NotFound.vue'
+    import ShareLike from '@/components/common/ShareLike.vue'
 
     const route = useRoute()
     const eventsStore = useEventsStore()
@@ -71,6 +72,8 @@
         </p>
 
         <component :is="event.component" />
+
+        <ShareLike :slug="event.slug" :title="event.title" />
     </main>
 
     <NotFound v-else />
