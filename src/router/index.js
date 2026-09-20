@@ -123,12 +123,9 @@ const router = createRouter({
   routes: routes.filter((route) => !isHiddenPath(route.path)),
   // Resolves out-in mode jumps the still-visible page to the top first
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) return savedPosition
-
     const headerHeight = document.querySelector('nav.navigation')?.offsetHeight ?? 0
-    const target = to.hash
-      ? { el: to.hash, top: headerHeight, behavior: 'smooth' }
-      : { top: 0 }
+    const target = savedPosition ??
+      (to.hash ? { el: to.hash, top: headerHeight, behavior: 'smooth' } : { top: 0 })
 
     if (to.path === from.path) return target
 
