@@ -664,6 +664,17 @@ ol {
 	--media-fade-stop: 40%;
 }
 
+.media-card-stacked {
+	flex-direction: column;
+
+	.media-card-media {
+		flex: 0 0 var(--card-media-height, 10rem);
+		width: 100%;
+		height: var(--card-media-height, 10rem);
+		--media-fade-to: top;
+	}
+}
+
 .media-card-body {
 	flex: 1;
 	display: flex;

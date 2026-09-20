@@ -1,7 +1,7 @@
 <script setup>
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { ArrowRight, Image, Leaf } from '@lucide/vue'
+	import { ArrowRight, Leaf } from '@lucide/vue'
 	import { useServicesStore } from '@/stores/servicesStore'
 
 	const { t } = useI18n()
@@ -17,11 +17,11 @@
 
 		<div class="card-grid">
 			<RouterLink v-for="service in servicesStore.homeServices" :key="service.id"
-				class="media-card card card-outlined card-link home-area-card" :to="`/servicii/${service.slug}`">
-				<div class="media-placeholder media-card-media media-fade" role="img"
-					:aria-label="t(`services.${service.key}.imageAlt`)">
-					<Image :size="32" />
-				</div>
+				class="media-card media-card-stacked card card-outlined card-link home-area-card"
+				:to="`/servicii/${service.slug}`">
+				<img class="media-card-media media-fade" :src="service.cardImage"
+					:alt="t(`services.${service.key}.imageAlt`)" width="558" height="372" decoding="async"
+					loading="lazy" />
 
 				<div class="media-card-body">
 					<h3 class="card-title">{{ t(`services.${service.key}.title`) }}</h3>
@@ -50,6 +50,6 @@
 
 	.home-area-card .media-card-body {
 		gap: 0.75rem;
-		padding: 1.5rem 1.5rem 1.5rem 0;
+		padding: 1.5rem;
 	}
 </style>

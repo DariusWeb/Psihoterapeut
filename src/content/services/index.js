@@ -15,15 +15,20 @@ import careerHero from '@/assets/images/services/career-hero.webp'
 import careerRecognise from '@/assets/images/services/career-recognise.webp'
 import careerLosses from '@/assets/images/services/career-losses.webp'
 import careerBecoming from '@/assets/images/services/career-becoming.webp'
+import infertilityCard from '@/assets/images/home/infertility-card.webp'
+import motherhoodCard from '@/assets/images/home/motherhood-card.webp'
+import careerCard from '@/assets/images/home/career-card.webp'
 
 // Copy lives in en.json under `services.<key>`; this file only describes each page's shape.
 // `type: 'grid'` needs one icon per item in the matching en.json `items` array.
+// `cardImage` is the home Areas card crop; `image` stays the service page hero.
 export const services = [
     {
         id: 1,
         slug: 'infertilitate',
         key: 'infertility',
         image: infertilityHero,
+        cardImage: infertilityCard,
         sections: [
             { key: 'recognise', type: 'list', image: infertilityRecognise },
             { key: 'therapy', type: 'list', image: infertilityTherapy },
@@ -40,6 +45,7 @@ export const services = [
         slug: 'maternitate',
         key: 'motherhood',
         image: motherhoodHero,
+        cardImage: motherhoodCard,
         sections: [
             { key: 'recognise', type: 'list', image: motherhoodRecognise },
             {
@@ -56,6 +62,7 @@ export const services = [
         slug: 'cariera',
         key: 'career',
         image: careerHero,
+        cardImage: careerCard,
         sections: [
             { key: 'recognise', type: 'list', image: careerRecognise },
             {
