@@ -20,7 +20,7 @@
             email: email.value,
             locale: locale.value,
             // the exact wording the visitor agreed to, stored as the consent proof
-            consentText: `${t('newsletter.consent')} ${t('footer.info.privacy')}.`
+            consentText: `${t('newsletter.consent')} ${t('newsletter.consentPrivacy')} ${t('footer.info.privacy')}.`
         })
 
         if (!sent) return
@@ -54,6 +54,7 @@
                         <input id="newsletter-consent" v-model="consent" type="checkbox" required>
                         <label for="newsletter-consent">
                             {{ t('newsletter.consent') }}
+                            {{ t('newsletter.consentPrivacy') }}
                             <RouterLink to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>.
                         </label>
                     </div>

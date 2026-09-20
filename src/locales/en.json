@@ -178,7 +178,7 @@
     },
     "about": {
       "title": "Despre parcursul meu",
-      "text": "Experiența mea personală și profesională m-a adus aproape de femei care trec prin experiențe care le schimbă viața. Am învățat că vindecarea începe atunci când nu mai este nevoie să porți totul singură.",
+      "text": "Experiența mea personală și profesională m-a apropiat de femei aflate în perioade de schimbare, pierdere și redefinire. Cred că vindecarea poate începe într-un spațiu în care ai voie să fii exact așa cum ești și nu mai trebuie să porți singură tot ceea ce este greu.",
       "cta": "Află mai multe despre mine",
       "imageAlt": "Andreea Butacu în cabinet, așezată într-un fotoliu lângă o bibliotecă"
     },
@@ -205,8 +205,8 @@
           "answer": "Ședințele pot avea loc atât în cabinet, în București, cât și online. Împreună alegem varianta care se potrivește cel mai bine contextului și stilului tău de viață."
         },
         {
-          "question": "Cât durează o ședință?",
-          "answer": "O ședință durează 50 de minute."
+          "question": "Cât durează și cât costă o ședință?",
+          "answer": "O ședință durează {minutes} de minute. Prețul unei ședințe este de {price} lei."
         },
         {
           "question": "Tot ceea ce discutăm rămâne confidențial?",
@@ -222,7 +222,7 @@
   "services": {
     "index": {
       "title": "Arii în care te pot însoți",
-      "intro": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
+      "intro": "Te însoțesc în experiențe precum infertilitatea, perioada postpartum sau epuizarea și blocajul profesional. Îți ofer un spațiu sigur în care te însoțesc cu blândețe, în ritmul tău, la propriul proces de schimbare.",
       "cta": "Află mai mult"
     },
     "credentials": [
@@ -287,7 +287,7 @@
       }
     },
     "motherhood": {
-      "title": "În maternitate",
+      "title": "În perioada postpartum",
       "imageAlt": "Fotoliu cu o pătură moale, o cană de ceai și o carte pe o măsuță de lemn",
       "hero": {
         "title": "Maternitatea poate aduce multă iubire. Dar și multă singurătate.",
@@ -576,7 +576,8 @@
     "title": "Abonează-te la newsletter",
     "description": "Primești articole, informații privind atelierele planificate și resurse utile direct pe mail.",
     "emailPlaceholder": "Adresa ta de email",
-    "consent": "Sunt de acord să primesc newsletterul pe email și ca deschiderile și clicurile pe linkuri să fie măsurate, pentru a îmbunătăți conținutul. Mă pot dezabona oricând — vezi",
+    "consent": "Sunt de acord să primesc newsletterul pe e-mail și ca modul în care este parcurs conținutul să fie urmărit, pentru a putea îmbunătăți mesajele viitoare. Mă pot dezabona oricând.",
+    "consentPrivacy": "Vezi",
     "success": "Mă bucur că vrei să rămâi aproape. Verifică-ți inboxul și confirmă adresa de email pentru a începe să primești articole și resurse create cu grijă pentru tine.",
     "error": "Ceva nu a funcționat și nu am putut finaliza abonarea. Te rog să încerci din nou în câteva momente.",
     "aside": "Primești articole, ateliere și resurse utile, direct pe email."
@@ -752,7 +753,7 @@
     "hero": {
       "title": "Sunt Andreea Butacu, psihoterapeut",
       "intro1": "Lucrez cu femei care trec prin perioade de vulnerabilitate, tranziție sau blocaj — femei care, de multe ori, continuă să funcționeze și să „se descurce”, dar care pe dinăuntru duc mult mai mult decât se vede.",
-      "intro2": "Le însoțesc în experiențe precum infertilitatea, maternitatea timpurie sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
+      "intro2": "Le însoțesc în experiențe precum infertilitatea, perioada postpartum sau epuizarea și blocajul profesional, oferindu-le un spațiu sigur în care să înțeleagă mai bine ce trăiesc, să se reconecteze cu ele însele și să nu mai poarte singure tot ceea ce este greu.",
       "cta": "Programează o ședință",
       "photoAlt": "Andreea Butacu, psihoterapeut integrativ și cognitiv-comportamental"
     },
@@ -765,11 +766,11 @@
     },
     "journey": {
       "title": "Parcursul meu",
-      "p1": "Interesul meu pentru oameni și pentru felul în care traversează perioadele de schimbare, pierdere și reconstrucție m-a condus firesc către psihoterapie.",
-      "p2": "Sunt psihoterapeut integrativ și cognitiv-comportamental, membră a Colegiului Psihologilor din România și a Federației Române de Psihoterapie. De asemenea, sunt certificată ca Reproductive Mental Health Specialist, o formare dedicată înțelegerii impactului emoțional al experiențelor din parcursul reproductiv – de la infertilitate și pierdere de sarcină până la tranziția către maternitate și schimbările de identitate pe care acestea le pot aduce.",
-      "p3": "Formarea mea include studiile în cadrul Facultății de Psihologie, Masterul în Psihoterapie Cognitiv-Comportamentală și formarea în Psihoterapie Integrativă în cadrul Institutului Român de Psihoterapie Integrativă. Acest parcurs este completat constant prin formări și specializări dedicate sănătății mintale reproductive și psihoterapiei bazate pe dovezi.",
-      "p4": "Înainte de psihoterapie, am lucrat peste 10 ani în domeniul resurselor umane, în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse.",
-      "p5": "Cred că expertiza profesională este importantă, dar la fel de important este modul în care o folosești. De aceea, îmi propun ca fiecare persoană care ajunge în cabinet să găsească nu doar competență profesională, ci și un spațiu în care să se simtă înțeleasă, în siguranță și însoțită cu respect pe parcursul propriei povești."
+      "p1": "Infertilitatea, rolul de mamă și perioadele în care ne întrebăm încotro vrem să mergem profesional sunt teme pe care le-am întâlnit nu doar în munca mea, ci le-am și trăit.",
+      "p2": "Interesul meu pentru oameni și pentru felul în care traversează perioadele de schimbare, pierdere și reconstrucție m-a condus firesc către psihoterapie.",
+      "p3": "Sunt psihoterapeut integrativ și cognitiv-comportamental, membră a Colegiului Psihologilor din România și a Federației Române de Psihoterapie. De asemenea, sunt certificată ca Reproductive Mental Health Specialist, o formare dedicată înțelegerii impactului emoțional al experiențelor din parcursul reproductiv – de la infertilitate și pierdere de sarcină până la tranziția către maternitate și schimbările de identitate pe care acestea le pot aduce.",
+      "p4": "Formarea mea include studiile în cadrul Facultății de Psihologie, Masterul în Psihoterapie Cognitiv-Comportamentală și formarea în Psihoterapie Integrativă în cadrul Institutului Român de Psihoterapie Integrativă. Acest parcurs este completat constant prin formări și specializări dedicate sănătății mintale reproductive și psihoterapiei bazate pe dovezi.",
+      "p5": "Înainte de psihoterapie, am lucrat peste 10 ani în domeniul resurselor umane, în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse."
     },
     "therapy": {
       "title": "Cum poate arăta terapia pentru tine",
@@ -927,12 +928,16 @@
       "title": "5. Links to other sites",
       "body": "Some pages link to external sites. Those sites have their own terms and privacy practices, and we are not responsible for their content."
     },
+    "images": {
+      "title": "6. Images",
+      "body": "Some of the images used on this site are generated with artificial intelligence and are illustrative. They do not depict real clients, real sessions or real events."
+    },
     "changes": {
-      "title": "6. Changes",
+      "title": "7. Changes",
       "body": "These terms may be updated. The date above shows when they last changed."
     },
     "contact": {
-      "title": "7. Contact",
+      "title": "8. Contact",
       "body": "Questions about these terms: andreea.butacu.psiholog{'@'}gmail.com. How your data is handled is covered separately in the"
     }
   },

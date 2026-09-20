@@ -11,7 +11,6 @@
 		<section class="about-hero">
 			<div class="about-hero-content">
 				<h1 class="about-hero-title">{{ t('about.hero.title') }}</h1>
-				<Leaf class="about-flourish" :size="28" />
 				<p class="about-hero-intro">{{ t('about.hero.intro1') }}</p>
 				<p class="about-hero-intro">{{ t('about.hero.intro2') }}</p>
 				<RouterLink class="button about-hero-cta" to="/programare">
@@ -104,10 +103,6 @@
 	.about-hero-title {
 		text-align: left;
 		margin: 0;
-	}
-
-	.about-flourish {
-		color: var(--vt-c-jannafer-green);
 	}
 
 	.about-hero-intro {

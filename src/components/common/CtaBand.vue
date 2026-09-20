@@ -42,6 +42,8 @@
         align-items: baseline;
         gap: 0.75rem;
         margin: 0;
+        // h3 size, h2 tag: keeps the heading outline intact without h3's heavier weight
+        font-size: var(--step-h3);
     }
 
     .cta-band-title-icon {

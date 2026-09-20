@@ -37,8 +37,8 @@
       "photoPlaceholder": "FOTO AICI"
     },
     "note": {
-      "sessions": "Ședințele se desfășoară online sau față în față",
-      "place": "în București sau din confortul spațiului tău"
+      "sessions": "Ședințele se desfășoară online",
+      "place": "sau față în față, în București"
     },
     "reach": {
       "title": "Cum putem lua legătura",
@@ -99,8 +99,8 @@
     },
     "strip": {
       "s1": {
-        "title": "Ședințe online",
-        "text": "pe platforme securizate (Google Meet / Zoom)"
+        "title": "În ritmul tău",
+        "text": "fiecare proces terapeutic este diferit și îl construim împreună"
       },
       "s2": {
         "title": "Program flexibil",

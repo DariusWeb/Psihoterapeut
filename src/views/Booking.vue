@@ -5,11 +5,12 @@
 	import { CalendarDays, Clock, Laptop, Lock, Sprout, Wallet } from '@lucide/vue'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
 	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
+	import { SESSION_MINUTES, SESSION_PRICE_RON } from '@/session.config'
 
 	const { t, locale } = useI18n()
 
 	const slots = ref([])
-	const slotMinutes = ref(50)
+	const slotMinutes = ref(SESSION_MINUTES)
 	const loadState = ref('loading')
 	const selectedDay = ref('')
 	const selectedSlot = ref('')
@@ -22,7 +23,7 @@
 	const assurances = [Clock, Wallet, Laptop, Lock, Sprout]
 
 	// Display only — sessions are paid outside the site.
-	const sessionPriceRon = 250
+	const sessionPriceRon = SESSION_PRICE_RON
 
 	// The site renders Romanian copy in both locales, so the dates beside it are Romanian too.
 	const dayFormat = new Intl.DateTimeFormat('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' })

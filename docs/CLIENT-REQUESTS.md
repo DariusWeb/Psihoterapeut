@@ -9,7 +9,7 @@ asking a question, and she can find it in her own file.
 
 Source tabs: `Modif site` (34 populated cells) and `Bug-uri` (3 items).
 
-**Last updated:** 2026-09-01
+**Last updated:** 2026-09-20
 
 Status values: `done` · `todo` · `blocked-on-client` · `parked`
 
@@ -121,6 +121,60 @@ the natural thing to strip down for a free tier.
 
 ---
 
+
+## Batch 7 — copy pass (sheet of 2026-09-20)
+
+Column-per-page sheet: A Home · B About · C/D/E For you · F Contact · G Others.
+
+| Cell | Request | Status |
+|---|---|---|
+| A1 | "În maternitate" → "În perioada postpartum" (`services.motherhood.title`) | done |
+| A2 | New Home "Despre parcursul meu" description (`home.about.text`) | done |
+| A3 | FAQ → "Cât durează și cât costă o ședință?" + price in the answer | done |
+| A4 | Images for "Arii în care te pot însoți" | already done (Batch 2 cards) |
+| A5 | Disclose AI-generated images | done — Terms §6 |
+| A6 | Certification logo in About | blocked-on-client |
+| B1 | Delete the leaf under "Sunt Andreea Butacu, psihoterapeut" | done |
+| B2 | About hero: "maternitatea timpurie" → "perioada postpartum" | done |
+| B3 | New opening paragraph in "Parcursul meu" | done |
+| B4 | Delete the "cred că expertiza…" paragraph | done |
+| C1 | For-you intro rewritten in 2nd person singular | done |
+| C2 | Remove credentials from the top of the 3 service pages | done |
+| C3 | Shrink the end-of-page CTA banner title | done |
+| F1 | Functional contact buttons | blocked-on-client |
+| F2 | Strip item 1 → "În ritmul tău" | already done in `en.json` (H7); RO overlay synced this pass |
+| G1 | New newsletter consent wording | done |
+
+**A3 — price now has one home.** `sessionPriceRon` was a local const in `Booking.vue`. The FAQ
+needed the same number, so both now read `SESSION_MINUTES` / `SESSION_PRICE_RON` from
+`src/session.config.js`. `Faq.vue` switched from `rt()` to `t()` with params, since `rt()`
+returns the raw message and cannot interpolate — the JSON-LD block was updated to match.
+
+**B2 / C1 — one sentence became two keys.** `about.hero.intro2` and `services.index.intro`
+were byte-identical. B2 changes a word, C1 rewrites the sentence into 2nd person, so they now
+diverge on purpose: About describes her, For-you addresses the reader.
+
+**C2 — credentials kept on Home.** Answers A16: removed from `ServiceDetail.vue` only,
+`services.credentials` still renders in `AboutJourney.vue`. This orphaned `.credentials` /
+`.credentials-icon` in `base.scss`, which were removed with it.
+
+**C3 — tag kept, size changed.** `.cta-band-title` gets `font-size: var(--step-h3)` while
+staying an `<h2>`. Swapping the tag would also inherit h3's `font-weight: 600`, rendering it
+smaller *and bolder*, and would break the heading outline. **Not yet verified in a browser.**
+
+**G1 — consent wording is stored consent proof.** Her new text is a full sentence, so the
+trailing "— vezi" hand-off was replaced by a `newsletter.consentPrivacy` key keeping the
+privacy link reachable. `Newsletter.vue` sends the same composed string to Brevo; new
+subscribers record the new wording, existing records keep the old.
+
+**RO overlay.** `contact.strip.s1` and `contact.note` were synced to `en.json` — a live bug,
+since the site defaults to `locale: 'en'` and RO visitors saw the superseded "Ședințe online".
+Standing rule is EN-only during feature work; this was an approved exception.
+
+Still stale in `ro.json`, **left alone, not mine to delete**: `contact.hero.photoPlaceholder`
+and `contact.closing.photoPlaceholder` ("FOTO AICI") — the component reads `photoAlt` now.
+
+---
 ## Parked — questions for the client
 
 She phrased these as questions in the sheet, not instructions. Nothing is being built.
@@ -129,8 +183,8 @@ She phrased these as questions in the sheet, not instructions. Nothing is being 
 |---|---|---|---|
 | A9 / B9 | "dacă se poate?" / "neclaritate" | Orphan fragments with no referent — what do they attach to? | parked |
 | A13 / A14 | "Cost — sub formă de articol? Tarife & Cum lucrăm împreună" / "sau pe pagina cu servicii?" | A dedicated `/tarife` page beats an article — pricing is a navigational answer, not a read-once piece. Either way she writes the copy. | parked |
-| A16 | "de șters de pe pagina cu servicii toate credențialele??" | Credentials render in **two** places: the per-service hero and the Home page block. Which one? | parked |
-| A18 | "de add faptul că imaginile sunt generate cu AI?" | Cheap — one line in footer or terms. Her call whether it's visible. | parked |
+| A16 | "de șters de pe pagina cu servicii toate credențialele??" | Answered: services pages only. | done (Batch 7, C2) |
+| A18 | "de add faptul că imaginile sunt generate cu AI?" | Answered: a section on the Terms page. | done (Batch 7, A5) |
 | A20 | "About me cu povestea infertilității / maternității?" | Entirely her copy. Nothing to build until it exists. | parked |
 | Bug 3 | Icon max 50% larger than a line, top-aligned, text starting from the icon's left | Cross-cutting across ~8 components, and the described layout matches nothing currently in the site. Needs a sketch or a reference. | parked |
 

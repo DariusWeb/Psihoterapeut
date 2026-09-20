@@ -33,6 +33,9 @@
 		<h2>{{ t('terms.links.title') }}</h2>
 		<p>{{ t('terms.links.body') }}</p>
 
+		<h2>{{ t('terms.images.title') }}</h2>
+		<p>{{ t('terms.images.body') }}</p>
+
 		<h2>{{ t('terms.changes.title') }}</h2>
 		<p>{{ t('terms.changes.body') }}</p>
 

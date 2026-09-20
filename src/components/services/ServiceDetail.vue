@@ -29,11 +29,6 @@
 <template>
     <main class="service-page layout-stack">
         <SplitSection flush priority :image="service.image" :alt="t(`${base}.imageAlt`)">
-            <p class="credentials">
-                <Leaf class="credentials-icon" :size="28" />
-                <span v-for="line in tm('services.credentials')" :key="line">{{ rt(line) }}</span>
-            </p>
-
             <h1 class="service-hero-title">{{ t(`${base}.hero.title`) }}</h1>
             <hr class="rule-short" />
 
