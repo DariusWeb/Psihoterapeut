@@ -50,7 +50,6 @@
 	<main class="contact-page layout-stack">
 		<section class="page-hero">
 			<div class="page-hero-content">
-				<p class="contact-hero-eyebrow">{{ t('contact.hero.eyebrow') }}</p>
 				<h1 class="page-hero-title">{{ t('contact.hero.title') }}</h1>
 				<p class="page-hero-intro">{{ t('contact.hero.intro1') }}</p>
 				<p class="page-hero-intro">{{ t('contact.hero.intro2') }}</p>

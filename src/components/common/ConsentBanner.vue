@@ -41,7 +41,7 @@
 		align-items: center;
 		gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
 		padding: var(--card-padding-compact);
-		box-shadow: 0 0.5rem 2rem rgb(from var(--vt-c-black) r g b / 15%);
+		box-shadow: 0 0.5rem 2rem rgb(from var(--vt-c-black) r g b / 40%);
 	}
 
 	.consent-text {
