@@ -79,6 +79,7 @@
   "navigation": {
     "skipToContent": "Skip to content",
     "logoAlt": "Andreea Georgiana Butacu — psychotherapist, home",
+    "submenuToggle": "Show {menu} submenu",
     "menu": {
       "home": "Home",
       "services": "For you",

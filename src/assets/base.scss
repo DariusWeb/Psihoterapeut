@@ -45,6 +45,30 @@
 	--step-h2: clamp(1.3rem, 0.62rem + 1.54vw, 2rem);
 	--step-h3: clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
 	--step-card-title: clamp(1rem, 0.95rem + 0.3vw, 1.1rem);
+	--step-body: 1rem;
+	--step-body-sm: 0.9rem; // secondary copy, card meta, form help
+	--step-body-xs: 0.8rem; // badges, tags, timestamps — the floor, nothing smaller
+
+	// Line height is a ratio, so it needs no clamp — it scales with whatever font-size it lands on.
+	--leading-tight: 1.2; // headings
+	--leading-body: 1.5; // UI text, labels, card copy
+	--leading-prose: 1.7; // paragraphs read start to finish
+
+	// Lucide takes a number prop, so templates pass 16 / 22 / 32 to match these.
+	--icon-sm: 16px;
+	--icon-md: 22px;
+	--icon-lg: 32px;
+
+	// The three gap literals the codebase already converged on, named.
+	--gap-xs: 0.5rem;
+	--gap-sm: 0.75rem;
+	--gap-md: 1rem;
+
+	--button-padding: 0.7rem 1.5rem;
+	--button-padding-compact: 0.4rem 1.1rem;
+
+	// Mobile height ceiling for topic imagery, so a photo can't push copy off the fold.
+	--media-cap-mobile: 45vw;
 
 	--vt-c-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 	--vt-c-shadow-raised: 0 6px 20px rgba(0, 0, 0, 0.12);
@@ -203,7 +227,7 @@ button,
 .button {
 	cursor: pointer;
 	border: none;
-	padding: 0.7rem 1.5rem;
+	padding: var(--button-padding);
 	border-radius: var(--vt-c-border-radius);
 	background: var(--vt-c-jannafer-gray2);
 	transition: var(--vt-c-transition-speed);
@@ -769,15 +793,36 @@ ol {
 	column-gap: var(--vt-c-split-gap);
 }
 
+// Icon beside a title, optically centred on the title's FIRST line, so it holds when the title
+// wraps and when fluid type resizes it. 1lh is the row's own computed line box — reading it
+// rather than recomputing from a leading token is what keeps the two from drifting apart.
+// The row carries the title's own font-size and leading so 1lh below resolves to the title's
+// line box; set --icon-title-size / -leading per use when the title is not body-sized.
+.icon-title-row {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--gap-sm);
+	--icon-title-icon: var(--icon-sm);
+	--icon-title-size: var(--step-body);
+	--icon-title-leading: var(--leading-tight);
+	font-size: var(--icon-title-size);
+	line-height: var(--icon-title-leading);
+
+	>svg {
+		flex-shrink: 0;
+		margin-top: calc((1lh - var(--icon-title-icon)) / 2);
+	}
+}
+
 .dot-list-item {
 	display: flex;
 	align-items: flex-start;
-	gap: 0.75rem;
+	gap: var(--gap-sm);
 }
 
 .dot-list-bullet {
 	flex-shrink: 0;
-	margin-top: 0.3rem; // optical: aligns the dot to the first line's x-height, not its box
+	margin-top: calc((1rem * var(--leading-body) - var(--icon-sm)) / 2);
 	color: var(--vt-c-jannafer-green);
 }
 
@@ -793,12 +838,12 @@ ol {
 .icon-grid-item {
 	display: flex;
 	align-items: flex-start;
-	gap: 0.75rem;
+	gap: var(--gap-sm);
 }
 
 .icon-grid-icon {
 	flex-shrink: 0;
-	margin-top: 0.15rem;
+	margin-top: calc((1rem * var(--leading-body) - var(--icon-md)) / 2);
 	color: var(--vt-c-jannafer-green);
 }
 
@@ -897,15 +942,29 @@ html.dark {
 }
 
 @media (max-width: 768px) {
+	// Stacked, the image and copy read as two unrelated blocks. One shadow under both, and no
+	// gap between them, binds them back into a single object.
 	.split-section,
 	.split-section:nth-of-type(even) {
 		flex-direction: column;
+		gap: 0;
+		border-radius: var(--vt-c-radius-lg);
+		box-shadow: var(--vt-c-shadow);
+		overflow: hidden;
+	}
+
+	.split-section .split-body {
+		padding: var(--card-padding);
 	}
 
 	.split-media,
 	.split-flush .split-media {
 		flex: auto;
 		margin-left: 0;
+	}
+
+	.split-section .media-placeholder {
+		border-radius: 0;
 	}
 
 	// stacked, so there is no column beside the media left to blend into.

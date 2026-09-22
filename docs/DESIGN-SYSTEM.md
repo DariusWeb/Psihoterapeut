@@ -471,6 +471,168 @@ full-bleed looks fine until someone opens it on a phone. At 1440 / 1024 / 768 / 
 - any element whose `getBoundingClientRect().right > window.innerWidth`
 - Chrome's window will not go below ~500px; use device emulation for a true 480
 
+**Check between the breakpoints, not just on them.** The `.contact-form` overflow lived at
+769–830px and was invisible at 1440, 1024, 768 and 480 — every width the list above names.
+A fixed flex basis breaks in the band *above* the query that would have saved it, so walk
+800 and 900 too.
+
+**Check alignment against a wrapped title, not a short one.** An icon centred on a
+one-line title looks identical whichever rule produced it. Temporarily lengthen the text
+and re-measure: that is the only way to tell `first-line` alignment from `centre`
+alignment, and they differ by a full line-height.
+
+**Emulate touch, don't just narrow the window.** `hover: none` is what exposes a
+hover-gated control. The Services submenu was unreachable at 1280px on a touch device —
+a width nobody thinks to test as "mobile".
+
+### Proposing a value: show it, don't tabulate it
+
+A taste decision cannot be made from a list of selectors and numbers. "Seven sites at
+0.3–0.4rem, snap to 0.5?" is unanswerable — it names no element the owner recognises and
+shows no consequence. The owner rejected exactly that framing, and they were right to.
+
+**The loop that works** (requires the standing go-ahead to drive Chrome DevTools):
+
+1. Size the viewport to where the problem actually lives.
+2. Inject a temporary highlight — outline every element the token touches, so the **blast
+   radius is visible** before anything changes. An in-memory `<style>` via
+   `evaluate_script`; it dies on reload and never touches the repo.
+3. Apply one candidate value live and say here which one is on screen.
+4. Ask with options that match what is on screen right now.
+5. Write the chosen value to the SCSS.
+
+The owner judges what they can see; the agent measures what they cannot. Don't invert
+that — a table of literals asks the owner to do the agent's job, and a screenshot-free
+"looks right" asks the agent to do the owner's.
+
+### Consistency rules
+
+Consistency is the point. Rhythm comes from the same decision being made the same way in
+every section — so a value that differs needs a reason, and a reason that only applies
+once gets **flagged as an exception**, not quietly localised.
+
+Each rule below names the token that enforces it. **If a token exists, using a literal
+instead is the bug** — even outside a media query, which is where nearly all of these
+crept in.
+
+**1. Type comes from seven steps, nothing else.**
+`--step-h1` / `-h2` / `-h3` / `-card-title` for headings, `--step-body` /
+`--step-body-sm` / `--step-body-xs` for copy. `--step-body-sm` names what was already the
+most-used size on the site (21 literal `0.9rem` declarations, against 11 token uses
+total). `--step-body-xs` absorbs a cluster of seven values between `0.7` and `0.88rem`
+that no one can tell apart on screen.
+*Exception:* none. A size outside the scale means the scale is missing a step — add it
+here rather than locally.
+
+**2. Line height is one of three, chosen by job.**
+`--leading-tight` (1.2) headings, `--leading-body` (1.5) UI and card copy,
+`--leading-prose` (1.7) paragraphs read start to finish. The old split was `1.6` in some
+sections and `1.7` in others with nothing distinguishing them.
+
+**3. Gaps come from three tokens, and the scale stays at three.**
+`--gap-xs` / `--gap-sm` / `--gap-md` name the three literals the codebase had already
+converged on by itself (`0.5` / `0.75` / `1rem` — 73 of ~120 declarations). Section and
+card rhythm keeps its own fluid tokens: `--vt-c-section-gap`, `--vt-c-split-gap`,
+`--card-grid-gap`, `--stack-gap-loose`.
+
+**A fourth step gets absorbed, not named.** `gap: 1.5rem` appeared 5× across 4 files
+(`AboutJourney`, `ServiceDetail`, `Contact` ×2, `NotFound`) and every one was a card or
+banner container — one job, so one value. All five snapped **down to `--gap-md`**. The
+owner's call, and the precedent: a recurring off-scale value is evidence the scale is
+being avoided, not that it needs another step. Adding steps is how a scale stops being
+one.
+
+*Exception:* a gap that must scale with the viewport is a `clamp()` token in `:root`, not
+an inline `clamp()`. Six inline ones currently duplicate tokens that already exist.
+
+**4. An icon beside a title aligns to the centre of the title's FIRST line.**
+Use `.icon-title-row`. Not `center` (drifts down as the title wraps), not `baseline` (an
+SVG's baseline is its bottom edge, so it sits low against a fluid heading), not a hand-
+tuned `margin-top`.
+
+The offset is derived, not guessed: `(1lh − icon) / 2`. **`1lh` is the element's own
+computed line box** — reading it is what keeps the offset and the title from drifting
+apart. The class sets `font-size` and `line-height` on the row itself so `1lh` resolves
+to the title's line box; override `--icon-title-size` / `--icon-title-leading` when the
+title is not body-sized, and `--icon-title-icon` to match the icon.
+
+Measured at 1440px with a title wrapped to three lines: icon centre sits **0.00px** from
+the first line's centre, and **−19.2px** from where `align-items: center` would put it —
+exactly one line-height too low. That is the bug this rule exists to prevent.
+
+An earlier version of this rule recomputed the line box as `1em × var(--leading-body)`.
+It was **wrong by 2.4px** on any element whose leading differed from that token — every
+`h3`, since headings inherit `--leading-tight`. Deriving a value the browser already
+knows beats recomputing it.
+*Exception 1:* an icon that is decorative and centred **by design** in a vertical stack —
+`.feature-column`, `.section-head-center`. Those stack icon above title and are
+deliberate.
+*Exception 2:* **when the icon is TALLER than the line box, invert the rule** — centre the
+title on the icon instead, via `min-height: var(--icon-chip-size)` on the label. An
+`.icon-chip` (2.25–3rem) beside an `h3` (~1.2rem line box) is this case: centring the
+chip on the first line would drag it above the text. See `.contact-method`.
+
+**5. Icons come in three sizes: 16 / 22 / 32.**
+`--icon-sm` / `--icon-md` / `--icon-lg`, and the matching number to Lucide's `:size`
+prop. There were nine sizes in play.
+*Exception:* `.icon-chip` is a fixed circular affordance with its own fluid
+`--icon-chip-size` — it is a chip, not an icon.
+
+**6. A button that goes full-width on mobile must still read as a button.**
+Full-bleed edge to edge is as wrong as a button stranded in whitespace. The pattern is
+`width: 100%` **plus a `max-width` and `margin-inline: auto`** — it fills narrow screens,
+caps on wide ones, and stays centred either way. The base button is `width: fit-content`
+with `--button-padding`; a bare `width: 100%` with no ceiling is the bug.
+
+`.contact-form-submit` caps at `22rem`. Measured: **308px** wide at 375px viewport
+(18px gutters each side), **352px** at 1440 — a button, not a bar, at both ends.
+*Exception:* a submit button that is the sole action of a form it visually terminates may
+fill its form's width at every size — but that is the form's width, not the viewport's,
+and it still takes a `max-width`.
+
+**11. A flex item with a fixed basis needs `min-width: 0` and permission to shrink.**
+`flex: 0 0 58%` cannot shrink below its content, so between the width where the row gets
+tight and the width where it stacks, it pushes past the viewport. `flex: 1 1 58%` +
+`min-width: 0` keeps the basis as a *preference* rather than a floor.
+
+*The failure this replaced:* `.contact-form` overflowed the viewport by up to 16px across
+roughly **769–830px** — above the 768 stack, below the width its 58% basis fits. Invisible
+in the browser because `html { overflow-x: clip }` swallows it; found only by measuring
+`getBoundingClientRect().right` against `innerWidth`. `.contact-photo` already carried a
+comment about exactly this trap; the form had the same bug three rules further down.
+
+**7. Bullets are hollow circles.**
+`CircleSmall` through `.dot-list`, everywhere. The same `.dot-list` class previously
+rendered a `Leaf` on the home page and a hollow circle on every service page.
+*Exception:* `.icon-grid`, where each item carries its own **semantic** icon. That is a
+different component making a different point — it is not a bulleted list.
+
+**8. Stacked splits are bound by a shared shadow.**
+At ≤768px `.split-section` becomes one surface: zero gap, one `--vt-c-shadow`, one
+radius, `overflow: hidden`, image flush to the top edge with its own rounding dropped.
+Stacked without it, the image and its copy read as two unrelated blocks that happen to
+sit near each other.
+
+**A `gap: 0` is not enough to close the seam.** An `<img>` is `display: inline` by
+default, so its parent reserves descender space below it — measured at **7px** on a
+375px viewport, a visible crack straight through the bridge. `.split-image` is
+`display: block` for this reason. Any image that must sit flush to another surface needs
+the same.
+
+**9. Topic imagery yields height on mobile; the portrait does not.**
+`--media-cap-mobile` caps a stacked image so it cannot push the copy off the fold. The
+full frame is kept — **cap the height, never crop to fit a slot**.
+*Exception:* `andreea-portrait.webp`. The portrait of the practitioner is the content, not
+decoration around it, and keeps its `aspect-ratio: 3/4` treatment.
+
+**10. Every hover affordance needs a non-hover path.**
+A touch device fires no `mouseenter`. If hover reveals or enables anything, a click or
+focus must do the same thing. `@media (hover: hover)` guards effects that are genuinely
+decorative.
+*The failure this replaced:* the Services submenu opened on `@mouseenter` alone, so above
+1150px — iPad, touchscreen laptop — it could not be opened at all. Below 1150px the
+hamburger overlay hid the bug.
+
 ### The nav has its own breakpoint
 
 `Navigation.vue` switches to the hamburger at **1150px**, not 1024 — that is the width where the
@@ -489,7 +651,7 @@ Real inconsistencies in the current code. **Do not copy these as though they wer
 
 3. **`Reasons.vue` and `HowIWork.vue` map icons to i18n items by array index.** Add a seventh entry to `home.reasons.items` and it silently renders with no icon. The fix is a `content/home/index.js` following the list-config convention above, but that is its own change.
 
-4. **Breakpoints are still magic numbers, but far fewer and more varied.** 17 media-query blocks, down from 33 hardcoded values, and they now do one job (shape changes). Six of them are *not* on the 1024/768/480 grid — `1150` (nav), `1100` / `900` / `560` (fixed column counts), `640` (About's prose measure) — each set to the width where that specific layout actually breaks rather than to a shared number. That is deliberate, and it is also why the SCSS-variable treatment via the commented-out `additionalData` block in `vite.config.js` buys less than it used to. The four unscaled z-indexes are untouched. Left open.
+4. **Breakpoints are still magic numbers, but far fewer and more varied.** 26 width-based media-query blocks, down from 33 hardcoded values, and they now do one job (shape changes). Every value is whole `px` — no unit drift, no `767.98` off-by-ones. Seven of them are *not* on the 1024/768/480 grid — `1150` (nav), `1100` / `900` / `560` (fixed column counts), `640` (About's prose measure), and `600` in `LivePanel.vue` which is **undocumented and sits 40px from the documented 640** — each otherwise set to the width where that specific layout actually breaks rather than to a shared number. That is deliberate, and it is also why the SCSS-variable treatment via the commented-out `additionalData` block in `vite.config.js` buys less than it used to. The four unscaled z-indexes are untouched. Left open.
 
 5. **`Articles.vue` / `ArticleItem.vue` / `NewsItem.vue` / `events/Event.vue` predate the design system.** They now sit on the shared grid and page frame, but still render their own visual language — box shadows, `10px` radii, no `.card` composition. Needs a design call, not a refactor.
 
@@ -498,3 +660,37 @@ Real inconsistencies in the current code. **Do not copy these as though they wer
 **Resolved in the 2026-08-06 responsive pass** (was items 1, 4, 6-partial): `.split-flush`'s literal `gap: 2rem` is gone — `--vt-c-split-gap` is fluid, which is what that override was faking. The global `h1` is now a single `clamp()` with no per-breakpoint rules, so pages no longer fight three declarations.
 
 **Resolved in the 2026-08-05 pass**: card padding and the bypassed `.card` are now `.card-compact` / `.card-outlined`; the `1rem` radius is `--vt-c-radius-lg`; the dead starter-theme tokens and the dangling `var(--vt-c-indigo)` are gone.
+
+**Opened by the 2026-09-21 consistency pass** (§6 "Consistency rules" now governs all of these):
+
+7. **The literals are named but not yet adopted.** The tokens exist and the rules are written; the ~56 font-size, ~110 gap and 13 button-padding declarations that bypass them are being migrated page by page, starting with `Contact.vue`. Until a file is migrated, it still shows the old values — **read the rules, not the neighbouring code**, when working in one that has not been done.
+
+8. **`SiteSearch.vue` hides its result hint behind hover.** `grid-template-rows: 0fr` + `opacity: 0`, revealed on `:hover`, `.is-active` (arrow-key nav) and `:focus-visible`. None of those fire on touch, so the hint is dead content on a phone. Lower severity than the nav dropdown was — it is a hint, not an action — but it is the same rule 10 violation.
+
+9. **`Resources.vue` overrides `.icon-chip` to a different size.** `.resources-practical-icon` re-sizes the shared chip to `clamp(3.5rem, 2.5rem + 3.2vw, 5rem)`, so the same class renders at two sizes on two pages. Either it is a chip and uses `--icon-chip-size`, or it is a different component and needs its own name.
+
+11. **Nineteen sub-scale gaps, grouped but undecided.** Below `--gap-xs` sit 19 literals
+    that fall into four *different jobs*, which is why a blanket snap is wrong:
+
+    - **A — already the token, written `.5rem`** (4): `base.scss:360` `.form-row`,
+      `Group.vue:143` `.group-signup-consent`, `Group.vue:150` `.group-signup-privacy`,
+      `Navigation.vue:396` `.overlay-links`. Zero visual change to convert.
+    - **B — segmented-control hairline** (4, `0.1`–`0.25rem`): `ThemeToggle.vue:55`,
+      `LanguageToggle.vue:46`, `Dashboard.vue:150` `.dashboard-nav`,
+      `base.scss:553` `.section-head-center`. This is the seam between pill segments —
+      snapping it to `0.5rem` visibly breaks one control into separate buttons.
+    - **C — icon-to-label inside a button or tag** (7, `0.3`–`0.4rem`):
+      `base.scss:265` `.button-swap-sizer`, `ShareLike.vue:97`, `NewsItem.vue:162`
+      `.news-link`, `Dashboard.vue:137` `.dashboard-signout`, `SiteSearch.vue:273`
+      `.search-type-tag`, `ResourceCheckout.vue:242` and `:255`. The real taste call.
+    - **D — form row spacing** (3, `0.6`–`0.85rem`): `Dashboard.vue:156`
+      `.dashboard-nav-item`, `LivePanel.vue:229` `.live-form`, `LivePanel.vue:253`
+      `.live-row`. Within 1.6px of `--gap-sm`.
+
+    **Decide these with the visual loop above, not a table** — that was tried and
+    correctly rejected. Groups B and C are plausibly *distinct jobs* deserving their own
+    token (a hairline and a control-internal gap are not the same thing as a layout gap),
+    which rule 3's "absorb, don't name" does **not** automatically settle: that rule is
+    about one job drifting to a second value, not about two genuinely different jobs.
+
+12. **Image border-radius runs to six values.** `--vt-c-radius-lg`, `--vt-c-border-radius`, a `1rem` literal, `0`, `10px`, `8px`, and none-at-all. The `8px` in `events/Event.vue` is the only raw px radius in the codebase. Folds into item 5's design call.

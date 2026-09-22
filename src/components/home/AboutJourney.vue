@@ -1,7 +1,7 @@
 <script setup>
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { ArrowRight, Leaf } from '@lucide/vue'
+	import { ArrowRight, CircleSmall } from '@lucide/vue'
 	import SplitSection from '@/components/common/SplitSection.vue'
 
 	const { t, tm, rt } = useI18n()
@@ -17,7 +17,7 @@
 
 			<ul class="dot-list">
 				<li v-for="credential in tm('services.credentials')" :key="rt(credential)" class="dot-list-item">
-					<Leaf class="dot-list-bullet" :size="16" />
+					<CircleSmall class="dot-list-bullet" :size="16" />
 					{{ rt(credential) }}
 				</li>
 			</ul>
@@ -35,7 +35,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		gap: 1.5rem;
+		gap: var(--gap-md);
 		height: 100%;
 	}
 

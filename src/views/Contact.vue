@@ -54,7 +54,7 @@
 				<p class="page-hero-intro">{{ t('contact.hero.intro1') }}</p>
 				<p class="page-hero-intro">{{ t('contact.hero.intro2') }}</p>
 				<a class="button button-primary contact-hero-cta" href="#contact-form">
-					<Sprout :size="18" />
+					<Sprout :size="16" />
 					{{ t('contact.hero.cta') }}
 				</a>
 			</div>
@@ -65,11 +65,11 @@
 
 				<aside class="contact-note card">
 					<p class="contact-note-item">
-						<Laptop :size="24" />
+						<Laptop :size="22" />
 						{{ t('contact.note.sessions') }}
 					</p>
 					<p class="contact-note-item">
-						<Sprout :size="24" />
+						<Sprout :size="22" />
 						{{ t('contact.note.place') }}
 					</p>
 				</aside>
@@ -159,7 +159,7 @@
 				<div class="contact-steps-list">
 					<div v-for="(icon, index) in stepIcons" :key="index" class="contact-step">
 						<span class="icon-chip contact-step-number">{{ index + 1 }}</span>
-						<component :is="icon" :size="28" />
+						<component :is="icon" :size="32" />
 						<p class="contact-step-text">{{ t(`contact.steps.s${index + 1}`) }}</p>
 					</div>
 				</div>
@@ -169,7 +169,7 @@
 				<h2 class="contact-reassure-title">{{ t('contact.reassure.title') }}</h2>
 
 				<p v-for="index in 5" :key="index" class="contact-reassure-item">
-					<Sprout :size="18" />
+					<Sprout :size="16" />
 					{{ t(`contact.reassure.i${index}`) }}
 				</p>
 
@@ -194,8 +194,8 @@
 		</section>
 
 		<section class="contact-strip layout-full section-flush">
-			<div v-for="(icon, index) in stripIcons" :key="index" class="contact-strip-item">
-				<component :is="icon" :size="28" />
+			<div v-for="(icon, index) in stripIcons" :key="index" class="contact-strip-item icon-title-row">
+				<component :is="icon" :size="32" />
 				<div>
 					<h3 class="contact-strip-title">{{ t(`contact.strip.s${index + 1}.title`) }}</h3>
 					<p class="contact-strip-text">{{ t(`contact.strip.s${index + 1}.text`) }}</p>
@@ -230,7 +230,7 @@
 	.contact-hero-cta {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 	}
 
 	.contact-hero-media {
@@ -244,7 +244,7 @@
 		width: 13rem;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		gap: var(--gap-md);
 		text-align: center;
 	}
 
@@ -253,7 +253,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		color: var(--vt-c-jannafer-green);
 	}
 
@@ -276,8 +276,14 @@
 	.contact-method {
 		display: flex;
 		align-items: flex-start;
-		gap: 1rem;
+		gap: var(--gap-md);
 		margin-top: 2rem;
+
+		.contact-method-label {
+			min-height: var(--icon-chip-size);
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	.contact-method-label {
@@ -289,8 +295,10 @@
 		margin: 0;
 	}
 
+
 	.contact-form {
-		flex: 0 0 58%;
+		flex: 1 1 58%;
+		min-width: 0;
 	}
 
 	.contact-form-title {
@@ -308,15 +316,15 @@
 
 	.contact-form-hint {
 		margin: 0 0 0.75rem;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.contact-form-consent {
 		display: flex;
 		align-items: flex-start;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		margin-bottom: 1rem;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 
 		label {
 			cursor: pointer;
@@ -330,22 +338,25 @@
 
 	.contact-form-submit {
 		width: 100%;
+		max-width: 22rem;
+		margin-inline: auto;
+		display: block;
 	}
 
 	.contact-form-privacy {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		margin: 1rem 0 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	// Steps + reassure
 	.contact-after {
 		display: flex;
 		align-items: stretch;
-		gap: 1rem;
+		gap: var(--gap-md);
 	}
 
 	.contact-steps {
@@ -361,7 +372,7 @@
 
 	.contact-steps-list {
 		display: flex;
-		gap: 1rem;
+		gap: var(--gap-md);
 		text-align: center;
 		color: var(--vt-c-jannafer-green);
 	}
@@ -371,7 +382,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--gap-md);
 	}
 
 	.contact-step-number {
@@ -380,7 +391,7 @@
 
 	.contact-step-text {
 		margin: 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 		color: var(--vt-c-black);
 	}
 
@@ -391,7 +402,7 @@
 	.contact-reassure-item {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		margin: 0 0 1rem;
 
 		svg {
@@ -427,7 +438,7 @@
 	.contact-closing-banner {
 		display: flex;
 		align-items: center;
-		gap: 1.5rem;
+		gap: var(--gap-md);
 		color: var(--vt-c-jannafer-green);
 	}
 
@@ -448,21 +459,20 @@
 
 	.contact-strip-item {
 		flex: 1;
-		display: flex;
-		align-items: center;
-		gap: 1rem;
+		gap: var(--gap-md);
+		--icon-title-icon: var(--icon-lg);
 	}
 
 	.contact-strip-title {
 		margin: 0;
 		font-family: "Mulish Variable", sans-serif;
-		font-size: 1rem;
+		font-size: var(--step-body);
 	}
 
 	.contact-strip-text {
 		margin: 0;
 		color: var(--vt-c-black);
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	@media (max-width: 1024px) {

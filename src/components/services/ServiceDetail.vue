@@ -108,7 +108,7 @@
     .service-card {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: var(--gap-md);
         height: 100%;
         justify-content: center;
     }

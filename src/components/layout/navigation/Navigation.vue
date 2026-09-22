@@ -43,6 +43,16 @@
 		else open(closeButtonRef)
 	}
 
+	function toggleDropdown(key) {
+		openDropdown.value = openDropdown.value === key ? null : key
+	}
+
+	// hover alone left the submenu unreachable on touch; focusout keeps the keyboard path closing
+	function closeDropdownOnLeave(event, key) {
+		if (openDropdown.value !== key) return
+		if (!event.currentTarget.contains(event.relatedTarget)) openDropdown.value = null
+	}
+
 	function closeMenu({ restoreFocus = true } = {}) {
 		close(restoreFocus ? hamburgerRef : null)
 	}
@@ -69,15 +79,19 @@
 		<div class="nav-menu">
 			<template v-for="item in navItems" :key="item.key">
 				<div v-if="item.children" class="nav-dropdown-wrapper" @mouseenter="openDropdown = item.key"
-					@mouseleave="openDropdown = null">
+					@mouseleave="openDropdown = null" @focusout="closeDropdownOnLeave($event, item.key)">
 					<RouterLink :to="item.to">
-						{{ t(`navigation.menu.${item.key}`) }}<svg class="chevron"
-							:class="{ 'is-open': openDropdown === item.key }" xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-							stroke-linecap="round" stroke-linejoin="round">
+						{{ t(`navigation.menu.${item.key}`) }}
+					</RouterLink>
+					<button class="chevron-button" @click="toggleDropdown(item.key)"
+						:aria-expanded="openDropdown === item.key"
+						:aria-label="t('navigation.submenuToggle', { menu: t(`navigation.menu.${item.key}`) })">
+						<svg class="chevron" :class="{ 'is-open': openDropdown === item.key }"
+							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 							<polyline points="6 9 12 15 18 9" />
 						</svg>
-					</RouterLink>
+					</button>
 					<Transition name="dropdown">
 						<div v-if="openDropdown === item.key" class="nav-dropdown">
 							<RouterLink v-for="child in item.children" :key="child.to" :to="child.to">
@@ -251,11 +265,29 @@
 
 	.nav-dropdown-wrapper {
 		position: relative;
+		display: inline-flex;
+		align-items: center;
 
 		>a {
 			display: inline-flex;
 			align-items: center;
-			gap: 0.25rem;
+			padding-right: 0.4rem;
+		}
+	}
+
+	// the chevron is its own control so touch and keyboard can open the submenu; the link navigates
+	.chevron-button {
+		display: inline-flex;
+		align-items: center;
+		align-self: stretch;
+		padding: 0 0.6rem 0 0.1rem;
+		background: none;
+		border-radius: 2rem;
+		color: inherit;
+
+		&:hover {
+			background: none;
+			color: var(--vt-c-jannafer-green);
 		}
 	}
 
