@@ -46,12 +46,12 @@
 
 	.consent-text {
 		margin: 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.consent-actions {
 		display: flex;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		margin-inline-start: auto;
 	}
 

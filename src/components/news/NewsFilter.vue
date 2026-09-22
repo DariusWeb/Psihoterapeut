@@ -33,7 +33,7 @@
     .news-filter {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: var(--gap-xs);
         margin-bottom: 2.5rem;
     }
 

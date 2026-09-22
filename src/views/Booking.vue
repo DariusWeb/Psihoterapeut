@@ -224,13 +224,13 @@
 	.booking-assurances {
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 	}
 
 	.booking-assurance {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		margin: 0;
 
 		svg {
@@ -241,7 +241,7 @@
 
 	.booking-alternative {
 		margin: 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.booking-panel {
@@ -255,7 +255,7 @@
 	.booking-subtitle {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		margin: 0 0 1rem;
 
 		svg {
@@ -266,18 +266,18 @@
 	.booking-subtitle {
 		margin-top: 2rem;
 		font-family: "Mulish Variable", sans-serif;
-		font-size: 1rem;
+		font-size: var(--step-body);
 	}
 
 	.booking-chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 	}
 
 	.booking-chip {
 		padding: 0.5rem 1rem;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 		background: var(--vt-c-background);
 		box-shadow: inset 0 0 0 1px var(--vt-c-jannafer-gray2);
 	}
@@ -290,14 +290,14 @@
 
 	.booking-note {
 		margin: 1rem 0 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.booking-state {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--gap-md);
 		text-align: center;
 
 		p {
@@ -312,7 +312,7 @@
 	.booking-form-title {
 		margin: 0 0 1rem;
 		font-family: "Mulish Variable", sans-serif;
-		font-size: 1rem;
+		font-size: var(--step-body);
 	}
 
 	.booking-form input:not([type="checkbox"]),
@@ -330,9 +330,9 @@
 	.booking-consent {
 		display: flex;
 		align-items: flex-start;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		margin: 1rem 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 
 		label {
 			cursor: pointer;
@@ -352,16 +352,16 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		margin: 1rem 0 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.booking-done {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--gap-md);
 		text-align: center;
 		color: var(--vt-c-jannafer-green);
 
@@ -380,7 +380,7 @@
 	}
 
 	.booking-done-note {
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	@media (max-width: 768px) {

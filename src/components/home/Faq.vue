@@ -69,7 +69,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: var(--gap-md);
 		padding: 1rem 1.25rem;
 		cursor: pointer;
 		list-style: none; // drops the native disclosure triangle; the icon below replaces it

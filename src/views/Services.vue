@@ -37,7 +37,7 @@
         // claws back part of the h1's bottom margin, easing to nothing once that margin is small
         margin-top: calc(-1 * clamp(0rem, -1rem + 3vw, 2rem));
         margin-inline: auto;
-        margin-bottom: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
+        margin-bottom: var(--space-section);
         text-align: center;
         line-height: 1.7;
     }
@@ -51,7 +51,7 @@
         --card-media-height: clamp(8rem, 5rem + 6vw, 12rem);
         display: flex;
         flex-direction: column;
-        gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+        gap: var(--space-card);
     }
 
     .services-card-title {

@@ -42,7 +42,7 @@
 	.home-hero-actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1rem;
+		gap: var(--gap-md);
 	}
 
 	.home-hero-note {

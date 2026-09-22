@@ -130,13 +130,13 @@
     .group-card {
         display: flex;
         align-items: flex-start;
-        gap: 1rem;
+        gap: var(--gap-md);
     }
 
     .group-body {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: var(--gap-sm);
     }
 
     .group-text {

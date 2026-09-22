@@ -55,7 +55,7 @@
     .home-article {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: var(--gap-sm);
         color: var(--vt-c-black);
 
         &:hover {
@@ -77,7 +77,7 @@
 
     .home-article-title {
         margin: 0;
-        font-size: 1rem;
+        font-size: var(--step-body);
         transition: var(--vt-c-transition-speed);
     }
 

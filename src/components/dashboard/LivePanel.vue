@@ -203,7 +203,7 @@
 		padding: var(--card-padding);
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: var(--gap-md);
 	}
 
 	.live-panel h2 {
@@ -215,7 +215,7 @@
 		padding: 0.75rem 1rem;
 		border-radius: var(--vt-c-border-radius);
 		background: var(--vt-c-jannafer-gray);
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.live-state.live {
@@ -259,7 +259,7 @@
 
 	.live-actions {
 		display: flex;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 	}
 
 	.live-confirm {
@@ -269,7 +269,7 @@
 		background: var(--vt-c-surface);
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 	}
 
 	.live-confirm p {

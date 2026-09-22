@@ -83,21 +83,21 @@
 	.about-page {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
+		gap: var(--space-section);
 	}
 
 	.about-hero {
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
-		gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
+		gap: var(--space-section);
 	}
 
 	.about-hero-content {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+		gap: var(--space-flow);
 	}
 
 	.about-hero-title {
@@ -113,7 +113,7 @@
 	.about-hero-cta {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		margin-top: 0.5rem;
 	}
 
@@ -142,7 +142,7 @@
 	.about-card {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+		gap: var(--space-card);
 		padding: var(--card-padding);
 		border: 1px solid var(--vt-c-jannafer-gray2);
 		border-radius: var(--vt-c-radius-lg);
@@ -152,7 +152,7 @@
 	.about-card-subtitle {
 		display: flex;
 		align-items: self-start;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		margin: 0;
 		// card titles are h2 for the outline but keep the h3 type scale they were designed at
 		font-size: var(--step-h3);
@@ -171,11 +171,11 @@
 
 	.about-card-sub {
 		margin-top: 0.5rem;
-		padding-top: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+		padding-top: var(--space-flow);
 		border-top: 2px dashed var(--vt-c-jannafer-gray2);
 		display: flex;
 		flex-direction: column;
-		gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+		gap: var(--space-card);
 	}
 
 	@media (max-width: 768px) {

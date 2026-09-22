@@ -49,7 +49,7 @@
 	}
 
 	.home-area-card .media-card-body {
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		padding: 1.5rem;
 	}
 </style>

@@ -68,7 +68,7 @@
 
 	.live-text {
 		margin: 0.15rem 0 0;
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.live-cta {

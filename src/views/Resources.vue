@@ -213,12 +213,12 @@
     .article-card {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: var(--gap-sm);
     }
 
     .article-category {
         margin: 0;
-        font-size: 0.8rem;
+        font-size: var(--step-body-xs);
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--vt-c-jannafer-green);

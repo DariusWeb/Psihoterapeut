@@ -39,7 +39,7 @@
 <style lang="scss" scoped>
     .news-header {
         text-align: center;
-        margin-bottom: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
+        margin-bottom: var(--space-section);
 
         h1 {
             margin-bottom: 0.75rem;
@@ -62,6 +62,6 @@
         text-align: center;
         padding: clamp(2rem, 1rem + 3vw, 4rem) 0;
         color: rgb(from var(--vt-c-black) r g b / 65%);
-        font-size: 1rem;
+        font-size: var(--step-body);
     }
 </style>

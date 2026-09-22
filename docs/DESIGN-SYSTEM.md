@@ -663,7 +663,9 @@ Real inconsistencies in the current code. **Do not copy these as though they wer
 
 **Opened by the 2026-09-21 consistency pass** (§6 "Consistency rules" now governs all of these):
 
-7. **The literals are named but not yet adopted.** The tokens exist and the rules are written; the ~56 font-size, ~110 gap and 13 button-padding declarations that bypass them are being migrated page by page, starting with `Contact.vue`. Until a file is migrated, it still shows the old values — **read the rules, not the neighbouring code**, when working in one that has not been done.
+7. **The exact-match literals are adopted; the off-scale ones are not.** The 93 declarations whose value was already a token's value — 65 gaps (`0.5`/`0.75`/`1rem`) and 28 font sizes (`0.9`/`0.8`/`1rem`) — now read `var(--gap-*)` / `var(--step-*)` across 27 files. Verified pixel-identical: 6942 element fingerprints (width, height, row/column gap, font-size, padding) captured before and after across 12 routes and four widths, **0 diffs**. What remains genuinely differs from the scale and needs a decision, not a rename: ~20 off-scale font sizes (`0.62`–`0.88`, `1.05`, `1.1rem`), the sub-scale gaps of item 11, three repeated fluid clamps (item 13) and the button paddings. **Read the rules, not the neighbouring code**, in a file that still shows one.
+
+    The verification method is reusable and worth repeating for any "this changes nothing" refactor: fingerprint every element's computed geometry, apply, re-fingerprint, diff. Two of the routes in the first sweep were silently rendering `NotFound` — `HIDDEN_PATHS` filters them out of the router — so `NewsItem`, `NewsFilter`, `EventItem` and `Group` had to be covered by temporarily emptying that list in the working tree. **A route that 404s measures nothing; check the titles in the capture.**
 
 8. **`SiteSearch.vue` hides its result hint behind hover.** `grid-template-rows: 0fr` + `opacity: 0`, revealed on `:hover`, `.is-active` (arrow-key nav) and `:focus-visible`. None of those fire on touch, so the hint is dead content on a phone. Lower severity than the nav dropdown was — it is a hint, not an action — but it is the same rule 10 violation.
 
@@ -694,3 +696,9 @@ Real inconsistencies in the current code. **Do not copy these as though they wer
     about one job drifting to a second value, not about two genuinely different jobs.
 
 12. **Image border-radius runs to six values.** `--vt-c-radius-lg`, `--vt-c-border-radius`, a `1rem` literal, `0`, `10px`, `8px`, and none-at-all. The `8px` in `events/Event.vue` is the only raw px radius in the codebase. Folds into item 5's design call.
+
+13. **Resolved — the three repeated fluid clamps are named.** `--space-section` (1.5→3rem), `--space-flow` (1→1.5rem) and `--space-card` (0.75→1rem) now cover all 17 sites that used to type the `clamp()` out by hand. Verified pixel-identical: 1302 fingerprints across 7 routes, **0 diffs**, with `margin-bottom` and `padding-top` added to the fingerprint because five of the sites set those rather than `gap`.
+
+    **Named `--space-*`, not `--gap-*`, because the value does two jobs.** Eight sites are true gaps; the rest are padding (`.section-band`, `.media-card`), `margin-bottom` (`.news-header`, `.services-intro`) or `padding-top` (`.about-card-sub`). A token called `--gap-card` setting `padding` would read as a mistake, so the name drops the property and keeps the job.
+
+    **`--space-flow` deliberately duplicates `--card-padding-compact`'s value rather than aliasing it.** They match today but answer to different jobs — the hero/content stack rhythm versus compact-card padding. Pointing one at the other means a future tweak to card padding silently moves `.page-hero-content`, `.split-body` and `.about-hero-content`. The `:root` comment says so; don't "deduplicate" it.

@@ -87,7 +87,7 @@
 <style scoped lang="scss">
     .share-like {
         display: flex;
-        gap: 0.75rem;
+        gap: var(--gap-sm);
         margin-top: var(--card-padding);
     }
 

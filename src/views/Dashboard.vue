@@ -96,7 +96,7 @@
 		text-align: center;
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: var(--gap-md);
 		align-items: center;
 	}
 
@@ -109,7 +109,7 @@
 	.dashboard-header {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1rem;
+		gap: var(--gap-md);
 		align-items: center;
 		justify-content: space-between;
 		padding-bottom: 1rem;
@@ -123,11 +123,11 @@
 	.dashboard-account {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--gap-md);
 	}
 
 	.dashboard-email {
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 		opacity: 0.75;
 	}
 

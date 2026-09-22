@@ -34,6 +34,10 @@
 	--vt-c-section-gap: clamp(1rem, 0.4rem + 2vw, 2rem);
 	--vt-c-split-gap: clamp(1rem, 0.4rem + 2vw, 2rem);
 	--stack-gap-loose: clamp(1.25rem, 0.5rem + 2.4vw, 2rem);
+	--space-section: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
+	// Matches --card-padding-compact today, but they answer to different jobs — keep them apart.
+	--space-flow: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+	--space-card: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
 
 	--card-padding: clamp(1.1rem, 0.7rem + 1.6vw, 2rem);
 	--card-padding-compact: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
@@ -196,7 +200,7 @@ html {
 // section needs no inner wrapper element
 .section-band {
 	margin-inline: calc(50% - 50vw);
-	padding: var(--section-band-padding-block, clamp(1.5rem, 0.75rem + 2.4vw, 3rem)) calc(50vw - 50% + var(--page-gutter));
+	padding: var(--section-band-padding-block, var(--space-section)) calc(50vw - 50% + var(--page-gutter));
 	background: var(--section-band-background, var(--vt-c-jannafer-gray));
 }
 
@@ -294,7 +298,7 @@ button,
 input,
 textarea,
 select {
-	font-size: 1rem;
+	font-size: var(--step-body);
 	padding: 0.7rem 1.5rem;
 	border: none;
 	outline: none;
@@ -357,7 +361,7 @@ form {
 	.form-row {
 		display: flex;
 		width: 100%;
-		gap: .5rem;
+		gap: var(--gap-xs);
 		margin: .5rem 0;
 
 		.form-group {
@@ -505,14 +509,14 @@ ol {
 .columns-container {
 	display: flex;
 	justify-content: space-between;
-	gap: 1rem;
+	gap: var(--gap-md);
 }
 
 .section-head {
 	display: flex;
 	align-items: baseline;
 	justify-content: space-between;
-	gap: 1rem;
+	gap: var(--gap-md);
 
 	h2 {
 		margin: 0;
@@ -525,7 +529,7 @@ ol {
 	flex-shrink: 0;
 	display: inline-flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--gap-xs);
 	padding: 0;
 	background: transparent;
 	font: inherit;
@@ -589,7 +593,7 @@ ol {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.75rem;
+	gap: var(--gap-sm);
 	text-align: center;
 }
 
@@ -602,14 +606,14 @@ ol {
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	gap: 0.75rem;
-	font-size: 0.9rem;
+	gap: var(--gap-sm);
+	font-size: var(--step-body-sm);
 }
 
 .meta-item {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--gap-xs);
 
 	svg {
 		flex-shrink: 0;
@@ -638,7 +642,7 @@ ol {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+	gap: var(--space-flow);
 }
 
 .split-flush .split-media {
@@ -674,8 +678,8 @@ ol {
 	--vt-c-media-min-height: 0;
 	display: flex;
 	align-items: stretch;
-	gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
-	padding: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+	gap: var(--space-card);
+	padding: var(--space-card);
 }
 
 .media-card-media {
@@ -704,7 +708,7 @@ ol {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 0.5rem;
+	gap: var(--gap-xs);
 }
 
 .media-card-label,
@@ -735,7 +739,7 @@ ol {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+	gap: var(--space-flow);
 	// clears the fixed nav; the media column stays flush with the top
 	padding: clamp(5rem, 3.4rem + 3.2vw, 7rem) 0 clamp(2rem, 1rem + 3vw, 4rem);
 }
@@ -785,7 +789,7 @@ ol {
 	list-style: none;
 	padding: 0;
 	display: grid;
-	gap: 0.75rem;
+	gap: var(--gap-sm);
 }
 
 .dot-list-columns {
@@ -850,35 +854,35 @@ ol {
 .cta-band {
 	display: flex;
 	align-items: center;
-	gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
+	gap: var(--space-section);
 }
 
 .cta-band-content {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	gap: var(--gap-md);
 }
 
 .cta-band-action {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
+	gap: var(--gap-md);
 }
 
 .cta-band-button {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.75rem;
+	gap: var(--gap-sm);
 }
 
 .cta-band-note {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--gap-xs);
 	margin: 0;
-	font-size: 0.9rem;
+	font-size: var(--step-body-sm);
 	text-align: center;
 
 	svg {

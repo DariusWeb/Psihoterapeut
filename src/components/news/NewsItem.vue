@@ -95,7 +95,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.5rem;
+        gap: var(--gap-xs);
         margin-bottom: 0.75rem;
     }
 
@@ -121,7 +121,7 @@
     }
 
     .news-title {
-        font-size: 1rem;
+        font-size: var(--step-body);
         font-weight: 700;
         line-height: 1.4;
         margin: 0 0 0.6rem;
@@ -144,7 +144,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.5rem;
+        gap: var(--gap-xs);
         margin-top: auto;
         padding-top: 0.75rem;
         border-top: 1px solid var(--vt-c-jannafer-gray2);

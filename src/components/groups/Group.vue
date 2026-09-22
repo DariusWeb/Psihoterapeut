@@ -140,14 +140,14 @@
     .group-signup-consent {
         display: flex;
         align-items: flex-start;
-        gap: .5rem;
+        gap: var(--gap-xs);
         margin: 1rem 0;
     }
 
     .group-signup-privacy {
         display: flex;
         align-items: center;
-        gap: .5rem;
+        gap: var(--gap-xs);
         margin: 1rem 0 0;
         font-size: .85rem;
     }

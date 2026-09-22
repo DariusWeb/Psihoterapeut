@@ -185,7 +185,7 @@
 	.nav-controls {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 	}
 
 	.hamburger {
@@ -215,7 +215,7 @@
 
 	.nav-menu {
 		display: flex;
-		gap: 1rem;
+		gap: var(--gap-md);
 	}
 
 	.nav-menu>a,
@@ -319,7 +319,7 @@
 
 		a {
 			padding: 0.55rem 1.25rem;
-			font-size: 0.9rem;
+			font-size: var(--step-body-sm);
 			white-space: nowrap;
 			color: var(--vt-c-black);
 			text-decoration: none;
@@ -393,10 +393,10 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: .5rem;
+		gap: var(--gap-xs);
 
 		a {
-			font-size: 1rem;
+			font-size: var(--step-body);
 			font-family: "Libre Baskerville", serif;
 			color: var(--vt-c-jannafer-green);
 			text-decoration: none;
@@ -420,7 +420,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		width: 100%;
 	}
 
@@ -428,10 +428,10 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 
 		a {
-			font-size: 1rem;
+			font-size: var(--step-body);
 			font-family: inherit;
 			padding: 0.2rem 1.25rem;
 			opacity: 0.75;
@@ -445,7 +445,7 @@
 	.overlay-controls {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--gap-md);
 	}
 
 	// Overlay transition

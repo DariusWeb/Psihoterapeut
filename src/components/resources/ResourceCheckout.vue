@@ -210,14 +210,14 @@
 
 	.checkout-note {
 		margin: 0.35rem 0 0;
-		font-size: 0.8rem;
+		font-size: var(--step-body-xs);
 		color: var(--vt-c-black-mute);
 	}
 
 	.checkout-consent {
 		display: flex;
 		align-items: flex-start;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		margin-top: 0.9rem;
 		font-size: 0.85rem;
 
@@ -246,7 +246,7 @@
 	.checkout-actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		margin-top: 1.25rem;
 
 		.button {

@@ -130,7 +130,7 @@
 	.share-head-row {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 	}
 
 	.share-mark {
@@ -154,7 +154,7 @@
 	.share-subtitle {
 		margin: 0.5rem 0 0;
 		color: var(--vt-c-black-mute);
-		font-size: 0.9rem;
+		font-size: var(--step-body-sm);
 	}
 
 	.share-close {
@@ -179,7 +179,7 @@
 	.share-copy {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 	}
 
 	.share-copy-field {
@@ -200,7 +200,7 @@
 	.share-divider {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
+		gap: var(--gap-sm);
 		margin: var(--card-padding) 0;
 		color: var(--vt-c-black-mute);
 		font-size: 0.75rem;
@@ -218,20 +218,20 @@
 	.share-networks {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 	}
 
 	.share-network {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 		padding: 0.9rem 0.5rem;
 		width: auto;
 		border-radius: var(--vt-c-border-radius);
 		background: var(--vt-c-jannafer-gray);
 		color: var(--vt-c-jannafer-green);
-		font-size: 0.8rem;
+		font-size: var(--step-body-xs);
 		text-align: center;
 		text-decoration: none;
 		transition: background-color var(--vt-c-transition-speed), color var(--vt-c-transition-speed);

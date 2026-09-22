@@ -92,7 +92,7 @@
     .newsletter-card {
         display: flex;
         align-items: center;
-        gap: clamp(1.5rem, 0.75rem + 2.4vw, 3rem);
+        gap: var(--space-section);
     }
 
     .newsletter-body {
@@ -115,7 +115,7 @@
 
     .newsletter-fields {
         display: flex;
-        gap: 1rem;
+        gap: var(--gap-md);
 
         input[type="email"] {
             width: 100%;
@@ -130,9 +130,9 @@
     .newsletter-consent {
         display: flex;
         align-items: flex-start;
-        gap: 0.5rem;
+        gap: var(--gap-xs);
         margin-top: 0.75rem;
-        font-size: 0.9rem;
+        font-size: var(--step-body-sm);
 
         label {
             cursor: pointer;
@@ -144,7 +144,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        gap: var(--gap-md);
         padding: var(--card-padding-compact);
         border-radius: var(--vt-c-radius-lg);
         background: var(--vt-c-background);
@@ -167,7 +167,7 @@
 
     .newsletter-aside-text {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--step-body-sm);
     }
 
     @media (max-width: 768px) {

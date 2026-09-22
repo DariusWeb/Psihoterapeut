@@ -192,7 +192,7 @@
 	.search-field {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 	}
 
 	.search-field-icon {
@@ -228,7 +228,7 @@
 	.search-status {
 		margin: 0.75rem 0 0;
 		min-height: 1.2rem;
-		font-size: 0.8rem;
+		font-size: var(--step-body-xs);
 		color: var(--vt-c-black-mute);
 	}
 
@@ -264,7 +264,7 @@
 	.search-result-head {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--gap-xs);
 	}
 
 	.search-type-tag {

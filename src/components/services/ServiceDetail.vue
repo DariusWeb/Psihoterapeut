@@ -116,7 +116,7 @@
     .service-section-title {
         display: flex;
         align-items: baseline;
-        gap: 0.75rem;
+        gap: var(--gap-sm);
         margin: 0;
     }
 </style>
