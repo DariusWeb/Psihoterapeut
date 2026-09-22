@@ -149,6 +149,6 @@
         align-items: center;
         gap: var(--gap-xs);
         margin: 1rem 0 0;
-        font-size: .85rem;
+        font-size: var(--step-body-sm);
     }
 </style>

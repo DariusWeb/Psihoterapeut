@@ -276,7 +276,7 @@
 		border-radius: 2rem;
 		background: var(--vt-c-jannafer-gray2);
 		color: var(--vt-c-jannafer-green);
-		font-size: 0.7rem;
+		font-size: var(--step-body-xs);
 		font-weight: 600;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
@@ -306,7 +306,7 @@
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 		padding-left: 0.2rem;
-		font-size: 0.78rem;
+		font-size: var(--step-body-sm);
 		line-height: 1.4;
 		color: var(--vt-c-black-mute);
 
@@ -325,7 +325,7 @@
 		grid-template-rows: 0fr;
 		opacity: 0;
 		padding-left: 0.2rem;
-		font-size: 0.78rem;
+		font-size: var(--step-body-sm);
 		color: var(--vt-c-black-mute);
 		transition: grid-template-rows var(--vt-c-transition-speed), opacity var(--vt-c-transition-speed);
 

@@ -96,7 +96,7 @@
         border-radius: 2rem;
         background: rgb(from var(--vt-c-jannafer-green) r g b / 0.85);
         color: var(--vt-c-on-accent);
-        font-size: 0.7rem;
+        font-size: var(--step-body-xs);
         letter-spacing: 0.08em;
         text-transform: uppercase;
     }

@@ -100,7 +100,7 @@
     }
 
     .news-topic {
-        font-size: 0.72rem;
+        font-size: var(--step-body-xs);
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.04em;
@@ -115,13 +115,13 @@
     }
 
     .news-date {
-        font-size: 0.78rem;
+        font-size: var(--step-body-xs);
         color: rgb(from var(--vt-c-black) r g b / 65%);
         white-space: nowrap;
     }
 
     .news-title {
-        font-size: var(--step-body);
+        font-size: var(--step-h3);
         font-weight: 700;
         line-height: 1.4;
         margin: 0 0 0.6rem;
@@ -129,7 +129,6 @@
     }
 
     .news-description {
-        font-size: 0.88rem;
         line-height: 1.6;
         color: var(--vt-c-black);
         margin: 0 0 1rem;
@@ -151,7 +150,7 @@
     }
 
     .news-source {
-        font-size: 0.78rem;
+        font-size: var(--step-body-xs);
         color: rgb(from var(--vt-c-black) r g b / 65%);
         font-style: italic;
     }
@@ -160,7 +159,6 @@
         display: inline-flex;
         align-items: center;
         gap: 0.3rem;
-        font-size: 0.82rem;
         font-weight: 600;
         color: var(--vt-c-jannafer-green);
         text-decoration: none;

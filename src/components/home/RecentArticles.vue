@@ -84,7 +84,7 @@
     // opacity rather than a grey token, so it stays readable against both themes' text colour
     .home-article-meta {
         margin: 0;
-        font-size: 0.85rem;
+        font-size: var(--step-body-sm);
         opacity: 0.7;
     }
 </style>

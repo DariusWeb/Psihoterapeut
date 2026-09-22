@@ -233,7 +233,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.3rem;
-		font-size: 0.85rem;
+		font-size: var(--step-body-sm);
 		font-weight: 700;
 	}
 

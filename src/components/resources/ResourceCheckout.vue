@@ -219,7 +219,7 @@
 		align-items: flex-start;
 		gap: var(--gap-xs);
 		margin-top: 0.9rem;
-		font-size: 0.85rem;
+		font-size: var(--step-body-sm);
 
 		input {
 			margin-top: 0.15rem;

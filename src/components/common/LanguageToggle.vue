@@ -55,7 +55,7 @@ onMounted(() => {
 	border: none;
 	background: transparent;
 	color: var(--vt-c-black);
-	font-size: 0.72rem;
+	font-size: var(--step-body-xs);
 	font-weight: 700;
 	cursor: pointer;
 	transition: all var(--vt-c-transition-speed);

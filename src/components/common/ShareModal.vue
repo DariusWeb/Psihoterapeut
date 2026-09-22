@@ -203,7 +203,7 @@
 		gap: var(--gap-sm);
 		margin: var(--card-padding) 0;
 		color: var(--vt-c-black-mute);
-		font-size: 0.75rem;
+		font-size: var(--step-body-xs);
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 

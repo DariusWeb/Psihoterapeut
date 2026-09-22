@@ -42,7 +42,7 @@
         border-radius: 2rem;
         border: 2px solid var(--vt-c-jannafer-gray2);
         background: transparent;
-        font-size: 0.82rem;
+        font-size: var(--step-body-xs);
         font-weight: 600;
         cursor: pointer;
         color: var(--vt-c-black);
