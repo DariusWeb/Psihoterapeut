@@ -324,7 +324,7 @@
 	.booking-mode-label {
 		display: block;
 		margin: 0.5rem 0 0.25rem;
-		font-size: 0.7rem;
+		font-size: var(--step-body-xs);
 	}
 
 	.booking-consent {

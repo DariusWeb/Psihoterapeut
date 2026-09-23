@@ -133,10 +133,6 @@
         margin: 0 auto;
     }
 
-    .group-detail-intro {
-        font-size: 1.1rem;
-    }
-
     .group-signup-consent {
         display: flex;
         align-items: flex-start;

@@ -47,7 +47,6 @@
     }
 
     .news-subtitle {
-        font-size: 1.05rem;
         color: rgb(from var(--vt-c-black) r g b / 65%);
         max-width: 560px;
         margin: 0 auto;

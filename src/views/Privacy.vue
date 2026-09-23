@@ -84,7 +84,6 @@
 
 	h3 {
 		margin-top: 1.5rem;
-		font-size: 1.05rem;
 	}
 
 	.privacy-updated {
