@@ -12,6 +12,7 @@ export const authUser = ref(null)
 export const authReady = ref(false)
 
 let auth = null
+let watching = false
 
 // Imported on demand so the SDK (~34KB gzipped) ships only to the dashboard route,
 // and a visitor who never opens it downloads none of it.
@@ -35,6 +36,9 @@ export function isAuthConfigured() {
 }
 
 export async function watchAuth() {
+	if (watching) return
+	watching = true
+
 	if (!isAuthConfigured()) {
 		authReady.value = true
 		return

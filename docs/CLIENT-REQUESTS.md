@@ -9,7 +9,7 @@ asking a question, and she can find it in her own file.
 
 Source tabs: `Modif site` (34 populated cells) and `Bug-uri` (3 items).
 
-**Last updated:** 2026-09-20
+**Last updated:** 2026-09-23 — re-checked against the xlsx and the code by the audit (gitignored `docs/AUDIT-2026-09-23.md`).
 
 Status values: `done` · `todo` · `blocked-on-client` · `parked`
 
@@ -27,6 +27,7 @@ Status values: `done` · `todo` · `blocked-on-client` · `parked`
 | I8 | Terms page email | `terms.contact.body` | done |
 | I3 | Privacy §1 real controller identity | `privacy.controller.*` | done |
 | — | Email cleanup (display addresses only) | Footer, privacy, terms, contact reach, ro.json | done |
+| H4 | Contact buttons: email, phone, WhatsApp — she gave all three values | `src/contact.config.js` → Contact methods (mailto/tel/wa.me), footer, Privacy, Terms | done (2026-09-23) |
 
 **I3 closes a live blocker** — `PROJECT-STATUS.md` listed `[full name / PFA]`,
 `[registered address]` and `[registration number]` as unfilled. She supplied all three:
@@ -85,7 +86,7 @@ group field rather than a new Worker handler.
 
 > **Body copy is hers to write.** The plumbing and the three content files get built; the
 > bodies stay TODO until she supplies them. The four existing event bodies are still
-> placeholder lorem, so this gap predates the request.
+> placeholder text ("Here goes the event description…"), so this gap predates the request.
 
 ---
 
@@ -141,7 +142,7 @@ Column-per-page sheet: A Home · B About · C/D/E For you · F Contact · G Othe
 | C1 | For-you intro rewritten in 2nd person singular | done |
 | C2 | Remove credentials from the top of the 3 service pages | done |
 | C3 | Shrink the end-of-page CTA banner title | done |
-| F1 | Functional contact buttons | blocked-on-client |
+| F1 | Functional contact buttons | done (2026-09-23) — from her `H4`. "Programare" now links to `/programare` with a drafted line she may reword. |
 | F2 | Strip item 1 → "În ritmul tău" | already done in `en.json` (H7); RO overlay synced this pass |
 | G1 | New newsletter consent wording | done |
 
@@ -175,6 +176,11 @@ Still stale in `ro.json`, **left alone, not mine to delete**: `contact.hero.phot
 and `contact.closing.photoPlaceholder` ("FOTO AICI") — the component reads `photoAlt` now.
 
 ---
+## Content she has already written, not on the site
+
+- **`Calendar articole` sheet** — two articles marked `done` with full Romanian copy: *"Primul pas spre bine: cum găsești sprijinul potrivit pentru tine"* and *"Un spațiu doar pentru tine: cum decurge o ședință de psihoterapie"* (the second is PROJECT-STATUS trust gap #5). The site still shows the two English placeholder articles. **Owner, 2026-09-23: leave as is for now.**
+- The Batch 7 sheet (2026-09-20) is not in the copy of `Site psihoterapie.xlsx` on disk (dated 2026-09-01) — it arrived through another channel.
+
 ## Parked — questions for the client
 
 She phrased these as questions in the sheet, not instructions. Nothing is being built.
@@ -186,7 +192,7 @@ She phrased these as questions in the sheet, not instructions. Nothing is being 
 | A16 | "de șters de pe pagina cu servicii toate credențialele??" | Answered: services pages only. | done (Batch 7, C2) |
 | A18 | "de add faptul că imaginile sunt generate cu AI?" | Answered: a section on the Terms page. | done (Batch 7, A5) |
 | A20 | "About me cu povestea infertilității / maternității?" | Entirely her copy. Nothing to build until it exists. | parked |
-| Bug 3 | Icon max 50% larger than a line, top-aligned, text starting from the icon's left | Cross-cutting across ~8 components, and the described layout matches nothing currently in the site. Needs a sketch or a reference. | parked |
+| Bug 3 | Icon max 50% larger than a line, top-aligned, text starting from the icon's left | **The reference exists** — the `Bug-uri` sheet has a screenshot beside A3: the support-group cards, chip in its own column, title and body indented beside it ("pierd mult spațiu"). It contradicts `DESIGN-SYSTEM.md` §6 rule 4 exception 2 (§7 item 18). Owner compares both layouts on screen (audit Phase 6). | decision pending |
 
 ---
 
@@ -202,15 +208,9 @@ She phrased these as questions in the sheet, not instructions. Nothing is being 
 
 ## Left to do before any of this reaches her
 
-**1. Create the LIKES KV namespace and redeploy the Worker.** Until then `/likes` answers 503
-and the buttons render with no count (the share half works regardless):
-
-```
-npx wrangler kv namespace create LIKES --config worker/wrangler.toml
-```
-
-Then uncomment the `LIKES` block in `worker/wrangler.toml`, paste the id, and
-`npm run worker:deploy`.
+**1. ~~Create the LIKES KV namespace~~** — done: the namespace is bound in `worker/wrangler.toml`
+(committed in `5fa4c0f`). Whether the Worker was redeployed since is not recorded — the audit
+redeploys it after Phase 4 anyway, with the owner's go-ahead.
 
 **2. Browser-verify the two visual changes.** Neither can be called done from the code:
 - **H5 floating labels** — check every form (Contact, Booking, group signup) empty, focused

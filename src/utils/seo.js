@@ -46,6 +46,12 @@ export function applySeo({ title, description, path, image, type = 'website' }) 
 	upsertMeta('twitter:image', shareImage)
 }
 
+// applySeo clears robots again on the next public route, so only the private one sets it.
+export function applyPrivatePage(title) {
+	document.title = title
+	upsertMeta('robots', 'noindex, nofollow')
+}
+
 // `id` scopes the block so pages can own one graph each without clobbering the static one in index.html.
 export function applyJsonLd(id, data) {
 	const selector = `script[data-seo="${id}"]`

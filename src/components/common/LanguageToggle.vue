@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { onMounted } from 'vue'
 
-const { locale } = useI18n({ useScope: 'global' })
+const { locale, t } = useI18n({ useScope: 'global' })
 
 const STORAGE_KEY = 'language-preference'
 const languages = [
@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="lang-toggle" role="group" aria-label="Language">
+	<div class="lang-toggle" role="group" :aria-label="t('navigation.languageLabel')">
 		<button
 			v-for="lang in languages"
 			:key="lang.code"

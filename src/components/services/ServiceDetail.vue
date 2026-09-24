@@ -96,7 +96,7 @@
 
     .service-text {
         margin: 0;
-        line-height: 1.7;
+        line-height: var(--leading-prose);
     }
 
     .service-hero-closing {

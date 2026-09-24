@@ -10,7 +10,6 @@
 	--vt-c-success: #1b5e20;
 
 	--vt-c-black: #181818;
-	--vt-c-black-soft: #212121;
 	--vt-c-black-mute: #282828;
 
 	--vt-c-background: #faf6f3;
@@ -30,7 +29,6 @@
 	--page-pad-top: clamp(5rem, 0.8rem + 8vw, 10rem);
 	--page-pad-bottom: clamp(3rem, 1rem + 6vw, 8rem);
 
-	--vt-c-section-padding: clamp(2rem, 1rem + 3vw, 4rem) 0;
 	--vt-c-section-gap: clamp(1rem, 0.4rem + 2vw, 2rem);
 	--vt-c-split-gap: clamp(1rem, 0.4rem + 2vw, 2rem);
 	--stack-gap-loose: clamp(1.25rem, 0.5rem + 2.4vw, 2rem);
@@ -38,6 +36,7 @@
 	// Matches --card-padding-compact today, but they answer to different jobs — keep them apart.
 	--space-flow: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
 	--space-card: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+	--space-page: clamp(2rem, 1rem + 3vw, 4rem);
 
 	--card-padding: clamp(1.1rem, 0.7rem + 1.6vw, 2rem);
 	--card-padding-compact: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
@@ -69,7 +68,7 @@
 	--gap-md: 1rem;
 
 	--button-padding: 0.7rem 1.5rem;
-	--button-padding-compact: 0.4rem 1.1rem;
+	--button-max-width: 22rem;
 
 	// Mobile height ceiling for topic imagery, so a photo can't push copy off the fold.
 	--media-cap-mobile: 45vw;
@@ -84,7 +83,6 @@ html.dark {
 	--vt-c-background: #1c2118;
 	--vt-c-white: #252c1e;
 	--vt-c-black: #e0e4d0;
-	--vt-c-black-soft: #d4d9c0;
 	--vt-c-black-mute: #c8ceb0;
 	--vt-c-jannafer-green: #a3b585; // the light-mode green is 2.9:1 here, below the 4.5:1 floor
 	--vt-c-on-accent: #1c2118;
@@ -133,13 +131,13 @@ h6 {
 	font-family: "Libre Baskerville", serif;
 	color: var(--vt-c-jannafer-green);
 	margin-bottom: 1rem;
-	line-height: 1.2;
+	line-height: var(--leading-tight);
 }
 
 h1 {
 	font-size: var(--step-h1);
 	font-weight: 400;
-	margin-bottom: clamp(2rem, 1rem + 3vw, 4rem);
+	margin-bottom: var(--space-page);
 	font-style: normal;
 	text-align: center;
 }
@@ -189,7 +187,7 @@ html {
 .stack {
 	display: flex;
 	flex-direction: column;
-	gap: var(--stack-gap, 1rem);
+	gap: var(--stack-gap, var(--gap-md));
 }
 
 .stack-loose {
@@ -506,12 +504,6 @@ ol {
 	color: var(--vt-c-jannafer-green);
 }
 
-.columns-container {
-	display: flex;
-	justify-content: space-between;
-	gap: var(--gap-md);
-}
-
 .section-head {
 	display: flex;
 	align-items: baseline;
@@ -741,7 +733,7 @@ ol {
 	flex-direction: column;
 	gap: var(--space-flow);
 	// clears the fixed nav; the media column stays flush with the top
-	padding: clamp(5rem, 3.4rem + 3.2vw, 7rem) 0 clamp(2rem, 1rem + 3vw, 4rem);
+	padding: clamp(5rem, 3.4rem + 3.2vw, 7rem) 0 var(--space-page);
 }
 
 .page-hero-title {
@@ -826,7 +818,7 @@ ol {
 
 .dot-list-bullet {
 	flex-shrink: 0;
-	margin-top: calc((1rem * var(--leading-body) - var(--icon-sm)) / 2);
+	margin-top: calc((1lh - var(--icon-sm)) / 2);
 	color: var(--vt-c-jannafer-green);
 }
 
@@ -847,7 +839,7 @@ ol {
 
 .icon-grid-icon {
 	flex-shrink: 0;
-	margin-top: calc((1rem * var(--leading-body) - var(--icon-md)) / 2);
+	margin-top: calc((1lh - var(--icon-md)) / 2);
 	color: var(--vt-c-jannafer-green);
 }
 
@@ -1011,16 +1003,12 @@ html.dark {
 	}
 
 	// no room beside the title at this width, so the link rejoins the flow below it
-	.section-head-center .section-head-link {
+	.section-head-center .link-arrow {
 		position: static;
 	}
 }
 
 @media (max-width: 480px) {
-	.columns-container {
-		flex-direction: column;
-	}
-
 	.media-card {
 		flex-direction: column;
 	}
@@ -1066,6 +1054,6 @@ html.ui-ready {
 	}
 
 	html.ui-ready body::after {
-		content: '© Andreea Georgiana Butacu';
+		content: '© ' attr(data-owner);
 	}
 }

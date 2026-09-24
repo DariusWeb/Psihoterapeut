@@ -1,6 +1,7 @@
 <script setup>
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
+	import { CONTACT_PARAMS } from '@/contact.config'
 
 	const { t } = useI18n()
 </script>
@@ -41,7 +42,7 @@
 
 		<h2>{{ t('terms.contact.title') }}</h2>
 		<p>
-			{{ t('terms.contact.body') }}
+			{{ t('terms.contact.body', CONTACT_PARAMS) }}
 			<RouterLink to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>.
 		</p>
 	</div>

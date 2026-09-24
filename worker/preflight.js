@@ -3,6 +3,7 @@
 // secret that is not really a secret, and a Brevo key that cannot see the list or template.
 
 import { readFileSync } from 'node:fs'
+import { SITE } from '../src/seo.config.js'
 
 const REQUIRED_VARS = ['ALLOWED_ORIGINS', 'BREVO_LIST_ID', 'BREVO_OPTIN_TEMPLATE_ID', 'CONTACT_TO_EMAIL', 'CONTACT_FROM_EMAIL']
 
@@ -44,9 +45,24 @@ check(
     'every ALLOWED_ORIGINS entry must be an https origin (or http://localhost:PORT), with no trailing slash or path'
 )
 
+// seo.config.js owns the site URL; these Worker vars repeat it and must follow a domain switch.
+console.log('\nsite origin')
+const siteOrigin = new URL(SITE.url).origin
+check(origins.includes(siteOrigin), `ALLOWED_ORIGINS includes ${siteOrigin}`, `ALLOWED_ORIGINS lacks ${siteOrigin}, the origin of SITE.url in src/seo.config.js`)
+check(
+    readVar('BREVO_OPTIN_REDIRECT_URL').startsWith(SITE.url),
+    'BREVO_OPTIN_REDIRECT_URL is on SITE.url',
+    `BREVO_OPTIN_REDIRECT_URL does not start with ${SITE.url}`
+)
+check(
+    readVar('RESOURCE_RETURN_PATH').startsWith(SITE.base),
+    'RESOURCE_RETURN_PATH is under SITE.base',
+    `RESOURCE_RETURN_PATH does not start with ${SITE.base}`
+)
+
 console.log('\ndashboard')
 check(
-    /^\[\[kv_namespaces\]\][\s\S]*?id\s*=\s*"[0-9a-f]{8,}"/m.test(toml),
+    /binding\s*=\s*"LIVE"\s*\n\s*id\s*=\s*"[0-9a-f]{8,}"/m.test(toml),
     'KV namespace id is filled',
     'the LIVE kv_namespaces id is empty — run: npx wrangler kv namespace create LIVE --config worker/wrangler.toml'
 )
@@ -111,6 +127,13 @@ if (!calendarId) {
         }
     }
 }
+
+console.log('\nlikes')
+check(
+    /binding\s*=\s*"LIKES"\s*\n\s*id\s*=\s*"[0-9a-f]{8,}"/m.test(toml),
+    'LIKES namespace id is filled',
+    'LIKES is not bound — run: npx wrangler kv namespace create LIKES --config worker/wrangler.toml'
+)
 
 // Paid downloads are opt-in the same way booking is: no bucket means the feature is off, and
 // that must not block a deploy of everything else.

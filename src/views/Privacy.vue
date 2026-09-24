@@ -1,5 +1,6 @@
 <script setup>
 	import { useI18n } from 'vue-i18n'
+	import { CONTACT_PARAMS } from '@/contact.config'
 
 	const { t } = useI18n()
 </script>
@@ -12,13 +13,19 @@
 
 		<h2>{{ t('privacy.controller.title') }}</h2>
 		<p>{{ t('privacy.controller.body') }}</p>
-		<p>{{ t('privacy.controller.contact') }}</p>
+		<p>{{ t('privacy.controller.contact', CONTACT_PARAMS) }}</p>
 
 		<h2>{{ t('privacy.collect.title') }}</h2>
 		<p>{{ t('privacy.collect.intro') }}</p>
 
 		<h3>{{ t('privacy.collect.form.title') }}</h3>
 		<p>{{ t('privacy.collect.form.body') }}</p>
+
+		<h3>{{ t('privacy.collect.booking.title') }}</h3>
+		<p>{{ t('privacy.collect.booking.body') }}</p>
+
+		<h3>{{ t('privacy.collect.purchase.title') }}</h3>
+		<p>{{ t('privacy.collect.purchase.body') }}</p>
 
 		<h3>{{ t('privacy.collect.likes.title') }}</h3>
 		<p>{{ t('privacy.collect.likes.body') }}</p>
@@ -49,16 +56,20 @@
 
 		<h2>{{ t('privacy.basis.title') }}</h2>
 		<ul>
-			<li v-for="index in 4" :key="index">{{ t(`privacy.basis.i${index}`) }}</li>
+			<li v-for="index in 6" :key="index">{{ t(`privacy.basis.i${index}`) }}</li>
 		</ul>
 
 		<h2>{{ t('privacy.sharing.title') }}</h2>
 		<p>{{ t('privacy.sharing.body') }}</p>
+		<ul>
+			<li v-for="index in 5" :key="index">{{ t(`privacy.sharing.i${index}`) }}</li>
+		</ul>
+		<p>{{ t('privacy.sharing.transfers') }}</p>
 		<p>{{ t('privacy.sharing.note') }}</p>
 
 		<h2>{{ t('privacy.retention.title') }}</h2>
 		<ul>
-			<li v-for="index in 3" :key="index">{{ t(`privacy.retention.i${index}`) }}</li>
+			<li v-for="key in ['i1', 'i2', 'i4', 'i5', 'i3']" :key="key">{{ t(`privacy.retention.${key}`) }}</li>
 		</ul>
 
 		<h2>{{ t('privacy.rights.title') }}</h2>

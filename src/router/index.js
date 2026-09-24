@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import { services } from '@/content/services'
 import i18n from '@/i18n'
-import { applySeo } from '@/utils/seo'
+import { applyPrivatePage, applySeo } from '@/utils/seo'
 import { isHiddenPath } from '@/seo.config'
 
 // `seo` keys into the `seo` block in en.json; `parent` is the breadcrumb trail, walked by route name.
@@ -108,7 +108,7 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/Dashboard.vue'),
-    meta: { title: 'Dashboard', noindex: true },
+    meta: { titleKey: 'dashboard.title', noindex: true },
   },
   {
     path: '/:catchAll(.*)',
@@ -138,9 +138,8 @@ const router = createRouter({
 // Detail routes have no `seo` key of their own — they show the list page's copy until their
 // lazy chunk lands and the component applies the real title.
 router.afterEach((to) => {
-  // Private pages carry no shareable metadata — just a title, and never indexed.
   if (to.meta.noindex) {
-    document.title = to.meta.title
+    applyPrivatePage(i18n.global.t(to.meta.titleKey))
     return
   }
 

@@ -7,6 +7,7 @@
 	import contactLivingRoom from '@/assets/images/contact/contact-living-room.webp'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
 	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
+	import { CONTACT, CONTACT_PARAMS } from '@/contact.config'
 
 	const { t, locale } = useI18n()
 
@@ -36,10 +37,10 @@
 	}
 
 	const methods = [
-		{ key: 'email', icon: Mail, lines: ['value'] },
-		{ key: 'phone', icon: Phone, lines: ['value', 'hours'] },
-		{ key: 'whatsapp', icon: MessageCircle, lines: ['value'] },
-		{ key: 'booking', icon: CalendarDays, lines: ['value'] }
+		{ key: 'email', icon: Mail, lines: ['value'], href: `mailto:${CONTACT.email}` },
+		{ key: 'phone', icon: Phone, lines: ['value', 'hours'], href: `tel:${CONTACT.phone}` },
+		{ key: 'whatsapp', icon: MessageCircle, lines: ['value'], href: CONTACT.whatsapp, external: true },
+		{ key: 'booking', icon: CalendarDays, lines: ['value'], to: '/programare' }
 	]
 
 	const stepIcons = [Mail, CalendarDays, UserRound, Heart]
@@ -88,7 +89,14 @@
 					<div class="contact-method-body">
 						<h3 class="contact-method-label">{{ t(`contact.reach.${method.key}.label`) }}</h3>
 						<p v-for="line in method.lines" :key="line" class="contact-method-line">
-							{{ t(`contact.reach.${method.key}.${line}`) }}
+							<RouterLink v-if="line === 'value' && method.to" :to="method.to">
+								{{ t(`contact.reach.${method.key}.value`) }}
+							</RouterLink>
+							<a v-else-if="line === 'value'" :href="method.href" :target="method.external ? '_blank' : null"
+								:rel="method.external ? 'noopener noreferrer' : null">
+								{{ t(`contact.reach.${method.key}.value`, CONTACT_PARAMS) }}
+							</a>
+							<template v-else>{{ t(`contact.reach.${method.key}.${line}`) }}</template>
 						</p>
 					</div>
 				</div>
@@ -222,11 +230,6 @@
 	}
 
 	// Hero
-	.contact-hero-eyebrow {
-		margin: 0;
-		color: var(--vt-c-jannafer-green);
-	}
-
 	.contact-hero-cta {
 		display: inline-flex;
 		align-items: center;
@@ -338,7 +341,7 @@
 
 	.contact-form-submit {
 		width: 100%;
-		max-width: 22rem;
+		max-width: var(--button-max-width);
 		margin-inline: auto;
 		display: block;
 	}

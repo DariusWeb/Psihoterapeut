@@ -1,4 +1,4 @@
-import { copyFileSync, writeFileSync } from 'node:fs'
+import { copyFileSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
@@ -35,7 +35,10 @@ function emitSeoFiles() {
     },
     transformIndexHtml(html) {
       const robots = SITE.indexable ? '' : '\n\t<meta name="robots" content="noindex, nofollow">'
-      return html.replaceAll('__SITE_URL__', SITE.url).replace('</title>', '</title>' + robots)
+      return html
+        .replaceAll('__SITE_URL__', SITE.url)
+        .replaceAll('__SITE_NAME__', SITE.name)
+        .replace('</title>', '</title>' + robots)
     },
     closeBundle() {
       if (!isBuild) return
@@ -53,6 +56,32 @@ function emitSeoFiles() {
         resolve(outDir, 'sitemap.xml'),
         `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
       )
+    }
+  }
+}
+
+// The Worker refuses a like for any slug not in this file.
+// ponytail: reads `slug: '…'` out of the content files by regex; move `meta` to plain JS if that ever breaks.
+function emitLikeSlugs() {
+  let root
+  let outDir
+
+  return {
+    name: 'emit-like-slugs',
+    apply: 'build',
+    configResolved(config) {
+      root = config.root
+      outDir = resolve(config.root, config.build.outDir)
+    },
+    closeBundle() {
+      const slugs = ['articles', 'events'].flatMap((collection) => {
+        const dir = resolve(root, 'src/content', collection)
+        return readdirSync(dir)
+          .filter((file) => file.endsWith('.vue'))
+          .map((file) => readFileSync(resolve(dir, file), 'utf8').match(/slug:\s*'([a-z0-9-]+)'/)?.[1])
+          .filter(Boolean)
+      })
+      writeFileSync(resolve(outDir, 'like-slugs.json'), JSON.stringify(slugs))
     }
   }
 }
@@ -102,6 +131,7 @@ export default defineConfig(({ mode }) => ({
     vueDevTools(),
     emitSeoFiles(),
     emitSpa404Fallback(),
+    emitLikeSlugs(),
     loadEnv(mode, process.cwd(), '').VITE_OBFUSCATE === 'true' && obfuscateContentStrings(),
   ],
   build: {

@@ -8,7 +8,7 @@ Widths are **measured** at a 1440 viewport unless noted. To produce a file, take
 slot's **widest** rendered width across viewports and export at ×1.25, WebP q80 — that is
 what `/optimize-images` does.
 
-**Status:** 19 slots empty, 3 filled (home service cards, this pass).
+**Status (re-counted 2026-09-23):** 16 distinct empty slots — 9 on live pages (Home hero, AboutJourney, Resources hero, 6 resource cards), 2 articles, and on the hidden Ateliere page 1 hero + 4 events (listed once, under Priority 3; Priority 2 names them only as data). Plus the site-wide OG share image: `SITE.image` is `null` in `src/seo.config.js`, so shares have no picture.
 
 ---
 
@@ -63,6 +63,10 @@ off the nav and out of the sitemap by choice. Their placeholders do not block la
 | Events | 4× `atelier-image` | one per event, via `image: null` |
 
 ---
+
+## Sources already on disk, not placed
+
+`D:image-jobspsihoterapeut` holds unplaced sources (2026-08-05): `resurse/Resurse hero.png`, `home/Home*.png` (4), `atelier/Atelier hero.png`. Whether they fit their slots is the owner's call when the image job resumes — the two Home slots need photos of Andreea herself.
 
 ## Already done
 

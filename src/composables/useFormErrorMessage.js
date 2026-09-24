@@ -10,10 +10,10 @@ export function useFormErrorMessage(errorCode, fallbackKey) {
         if (!errorCode.value) return ''
 
         const specific = `${fallbackKey}_${errorCode.value}`
-        if (te(specific)) return t(specific)
+        if (te(specific, 'en')) return t(specific)
 
         const shared = `forms.errors.${errorCode.value}`
-        if (te(shared)) return t(shared)
+        if (te(shared, 'en')) return t(shared)
 
         return t(fallbackKey)
     })

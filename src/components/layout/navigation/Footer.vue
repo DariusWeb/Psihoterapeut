@@ -2,6 +2,7 @@
     import { useI18n } from 'vue-i18n'
     import { RouterLink } from 'vue-router'
     import { reopenAnalyticsConsent } from '@/services/analytics'
+    import { CONTACT } from '@/contact.config'
 
     const { t } = useI18n()
 </script>
@@ -14,10 +15,10 @@
                 <h3>{{ t('footer.contact.title') }}</h3>
                 <ul>
                     <li>
-                        <a href="tel:+40123456789">{{ t('footer.contact.phone') }}</a>
+                        <a :href="`tel:${CONTACT.phone}`">{{ t('footer.contact.phone') }}</a>
                     </li>
                     <li>
-                        <a href="mailto:andreea.butacu.psiholog@gmail.com">
+                        <a :href="`mailto:${CONTACT.email}`">
                             {{ t('footer.contact.email') }}
                         </a>
                     </li>
@@ -64,7 +65,7 @@
 <style lang="scss" scoped>
     .footer {
         border-top: 1px solid rgb(from var(--vt-c-jannafer-green) r g b / 20%);
-        padding: clamp(2rem, 1rem + 3vw, 4rem) var(--page-gutter);
+        padding: var(--space-page) var(--page-gutter);
         margin-top: auto;
     }
 

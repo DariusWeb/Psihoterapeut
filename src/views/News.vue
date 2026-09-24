@@ -59,7 +59,7 @@
 
     .news-empty {
         text-align: center;
-        padding: clamp(2rem, 1rem + 3vw, 4rem) 0;
+        padding: var(--space-page) 0;
         color: rgb(from var(--vt-c-black) r g b / 65%);
         font-size: var(--step-body);
     }

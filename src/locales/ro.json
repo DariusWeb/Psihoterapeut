@@ -43,21 +43,17 @@
       "title": "Cum putem lua legătura",
       "subtitle": "Alege varianta care ți se potrivește cel mai bine.",
       "email": {
-        "label": "Email",
-        "value": "andreea.butacu.psiholog{'@'}gmail.com"
+        "label": "Email"
       },
       "phone": {
         "label": "Telefon",
-        "value": "07XX XXX XXX",
         "hours": "Luni – Vineri, 9:00 – 18:00"
       },
       "whatsapp": {
-        "label": "WhatsApp",
-        "value": "07XX XXX XXX"
+        "label": "WhatsApp"
       },
       "booking": {
-        "label": "Programare",
-        "value": "Trimite-mi un mesaj și stabilim împreună ziua și ora potrivită."
+        "label": "Programare"
       }
     },
     "form": {

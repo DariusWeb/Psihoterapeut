@@ -23,6 +23,6 @@
     .articles-grid {
         --card-min: 17rem;
         --card-grid-gap: var(--vt-c-split-gap);
-        margin-bottom: clamp(2rem, 1rem + 3vw, 4rem);
+        margin-bottom: var(--space-page);
     }
 </style>

@@ -6,7 +6,7 @@ Companion to [PROJECT-STATUS.md](./PROJECT-STATUS.md) (what state the project is
 
 Everything global lives in [`src/assets/base.scss`](../src/assets/base.scss). Everything else is scoped to its component.
 
-**Last updated:** 2026-08-06 · written after the `/services` build, revised after the Home / Ateliere / Resurse consolidation pass that promoted the shared card, link and media-fade utilities, then again after the responsive pass that made the scale fluid and the grids width-driven — see §6.
+**Last updated:** 2026-09-23 · written after the `/services` build, revised after the Home / Ateliere / Resurse consolidation pass, the responsive pass that made the scale fluid (§6), the 2026-09-21 consistency pass (§6 "Consistency rules"), and the 2026-09-23 audit that re-checked every claim here against the code (§7 items 13+).
 
 ---
 
@@ -14,7 +14,7 @@ Everything global lives in [`src/assets/base.scss`](../src/assets/base.scss). Ev
 
 **Tokens, never literals.** Spacing, colour and timing come from `--vt-c-*`. A literal `2rem` or `#f5efe8` inside a component is a bug: it can't be retuned from the page, and it won't flip in dark mode.
 
-**Extract on second use.** First occurrence stays local. The moment something is needed twice it becomes a global class or a component — `.cta-band` and `.credentials` were both promoted out of `ServiceDetail.vue` exactly this way. Don't pre-abstract on the first use; don't copy on the second.
+**Extract on second use.** First occurrence stays local. The moment something is needed twice it becomes a global class or a component — `.cta-band` was promoted out of `ServiceDetail.vue` exactly this way. Don't pre-abstract on the first use; don't copy on the second.
 
 **A class on every element that carries styling.** No bare tag selectors, no deep descendant chains. Each meaningful element gets a name that says what it is, so styles are greppable and safe to change.
 
@@ -59,7 +59,7 @@ query to shrink. See §6.
 |---|---|---|
 | `--vt-c-section-gap` | `1rem` → `2rem` | Vertical rhythm — consumed by `.layout-stack > * + *` |
 | `--vt-c-split-gap` | `1rem` → `2rem` | Horizontal gap inside `.split-section`; also the "wide gap" any grid opts into |
-| `--vt-c-section-padding` | `2rem` → `4rem` | Padding on full-bleed bands |
+| `--space-page` | `2rem` → `4rem` | Page-level vertical breathing room: under the global `h1`, below `.page-hero-content`, the footer, list-page headers |
 | `--stack-gap-loose` | `1.25rem` → `2rem` | What `.stack-loose` sets `--stack-gap` to |
 | `--page-gutter` | `1rem` → `3rem` | The page's side gutter. `.main-content`, `.layout-container`, `.section-band` and the nav all read it, so they stay aligned. |
 | `--page-pad-top` / `-bottom` | `5rem` → `10rem` / `3rem` → `8rem` | The page frame — see below |
@@ -70,7 +70,8 @@ query to shrink. See §6.
 | `--vt-c-media-min-height` | `12rem` → `24rem` | `.media-placeholder`, `.split-image`, `.contact-photo` |
 | `--step-h1` … `--step-card-title` | | The type scale — `h1`/`h2`/`h3`/`.card-title` read these and nothing else |
 | `--vt-c-container-width` | `1200px` | Max content width (fixed) |
-| `--vt-c-border-radius` | `.5rem` | Buttons and inputs |
+| `--button-max-width` | `22rem` (fixed) | The cap on any full-width button — rule 6 |
+| `--vt-c-border-radius` | `.5rem` | Buttons and inputs — also used today on `.media-card-media`, the FAQ items, `ArticleItem` and `.live-confirm` (§7 item 11) |
 | `--vt-c-radius-lg` | `1rem` | Cards and media |
 | `--vt-c-transition-speed` | `0.3s` | Every transition. Don't invent durations. |
 | `--vt-c-shadow` / `-raised` | | Resting / lifted elevation. Deeper in dark mode, where a light shadow would vanish. |
@@ -120,11 +121,12 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 | Class | Purpose |
 |---|---|
-| `.layout-container` | Centres content at `--vt-c-container-width` with a 1rem gutter |
+| `.layout-container` | Centres content at `--vt-c-container-width` with `--page-gutter` side padding |
 | `.layout-full` | Full-bleed: `margin-inline: calc(50% - 50vw)`. No `100vw`, no nudge hacks. |
 | `.layout-stack` | Vertical rhythm **between** sections. Applies `--vt-c-section-gap` on the child (`> * + *`), so a section can retune its own spacing. |
 | `.section-tight` / `.section-flush` | Retune the gap to `1rem` / `0` |
-| `.stack` / `.stack-loose` | Vertical rhythm **inside** a section — flex column at `1rem` / `2rem` |
+| `.stack` / `.stack-loose` | Vertical rhythm **inside** a section — flex column at `1rem` / fluid `--stack-gap-loose` (1.25 → 2rem) |
+| `.section-band` | Full-bleed tinted band that re-pads its content back onto the container, so it needs no inner wrapper. Retune with `--section-band-padding-block` / `--section-band-background`. |
 
 ⚠️ **`.stack` and `.layout-stack` are not interchangeable.** `.layout-stack` reads its gap off the *child*, so putting it on a section to space that section's contents also retunes the gap above the section itself. Page rhythm is `.layout-stack`; anything inside a section is `.stack`.
 
@@ -154,7 +156,7 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 ### Page hero
 
-`.page-hero` / `-content` / `-title` / `-intro` / `-media` — copy column beside media that bleeds off the viewport edge. `-content` carries the `7rem` top padding that clears the fixed nav. **Home, Ateliere, Resurse and Contact all use these** — do not write a page-local hero. About is the one exception: its photo is an inset column, not a bleed.
+`.page-hero` / `-content` / `-title` / `-intro` / `-media` — copy column beside media that bleeds off the viewport edge. `-content` carries the fluid `5 → 7rem` top padding that clears the fixed nav. **Home, Ateliere and Resurse use all five**; Contact uses the copy column but its media is `.contact-hero-media`, and Booking puts its booking panel in the media slot (§7 item 21). Do not write a page-local hero. About is the one exception: its photo is an inset column, not a bleed.
 
 ### Media
 
@@ -166,7 +168,7 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 
 `.card-media` — media that runs to the edge of a `.card-compact`, cancelling its padding. Height via `--card-media-height` (default `10rem`).
 
-⚠️ **`.card-media` is coupled to `--card-padding-compact`.** It cancels the card's padding with `width: calc(100% + 2 * var(--card-padding-compact))` and a matching negative margin. That padding is now fluid, so both must read the token — hardcode either side and the media stops meeting the card edge at some widths but not others. `Areas.vue`'s `.home-area-card .media-card-body` carries the same coupling.
+⚠️ **`.card-media` is coupled to `--card-padding-compact`.** It cancels the card's padding with `width: calc(100% + 2 * var(--card-padding-compact))` and a matching negative margin. That padding is now fluid, so both must read the token — hardcode either side and the media stops meeting the card edge at some widths but not others. `Areas.vue`'s `.home-area-card` does the opposite — zeroes the card padding and re-pads the body with a literal `1.5rem` — which is exactly this hazard (§7 item 5).
 
 ### Lists
 
@@ -197,8 +199,15 @@ Note `--vt-c-jannafer-green` is *lighter* in dark mode (`#a3b585`) — the light
 | `.section-head` / `.section-head-center` | Section heading rows — see §5 for which to use |
 | `.section-intro` | Lead paragraph under a section head, capped at `60ch` |
 | `.cta-band` | Closing call-to-action. Ships as the `CtaBand` component — see §4. |
-| `.credentials` | The practitioner's qualifications stack, above a page's leading heading. Sub-part `-icon`. |
 | `.icon-chip` | Circular icon badge on `--vt-c-surface-strong`, sized by `--icon-chip-size` |
+| `.icon-title-row` | Icon beside a title, centred on the title's first line — see §6 rule 4 |
+| `.feature-column` / `-icon` | Centred icon-over-text column inside a `.card-grid` (Home reasons / how-I-work) |
+| `.meta-row` / `.meta-item` | Wrapping row of icon + label facts (date, place, format) |
+| `.media-card` / `-media` / `-body` / `-label` / `-text` / `-action` | Media **beside** copy inside a card; `.media-card-stacked` puts it above. Stacks at 480. |
+| `.rule-short` | 4rem green rule under a hero title (Home, service pages, AboutJourney) |
+| `.overlay` / `.overlay-panel` | Modal backdrop + panel. Width via `--overlay-panel-width` (30rem default). Used by SiteSearch, ShareModal, ResourceCheckout. |
+| `.form-row` / `.form-group` | Form layout and floating label — every form on the site |
+| `.u-text` | Opts an element back into text selection when content protection is on |
 | `.button-swap` | Button whose label swaps to a confirmation and back, without reflow — see below |
 
 **Compose the card, don't rebuild it.** A bordered, tightly-padded card is `class="card card-compact card-outlined"` — never a local rule that re-declares background, radius and padding.
@@ -271,7 +280,7 @@ Content goes in the default slot, so the caller decides whether the copy sits in
 
 ### `CtaBand` — [`src/components/common/CtaBand.vue`](../src/components/common/CtaBand.vue)
 
-The closing call-to-action every page ends on. Props `title`, `text`, optional `icon` (a lucide component rendered before the title). The button and the reassurance note are **fixed** — they read `cta.button` / `cta.note` and always point at `/contact#contact-form`, because that is the one action the whole site drives toward. Used by Home, Ateliere, Resurse and every service page.
+The closing call-to-action. Props `title`, `text`, optional `icon` (a lucide component rendered before the title). The button and the reassurance note are **fixed** — they read `cta.button` / `cta.note` and always point at `/programare`, because booking a session is the one action the whole site drives toward. Used by Home, Ateliere, Resurse and every service page. About, Services, Contact, Articles and News have none, Contact ends on its own hand-rolled banner, and Home and Ateliere put it on opposite sides of the Newsletter — §7 item 20.
 
 ### Deliberate non-extractions
 
@@ -349,7 +358,7 @@ Under 768px it reverts to a normal rounded block — stacked, there's no column 
 
 ### Optical alignment beats box alignment
 
-`.dot-list-bullet` uses `margin-top: 0.3rem` so the dot sits on the first line's x-height rather than its box top. Icons in `.icon-grid-icon` use `0.15rem` for the same reason. Box-aligned markers read as too high next to text.
+`.dot-list-bullet` and `.icon-grid-icon` are pushed down by `(1lh − icon) / 2` so the marker centres on the first line rather than sitting at its box top — box-aligned markers read as too high next to text. `1lh` is the marker's own inherited line box, the same derivation as rule 4.
 
 ### Nested routes preserve `router-link-active`
 
@@ -392,6 +401,8 @@ Adding a page is a data entry in the first plus a copy block in the second. No n
 
 If you find yourself writing a sentence in a list-config file, it belongs in `en.json`.
 
+*Exception:* `groups` is list-config for its cards, but each group's **detail body** is item-content — `content/groups/*.vue` carries its body inline (still a TODO awaiting the client's copy).
+
 ### Images
 
 WebP, imported (never a raw `/public` path — the `/Psihoterapeut/` base path breaks those), with explicit `width`/`height` to reserve layout, `decoding="async"`, and `loading="lazy"` unless it's the hero.
@@ -415,13 +426,18 @@ jumps — and no media query needed to shrink anything. **If you find yourself w
 to change a `font-size`, `padding` or `gap`, you want a token instead.**
 
 **2. Media queries handle shape only** — row becoming column, and the rare fixed column count.
-There are three widths and they mean specific things:
+There are three shared widths and they mean specific things (component-specific ones are listed
+under the table):
 
 | Width | What changes |
 |---|---|
 | `1024` | Splits narrow their media column (`.split-media { flex-basis: 38% }`). Nothing stacks. |
 | `768` | Splits stack: `.split-section`, `.page-hero`, `.cta-band`, `.about-hero`, `.newsletter-card`, `.contact-reach` / `-after` / `-closing`, plus `.form-row` and `.section-head` |
-| `480` | `.media-card` stacks its image above its copy; `.columns-container` and `.contact-steps-list` go column |
+| `480` | `.media-card` stacks its image above its copy; `.contact-steps-list` goes column |
+
+Component-specific widths, each set where that layout breaks: `1150` (nav → hamburger), `1100` /
+`900` / `560` (fixed column counts), `640` (overlays go full-screen in `base.scss`, `SiteSearch`,
+`ResourceCheckout`, plus About's prose measure), `600` (`LivePanel`). §7 item 4.
 
 Form rows and the newsletter field pair deliberately stack at **768, not 480** — two inputs side by
 side at 481px are ~210px each, which is below usable. The 480 rule is about content sections, not
@@ -446,8 +462,10 @@ holds only two articles. That self-corrects as content lands.
 
 ### When to state the column count instead
 
-Four grids override `grid-template-columns` directly: `.home-reasons-grid` (6 items),
-`.home-work-grid` (4), `.about-cards` (4), `.resources-practical-grid` (4).
+Five grids override `grid-template-columns` directly: `.home-reasons-grid` (6 items),
+`.home-work-grid` (4), `.about-cards` (4), `.resources-practical-grid` (4), and `.events-grid`
+(2 → 3 at 1100 → 1 at 480) — the last one is an open-ended list, which the next paragraph says
+should use `--card-min`; it was capped at 3 on the client's request (Bug 2).
 
 **Use an explicit count when the item count is fixed and small.** A width-driven track count will
 eventually land on a number that doesn't divide the item count and strand the last card on its own
@@ -584,22 +602,11 @@ Full-bleed edge to edge is as wrong as a button stranded in whitespace. The patt
 caps on wide ones, and stays centred either way. The base button is `width: fit-content`
 with `--button-padding`; a bare `width: 100%` with no ceiling is the bug.
 
-`.contact-form-submit` caps at `22rem`. Measured: **308px** wide at 375px viewport
+`.contact-form-submit` caps at `--button-max-width` (`22rem`), as do the booking, checkout, newsletter, workshop and live-banner buttons. Measured: **308px** wide at 375px viewport
 (18px gutters each side), **352px** at 1440 — a button, not a bar, at both ends.
 *Exception:* a submit button that is the sole action of a form it visually terminates may
 fill its form's width at every size — but that is the form's width, not the viewport's,
 and it still takes a `max-width`.
-
-**11. A flex item with a fixed basis needs `min-width: 0` and permission to shrink.**
-`flex: 0 0 58%` cannot shrink below its content, so between the width where the row gets
-tight and the width where it stacks, it pushes past the viewport. `flex: 1 1 58%` +
-`min-width: 0` keeps the basis as a *preference* rather than a floor.
-
-*The failure this replaced:* `.contact-form` overflowed the viewport by up to 16px across
-roughly **769–830px** — above the 768 stack, below the width its 58% basis fits. Invisible
-in the browser because `html { overflow-x: clip }` swallows it; found only by measuring
-`getBoundingClientRect().right` against `innerWidth`. `.contact-photo` already carried a
-comment about exactly this trap; the form had the same bug three rules further down.
 
 **7. Bullets are hollow circles.**
 `CircleSmall` through `.dot-list`, everywhere. The same `.dot-list` class previously
@@ -633,6 +640,17 @@ decorative.
 1150px — iPad, touchscreen laptop — it could not be opened at all. Below 1150px the
 hamburger overlay hid the bug.
 
+**11. A flex item with a fixed basis needs `min-width: 0` and permission to shrink.**
+`flex: 0 0 58%` cannot shrink below its content, so between the width where the row gets
+tight and the width where it stacks, it pushes past the viewport. `flex: 1 1 58%` +
+`min-width: 0` keeps the basis as a *preference* rather than a floor.
+
+*The failure this replaced:* `.contact-form` overflowed the viewport by up to 16px across
+roughly **769–830px** — above the 768 stack, below the width its 58% basis fits. Invisible
+in the browser because `html { overflow-x: clip }` swallows it; found only by measuring
+`getBoundingClientRect().right` against `innerWidth`. `.contact-photo` already carried a
+comment about exactly this trap; the form had the same bug three rules further down.
+
 ### The nav has its own breakpoint
 
 `Navigation.vue` switches to the hamburger at **1150px**, not 1024 — that is the width where the
@@ -651,11 +669,11 @@ Real inconsistencies in the current code. **Do not copy these as though they wer
 
 3. **`Reasons.vue` and `HowIWork.vue` map icons to i18n items by array index.** Add a seventh entry to `home.reasons.items` and it silently renders with no icon. The fix is a `content/home/index.js` following the list-config convention above, but that is its own change.
 
-4. **Breakpoints are still magic numbers, but far fewer and more varied.** 26 width-based media-query blocks, down from 33 hardcoded values, and they now do one job (shape changes). Every value is whole `px` — no unit drift, no `767.98` off-by-ones. Seven of them are *not* on the 1024/768/480 grid — `1150` (nav), `1100` / `900` / `560` (fixed column counts), `640` (About's prose measure), and `600` in `LivePanel.vue` which is **undocumented and sits 40px from the documented 640** — each otherwise set to the width where that specific layout actually breaks rather than to a shared number. That is deliberate, and it is also why the SCSS-variable treatment via the commented-out `additionalData` block in `vite.config.js` buys less than it used to. The four unscaled z-indexes are untouched. Left open.
+4. **Breakpoints are still magic numbers, but far fewer and more varied.** 26 width-based media-query blocks, down from 33 hardcoded values, and they now do one job (shape changes). Every value is whole `px` — no unit drift, no `767.98` off-by-ones. Seven of them are *not* on the 1024/768/480 grid — `1150` (nav), `1100` / `900` / `560` (fixed column counts), `640` (overlays go full-screen ×3, plus About's prose measure — `base.scss`'s `.overlay` also changes a *padding* there, against the shape-only rule), and `600` in `LivePanel.vue`, 40px from 640 — each otherwise set to the width where that specific layout actually breaks rather than to a shared number. That is deliberate, and it is also why the SCSS-variable treatment via the commented-out `additionalData` block in `vite.config.js` buys less than it used to. The z-indexes are unscaled — `200` is used by `.overlay`, the consent banner and the nav overlay alike. Left open.
 
-5. **`Articles.vue` / `ArticleItem.vue` / `NewsItem.vue` / `events/Event.vue` predate the design system.** They now sit on the shared grid and page frame, but still render their own visual language — box shadows, `10px` radii, no `.card` composition. Needs a design call, not a refactor.
+5. **`Articles.vue` / `ArticleItem.vue` / `NewsItem.vue` / `events/Event.vue` predate the design system.** They now sit on the shared grid and page frame, but still render their own visual language — white panel + shadow (`ArticleItem`), `10px` radius and hover lift (`NewsItem`), `8px` and a bare `img` selector (`events/Event`). The 2026-09-23 audit adds four newer hand-rolled cards: `Areas.vue` (zeroes the card padding, re-pads the body `1.5rem`), `RecentArticles.vue` (no card at all, own hover), `Faq.vue` (`card-outlined` + own radius/background/padding) and `About.vue` `.about-card` (a `card-outlined` without the surface). The same article renders three different ways (Home, Resources, `/articole`). Needs a design call, not a refactor.
 
-6. **`.home-faq-grid` runs 3-across above ~1200px**, where §3 describes the FAQ as a two-column block. Three columns fill the width better and 6 items divide evenly into both 3 and 2, so the ladder is clean — but it is a change from the documented intent, not a considered redesign.
+6. **`.home-faq-grid` runs 3-across from roughly 1090px** (by arithmetic — three 20rem tracks plus gaps; unmeasured), where it was first designed as a two-column block. Three columns fill the width better and 6 items divide evenly into both 3 and 2, so the ladder is clean — but it is a change from the documented intent, not a considered redesign.
 
 **Resolved in the 2026-08-06 responsive pass** (was items 1, 4, 6-partial): `.split-flush`'s literal `gap: 2rem` is gone — `--vt-c-split-gap` is fluid, which is what that override was faking. The global `h1` is now a single `clamp()` with no per-breakpoint rules, so pages no longer fight three declarations.
 
@@ -663,31 +681,30 @@ Real inconsistencies in the current code. **Do not copy these as though they wer
 
 **Opened by the 2026-09-21 consistency pass** (§6 "Consistency rules" now governs all of these):
 
-7. **The exact-match literals are adopted; the off-scale ones are not.** The 93 declarations whose value was already a token's value — 65 gaps (`0.5`/`0.75`/`1rem`) and 28 font sizes (`0.9`/`0.8`/`1rem`) — now read `var(--gap-*)` / `var(--step-*)` across 27 files. Verified pixel-identical: 6942 element fingerprints (width, height, row/column gap, font-size, padding) captured before and after across 12 routes and four widths, **0 diffs**. What remains genuinely differs from the scale and needs a decision, not a rename: ~20 off-scale font sizes (`0.62`–`0.88`, `1.05`, `1.1rem`), the sub-scale gaps of item 11, three repeated fluid clamps (item 13) and the button paddings. **Read the rules, not the neighbouring code**, in a file that still shows one.
+7. **The exact-match literals are adopted; the off-scale ones are not.** The 93 declarations whose value was already a token's value — 65 gaps (`0.5`/`0.75`/`1rem`) and 28 font sizes (`0.9`/`0.8`/`1rem`) — now read `var(--gap-*)` / `var(--step-*)` across 27 files. Verified pixel-identical: 6942 element fingerprints (width, height, row/column gap, font-size, padding) captured before and after across 12 routes and four widths, **0 diffs**. What remains genuinely differs from the scale and needs a decision, not a rename. **Font sizes: done by 2026-09-23** except the floating labels (item 17) and `Services.vue`'s `.services-card-title` fluid clamp; still open: the sub-scale gaps of item 10, three repeated fluid clamps (item 12) and the button paddings. **Read the rules, not the neighbouring code**, in a file that still shows one.
 
     The verification method is reusable and worth repeating for any "this changes nothing" refactor: fingerprint every element's computed geometry, apply, re-fingerprint, diff. Two of the routes in the first sweep were silently rendering `NotFound` — `HIDDEN_PATHS` filters them out of the router — so `NewsItem`, `NewsFilter`, `EventItem` and `Group` had to be covered by temporarily emptying that list in the working tree. **A route that 404s measures nothing; check the titles in the capture.**
 
 8. **`SiteSearch.vue` hides its result hint behind hover.** `grid-template-rows: 0fr` + `opacity: 0`, revealed on `:hover`, `.is-active` (arrow-key nav) and `:focus-visible`. None of those fire on touch, so the hint is dead content on a phone. Lower severity than the nav dropdown was — it is a hint, not an action — but it is the same rule 10 violation.
 
-9. **`Resources.vue` overrides `.icon-chip` to a different size.** `.resources-practical-icon` re-sizes the shared chip to `clamp(3.5rem, 2.5rem + 3.2vw, 5rem)`, so the same class renders at two sizes on two pages. Either it is a chip and uses `--icon-chip-size`, or it is a different component and needs its own name.
+9. **`Resources.vue` overrides `.icon-chip` to a different size.** `.resources-practical-icon` re-sizes the shared chip to `clamp(3.5rem, 2.5rem + 3.2vw, 5rem)`, so the same class renders at two sizes on two pages. Either it is a chip and uses `--icon-chip-size`, or it is a different component and needs its own name. (Its stray `media-card-media` class, which rendered it as a rounded rectangle — 84×80 at 1440, 116×65 at 768 — was removed 2026-09-23; it is a circle now.)
 
-11. **Nineteen sub-scale gaps, grouped but undecided.** Below `--gap-xs` sit 19 literals
+10. **Nineteen sub-scale gaps, grouped but undecided.** Below `--gap-xs` sit 19 literals
     that fall into four *different jobs*, which is why a blanket snap is wrong:
 
-    - **A — already the token, written `.5rem`** (4): `base.scss:360` `.form-row`,
-      `Group.vue:143` `.group-signup-consent`, `Group.vue:150` `.group-signup-privacy`,
-      `Navigation.vue:396` `.overlay-links`. Zero visual change to convert.
+    - **A — resolved** by the 2026-09-22 commits (all four now read `--gap-xs`).
     - **B — segmented-control hairline** (4, `0.1`–`0.25rem`): `ThemeToggle.vue:55`,
       `LanguageToggle.vue:46`, `Dashboard.vue:150` `.dashboard-nav`,
       `base.scss:553` `.section-head-center`. This is the seam between pill segments —
       snapping it to `0.5rem` visibly breaks one control into separate buttons.
     - **C — icon-to-label inside a button or tag** (7, `0.3`–`0.4rem`):
-      `base.scss:265` `.button-swap-sizer`, `ShareLike.vue:97`, `NewsItem.vue:162`
+      `base.scss:265` `.button-swap-sizer`, `ShareLike.vue:97`, `NewsItem.vue:161`
       `.news-link`, `Dashboard.vue:137` `.dashboard-signout`, `SiteSearch.vue:273`
       `.search-type-tag`, `ResourceCheckout.vue:242` and `:255`. The real taste call.
     - **D — form row spacing** (3, `0.6`–`0.85rem`): `Dashboard.vue:156`
       `.dashboard-nav-item`, `LivePanel.vue:229` `.live-form`, `LivePanel.vue:253`
       `.live-row`. Within 1.6px of `--gap-sm`.
+    - **Found 2026-09-23, not yet grouped:** `LivePanel.vue:235` `0.3rem`, `Navigation.vue:361` `3rem` (above the scale).
 
     **Decide these with the visual loop above, not a table** — that was tried and
     correctly rejected. Groups B and C are plausibly *distinct jobs* deserving their own
@@ -695,10 +712,75 @@ Real inconsistencies in the current code. **Do not copy these as though they wer
     which rule 3's "absorb, don't name" does **not** automatically settle: that rule is
     about one job drifting to a second value, not about two genuinely different jobs.
 
-12. **Image border-radius runs to six values.** `--vt-c-radius-lg`, `--vt-c-border-radius`, a `1rem` literal, `0`, `10px`, `8px`, and none-at-all. The `8px` in `events/Event.vue` is the only raw px radius in the codebase. Folds into item 5's design call.
+11. **Radius runs to too many values.** Images: `--vt-c-radius-lg`, `--vt-c-border-radius`, a `1rem` literal (`About.vue:126`), `0`, `10px`, `8px`, and none-at-all. Beyond images: a pill `2rem` typed ×9 with no token (toggles, filter pills, tags, nav), `0.75rem` (`Navigation.vue:313`), `0.15rem` (`SiteSearch.vue:317`), `.3rem` (checkbox). The `8px` in `events/Event.vue` is the only raw px radius in the codebase. Folds into item 5's design call.
 
-13. **Resolved — the three repeated fluid clamps are named.** `--space-section` (1.5→3rem), `--space-flow` (1→1.5rem) and `--space-card` (0.75→1rem) now cover all 17 sites that used to type the `clamp()` out by hand. Verified pixel-identical: 1302 fingerprints across 7 routes, **0 diffs**, with `margin-bottom` and `padding-top` added to the fingerprint because five of the sites set those rather than `gap`.
+12. **Resolved — the three repeated fluid clamps are named.** `--space-section` (1.5→3rem), `--space-flow` (1→1.5rem) and `--space-card` (0.75→1rem) now cover all 17 sites that used to type the `clamp()` out by hand. Verified pixel-identical: 1302 fingerprints across 7 routes, **0 diffs**, with `margin-bottom` and `padding-top` added to the fingerprint because five of the sites set those rather than `gap`.
 
     **Named `--space-*`, not `--gap-*`, because the value does two jobs.** Eight sites are true gaps; the rest are padding (`.section-band`, `.media-card`), `margin-bottom` (`.news-header`, `.services-intro`) or `padding-top` (`.about-card-sub`). A token called `--gap-card` setting `padding` would read as a mistake, so the name drops the property and keeps the job.
 
     **`--space-flow` deliberately duplicates `--card-padding-compact`'s value rather than aliasing it.** They match today but answer to different jobs — the hero/content stack rhythm versus compact-card padding. Pointing one at the other means a future tweak to card padding silently moves `.page-hero-content`, `.split-body` and `.about-hero-content`. The `:root` comment says so; don't "deduplicate" it.
+
+**Opened by the 2026-09-23 audit.** Evidence and progress live in the gitignored
+`docs/AUDIT-2026-09-23.md`; the taste calls among these are decided with the §6 visual loop.
+
+13. **Resolved 2026-09-23 — unused tokens and classes removed** with the owner's approval (`--vt-c-section-padding` became `--space-page`). Was: `--vt-c-black-soft` (both themes), `--button-padding-compact`
+    and `--vt-c-section-padding` are read nowhere; `.columns-container` and `Contact.vue`'s
+    `.contact-hero-eyebrow` match no element. Removal waits on the owner.
+
+14. **Resolved 2026-09-23 — markers now use `1lh`** (336 icons moved 0.8px, measured). Was: `.dot-list-bullet` and `.icon-grid-icon` compute
+    `1rem × --leading-body`, but their `li`s inherit `body`'s `1.6`, so both sit 0.8px high.
+    Rule 4's `1lh` derivation is the fix.
+
+15. **Icons come in nine sizes, not three.** 57 of 104 `:size` props are off rule 5's
+    16 / 22 / 32: `18` ×13 (buttons, close, search), `20` ×7 (Home Leaf flourishes, close),
+    `40` ×6 (placeholders), `24` ×5 (About cards), `28` ×3 (hero Leaf, resource icons), `14` ×3
+    (search tags, lock).
+
+16. **Line height is typed twelve times.** `1.7` ×5 where `--leading-prose` exists and is unused;
+    `1.2` ×2 where `--leading-tight` exists; `1.4` (`SiteSearch.vue:310`, `NewsItem.vue:126`) and
+    `1.6` (`NewsItem.vue:132`, `Services.vue:66`, and `body` itself) are off rule 2's scale.
+
+17. **Floating labels are below the type floor.** `base.scss` `.form-group label` rests at
+    `0.7rem` and floats at `.62rem` — under `--step-body-xs` (`0.8rem`), which the `:root`
+    comment calls "the floor, nothing smaller".
+
+18. **Rule 4 is applied once, and wrongly.** `.icon-title-row`'s only user is `Contact.vue`,
+    where a 32px icon beside a ~19px line is exception 2's case, applied un-inverted. Elsewhere
+    icons beside titles use `baseline` (`CtaBand`, `ServiceDetail`), `center` (`Booking`, `Faq`)
+    or `self-start` with no offset (`About`), and `Events.vue`'s chip skips exception 2.
+    **The client's Bug 3 asks for the opposite of exception 2** — icon at most 1.5× a line,
+    top-aligned, text starting from the icon's left edge (reference: the `Bug-uri` sheet image,
+    support-group cards). Decide on screen, then rewrite the rule.
+
+19. **Inline SVGs break the lucide-only rule** outside `BrandIcon.vue`: `Navigation.vue`
+    (chevron, hamburger, close), `ThemeToggle.vue`, `NewsItem.vue` (hand-drawn external link).
+
+20. **Pages close and open differently.** Home puts `CtaBand` before the Newsletter, Ateliere
+    after it; Contact closes on a hand-rolled banner; About, Services, Articles and News have no
+    closing CTA. Hero ornaments: `.rule-short` (Home, service pages), `Leaf` at 28 (Ateliere,
+    Resurse), none (Contact, Booking).
+
+21. **Booking's hero holds a panel, and may clear the nav three times** — `.main-content`'s
+    `--page-pad-top`, `.page-hero-content`'s top padding and `.booking-panel`'s own
+    `margin-top` clamp. Measure before changing.
+
+22. **Patterns written more than twice.** Four circular close buttons (`checkout-close`,
+    `share-close`, `search-close`, `overlay-close`); the consent row ×5 and the privacy-note row
+    ×3 across the forms; muted text four ways (`--vt-c-black-mute`, `rgb(… / 65%)`,
+    `opacity: .7`, `opacity: .75`); typed shadows in `LiveBanner` / `ConsentBanner` where
+    `--vt-c-shadow-raised` exists.
+
+23. **Buttons.** No variant (so the tag-selector gray fill): `Resources.vue` ×3,
+    `Newsletter.vue` submit, About's hero CTA (every other hero CTA is primary).
+    `.button-primary` / `-outline` without `.button` ×6. `width: 100%` without rule 6's
+    `max-width` ×5 (`Booking`, `EventItem`, `Newsletter` ≤ 768, `ResourceCheckout`, `LiveBanner`) —
+    **capped with `--button-max-width` on 2026-09-23**; Booking, checkout and live banner still need
+    an on-screen check (they do not render without live data).
+
+24. **Fourteen inline `clamp()`s remain outside `:root`.** The five copies of
+    `clamp(2rem, 1rem + 3vw, 4rem)` became `--space-page` on 2026-09-23 (0 diffs); the rest are
+    one-offs still to review.
+
+25. **Resolved 2026-09-23 — the rule now targets `.link-arrow`**; verified at 375px. Was: It targets `.section-head-link`, which no
+    template uses, so the Home "vezi toate" link stays absolutely positioned under 768px instead
+    of rejoining the flow as §5 says.

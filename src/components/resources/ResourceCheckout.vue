@@ -232,8 +232,11 @@
 	}
 
 	.checkout-form button[type='submit'] {
+		display: block;
 		margin-top: 1.25rem;
 		width: 100%;
+		max-width: var(--button-max-width);
+		margin-inline: auto;
 	}
 
 	.checkout-secure {

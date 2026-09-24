@@ -78,8 +78,18 @@
   },
   "navigation": {
     "skipToContent": "Skip to content",
-    "logoAlt": "Andreea Georgiana Butacu — psychotherapist, home",
+    "logoAlt": "Andreea Butacu — psychotherapist, home",
     "submenuToggle": "Show {menu} submenu",
+    "menuToggle": "Toggle navigation menu",
+    "menuLabel": "Navigation menu",
+    "menuClose": "Close menu",
+    "theme": {
+      "label": "Color theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "languageLabel": "Language",
     "menu": {
       "home": "Home",
       "services": "For you",
@@ -482,6 +492,8 @@
       "submitting": "Se pregătește plata…",
       "secure": "Plata este procesată de Stripe. Datele cardului nu ajung niciodată pe acest site.",
       "error": "Nu am putut porni plata. Încearcă din nou în câteva momente.",
+      "error_unavailable": "Ghidul nu este disponibil momentan. Încearcă din nou mai târziu sau scrie-mi pe email.",
+      "error_unknown_resource": "Ghidul acesta nu mai este disponibil. Reîncarcă pagina și încearcă din nou.",
       "close": "Închide",
       "verifying": "Confirm plata…",
       "readyTitle": "Mulțumesc pentru achiziție.",
@@ -654,7 +666,7 @@
   },
   "consent": {
     "title": "Analytics",
-    "body": "May I measure how this site is used — pages opened, where you arrived from, and roughly where in the world you are — so it can be made more useful? Nothing is recorded of what you read or type, and nothing loads at all unless you accept. You can change this later at the bottom of any page. Details in the",
+    "body": "May I measure how this site is used — pages opened, where you arrived from, and roughly where in the world you are — so it can be made more useful? Nothing you type is recorded, and nothing loads at all unless you accept. You can change this later at the bottom of any page. Details in the",
     "accept": "Accept",
     "decline": "Decline"
   },
@@ -675,20 +687,20 @@
       "subtitle": "Alege varianta care ți se potrivește cel mai bine.",
       "email": {
         "label": "Email",
-        "value": "andreea.butacu.psiholog{'@'}gmail.com"
+        "value": "{email}"
       },
       "phone": {
         "label": "Telefon",
-        "value": "07XX XXX XXX",
+        "value": "{phone}",
         "hours": "Luni – Vineri, 9:00 – 18:00"
       },
       "whatsapp": {
         "label": "WhatsApp",
-        "value": "07XX XXX XXX"
+        "value": "{phone}"
       },
       "booking": {
         "label": "Programare",
-        "value": "Trimite-mi un mesaj și stabilim împreună ziua și ora potrivită."
+        "value": "Alege ziua și ora care ți se potrivesc, direct din calendar."
       }
     },
     "form": {
@@ -815,19 +827,27 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "updated": "Last updated: 6 August 2026",
+    "updated": "Last updated: 23 September 2026",
     "intro": "This notice describes what this website actually does with your information. It is deliberately short, because the site collects very little.",
     "controller": {
       "title": "1. Who is responsible",
       "body": "The controller of your personal data is Andreea Butacu, registered in București and licenced with the Romanian College of Psychologists under number 1708 / 27.03.2025.",
-      "contact": "For anything in this notice, including any request under section 7, write to andreea.butacu.psiholog{'@'}gmail.com."
+      "contact": "For anything in this notice, including any request under section 7, write to {email}."
     },
     "collect": {
       "title": "2. What is collected",
-      "intro": "Five things, and nothing else.",
+      "intro": "Only what each feature below needs, and nothing else.",
       "form": {
         "title": "When you send a message through the contact form",
-        "body": "Your first name, email address, phone number (optional) and the text of your message. Used only to reply to you and to arrange a first session."
+        "body": "Your first name, email address, phone number (optional) and the text of your message. Used only to reply to you and to arrange a first session. The message reaches me by email through Brevo; this website does not store it."
+      },
+      "booking": {
+        "title": "When you book a session",
+        "body": "Your name, email address and phone number (required, so I can reach you if something changes), whether you want to meet online or in person, and an optional message. The booking is written into my appointment calendar (Google Calendar), and Brevo emails a confirmation to you and a notice to me. Used only to hold, prepare and, if needed, move the session."
+      },
+      "purchase": {
+        "title": "If you buy a guide",
+        "body": "Your email address, the guide you chose and, collected by Stripe for the invoice, your billing address. Payment happens on Stripe's own page, so card details never reach this site. The order is recorded as soon as you continue to payment — so an abandoned checkout leaves a record too — and Brevo emails you the download link once Stripe confirms the payment."
       },
       "likes": {
         "title": "When you like an article or a workshop",
@@ -835,7 +855,7 @@
       },
       "newsletter": {
         "title": "When you subscribe to the newsletter",
-        "body": "Your email address, used only to send the newsletter. Subscribing is confirmed by a link sent to that address, and Brevo records that confirmation — the date, the wording you agreed to, and the page you subscribed from — as proof of your consent. Every message carries an unsubscribe link.",
+        "body": "Your email address, used only to send the newsletter. Subscribing is confirmed by a link sent to that address, and Brevo records that confirmation — the date, the wording you agreed to, and the page you subscribed from — as proof of your consent. Every message carries an unsubscribe link. Each sign-up is also written to a log — the address, the wording you agreed to, the page and the time — before the confirmation email is sent, so the record exists even if that email never arrives.",
         "tracking": "Newsletter emails measure whether a message was opened and which links were clicked, so the content can be made more useful. This is stated on the subscription form and is covered by the consent you give there. It is not used to build a profile of you, and it stops the moment you unsubscribe."
       },
       "analytics": {
@@ -862,20 +882,30 @@
     },
     "basis": {
       "title": "4. The legal basis",
-      "i1": "Messages you send — steps taken at your request before entering into a contract (Article 6(1)(b) GDPR).",
+      "i1": "Messages you send and sessions you book — steps taken at your request before entering into a contract (Article 6(1)(b) GDPR).",
       "i2": "Newsletter — your consent (Article 6(1)(a) GDPR), which you may withdraw at any time.",
       "i3": "Any health information you volunteer — your explicit consent (Article 9(2)(a) GDPR).",
+      "i5": "Analytics — your consent (Article 6(1)(a) GDPR), given on the banner and withdrawable at any time.",
+      "i6": "Guide purchases — the contract of sale (Article 6(1)(b) GDPR), and the legal duty to keep accounting records (Article 6(1)(c) GDPR).",
       "i4": "Browser preferences — strictly necessary to deliver the display settings you asked for, so no consent is required."
     },
     "sharing": {
       "title": "5. Who else sees it",
-      "body": "Two service providers, and no one else. Brevo (Sendinblue SAS, France) holds newsletter subscriptions, stores the record of your consent, and sends the emails; it also delivers messages sent through the contact form. Cloudflare (Cloudflare, Inc.) provides the spam check on both forms and passes submissions on to Brevo without storing them. Both act only on written instructions; Cloudflare is a US-parented company, so that arrangement additionally relies on the European Commission's standard contractual clauses. Beyond these two, this site runs no analytics, no advertising and no social media trackers. The only third-party script is Cloudflare's spam check, which loads when you submit a form. Fonts are served from this site rather than an external network, so no outside provider sees your visit. Nothing is sold or rented.",
+      "body": "The providers below handle data on my behalf, each only for the job named. No one else receives it, nothing is sold or rented, and there is no advertising or social media tracking. Fonts are served from this site, so no font network sees your visit.",
+      "i1": "Cloudflare (Cloudflare, Inc.) runs the small server every form passes through and the spam check on the forms, and stores the like counts and the announcement banner. It sees your IP address to apply a rate limit; submissions pass through it without being stored.",
+      "i2": "Brevo (Sendinblue SAS, France) holds newsletter subscriptions and the record of your consent, and sends every email: newsletters, contact messages, booking confirmations and guide deliveries.",
+      "i3": "Google (Google Ireland Limited) stores the newsletter sign-up log and guide orders in Firestore, and holds booking details in Google Calendar.",
+      "i4": "PostHog (EU cloud) measures how the site is used — only if you accept analytics.",
+      "i5": "Stripe (Stripe Payments Europe, Limited, Ireland) takes payment for guides on its own page.",
+      "transfers": "Cloudflare, Google, PostHog and Stripe are US-parented companies, so those arrangements also rely on the European Commission's standard contractual clauses.",
       "note": "If this ever changes, this section is updated before the change goes live, and anything requiring your consent will ask for it first."
     },
     "retention": {
       "title": "6. How long it is kept",
       "i1": "Enquiries that do not lead to a session: up to 12 months, then deleted.",
       "i2": "Newsletter subscriptions: until you unsubscribe. The record proving you consented is kept for three years after that, which is how long it could still be needed as evidence.",
+      "i4": "Bookings: kept in the calendar while the appointment needs them, then treated like an enquiry — up to 12 months — unless therapy begins.",
+      "i5": "Guide orders: kept for as long as Romanian accounting law requires.",
       "i3": "Once therapy begins, client records are held separately under the rules of the Romanian College of Psychologists and are not governed by this website notice."
     },
     "rights": {
@@ -887,7 +917,7 @@
       "i4": "restrict or object to how it is used",
       "i5": "receive it in a portable format",
       "i6": "withdraw a consent you gave, without affecting what was done beforehand",
-      "response": "Requests are answered within one month. No decision about you is ever taken automatically, and the newsletter measurements described in section 2 are the only behavioural data held about you.",
+      "response": "Requests are answered within one month. No decision about you is ever taken automatically. The only behavioural data held about you is the newsletter measurement and, if you accepted it, the analytics described in section 2.",
       "complaint": "You may also complain to the Romanian supervisory authority, ANSPDCP — dataprotection.ro."
     },
     "security": {
@@ -938,7 +968,7 @@
     },
     "contact": {
       "title": "8. Contact",
-      "body": "Questions about these terms: andreea.butacu.psiholog{'@'}gmail.com. How your data is handled is covered separately in the"
+      "body": "Questions about these terms: {email}. How your data is handled is covered separately in the"
     }
   },
   "share": {
@@ -1006,7 +1036,8 @@
       "submit": "Confirmă programarea",
       "privacy": "Datele tale rămân confidențiale și nu sunt distribuite nimănui.",
       "error": "Nu am putut salva programarea. Încearcă din nou sau scrie-mi.",
-      "error_slot_unavailable": "Ora tocmai a fost ocupată. Alege alta sau scrie-mi."
+      "error_slot_unavailable": "Ora tocmai a fost ocupată. Alege alta sau scrie-mi.",
+      "error_already_booked": "Ai deja o ședință programată cu această adresă. Dacă vrei să o muți sau să mai stabilim una, scrie-mi."
     },
     "success": {
       "title": "Ne vedem atunci.",

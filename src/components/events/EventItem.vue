@@ -108,6 +108,8 @@
 
     .atelier-cta {
         width: 100%;
+        max-width: var(--button-max-width);
+        margin-inline: auto;
         text-align: center;
     }
 </style>

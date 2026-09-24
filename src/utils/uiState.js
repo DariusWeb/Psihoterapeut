@@ -1,6 +1,8 @@
 // Deters casual copying only. The prose is decoded into the DOM at runtime, so anyone with a
 // console open can still read it — that is a ceiling of the platform, not a gap to be closed here.
 
+import { SITE } from '@/seo.config'
+
 const guardEnabled = import.meta.env.VITE_PROTECT_CONTENT === 'true'
 const viewportWatchEnabled = import.meta.env.VITE_PROTECT_DEVTOOLS === 'true'
 
@@ -9,7 +11,7 @@ const SILENCED_CONSOLE_METHODS = ['log', 'warn', 'error', 'info', 'debug', 'tabl
 const VEIL = 'blur(0.5rem)'
 
 function preventOnImages(event) {
-	if (event.target.closest('img')) event.preventDefault()
+	if (event.target.closest?.('img')) event.preventDefault()
 }
 
 function preventCopyOutsideExemptions(event) {
@@ -17,7 +19,7 @@ function preventCopyOutsideExemptions(event) {
 }
 
 function preventViewSourceAndDevtoolsKeys(event) {
-	const key = event.key.toUpperCase()
+	const key = event.key?.toUpperCase()
 	const opensDevtools = event.ctrlKey && event.shiftKey && ['I', 'J', 'C'].includes(key)
 	const viewsOrSavesSource = event.ctrlKey && !event.shiftKey && (key === 'U' || key === 'S')
 
@@ -55,6 +57,8 @@ export function initUiState() {
 
 	// Gates the stylesheet off the same flag, so one variable controls CSS and JS together.
 	document.documentElement.classList.add('ui-ready')
+	// Read by the print rule in base.scss: CSS cannot import the constant.
+	document.body.dataset.owner = SITE.name
 
 	document.addEventListener('contextmenu', preventOnImages)
 	document.addEventListener('dragstart', preventOnImages)

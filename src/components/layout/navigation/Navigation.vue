@@ -109,7 +109,7 @@
 			<ThemeToggle />
 			<LanguageToggle />
 			<button ref="hamburgerRef" class="hamburger" @click="toggleMenu" :aria-expanded="isMenuOpen"
-				aria-label="Toggle navigation menu">
+				:aria-label="t('navigation.menuToggle')">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 					stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<line x1="3" y1="6" x2="21" y2="6" />
@@ -122,8 +122,8 @@
 
 	<Teleport to="body">
 		<Transition name="overlay">
-			<div v-if="isMenuOpen" class="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
-				<button ref="closeButtonRef" class="overlay-close" @click="closeMenu()" aria-label="Close menu">
+			<div v-if="isMenuOpen" class="nav-overlay" role="dialog" aria-modal="true" :aria-label="t('navigation.menuLabel')">
+				<button ref="closeButtonRef" class="overlay-close" @click="closeMenu()" :aria-label="t('navigation.menuClose')">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 						stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<line x1="18" y1="6" x2="6" y2="18" />

@@ -1,5 +1,5 @@
-// The only entry point: every route is gated here — origin, rate limit, then Turnstile — before
-// a handler ever sees the request.
+// The only entry point: each route gets the gates it needs here — origin, rate limit, Turnstile,
+// an admin token — before a handler ever sees the request.
 
 import { availableSlots, bookingConfigured, handleBooking } from './handlers/booking.js'
 import { handleContact } from './handlers/contact.js'
@@ -19,7 +19,7 @@ import { authorizeAdmin } from './lib/verify-token.js'
 const json = (status, body, origin) =>
     new Response(JSON.stringify(body), {
         status,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) }
+        headers: { 'Content-Type': 'application/json', Vary: 'Origin', ...corsHeaders(origin) }
     })
 
 function corsHeaders(origin) {
@@ -32,7 +32,9 @@ function corsHeaders(origin) {
         : {}
 }
 
-const withinRateLimit = async (env, ip) => (await env.SUBMIT_RATE_LIMIT.limit({ key: ip })).success
+// One bucket per route, so loading slots or liking a page cannot use up the budget for a form.
+const withinRateLimit = async (env, ip, route) =>
+    (await env.SUBMIT_RATE_LIMIT.limit({ key: `${route}:${ip}` })).success
 
 function allowedOrigin(request, env) {
     const origin = request.headers.get('Origin')
@@ -58,7 +60,7 @@ export default {
         const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
 
         if (request.method === 'OPTIONS') {
-            return new Response(null, { status: 204, headers: corsHeaders(origin) })
+            return new Response(null, { status: 204, headers: { Vary: 'Origin', ...corsHeaders(origin) } })
         }
 
         // Dispatched above the origin gate: neither a Stripe callback nor a link clicked in an
@@ -87,7 +89,7 @@ export default {
 
         if (pathname === '/resources/access' && request.method === 'GET') {
             // Unauthenticated and it calls Stripe, so it is rate limited like a write.
-            if (!(await withinRateLimit(env, ip))) {
+            if (!(await withinRateLimit(env, ip, pathname))) {
                 return json(429, { ok: false, error: 'rate_limited' }, origin)
             }
 
@@ -102,11 +104,21 @@ export default {
 
         if (pathname === '/likes' && request.method === 'GET') {
             if (!likesConfigured(env)) return json(503, { ok: false, error: 'not_configured' }, origin)
-            return json(200, await readLikes(request, env), origin)
+            try {
+                return json(200, await readLikes(request, env), origin)
+            } catch (error) {
+                console.error(error)
+                return json(503, { ok: false, error: 'unavailable' }, origin)
+            }
         }
 
         if (pathname === '/live' && request.method === 'GET') {
-            return json(200, await readLive(env), origin)
+            try {
+                return json(200, await readLive(env), origin)
+            } catch (error) {
+                console.error(error)
+                return json(503, { ok: false, error: 'unavailable' }, origin)
+            }
         }
 
         // Free slots are public by design, and nothing but start times leaves the calendar —
@@ -115,7 +127,7 @@ export default {
             if (!bookingConfigured(env)) return json(503, { ok: false, error: 'not_configured' }, origin)
 
             // Every call is a live Google Calendar read, so it gets the same brake as a write.
-            if (!(await withinRateLimit(env, ip))) {
+            if (!(await withinRateLimit(env, ip, pathname))) {
                 return json(429, { ok: false, error: 'rate_limited' }, origin)
             }
 
@@ -130,7 +142,7 @@ export default {
         // Dashboard routes: a signed-in, allowlisted Google account, verified server-side.
         // The browser is never trusted — the Vue route guard is only there for the UX.
         if (pathname === '/live' || pathname === '/live/state') {
-            if (!(await withinRateLimit(env, ip))) {
+            if (!(await withinRateLimit(env, ip, pathname))) {
                 return json(429, { ok: false, error: 'rate_limited' }, origin)
             }
 
@@ -156,7 +168,7 @@ export default {
             return json(503, { ok: false, error: 'not_configured' }, origin)
         }
 
-        if (!(await withinRateLimit(env, ip))) {
+        if (!(await withinRateLimit(env, ip, pathname))) {
             return json(429, { ok: false, error: 'rate_limited' }, origin)
         }
 
@@ -164,6 +176,10 @@ export default {
         try {
             data = await request.json()
         } catch {
+            return json(400, { ok: false, error: 'bad_json' }, origin)
+        }
+
+        if (!data || typeof data !== 'object' || Array.isArray(data)) {
             return json(400, { ok: false, error: 'bad_json' }, origin)
         }
 

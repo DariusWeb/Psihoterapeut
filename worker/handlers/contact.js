@@ -2,13 +2,13 @@
 // is a reply rather than a copy-paste.
 
 import { BREVO_EMAIL, brevo } from '../lib/brevo.js'
-import { LIMITS, cleanString, isEmail } from '../lib/validate.js'
+import { LIMITS, cleanLine, cleanString, isEmail } from '../lib/validate.js'
 
 export async function handleContact(data, env) {
     const email = cleanString(data.email, LIMITS.email)
-    const name = cleanString(data.name, LIMITS.name)
+    const name = cleanLine(data.name, LIMITS.name)
     const message = cleanString(data.message, LIMITS.message)
-    const phone = cleanString(data.phone, LIMITS.phone)
+    const phone = cleanLine(data.phone, LIMITS.phone)
 
     if (!isEmail(email) || !name || !message) return { ok: false, error: 'invalid_fields' }
 

@@ -69,7 +69,7 @@
         font-family: "Libre Baskerville", serif;
         font-size: var(--step-h2);
         color: var(--vt-c-jannafer-green);
-        line-height: 1.2;
+        line-height: var(--leading-tight);
         margin-bottom: 1rem;
     }
 </style>

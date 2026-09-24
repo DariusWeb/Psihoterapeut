@@ -1,5 +1,5 @@
 // Brevo sends the opt-in email and only creates the contact once it is confirmed, so the
-// confirmation timestamp and IP it records are the consent proof — nothing is stored here.
+// confirmation timestamp and IP it records are the consent proof. The Firestore log below is a backup.
 
 import { BREVO_CONTACTS, brevo } from '../lib/brevo.js'
 import { logSignup } from '../lib/firestore.js'

@@ -99,7 +99,8 @@
 
 		.live-cta {
 			flex-basis: 100%;
-			margin-inline-start: 0;
+			max-width: var(--button-max-width);
+			margin-inline: auto;
 			text-align: center;
 		}
 

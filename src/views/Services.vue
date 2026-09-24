@@ -39,7 +39,7 @@
         margin-inline: auto;
         margin-bottom: var(--space-section);
         text-align: center;
-        line-height: 1.7;
+        line-height: var(--leading-prose);
     }
 
     .services-list {

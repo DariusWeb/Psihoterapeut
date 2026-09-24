@@ -1,25 +1,23 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { useThemeStore } from '@/stores/themeStore'
 
+const { t } = useI18n()
 const themeStore = useThemeStore()
 
-const options = [
-	{ value: 'light', label: 'Light' },
-	{ value: 'dark', label: 'Dark' },
-	{ value: 'system', label: 'System' }
-]
+const options = [{ value: 'light' }, { value: 'dark' }, { value: 'system' }]
 </script>
 
 <template>
-	<div class="theme-toggle" role="group" aria-label="Color theme">
+	<div class="theme-toggle" role="group" :aria-label="t('navigation.theme.label')">
 		<button
 			v-for="option in options"
 			:key="option.value"
 			class="theme-btn"
 			:class="{ active: themeStore.mode === option.value }"
 			:aria-pressed="themeStore.mode === option.value"
-			:aria-label="option.label"
-			:title="option.label"
+			:aria-label="t(`navigation.theme.${option.value}`)"
+			:title="t(`navigation.theme.${option.value}`)"
 			@click="themeStore.setMode(option.value)"
 		>
 			<!-- Sun icon -->

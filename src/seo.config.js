@@ -3,7 +3,7 @@
 export const SITE = {
 	url: 'https://dariusweb.github.io/Psihoterapeut',
 	base: '/Psihoterapeut/',
-	name: 'Andreea Georgiana Butacu',
+	name: 'Andreea Butacu',
 	lang: 'ro',
 	locale: 'ro_RO',
 	// No purpose-made 1200x630 asset exists yet; cropping a portrait to that ratio would cut her face.
@@ -11,7 +11,7 @@ export const SITE = {
 	indexable: false
 }
 
-export const TITLE_SUFFIX = ' | Andreea Butacu'
+export const TITLE_SUFFIX = ` | ${SITE.name}`
 
 // Built but not launched yet. Emptying this list brings a page back everywhere at once:
 // router, navigation, sitemap and site search all filter on it.

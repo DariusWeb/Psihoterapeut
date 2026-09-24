@@ -27,9 +27,17 @@
 
 	// Everything but the link persists, so going live is "paste the link and press".
 	onMounted(() => {
-		Object.assign(form, JSON.parse(localStorage.getItem(DRAFT_KEY) ?? '{}'), { url: '' })
+		Object.assign(form, readDraft(), { url: '' })
 		refresh()
 	})
+
+	function readDraft() {
+		try {
+			return JSON.parse(localStorage.getItem(DRAFT_KEY) ?? '{}')
+		} catch {
+			return {}
+		}
+	}
 
 	async function refresh() {
 		try {

@@ -1,7 +1,7 @@
 rules_version = '2';
 
-// Consent proof now lives in Brevo, recorded by its double opt-in confirmation. Nothing
-// writes here any more, so the collection is sealed rather than left open to anonymous creates.
+// Only the Worker writes here (newsletter sign-up log, guide orders), through a service account
+// that bypasses these rules — so every client read and write stays sealed.
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {

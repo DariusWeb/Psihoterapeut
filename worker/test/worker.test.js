@@ -89,6 +89,7 @@ let turnstilePasses = true
 let calendarItems = []
 let calendarInserts = []
 let firestoreWrites = []
+let likeSlugs = ['un-atelier', 'unu', 'doi']
 
 globalThis.fetch = async (url, options) => {
     const target = String(url)
@@ -120,6 +121,10 @@ globalThis.fetch = async (url, options) => {
     if (target.includes('api.brevo.com')) {
         brevoCalls.push({ target, body: JSON.parse(options.body) })
         return new Response('{}', { status: 201 })
+    }
+
+    if (target.endsWith('/like-slugs.json')) {
+        return likeSlugs ? new Response(JSON.stringify(likeSlugs), { status: 200 }) : new Response('', { status: 404 })
     }
 
     throw new Error(`unstubbed request to ${target}`)
@@ -265,6 +270,16 @@ await run('a failing signup log still lets the subscription through', async () =
 
 // Regression: workerd sets no CF-Connecting-IP outside production, and a null rate-limit
 // key crashed the request into a 500 that leaked past the captcha check as an opaque error.
+// request.json() accepts any JSON, so a null or an array must be refused before the first property read.
+await run('a JSON body that is not an object is refused, not thrown on', async () => {
+    for (const body of [null, [], 'text', 42]) {
+        const res = await post('/newsletter', body)
+        assert.equal(res.status, 400, `accepted ${JSON.stringify(body)}`)
+        assert.equal((await res.json()).error, 'bad_json')
+    }
+    assert.deepEqual(brevoCalls, [])
+})
+
 await run('missing CF-Connecting-IP still rejects cleanly, not a 500', async () => {
     turnstilePasses = false
     const res = await post('/newsletter', valid, ORIGIN, null)
@@ -522,6 +537,37 @@ await runBooking('a valid booking lands in the calendar and mails both sides', a
     assert.equal(event.attendees, undefined)
 })
 
+// Without the cap one visitor fills the calendar, and the confirmation mails whoever they name.
+await runBooking('a second future booking from the same address is refused', async () => {
+    const [first, second] = (await (await getSlots()).json()).slots
+    assert.equal((await post('/booking', { ...booking, start: first })).status, 200)
+
+    const hash = calendarInserts[0].extendedProperties.private.bookerHash
+    assert.match(hash, /^[0-9a-f]{64}$/)
+    assert.ok(!hash.includes('ana'))
+
+    calendarItems = [openWindow(), calendarInserts[0]]
+    const again = await post('/booking', { ...booking, email: 'ANA@example.com', start: second })
+    assert.equal(again.status, 400)
+    assert.equal((await again.json()).error, 'already_booked')
+    assert.equal(calendarInserts.length, 1)
+
+    const someoneElse = await post('/booking', { ...booking, email: 'ioana@example.com', start: second })
+    assert.equal(someoneElse.status, 200)
+})
+
+await runBooking('the confirmation to the visitor carries no visitor-chosen text', async () => {
+    const start = (await (await getSlots()).json()).slots[0]
+    const res = await post('/booking', { ...booking, name: 'Ana\r\nBcc: x@evil.example', start })
+    assert.equal(res.status, 200)
+
+    const [toTherapist, toVisitor] = brevoCalls.map((call) => call.body)
+    assert.deepEqual(toVisitor.to, [{ email: booking.email }])
+    assert.ok(!toVisitor.textContent.includes('Ana'))
+    assert.ok(!toVisitor.subject.includes('Ana'))
+    assert.doesNotMatch(toTherapist.subject, /[\r\n]/)
+})
+
 await runBooking('a booking still needs a passing challenge', async () => {
     turnstilePasses = false
     const res = await post('/booking', { ...booking, start: '2030-01-01T10:00:00.000Z' })
@@ -598,6 +644,25 @@ await runLikes('a like needs no captcha but still answers the origin gate', asyn
     assert.equal(env.LIKES.store.size, 0)
 })
 
+await runLikes('a slug the site does not publish is refused and writes nothing', async () => {
+    const res = await like({ slug: 'nu-exista-pe-site' })
+
+    assert.equal(res.status, 400)
+    assert.equal((await res.json()).error, 'invalid_fields')
+    assert.equal(env.LIKES.store.size, 0)
+})
+
+await runLikes('likes fail closed when the slug list cannot be read', async () => {
+    likeSlugs = null
+    try {
+        const res = await like({ slug: 'unu' })
+        assert.equal(res.status, 502)
+        assert.equal(env.LIKES.store.size, 0)
+    } finally {
+        likeSlugs = ['un-atelier', 'unu', 'doi']
+    }
+})
+
 await runLikes('the route reports itself unconfigured when the namespace is missing', async () => {
     const { LIKES: _LIKES, ...withoutKv } = env
     const res = await worker.fetch(
@@ -607,6 +672,13 @@ await runLikes('the route reports itself unconfigured when the namespace is miss
 
     assert.equal(res.status, 503)
     assert.equal((await res.json()).error, 'not_configured')
+})
+
+// A kid is looked up in the cert map; "__proto__" must be a miss, not an inherited object.
+await run('a token whose kid is __proto__ is refused, not thrown on', async () => {
+    const token = signToken(validClaims(), signingKey, { alg: 'RS256', kid: '__proto__' })
+    const res = await setLive({ title: 'x' }, token)
+    assert.equal(res.status, 403)
 })
 
 console.log('\nall worker checks passed')

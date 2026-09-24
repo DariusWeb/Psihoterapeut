@@ -115,7 +115,7 @@
             <div class="card-grid resources-practical-grid">
                 <article v-for="resource in practicalResources" :key="resource.key"
                     class="media-card card card-outlined">
-                    <span v-if="resource.icon" class="icon-chip media-card-media resources-practical-icon">
+                    <span v-if="resource.icon" class="icon-chip resources-practical-icon">
                         <component :is="resource.icon" :size="28" />
                     </span>
                     <div v-else class="media-placeholder media-card-media media-fade" role="img"

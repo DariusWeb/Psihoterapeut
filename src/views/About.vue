@@ -107,7 +107,7 @@
 
 	.about-hero-intro {
 		margin: 0;
-		line-height: 1.7;
+		line-height: var(--leading-prose);
 	}
 
 	.about-hero-cta {
@@ -123,7 +123,7 @@
 		align-self: stretch; // photo ends level with the CTA, matching the copy column
 		height: auto; // the height attribute is a presentational hint; stretch only applies once it is auto
 		object-fit: cover;
-		border-radius: 1rem;
+		border-radius: var(--vt-c-radius-lg);
 	}
 
 	// Four fixed prose cards read as a 2x2 block; a width-driven track count strands the
@@ -166,7 +166,7 @@
 
 	.about-card-text {
 		margin: 0;
-		line-height: 1.7;
+		line-height: var(--leading-prose);
 	}
 
 	.about-card-sub {

@@ -112,8 +112,9 @@ export async function verifyIdToken(idToken, projectId) {
     if (typeof payload.sub !== 'string' || !payload.sub) return null
 
     const certs = await fetchCerts()
-    const pem = certs[header.kid]
-    if (!pem) return null
+    // Own keys only: a kid of "__proto__" would otherwise resolve to an object and throw below.
+    const pem = Object.hasOwn(certs, header.kid) ? certs[header.kid] : null
+    if (typeof pem !== 'string') return null
 
     const key = await crypto.subtle.importKey(
         'spki',
