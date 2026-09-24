@@ -3,6 +3,7 @@
 
 import assert from 'node:assert'
 import { ADMIN_UID, PROJECT_ID, installCertStub, signToken, signingKey, validClaims } from './tokens.js'
+import { cleanLine } from '../lib/validate.js'
 
 const ORIGIN = 'https://dariusweb.github.io'
 const CALENDAR_ID = 'disponibil@group.calendar.google.com'
@@ -679,6 +680,11 @@ await run('a token whose kid is __proto__ is refused, not thrown on', async () =
     const token = signToken(validClaims(), signingKey, { alg: 'RS256', kid: '__proto__' })
     const res = await setLive({ title: 'x' }, token)
     assert.equal(res.status, 403)
+})
+
+await run('cleanLine turns header-breaking control characters into spaces', async () => {
+    assert.equal(cleanLine(' Ana\r\nBcc: x@y.z\u0000\u007f ', 100), 'Ana  Bcc: x@y.z  ')
+    assert.equal(cleanLine('Ioana-Maria Ș.', 100), 'Ioana-Maria Ș.')
 })
 
 console.log('\nall worker checks passed')

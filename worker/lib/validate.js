@@ -9,7 +9,7 @@ export function cleanString(value, max) {
 
 // For values that land in an email subject or header: control characters become spaces.
 export function cleanLine(value, max) {
-    return cleanString(value, max).replace(/[\u0000-\u001f\u007f]/g, ' ')
+    return cleanString(value, max).replace(/\p{Cc}/gu, ' ')
 }
 
 // Deliberately permissive — the authoritative check is Brevo's double opt-in, not a regex.
