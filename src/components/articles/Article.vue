@@ -54,7 +54,6 @@
         <h1>{{ article.title }}</h1>
         <p class="article-subtitle">{{ article.subtitle }}</p>
 
-        <!-- Render the article component -->
         <component :is="article.component" />
 
         <ShareLike :slug="article.slug" :title="article.title" />

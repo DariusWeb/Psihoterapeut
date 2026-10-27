@@ -1,8 +1,8 @@
 <script setup>
-	import { ref } from 'vue'
+	import { ref, computed } from 'vue'
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { Sprout, Laptop, Mail, Phone, MessageCircle, CalendarDays, UserRound, Heart, Lock, Clock } from '@lucide/vue'
+	import { Sprout, Laptop, Mail, Phone, MessageCircle, CalendarDays, Heart, Lock, Clock, BadgeCheck, Check, CircleAlert, LoaderCircle } from '@lucide/vue'
 	import contactDesk from '@/assets/images/contact/contact-desk.webp'
 	import contactLivingRoom from '@/assets/images/contact/contact-living-room.webp'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
@@ -36,177 +36,170 @@
 		consent.value = false
 	}
 
+	// Odd parts are the „quoted” examples, set in serif italic.
+	const formExamples = computed(() => t('contact.form.intro2').split(/(„[^”]*”)/))
+
 	const methods = [
-		{ key: 'email', icon: Mail, lines: ['value'], href: `mailto:${CONTACT.email}` },
-		{ key: 'phone', icon: Phone, lines: ['value', 'hours'], href: `tel:${CONTACT.phone}` },
-		{ key: 'whatsapp', icon: MessageCircle, lines: ['value'], href: CONTACT.whatsapp, external: true },
-		{ key: 'booking', icon: CalendarDays, lines: ['value'], to: '/programare' }
+		{ key: 'email', icon: Mail, href: `mailto:${CONTACT.email}` },
+		{ key: 'phone', icon: Phone, href: `tel:${CONTACT.phone}`, note: 'hours' },
+		{ key: 'whatsapp', icon: MessageCircle, href: CONTACT.whatsapp, external: true },
+		{ key: 'booking', icon: CalendarDays, to: '/programare' }
 	]
 
-	const stepIcons = [Mail, CalendarDays, UserRound, Heart]
+	const noteItems = [{ key: 'sessions', icon: Laptop }, { key: 'place', icon: Sprout }]
 	const stripIcons = [Sprout, Clock, Lock, Heart]
 </script>
 
 <template>
-	<main class="contact-page layout-stack">
-		<section class="page-hero">
-			<div class="page-hero-content">
-				<h1 class="page-hero-title">{{ t('contact.hero.title') }}</h1>
-				<p class="page-hero-intro">{{ t('contact.hero.intro1') }}</p>
-				<p class="page-hero-intro">{{ t('contact.hero.intro2') }}</p>
-				<a class="button button-primary contact-hero-cta" href="#contact-form">
-					<Sprout :size="16" />
-					{{ t('contact.hero.cta') }}
-				</a>
+	<main class="bands">
+		<section class="hero-grid">
+			<div class="hero-grid-text statement">
+				<h1 class="statement-title">{{ t('contact.hero.title') }}</h1>
+				<p class="text-lead text-pretty">{{ t('contact.hero.intro1') }}</p>
+				<p class="contact-hero-intro text-pretty">{{ t('contact.hero.intro2') }}</p>
+				<a class="button-primary" href="#contact-form">{{ t('contact.hero.cta') }}</a>
 			</div>
-
-			<div class="contact-hero-media bleed-right">
-				<img class="contact-photo media-fade" :src="contactDesk" :alt="t('contact.hero.photoAlt')"
-					width="1060" height="707" decoding="async" loading="eager" fetchpriority="high" />
-
-				<aside class="contact-note card">
-					<p class="contact-note-item">
-						<Laptop :size="22" />
-						{{ t('contact.note.sessions') }}
-					</p>
-					<p class="contact-note-item">
-						<Sprout :size="22" />
-						{{ t('contact.note.place') }}
-					</p>
-				</aside>
-			</div>
+			<img class="hero-grid-media contact-photo" :src="contactDesk" :alt="t('contact.hero.photoAlt')"
+				width="1060" height="707" decoding="async" loading="eager" fetchpriority="high" />
+			<aside class="contact-note">
+				<p v-for="item in noteItems" :key="item.key" class="contact-note-item text-balance">
+					<span class="contact-circle"><component :is="item.icon" :size="18" /></span>
+					{{ t(`contact.note.${item.key}`) }}
+				</p>
+			</aside>
 		</section>
 
-		<section class="contact-reach">
-			<div class="contact-reach-info">
-				<h2 class="contact-reach-title">{{ t('contact.reach.title') }}</h2>
-				<p class="contact-reach-subtitle">{{ t('contact.reach.subtitle') }}</p>
+		<section id="contact-form" class="band">
+			<div class="split-5-7">
+				<div class="sticky-side contact-reach">
+					<div class="contact-reach-head">
+						<h2 class="section-title">{{ t('contact.reach.title') }}</h2>
+						<p>{{ t('contact.reach.subtitle') }}</p>
+					</div>
+					<div class="contact-methods">
+						<component :is="method.to ? RouterLink : 'a'" v-for="method in methods" :key="method.key" class="hover-row"
+							:to="method.to" :href="method.href" :target="method.external ? '_blank' : null"
+							:rel="method.external ? 'noopener noreferrer' : null">
+							<span class="hover-row-label">
+								<component :is="method.icon" :size="17" />{{ t(`contact.reach.${method.key}.label`) }}
+							</span>
+							<span class="hover-row-value text-pretty">{{ t(`contact.reach.${method.key}.value`, CONTACT_PARAMS) }}</span>
+							<span v-if="method.note" class="text-small">{{ t(`contact.reach.${method.key}.${method.note}`) }}</span>
+						</component>
+					</div>
+				</div>
 
-				<div v-for="method in methods" :key="method.key" class="contact-method u-text">
-					<span class="icon-chip">
-						<component :is="method.icon" :size="22" />
-					</span>
-					<div class="contact-method-body">
-						<h3 class="contact-method-label">{{ t(`contact.reach.${method.key}.label`) }}</h3>
-						<p v-for="line in method.lines" :key="line" class="contact-method-line">
-							<RouterLink v-if="line === 'value' && method.to" :to="method.to">
-								{{ t(`contact.reach.${method.key}.value`) }}
-							</RouterLink>
-							<a v-else-if="line === 'value'" :href="method.href" :target="method.external ? '_blank' : null"
-								:rel="method.external ? 'noopener noreferrer' : null">
-								{{ t(`contact.reach.${method.key}.value`, CONTACT_PARAMS) }}
-							</a>
-							<template v-else>{{ t(`contact.reach.${method.key}.${line}`) }}</template>
+				<form class="form-panel contact-form" @submit.prevent="sendMessage">
+					<div class="contact-form-head">
+						<h3 class="contact-form-title">{{ t('contact.form.title') }}</h3>
+						<p class="contact-form-intro text-pretty">
+							{{ t('contact.form.intro1') }}
+							<component :is="index % 2 ? 'em' : 'span'" v-for="(part, index) in formExamples" :key="index">{{ part }}</component>
 						</p>
 					</div>
-				</div>
-			</div>
 
-			<form id="contact-form" @submit.prevent="sendMessage" class="contact-form card">
-				<h2 class="contact-form-title">{{ t('contact.form.title') }}</h2>
-				<p class="contact-form-text">{{ t('contact.form.intro1') }}</p>
-				<p class="contact-form-text">{{ t('contact.form.intro2') }}</p>
-
-				<div class="form-row">
-					<div class="form-group">
-						<input id="contact-name" type="text" v-model="form.name" placeholder=" " required />
-						<label for="contact-name">{{ t('contact.form.name') }}</label>
+					<div class="form-row">
+						<div class="form-group">
+							<input id="contact-name" v-model="form.name" type="text" placeholder=" " required autocomplete="given-name" />
+							<label for="contact-name">{{ t('contact.form.name') }}</label>
+						</div>
+						<div class="form-group">
+							<input id="contact-email" v-model="form.email" type="email" placeholder=" " required autocomplete="email" />
+							<label for="contact-email">{{ t('contact.form.email') }}</label>
+						</div>
 					</div>
 
 					<div class="form-group">
-						<input id="contact-email" type="email" v-model="form.email" placeholder=" " required />
-						<label for="contact-email">{{ t('contact.form.email') }}</label>
+						<input id="contact-phone" v-model="form.phone" type="tel" placeholder=" " autocomplete="tel" />
+						<label for="contact-phone">{{ t('contact.form.phone') }}</label>
 					</div>
-				</div>
 
-				<div class="form-group">
-					<input id="contact-phone" type="tel" v-model="form.phone" placeholder=" " />
-					<label for="contact-phone">{{ t('contact.form.phone') }}</label>
-				</div>
+					<p id="contact-message-hint" class="contact-form-hint text-pretty">{{ t('contact.form.messageHint') }}</p>
 
-				<p class="contact-form-hint">{{ t('contact.form.messageHint') }}</p>
-
-				<div class="form-group">
-					<textarea id="contact-message" v-model="form.message" rows="4" placeholder=" " required></textarea>
-					<label for="contact-message">{{ t('contact.form.message') }}</label>
-				</div>
-
-				<div class="contact-form-consent">
-					<input id="contact-consent" v-model="consent" type="checkbox" required />
-					<label for="contact-consent">
-						{{ t('contact.form.consent') }}
-						<RouterLink to="/confidentialitate">{{ t('contact.form.consentLink') }}</RouterLink>.
-					</label>
-				</div>
-
-				<div ref="captcha" class="contact-form-captcha"></div>
-
-				<button type="submit" class="button-primary contact-form-submit" :disabled="status === 'submitting'">
-					{{ t('contact.form.send') }}
-				</button>
-
-				<p class="contact-form-privacy">
-					<Lock :size="16" />
-					{{ t('contact.form.privacy') }}
-				</p>
-
-				<div v-if="status === 'success'" class="success" role="status">
-					{{ t('contact.form.success') }}
-				</div>
-
-				<div v-if="status === 'error'" class="error" role="alert">
-					{{ errorMessage }}
-				</div>
-			</form>
-		</section>
-
-		<section class="contact-after">
-			<div class="contact-steps card">
-				<h2 class="contact-steps-title">{{ t('contact.steps.title') }}</h2>
-
-				<div class="contact-steps-list">
-					<div v-for="(icon, index) in stepIcons" :key="index" class="contact-step">
-						<span class="icon-chip contact-step-number">{{ index + 1 }}</span>
-						<component :is="icon" :size="32" />
-						<p class="contact-step-text">{{ t(`contact.steps.s${index + 1}`) }}</p>
+					<div class="form-group">
+						<textarea id="contact-message" v-model="form.message" rows="4" placeholder=" " required
+							aria-describedby="contact-message-hint"></textarea>
+						<label for="contact-message">{{ t('contact.form.message') }}</label>
 					</div>
-				</div>
-			</div>
 
-			<div class="contact-reassure card">
-				<h2 class="contact-reassure-title">{{ t('contact.reassure.title') }}</h2>
+					<div class="checkbox-field">
+						<input id="contact-consent" v-model="consent" type="checkbox" required />
+						<label for="contact-consent">
+							{{ t('contact.form.consent') }}
+							<RouterLink class="text-link" to="/confidentialitate">{{ t('contact.form.consentLink') }}</RouterLink>.
+						</label>
+					</div>
 
-				<p v-for="index in 5" :key="index" class="contact-reassure-item">
-					<Sprout :size="16" />
-					{{ t(`contact.reassure.i${index}`) }}
-				</p>
+					<div ref="captcha" class="contact-form-captcha"></div>
 
-				<p class="contact-reassure-closing">{{ t('contact.reassure.closing') }}</p>
+					<div v-if="status === 'success'" class="alert" role="status">
+						<span class="alert-icon"><Check :size="17" /></span>
+						<p class="alert-text">{{ t('contact.form.success') }}</p>
+					</div>
+
+					<div v-else class="contact-form-submit">
+						<button type="submit" class="button-primary button-full"
+							:aria-busy="status === 'submitting'" :disabled="status === 'submitting'">
+							<LoaderCircle v-if="status === 'submitting'" :size="16" class="button-spinner" aria-hidden="true" />
+							{{ t('contact.form.send') }}
+						</button>
+						<p class="form-note">
+							<Lock :size="14" aria-hidden="true" />
+							{{ t('contact.form.privacy') }}
+						</p>
+					</div>
+
+					<div v-if="status === 'error'" class="alert alert-error" role="alert">
+						<span class="alert-icon"><CircleAlert :size="17" /></span>
+						<p class="alert-text">{{ errorMessage }}</p>
+					</div>
+				</form>
 			</div>
 		</section>
 
-		<section class="contact-closing section-tight">
-			<img class="contact-photo media-fade bleed-left" :src="contactLivingRoom"
-				:alt="t('contact.closing.photoAlt')" width="901" height="600" decoding="async" loading="lazy" />
+		<section class="band">
+			<div class="split-7-5">
+				<div class="contact-steps">
+					<h2 class="section-title">{{ t('contact.steps.title') }}</h2>
+					<ol v-reveal class="contact-steps-list">
+						<li v-for="index in 4" :key="index" class="contact-step">
+							<span class="contact-circle contact-step-number">{{ index }}</span>
+							<p class="text-pretty">{{ t(`contact.steps.s${index}`) }}</p>
+						</li>
+					</ol>
+				</div>
 
-			<div class="contact-closing-content">
-				<h2 class="contact-closing-title">{{ t('contact.closing.title') }}</h2>
-				<p class="contact-closing-text">{{ t('contact.closing.text') }}</p>
-
-				<div class="contact-closing-banner card">
-					<Sprout :size="32" />
-					<p class="contact-closing-banner-text">{{ t('contact.closing.banner') }}</p>
-					<a class="button button-primary" href="#contact-form">{{ t('contact.closing.cta') }}</a>
+				<div class="note-card">
+					<h3 class="note-card-title">{{ t('contact.reassure.title') }}</h3>
+					<ul class="icon-list">
+						<li v-for="index in 5" :key="index" class="icon-list-item">
+							<BadgeCheck :size="17" />{{ t(`contact.reassure.i${index}`) }}
+						</li>
+					</ul>
+					<p class="note-card-quote text-pretty">{{ t('contact.reassure.closing') }}</p>
 				</div>
 			</div>
 		</section>
 
-		<section class="contact-strip layout-full section-flush">
-			<div v-for="(icon, index) in stripIcons" :key="index" class="contact-strip-item icon-title-row">
-				<component :is="icon" :size="32" />
-				<div>
-					<h3 class="contact-strip-title">{{ t(`contact.strip.s${index + 1}.title`) }}</h3>
-					<p class="contact-strip-text">{{ t(`contact.strip.s${index + 1}.text`) }}</p>
+		<section class="hero-grid hero-grid-mirrored">
+			<img class="hero-grid-media contact-photo" :src="contactLivingRoom" :alt="t('contact.closing.photoAlt')"
+				width="901" height="600" decoding="async" loading="lazy" />
+			<div class="hero-grid-text statement">
+				<h2 class="statement-title text-h1 text-pretty">{{ t('contact.closing.title') }}</h2>
+				<p class="contact-closing-text text-pretty">{{ t('contact.closing.text') }}</p>
+				<div class="contact-closing-card">
+					<p class="heart-line contact-closing-line">{{ t('contact.closing.banner') }}</p>
+					<a class="button-primary" href="#contact-form">{{ t('contact.closing.cta') }}</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="band">
+			<div v-reveal class="strip">
+				<div v-for="(icon, index) in stripIcons" :key="index" class="strip-item">
+					<component :is="icon" :size="22" />
+					<h3 class="text-strip-title">{{ t(`contact.strip.s${index + 1}.title`) }}</h3>
+					<p class="strip-text">{{ t(`contact.strip.s${index + 1}.text`) }}</p>
 				</div>
 			</div>
 		</section>
@@ -214,311 +207,193 @@
 </template>
 
 <style scoped lang="scss">
-	.contact-page {
-		// the hero photo runs flush to the top, behind the fixed nav
-		--page-pad-top: 0;
-		--page-pad-bottom: 0;
+	.contact-hero-intro {
+		max-width: 52ch;
 	}
 
-	// Shared
+	// Square corners: rounded ones would sit inside the fade.
 	.contact-photo {
-		width: 100%;
-		height: 100%;
-		min-width: 0; // without this, min-width:auto floors the flex item at the image's intrinsic width and kills the edge bleed
-		min-height: var(--vt-c-media-min-height);
-		object-fit: cover;
-	}
-
-	// Hero
-	.contact-hero-cta {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--gap-xs);
-	}
-
-	.contact-hero-media {
-		position: relative; // anchors .contact-note
+		border-radius: 0;
 	}
 
 	.contact-note {
-		position: absolute;
-		top: 7rem; // clears the fixed nav, like the hero copy
-		right: 3rem;
-		width: 13rem;
+		grid-column: 3 / 5;
+		grid-row: 1;
+		place-self: center;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
-		gap: var(--gap-md);
+		gap: 18px;
+		width: 220px;
+		padding: 26px 22px;
+		border-radius: var(--r-block);
+		background: var(--cream);
+		box-shadow: var(--shadow-panel);
 		text-align: center;
 	}
 
 	.contact-note-item {
-		margin: 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: var(--gap-xs);
-		color: var(--vt-c-jannafer-green);
+		gap: var(--s-8);
+		font-size: var(--fs-body-s);
+		line-height: 1.5;
+		color: var(--olive-800);
 	}
 
-	// Reach + form
+	.contact-circle {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		background: var(--olive-tint);
+		color: var(--olive-600);
+	}
+
 	.contact-reach {
 		display: flex;
-		align-items: flex-start;
-		gap: var(--vt-c-split-gap);
+		flex-direction: column;
+		gap: var(--s-24);
 	}
 
-	.contact-reach-info {
-		flex: 1;
-	}
-
-	.contact-reach-title,
-	.contact-reach-subtitle {
-		margin: 0 0 0.5rem;
-	}
-
-	.contact-method {
+	.contact-reach-head {
 		display: flex;
-		align-items: flex-start;
-		gap: var(--gap-md);
-		margin-top: 2rem;
-
-		.contact-method-label {
-			min-height: var(--icon-chip-size);
-			display: flex;
-			align-items: center;
-		}
+		flex-direction: column;
+		gap: var(--s-12);
 	}
 
-	.contact-method-label {
-		margin: 0;
-		font-weight: 400;
+	// Rows pad 18 inside their hover wash; the list pulls them back onto the text line.
+	.contact-methods {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-4);
+		margin-inline: -18px;
 	}
 
-	.contact-method-line {
-		margin: 0;
-	}
-
-
-	.contact-form {
-		flex: 1 1 58%;
-		min-width: 0;
+	.contact-form-head {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-8);
+		margin-bottom: var(--s-8);
 	}
 
 	.contact-form-title {
-		margin: 0 0 1rem;
+		margin: 0;
 	}
 
-	.contact-form-text {
-		margin: 0 0 0.5rem;
-	}
+	.contact-form-intro {
+		line-height: 1.7;
 
-	.contact-form input:not([type="checkbox"]),
-	.contact-form textarea {
-		width: 100%;
+		em {
+			font-family: var(--font-serif);
+			font-size: var(--fs-body-s);
+			color: var(--olive-700);
+		}
 	}
 
 	.contact-form-hint {
-		margin: 0 0 0.75rem;
-		font-size: var(--step-body-sm);
+		font-size: var(--fs-small);
+		line-height: 1.55;
+		color: var(--ink-muted);
 	}
 
-	.contact-form-consent {
-		display: flex;
-		align-items: flex-start;
-		gap: var(--gap-xs);
-		margin-bottom: 1rem;
-		font-size: var(--step-body-sm);
-
-		label {
-			cursor: pointer;
-		}
+	.contact-form textarea {
+		min-height: 148px;
 	}
 
-	// empty until a challenge actually renders, so it must not reserve space
-	.contact-form-captcha:not(:empty) {
-		margin-bottom: 1rem;
+	// Empty until a challenge actually renders, so it must not take a gap.
+	.contact-form-captcha:empty {
+		display: none;
 	}
 
 	.contact-form-submit {
-		width: 100%;
-		max-width: var(--button-max-width);
-		margin-inline: auto;
-		display: block;
-	}
-
-	.contact-form-privacy {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: var(--gap-xs);
-		margin: 1rem 0 0;
-		font-size: var(--step-body-sm);
-	}
-
-	// Steps + reassure
-	.contact-after {
-		display: flex;
-		align-items: stretch;
-		gap: var(--gap-md);
+		flex-direction: column;
+		gap: var(--s-12);
+		padding-top: var(--s-4);
 	}
 
 	.contact-steps {
-		flex: 1;
-		margin-left: calc(50% - 50vw); // card bleeds to the viewport edge, text stays on the container
-		padding-left: calc(50vw - 50%);
-	}
-
-	.contact-steps-title,
-	.contact-reassure-title {
-		margin: 0 0 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-24);
 	}
 
 	.contact-steps-list {
-		display: flex;
-		gap: var(--gap-md);
-		text-align: center;
-		color: var(--vt-c-jannafer-green);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--hairline);
 	}
 
 	.contact-step {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--gap-md);
+		display: grid;
+		grid-template-columns: 32px 1fr;
+		gap: var(--s-16);
+		align-items: start;
+		padding: 18px 0;
+		border-bottom: 1px solid var(--hairline);
+
+		p {
+			padding-top: 3px;
+		}
 	}
 
 	.contact-step-number {
-		font-family: "Libre Baskerville", serif;
-	}
-
-	.contact-step-text {
-		margin: 0;
-		font-size: var(--step-body-sm);
-		color: var(--vt-c-black);
-	}
-
-	.contact-reassure {
-		flex: 1;
-	}
-
-	.contact-reassure-item {
-		display: flex;
-		align-items: center;
-		gap: var(--gap-sm);
-		margin: 0 0 1rem;
-
-		svg {
-			color: var(--vt-c-jannafer-green);
-		}
-	}
-
-	.contact-reassure-closing {
-		margin: 2rem 0 0;
-		font-family: "Libre Baskerville", serif;
-		color: var(--vt-c-jannafer-green);
-	}
-
-	// Closing
-	.contact-closing {
-		display: flex;
-		align-items: center;
-		gap: var(--space-section);
-	}
-
-	.contact-closing-content {
-		flex: 1;
-	}
-
-	.contact-closing-title {
-		margin: 0 0 1.5rem;
+		width: 32px;
+		height: 32px;
+		font-family: var(--font-serif);
+		font-size: var(--fs-body-s);
+		color: var(--olive-700);
 	}
 
 	.contact-closing-text {
-		margin: 0 0 2rem;
+		max-width: 48ch;
 	}
 
-	.contact-closing-banner {
+	.contact-closing-card {
+		align-self: stretch;
 		display: flex;
-		align-items: center;
-		gap: var(--gap-md);
-		color: var(--vt-c-jannafer-green);
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--s-16);
+		padding: 22px var(--s-24);
+		border-radius: var(--r-block);
+		background: var(--paper);
+		box-shadow: var(--shadow-rest);
 	}
 
-	.contact-closing-banner-text {
-		flex: 1;
-		margin: 0;
-		color: var(--vt-c-black);
+	.contact-closing-line {
+		font-size: var(--fs-body-s);
 	}
 
-	// Bottom strip
-	.contact-strip {
-		display: flex;
-		gap: var(--vt-c-split-gap);
-		padding: var(--card-padding) calc(50vw - 50%);
-		background: var(--vt-c-surface);
-		color: var(--vt-c-jannafer-green);
-	}
-
-	.contact-strip-item {
-		flex: 1;
-		gap: var(--gap-md);
-		--icon-title-icon: var(--icon-lg);
-	}
-
-	.contact-strip-title {
-		margin: 0;
-		font-family: "Mulish Variable", sans-serif;
-		font-size: var(--step-body);
-	}
-
-	.contact-strip-text {
-		margin: 0;
-		color: var(--vt-c-black);
-		font-size: var(--step-body-sm);
-	}
-
-	@media (max-width: 1024px) {
-		.contact-strip {
-			flex-wrap: wrap;
-		}
-
-		.contact-strip-item {
-			flex-basis: 40%;
-		}
-	}
-
-	@media (max-width: 768px) {
-
-		.contact-reach,
-		.contact-after,
-		.contact-closing {
-			flex-direction: column;
-			align-items: stretch;
-		}
-
-		.contact-steps {
-			flex: auto;
-			margin-inline: 0;
-			padding-left: var(--card-padding);
-		}
-
+	@media (max-width: 767px) {
 		.contact-note {
-			position: static;
-			width: auto;
+			grid-column: 1;
+			grid-row: 2;
+			gap: var(--s-12);
+			width: 260px;
+			padding: 18px var(--s-20);
+			text-align: left;
+		}
+
+		.contact-note-item {
 			flex-direction: row;
-			justify-content: center;
-			margin-top: 1rem;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.contact-steps-list {
-			flex-direction: column;
+			gap: var(--s-12);
+			font-size: var(--fs-small);
+			line-height: 1.45;
 		}
 
-		.contact-strip-item {
-			flex-basis: 100%;
+		.contact-form textarea {
+			min-height: 0;
+		}
+
+		.contact-closing-card .button-primary {
+			align-self: stretch;
+			width: auto;
 		}
 	}
 </style>

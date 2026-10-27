@@ -8,15 +8,12 @@ const CONSENT_KEY = 'analytics-consent'
 // 'granted' | 'denied' | null, where null means the visitor has not answered the banner yet.
 export const analyticsConsent = ref(localStorage.getItem(CONSENT_KEY))
 
-// The consent banner owns the bottom of the screen until it is answered; anything else that
-// docks there waits its turn.
+// The consent banner owns the bottom of the screen until answered; other docked banners wait.
 export const consentBannerPending = computed(() => analyticsConsent.value === null)
 
 let posthog = null
 
-// Only what PostHog cannot infer from the request itself — the site's own display and language state.
-// Theme comes from the store rather than localStorage/the dark class, so this reports the same
-// value the app is actually rendering.
+// Only display state PostHog can't infer; the theme comes from the store, as actually rendered.
 function siteContext(themeStore) {
 	return {
 		theme_mode: themeStore.mode,
@@ -27,8 +24,7 @@ function siteContext(themeStore) {
 	}
 }
 
-// Dynamically imported so a visitor who declines never downloads the library at all;
-// disabling it after loading would still have shipped the bytes and pinged PostHog.
+// Imported on demand, so a visitor who declines never downloads the library or pings PostHog.
 async function load() {
 	if (posthog || !POSTHOG_KEY) return
 
@@ -37,8 +33,7 @@ async function load() {
 	posthog.init(POSTHOG_KEY, {
 		api_host: 'https://eu.i.posthog.com',
 		ui_host: 'https://eu.posthog.com',
-		// SPA pageviews, rageclicks, Google-app referrer detection, localhost tagged as test traffic.
-		// Deliberately not '2026-06-25', which drops URL hashes and the site navigates by them.
+		// Not '2026-06-25': that version drops URL hashes, and the site navigates by them.
 		defaults: '2026-05-30',
 		person_profiles: 'always',
 		capture_performance: { web_vitals: true },
@@ -63,8 +58,7 @@ export function initAnalytics() {
 export function grantAnalyticsConsent() {
 	localStorage.setItem(CONSENT_KEY, 'granted')
 	analyticsConsent.value = 'granted'
-	// Granting after a previous decline: the library is already loaded but opted out,
-	// and load() would return early without ever opting back in.
+	// Re-granting after a decline: load() returns early on a loaded library, so opt back in here.
 	if (posthog) posthog.opt_in_capturing()
 	else load()
 }
@@ -81,8 +75,7 @@ export function denyAnalyticsConsent() {
 	stopCapturing()
 }
 
-// Withdrawing has to be as easy as consenting, so the footer can put the banner back.
-// Capturing stops immediately: until the banner is answered again there is no consent to rely on.
+// Withdrawing must be as easy as consenting; capture stops until the banner is answered again.
 export function reopenAnalyticsConsent() {
 	localStorage.removeItem(CONSENT_KEY)
 	analyticsConsent.value = null

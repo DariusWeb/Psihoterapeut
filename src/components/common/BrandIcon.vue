@@ -1,6 +1,5 @@
 <script setup>
-	// The one exception to "lucide only" in DESIGN-SYSTEM.md §1: lucide ships no brand marks,
-	// and a share sheet is unreadable without them. Every brand path in the site lives here.
+	// lucide ships no brand marks, so every brand path in the site lives here.
 	defineProps({
 		name: { type: String, required: true },
 		size: { type: Number, default: 16 }

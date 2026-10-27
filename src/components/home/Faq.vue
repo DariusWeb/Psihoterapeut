@@ -1,7 +1,8 @@
 <script setup>
 	import { computed, watchEffect, onUnmounted } from 'vue'
 	import { useI18n } from 'vue-i18n'
-	import { Leaf, Plus } from '@lucide/vue'
+	import { RouterLink } from 'vue-router'
+	import { ArrowRight, MessageCircle } from '@lucide/vue'
 	import { applyJsonLd } from '@/utils/seo'
 	import { SESSION_MINUTES, SESSION_PRICE_RON } from '@/session.config'
 
@@ -34,65 +35,66 @@
 </script>
 
 <template>
-	<section class="stack stack-loose">
-		<div class="section-head-center">
-			<h2>{{ t('home.faq.title') }}</h2>
-			<Leaf class="section-flourish" :size="20" />
-		</div>
+	<section id="intrebari" class="band">
+		<div class="home-faq">
+			<div class="sticky-side home-faq-side">
+				<h2 class="section-title">{{ t('home.faq.title') }}</h2>
+				<div class="help-card home-faq-help">
+					<div class="help-card-head">
+						<span class="help-card-icon"><MessageCircle :size="17" /></span>
+						<span>{{ t('home.faq.help.title') }}</span>
+						<p class="help-card-text">{{ t('home.faq.help.text') }}</p>
+					</div>
+					<RouterLink class="link-arrow" to="/contact">{{ t('home.faq.help.cta') }}<ArrowRight :size="17" /></RouterLink>
+				</div>
+			</div>
 
-		<div class="card-grid home-faq-grid">
-			<details v-for="item in items" :key="item.question" class="home-faq-item card-outlined">
-				<summary class="home-faq-question">
-					{{ item.question }}
-					<Plus class="home-faq-icon" :size="18" />
-				</summary>
-
-				<p class="home-faq-answer">{{ item.answer }}</p>
-			</details>
+			<div class="faq-list">
+				<details v-for="(item, index) in items" :key="item.question" name="home-faq" class="faq-item" :open="index === 0">
+					<summary class="faq-question">{{ item.question }}<span class="faq-icon" aria-hidden="true"></span></summary>
+					<p class="faq-answer">{{ item.answer }}</p>
+				</details>
+			</div>
 		</div>
 	</section>
 </template>
 
 <style scoped lang="scss">
-	.home-faq-grid {
-		--card-min: 20rem;
-		align-items: start; // an open item grows on its own instead of stretching its row partner
-		column-gap: var(--vt-c-split-gap);
+	.home-faq {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+		gap: 44px;
+		align-items: start;
 	}
 
-	.home-faq-item {
-		border-radius: var(--vt-c-border-radius);
-		background: var(--vt-c-surface);
-	}
-
-	.home-faq-question {
+	.home-faq-side {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--gap-md);
-		padding: 1rem 1.25rem;
-		cursor: pointer;
-		list-style: none; // drops the native disclosure triangle; the icon below replaces it
-		font-weight: 600;
+		flex-direction: column;
+		gap: var(--s-24);
+	}
 
-		&::-webkit-details-marker {
-			display: none;
+	.home-faq-help {
+		border: 1px solid var(--line-card);
+		background: var(--paper);
+
+		.help-card-icon {
+			background: var(--olive-tint);
 		}
 	}
 
-	.home-faq-icon {
-		flex-shrink: 0;
-		color: var(--vt-c-jannafer-green);
-		transition: transform var(--vt-c-transition-speed);
-	}
+	// The side wrapper dissolves so the help card can drop under the questions on phones.
+	@media (max-width: 767px) {
+		.home-faq {
+			grid-template-columns: 1fr;
+			gap: var(--s-24);
+		}
 
-	// the plus becomes the close cross, so no second icon is needed
-	.home-faq-item[open] .home-faq-icon {
-		transform: rotate(45deg);
-	}
+		.home-faq-side {
+			display: contents;
+		}
 
-	.home-faq-answer {
-		margin: 0;
-		padding: 0 1.25rem 1.25rem;
+		.home-faq-help {
+			order: 1;
+		}
 	}
 </style>

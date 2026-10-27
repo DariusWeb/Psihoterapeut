@@ -20,22 +20,19 @@ function loadScript() {
 
 export const turnstileEnabled = Boolean(SITEKEY)
 
-// Renders into `element` and resolves with a token. Each token is single-use, so this runs
-// per submit and resets the widget afterwards.
+// Each token is single-use, so this renders per submit and resets the widget after.
 const widgets = new WeakMap()
 
 export async function getToken(element) {
     if (!SITEKEY) throw new Error('Turnstile is not configured: VITE_TURNSTILE_SITEKEY must be set.')
 
-    // No turnstile.ready() here: it throws when api.js is loaded async, and the script's
-    // own onload already guarantees window.turnstile exists.
+    // No turnstile.ready(): it throws when api.js loads async, and onload already guarantees window.turnstile.
     await loadScript()
 
     let widget = widgets.get(element)
 
     if (!widget) {
-        // render() binds its callbacks once for the widget's lifetime, so they delegate to
-        // whichever submit is currently waiting rather than capturing the first one forever.
+        // render() binds callbacks once, so they hand off to whichever submit is waiting now.
         widget = {}
         widget.id = window.turnstile.render(element, {
             sitekey: SITEKEY,
@@ -50,7 +47,6 @@ export async function getToken(element) {
         })
         widgets.set(element, widget)
     } else {
-        // Tokens are single-use, so a repeat submit needs a fresh one from the same widget.
         widget.token = null
         window.turnstile.reset(widget.id)
     }

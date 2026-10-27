@@ -1,21 +1,28 @@
 <script setup>
-    import { onMounted, ref } from 'vue'
+    import { computed, onMounted, ref } from 'vue'
     import { RouterLink, useRoute, useRouter } from 'vue-router'
     import { useI18n } from 'vue-i18n'
-    import { ArrowRight, Clock, Image, Leaf } from '@lucide/vue'
+    import { ArrowRight, Download, Image } from '@lucide/vue'
     import { useArticlesStore } from '@/stores/articlesStore'
     import { freeGuides, practicalResources, premiumGuides } from '@/content/resources'
     import { formatPrice, loadCatalogue, priceOf } from '@/services/resources'
     import CtaBand from '@/components/common/CtaBand.vue'
     import ResourceCheckout from '@/components/resources/ResourceCheckout.vue'
 
-    const { t } = useI18n()
+    const { t, locale } = useI18n()
     const route = useRoute()
     const router = useRouter()
     const articlesStore = useArticlesStore()
 
     const checkoutKey = ref(null)
     const sessionId = ref(route.query.session_id ?? null)
+
+    // The all-articles tile fills whatever is left of the last row of three.
+    const allTileSpan = computed(() => 3 - (articlesStore.recentArticles.length % 3))
+
+    const formatDate = (date) => new Date(date).toLocaleDateString(locale.value, {
+        day: 'numeric', month: 'long', year: 'numeric'
+    })
 
     onMounted(loadCatalogue)
 
@@ -28,144 +35,132 @@
 </script>
 
 <template>
-    <main class="resources-page layout-stack">
-        <section class="page-hero">
-            <div class="page-hero-content">
-                <h1 class="page-hero-title">{{ t('resources.hero.title') }}</h1>
-                <Leaf class="section-flourish" :size="28" />
-                <p class="page-hero-intro">{{ t('resources.hero.intro') }}</p>
+    <main class="bands">
+        <section class="hero-grid">
+            <div class="hero-grid-text statement">
+                <h1 class="statement-title">{{ t('resources.hero.title') }}</h1>
+                <p class="text-lead text-pretty">{{ t('resources.hero.intro') }}</p>
             </div>
-
-            <div class="page-hero-media media-placeholder media-fade bleed-right" role="img"
+            <div class="hero-grid-media media-placeholder resources-hero-placeholder" role="img"
                 :aria-label="t('resources.hero.imageAlt')">
                 <Image :size="40" />
             </div>
         </section>
 
-        <section class="stack">
-            <div class="section-head">
-                <h2>{{ t('resources.articles.title') }}</h2>
-
-                <RouterLink class="link-arrow" to="/articole">
-                    {{ t('resources.articles.viewAll') }}
-                    <ArrowRight :size="16" />
+        <section id="articole" class="band">
+            <div class="resources-head">
+                <h2 class="section-title">{{ t('resources.articles.title') }}</h2>
+                <p class="text-pretty">{{ t('resources.articles.intro') }}</p>
+            </div>
+            <div v-reveal:cards class="grid-3 resources-articles">
+                <RouterLink v-for="article in articlesStore.recentArticles" :key="article.id"
+                    class="paper-card paper-card-link" :to="`/articole/${article.slug}`">
+                    <img v-if="article.image" class="paper-card-media" :src="article.image"
+                        :alt="article.imageAlt ?? article.title" width="600" height="400" decoding="async" loading="lazy" />
+                    <div v-else class="paper-card-media" role="img" :aria-label="article.title"></div>
+                    <div class="paper-card-body">
+                        <p class="text-eyebrow">{{ t(`articles.categories.${article.category}`) }}</p>
+                        <h3 class="paper-card-title resources-grow">{{ article.title }}</h3>
+                        <p class="text-small">
+                            <time :datetime="article.createdAt">{{ formatDate(article.createdAt) }}</time>
+                            &middot;
+                            {{ t('resources.articles.readTime', { minutes: article.readTime }) }}
+                        </p>
+                        <div class="paper-card-footer">
+                            <span class="card-action">
+                                {{ t('resources.articles.read') }}<span class="card-action-icon"><ArrowRight :size="17" /></span>
+                            </span>
+                        </div>
+                    </div>
+                </RouterLink>
+                <RouterLink class="all-tile" :style="{ '--all-tile-span': allTileSpan }" to="/articole">
+                    <h3 class="paper-card-title">{{ t('home.resources.allTitle') }}</h3>
+                    <p class="all-tile-text">{{ t('home.resources.allText') }}</p>
+                    <span class="card-action">
+                        {{ t('resources.articles.viewAll') }}<span class="card-action-icon"><ArrowRight :size="17" /></span>
+                    </span>
                 </RouterLink>
             </div>
-
-            <div class="card-grid">
-                <article v-for="article in articlesStore.recentArticles" :key="article.id"
-                    class="article-card card card-compact card-outlined">
-                    <img v-if="article.image" class="card-media media-fade" :src="article.image"
-                        :alt="article.imageAlt ?? article.title"
-                        width="600" height="400" decoding="async" loading="lazy" />
-                    <div v-else class="media-placeholder card-media media-fade" role="img" :aria-label="article.title">
-                        <Image :size="32" />
-                    </div>
-
-                    <p class="article-category">{{ t(`articles.categories.${article.category}`) }}</p>
-                    <h3 class="card-title article-title">{{ article.title }}</h3>
-
-                    <p class="meta-row article-meta">
-                        <span class="meta-item">
-                            <Clock :size="16" />
-                            {{ t('resources.articles.readTime', { minutes: article.readTime }) }}
-                        </span>
-
-                        <RouterLink class="link-arrow" :to="`/articole/${article.slug}`">
-                            {{ t('resources.articles.read') }}
-                            <ArrowRight :size="16" />
-                        </RouterLink>
-                    </p>
-                </article>
-            </div>
         </section>
 
-        <section class="stack card resources-panel">
-            <div class="section-head">
-                <h2>{{ t('resources.freeGuides.title') }}</h2>
+        <section id="gratuite" class="band resources-free">
+            <div class="resources-block">
+                <div class="resources-head">
+                    <h2 class="section-title">{{ t('resources.freeGuides.title') }}</h2>
+                    <p class="text-pretty">{{ t('resources.freeGuides.intro') }}</p>
+                </div>
+                <div v-reveal:cards class="grid-3">
+                    <article v-for="guide in freeGuides" :key="guide.key" class="paper-card paper-card-link">
+                        <div class="paper-card-media" role="img"
+                            :aria-label="t(`resources.freeGuides.${guide.key}.imageAlt`)"></div>
+                        <div class="paper-card-body resources-free-body">
+                            <h3 class="paper-card-title resources-grow text-pretty">
+                                {{ t(`resources.freeGuides.${guide.key}.title`) }}
+                            </h3>
+                            <button type="button" class="button-outline resources-download stretch-to-card">
+                                <Download :size="16" aria-hidden="true" />
+                                {{ t('resources.freeGuides.download') }}
+                            </button>
+                        </div>
+                    </article>
+                </div>
             </div>
 
-            <p class="section-intro">{{ t('resources.freeGuides.intro') }}</p>
-
-            <div class="card-grid">
-                <article v-for="guide in freeGuides" :key="guide.key" class="media-card card card-outlined">
-                    <div class="media-placeholder media-card-media media-fade" role="img"
-                        :aria-label="t(`resources.freeGuides.${guide.key}.imageAlt`)">
-                        <Image :size="32" />
-                    </div>
-
-                    <div class="media-card-body">
-                        <h3 class="card-title">{{ t(`resources.freeGuides.${guide.key}.title`) }}</h3>
-
-                        <button type="button" class="media-card-action">
-                            {{ t('resources.freeGuides.download') }}
-                        </button>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section class="stack card resources-panel">
-            <div class="section-head">
-                <h2>{{ t('resources.practical.title') }}</h2>
-            </div>
-
-            <p class="section-intro">{{ t('resources.practical.intro') }}</p>
-
-            <div class="card-grid resources-practical-grid">
-                <article v-for="resource in practicalResources" :key="resource.key"
-                    class="media-card card card-outlined">
-                    <span v-if="resource.icon" class="icon-chip resources-practical-icon">
-                        <component :is="resource.icon" :size="28" />
-                    </span>
-                    <div v-else class="media-placeholder media-card-media media-fade" role="img"
-                        :aria-label="t(`resources.practical.${resource.key}.imageAlt`)">
-                        <Image :size="32" />
-                    </div>
-
-                    <div class="media-card-body">
-                        <p class="media-card-label">{{ t(`resources.practical.${resource.key}.label`) }}</p>
-                        <h3 class="card-title">{{ t(`resources.practical.${resource.key}.title`) }}</h3>
-                        <p class="media-card-text">{{ t(`resources.practical.${resource.key}.duration`) }}</p>
-
-                        <button type="button" class="media-card-action">
+            <div class="resources-practical">
+                <div class="resources-practical-head">
+                    <h3>{{ t('resources.practical.title') }}</h3>
+                    <p class="text-pretty">{{ t('resources.practical.intro') }}</p>
+                </div>
+                <div v-reveal:cards class="resources-practical-grid">
+                    <article v-for="resource in practicalResources" :key="resource.key"
+                        class="paper-card paper-card-link resources-practical-card">
+                        <p class="resources-practical-meta">
+                            <span class="text-eyebrow resources-practical-kind">
+                                <component :is="resource.icon" :size="14" aria-hidden="true" />
+                                {{ t(`resources.practical.${resource.key}.label`) }}
+                            </span>
+                            <span class="resources-dot" aria-hidden="true"></span>
+                            {{ t(`resources.practical.${resource.key}.duration`) }}
+                        </p>
+                        <h4 class="resources-practical-title resources-grow text-pretty">
+                            {{ t(`resources.practical.${resource.key}.title`) }}
+                        </h4>
+                        <button type="button" class="card-action resources-practical-action stretch-to-card">
                             {{ t(`resources.practical.${resource.key}.action`) }}
+                            <span class="card-action-icon"><component :is="resource.actionIcon" :size="17" /></span>
                         </button>
-                    </div>
-                </article>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section class="stack">
-            <div class="section-head">
-                <h2>{{ t('resources.premium.title') }}</h2>
-
+        <section id="premium" class="band resources-premium">
+            <div class="resources-premium-head">
+                <div class="resources-head">
+                    <h2 class="section-title">{{ t('resources.premium.title') }}</h2>
+                    <p class="text-pretty">{{ t('resources.premium.intro') }}</p>
+                </div>
                 <button type="button" class="link-arrow">
-                    {{ t('resources.premium.viewAll') }}
-                    <ArrowRight :size="16" />
+                    {{ t('resources.premium.viewAll') }}<ArrowRight :size="17" />
                 </button>
             </div>
-
-            <p class="section-intro">{{ t('resources.premium.intro') }}</p>
-
-            <div class="card-grid">
-                <article v-for="guide in premiumGuides" :key="guide.key" class="media-card card card-outlined">
-                    <div class="media-placeholder media-card-media media-fade" role="img"
-                        :aria-label="t(`resources.premium.${guide.key}.imageAlt`)">
-                        <Image :size="32" />
-                    </div>
-
-                    <div class="media-card-body">
-                        <h3 class="card-title">{{ t(`resources.premium.${guide.key}.title`) }}</h3>
-                        <p class="media-card-text">{{ t(`resources.premium.${guide.key}.text`) }}</p>
-                        <p class="resources-price">
-                            {{ priceOf(guide.key) ? formatPrice(priceOf(guide.key)) : '' }}
-                        </p>
-
-                        <button type="button" class="media-card-action" :disabled="!priceOf(guide.key)"
-                            @click="checkoutKey = guide.key">
-                            {{ t('resources.premium.buy') }}
-                        </button>
+            <div v-reveal:cards class="grid-3">
+                <article v-for="guide in premiumGuides" :key="guide.key" class="paper-card"
+                    :class="{ 'paper-card-link': priceOf(guide.key) }">
+                    <div class="paper-card-media" role="img"
+                        :aria-label="t(`resources.premium.${guide.key}.imageAlt`)"></div>
+                    <div class="paper-card-body">
+                        <h3 class="paper-card-title text-pretty">{{ t(`resources.premium.${guide.key}.title`) }}</h3>
+                        <p class="paper-card-text text-pretty">{{ t(`resources.premium.${guide.key}.text`) }}</p>
+                        <div class="paper-card-footer">
+                            <span class="paper-card-price">
+                                {{ priceOf(guide.key) ? formatPrice(priceOf(guide.key)) : '' }}
+                            </span>
+                            <button type="button" class="button-primary stretch-to-card" :disabled="!priceOf(guide.key)"
+                                @click="checkoutKey = guide.key">
+                                {{ t('resources.premium.buy') }}
+                            </button>
+                        </div>
                     </div>
                 </article>
             </div>
@@ -178,71 +173,164 @@
 </template>
 
 <style scoped lang="scss">
-    .resources-page {
-        --page-pad-top: 0; // the hero media runs flush to the top, behind the fixed nav
+    // No hero photo yet; the text column sets the row height, as it will for the real one.
+    .resources-hero-placeholder {
+        min-height: 0;
+        border-radius: 0;
     }
 
-    .resources-panel {
-        background: var(--vt-c-jannafer-gray);
-    }
-
-    // Four fixed cards: 4-across only once each still has room for its icon beside the copy,
-    // 2-across below that. A width-driven track count strands the fourth in between.
-    .resources-practical-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (min-width: 1100px) {
-        .resources-practical-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    @media (max-width: 480px) {
-        .resources-practical-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .resources-practical-icon {
-        width: clamp(3.5rem, 2.5rem + 3.2vw, 5rem);
-        height: clamp(3.5rem, 2.5rem + 3.2vw, 5rem);
-        align-self: center;
-    }
-
-    .article-card {
+    .resources-head {
         display: flex;
         flex-direction: column;
-        gap: var(--gap-sm);
+        gap: var(--s-12);
     }
 
-    .article-category {
-        margin: 0;
-        font-size: var(--step-body-xs);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--vt-c-jannafer-green);
-    }
-
-    .article-title {
+    .resources-grow {
         flex: 1;
     }
 
-    .article-meta {
-        padding-top: 0.75rem;
-        border-top: 1px solid var(--vt-c-jannafer-gray2);
+    .resources-articles .all-tile {
+        grid-column: span var(--all-tile-span);
     }
 
-    // Reserved so the card does not jump when the price arrives from the Worker.
-    .resources-price {
+    .resources-free {
+        gap: var(--s-48);
+    }
+
+    .resources-block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s-28);
+    }
+
+    .resources-free-body {
+        gap: var(--s-16);
+    }
+
+    .resources-download {
+        align-self: flex-start;
+        gap: var(--s-8);
+    }
+
+    .resources-practical {
+        display: flex;
+        flex-direction: column;
+        gap: var(--grid-gap);
+        padding-top: 40px;
+        border-top: 1px solid var(--hairline);
+    }
+
+    .resources-practical-head {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s-8);
+
+        h3 {
+            margin: 0;
+        }
+    }
+
+    .resources-practical-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--grid-gap);
+    }
+
+    .resources-practical-card {
+        gap: var(--s-10);
+        padding: var(--card-pad);
+    }
+
+    .resources-practical-meta {
+        display: flex;
+        align-items: center;
+        gap: var(--s-10);
+        font-size: var(--fs-caption);
+        line-height: 1.4;
+        color: var(--ink-muted);
+    }
+
+    .resources-practical-kind {
+        display: flex;
+        align-items: center;
+        gap: var(--s-6);
+    }
+
+    .resources-dot {
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: var(--disabled);
+    }
+
+    .resources-practical-title {
         margin: 0;
-        min-height: 1.5em;
-        font-weight: 600;
-        color: var(--vt-c-jannafer-green);
+        font-size: var(--fs-h4);
+        line-height: 1.4;
     }
 
-    .media-card-action:disabled {
+    .resources-practical-action {
+        width: 100%;
+        justify-content: space-between;
+        padding: var(--s-14) 0 0;
+        border-top: 1px solid var(--line-card);
+        border-radius: 0;
+        background: transparent;
+
+        &:hover {
+            background: transparent;
+            color: var(--olive-700);
+        }
+    }
+
+    .resources-premium {
+        gap: var(--s-28);
+    }
+
+    .resources-premium-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--s-32);
+
+        .resources-head {
+            flex: 1;
+        }
+    }
+
+    .resources-premium-head .link-arrow {
+        white-space: nowrap;
+    }
+
+    .paper-card-footer .button-primary:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+    }
+
+    // Tablet: two per row; the all-tile's span counts a 3-column row, so it becomes a plain cell.
+    @media (max-width: 1023px) {
+        .resources-articles .all-tile {
+            grid-column: auto;
+        }
+
+        .resources-practical-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 767px) {
+        .resources-hero-placeholder {
+            border-radius: var(--r-block) 0 0 var(--r-block);
+        }
+
+        .grid-3,
+        .resources-practical-grid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .resources-premium-head {
+            flex-direction: column;
+            align-items: flex-start;
+        }
     }
 </style>

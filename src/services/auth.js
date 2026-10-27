@@ -1,7 +1,6 @@
 import { ref } from 'vue'
 
-// Public by design, like the Turnstile sitekey: these identify the project, they do not
-// grant anything. Access is decided by the Worker against a uid allowlist.
+// Public by design, like the Turnstile sitekey; the Worker decides access by a uid allowlist.
 const CONFIG = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
 	authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -14,8 +13,7 @@ export const authReady = ref(false)
 let auth = null
 let watching = false
 
-// Imported on demand so the SDK (~34KB gzipped) ships only to the dashboard route,
-// and a visitor who never opens it downloads none of it.
+// Imported on demand so the SDK ships only to the dashboard route.
 async function getAuth() {
 	if (auth) return auth
 

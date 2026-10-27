@@ -1,10 +1,4 @@
-// News items curated from Google Alerts
-// Topics: anxietate | caut-psiholog-pentru-interviu | depresie | expert-sanatate-mintala
-//         infertility-psychotherapy | infertility-workshop | interviu-psiholog
-//         psiholog-opinie | research-infertility | research-psychotherapy | terapie-de-cuplu-bucuresti
-//
-// To add a new item, copy the shape below and prepend it to the array.
-// Keep `id` unique and `date` in YYYY-MM-DD format.
+// Prepend new items; `id` stays unique and `date` is YYYY-MM-DD.
 
 export const news = [
     // ── anxietate ────────────────────────────────────────────────────────────

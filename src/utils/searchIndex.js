@@ -1,7 +1,3 @@
-import {
-	BookOpen, CalendarDays, File, FileText, HeartHandshake, Newspaper, Scale, Users
-} from '@lucide/vue'
-
 import { articles } from '@/content/articles'
 import { events } from '@/content/events'
 import { news } from '@/content/news'
@@ -10,20 +6,19 @@ import { groups } from '@/content/groups'
 import { freeGuides, practicalResources, premiumGuides } from '@/content/resources'
 import en from '@/locales/en.json'
 import { isHiddenPath } from '@/seo.config'
+import { SESSION_MINUTES, SESSION_PRICE_RON } from '@/session.config'
 
 // Add a content type by adding a key here; nothing else in the app knows the type names.
 // `hint` receives the entry plus `t` (vue-i18n) and `d` (locale-aware date formatter) from the caller.
 export const SEARCH_TYPES = {
-	service: { icon: HeartHandshake, order: 0, labelKey: 'search.types.service' },
+	service: { order: 0, labelKey: 'search.types.service', hint: (e, { t }) => t(`services.${e.key}.summary`) },
 	article: {
-		icon: FileText,
 		order: 1,
 		labelKey: 'search.types.article',
 		hint: (e, { t, d }) =>
 			`${t('resources.articles.readTime', { minutes: e.readTime })} · ${d(e.createdAt)}`
 	},
 	event: {
-		icon: CalendarDays,
 		order: 2,
 		labelKey: 'search.types.event',
 		hint: (e, { t, d }) =>
@@ -31,37 +26,33 @@ export const SEARCH_TYPES = {
 				? t('search.hints.eventPast', { date: d(e.date) })
 				: `${d(e.date)}, ${e.time} · ${e.location}`
 	},
-	page: { icon: File, order: 3, labelKey: 'search.types.page' },
+	page: { order: 3, labelKey: 'search.types.page', hint: (e) => e.description },
+	faq: { order: 4, labelKey: 'search.types.faq', hint: (e) => e.answer },
 	group: {
-		icon: Users,
-		order: 4,
+		order: 5,
 		labelKey: 'search.types.group',
 		hint: (e, { t }) =>
 			`${t(`events.groups.${e.key}.frequency`)} · ${t(`events.groups.${e.key}.location`)}`
 	},
 	resource: {
-		icon: BookOpen,
-		order: 5,
+		order: 6,
 		labelKey: 'search.types.resource',
 		hint: (e, { t }) => (e.durationKey ? t(e.durationKey) : t('search.hints.freeDownload'))
 	},
 	legal: {
-		icon: Scale,
-		order: 6,
+		order: 7,
 		labelKey: 'search.types.legal',
 		hint: (e, { t }) => t(`${e.block}.updated`)
 	},
 	news: {
-		icon: Newspaper,
-		order: 7,
+		order: 8,
 		labelKey: 'search.types.news',
 		external: true,
 		hint: (e, { d }) => `${e.source} · ${d(e.date)}`
 	}
 }
 
-// ponytail: indexes en.json only — ro.json is a 10% overlay and en.json already holds the
-// Romanian content copy. Merge the active locale over `en` once ro.json is filled in.
+// ponytail: indexes en.json only (it holds the Romanian copy); merge the active locale once ro.json is filled.
 function leaves(node) {
 	if (typeof node === 'string') return [node]
 	if (!node || typeof node !== 'object') return []
@@ -81,6 +72,7 @@ const PAGE_BLOCKS = {
 	events: ['events'],
 	resources: ['resources'],
 	news: ['news'],
+	booking: ['booking'],
 	contact: ['contact'],
 	privacy: ['privacy'],
 	terms: ['terms']
@@ -88,8 +80,7 @@ const PAGE_BLOCKS = {
 
 const LEGAL_PAGES = new Set(['privacy', 'terms'])
 
-// NFD splits every Romanian diacritic — including both the comma-below (U+0326) and
-// cedilla (U+0327) forms of ș/ț — into base + a mark in this one range.
+// NFD splits every Romanian diacritic (comma-below and cedilla ș/ț too) into base + a mark in this range.
 const fold = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 
 function entry(type, title, to, text, extra = {}) {
@@ -112,7 +103,7 @@ function serviceEntries() {
 		entry('service', line(`seo.${service.key}.title`), `/servicii/${service.slug}`, [
 			...block(`services.${service.key}`),
 			line(`seo.${service.key}.description`)
-		])
+		], { key: service.key })
 	)
 }
 
@@ -194,17 +185,26 @@ function pageEntries(routes) {
 				line(`seo.${key}.title`),
 				route.path,
 				[line(`seo.${key}.description`), ...PAGE_BLOCKS[key].flatMap(block)],
-				{ block: key }
+				{ block: key, description: line(`seo.${key}.description`) }
 			)
 		})
+}
+
+const SESSION_FACTS = { minutes: SESSION_MINUTES, price: SESSION_PRICE_RON }
+
+// Answers carry {minutes}/{price}, filled the same way the Home FAQ fills them; the FAQ sits on Home.
+function faqEntries() {
+	return line('home.faq.items').map((item) => {
+		const answer = item.answer.replace(/\{(\w+)\}/g, (match, key) => SESSION_FACTS[key] ?? match)
+		return entry('faq', item.question, '/#intrebari', [answer], { answer })
+	})
 }
 
 let index = []
 
 // Called once from the router-aware caller so page entries can walk the real route table.
 export function buildSearchIndex(routes) {
-	// News entries link straight out to the press, so the path filter below cannot see them —
-	// they hide with the page that lists them instead.
+	// News links go out to the press, so they hide with the page that lists them, not by path.
 	const newsHidden = isHiddenPath('/noutati')
 
 	index = [
@@ -214,7 +214,8 @@ export function buildSearchIndex(routes) {
 		...(newsHidden ? [] : newsEntries()),
 		...groupEntries(),
 		...resourceEntries(),
-		...pageEntries(routes)
+		...pageEntries(routes),
+		...faqEntries()
 	].filter((item) => !isHiddenPath(item.to))
 
 	if (import.meta.env.DEV) runSelfCheck()
@@ -277,21 +278,30 @@ export function search(query, { t, d }) {
 			(a.item.foldedTitle < b.item.foldedTitle ? -1 : a.item.foldedTitle > b.item.foldedTitle ? 1 : 0)
 	)
 
-	return scored.slice(0, 20).map(({ item, score }) => {
-		const type = SEARCH_TYPES[item.type]
+	return scored.slice(0, 20).map(({ item, score }) => toRow(item, score, q, { t, d }))
+}
 
-		return {
-			type: item.type,
-			title: item.title,
-			titleParts: score > 1 ? titleParts(item, q) : null,
-			to: item.to,
-			icon: type.icon,
-			label: t(type.labelKey),
-			external: type.external ?? false,
-			hint: type.hint ? type.hint(item, { t, d }) : '',
-			snippet: score === 1 ? snippetFor(item, q) : null
-		}
-	})
+function toRow(item, score, q, { t, d }) {
+	const type = SEARCH_TYPES[item.type]
+
+	return {
+		type: item.type,
+		title: item.title,
+		titleParts: score > 1 ? titleParts(item, q) : null,
+		to: item.to,
+		label: t(type.labelKey),
+		external: type.external ?? false,
+		hint: type.hint ? type.hint(item, { t, d }) : '',
+		snippet: score === 1 ? snippetFor(item, q) : null
+	}
+}
+
+const SUGGESTED_PAGES = ['/programare', '/despre-mine']
+
+// What the search shows before anything is typed: the services, then booking and About.
+export function suggestions({ t, d }) {
+	const pages = SUGGESTED_PAGES.map((to) => index.find((item) => item.to === to)).filter(Boolean)
+	return [...index.filter((item) => item.type === 'service'), ...pages].map((item) => toRow(item, 0, '', { t, d }))
 }
 
 function runSelfCheck() {
@@ -321,4 +331,10 @@ function runSelfCheck() {
 		'search: title parts should rejoin into the title'
 	)
 	console.assert(psiho?.titleParts === null, 'search: body-only match should not highlight the title')
+
+	const faq = run('costa').find((row) => row.type === 'faq')
+	console.assert(faq?.to === '/#intrebari', 'search: FAQ question should be found')
+	console.assert(faq && !faq.hint.includes('{'), 'search: FAQ answer placeholders should be filled')
+	console.assert(hits('programare', '/programare'), 'search: booking page should be indexed')
+	console.assert(suggestions(stub).length >= 3, 'search: suggestions should list the services')
 }

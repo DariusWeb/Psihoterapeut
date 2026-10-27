@@ -6,32 +6,35 @@ const VALID_MODES = ['light', 'dark', 'system']
 
 export const useThemeStore = defineStore('theme', () => {
 	const mode = ref('system')
+	// A ref, not a matchMedia read inside the computed: that read isn't reactive, so the computed cached the first answer.
+	const darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
+	const systemDark = ref(darkQuery.matches)
 
 	const resolvedTheme = computed(() => {
 		if (mode.value === 'system') {
-			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+			return systemDark.value ? 'dark' : 'light'
 		}
 		return mode.value
 	})
 
-	function applyTheme() {
-		if (resolvedTheme.value === 'dark') {
-			document.documentElement.classList.add('dark')
-		} else {
-			document.documentElement.classList.remove('dark')
-		}
+	function applyTheme(crossFade = false) {
+		const flip = () => document.documentElement.classList.toggle('dark', resolvedTheme.value === 'dark')
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+		if (crossFade && document.startViewTransition && !reduceMotion) document.startViewTransition(flip)
+		else flip()
 	}
 
 	function setMode(newMode) {
 		if (!VALID_MODES.includes(newMode)) return
 		mode.value = newMode
 		localStorage.setItem(STORAGE_KEY, newMode)
-		applyTheme()
+		applyTheme(true)
 	}
 
-	function handleSystemChange() {
+	function handleSystemChange(event) {
+		systemDark.value = event.matches
 		if (mode.value === 'system') {
-			applyTheme()
+			applyTheme(true)
 		}
 	}
 
@@ -43,7 +46,7 @@ export const useThemeStore = defineStore('theme', () => {
 		}
 		applyTheme()
 
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleSystemChange)
+		darkQuery.addEventListener('change', handleSystemChange)
 	}
 
 	return { mode, resolvedTheme, setMode, initTheme }

@@ -86,8 +86,7 @@ function emitLikeSlugs() {
   }
 }
 
-// Puts the site copy behind a base64 string table so `curl | grep` no longer returns it. Strings are
-// decoded at runtime, so the rendered DOM still exposes everything — this only defeats scraping the file.
+// Hides the copy behind a base64 table so `curl | grep` misses it; the rendered DOM still shows it.
 function obfuscateContentStrings() {
   return {
     name: 'obfuscate-content-strings',
@@ -108,8 +107,7 @@ function obfuscateContentStrings() {
             stringArray: true,
             stringArrayEncoding: ['base64'],
             stringArrayThreshold: 1,
-            // Vite's preload helper caches its chunk->CSS map via a self-reference in a default
-            // parameter; renaming it silently empties the map and lazy routes load without styles.
+            // The preload helper caches chunk->CSS via a self-referencing default param; renaming it drops lazy-route styles.
             reservedNames: ['^__vite__'],
             // Off deliberately: these are the transforms that wreck runtime speed and break Vue.
             controlFlowFlattening: false,
@@ -135,8 +133,7 @@ export default defineConfig(({ mode }) => ({
     loadEnv(mode, process.cwd(), '').VITE_OBFUSCATE === 'true' && obfuscateContentStrings(),
   ],
   build: {
-    // One stylesheet instead of per-route chunks: obfuscating the entry breaks Vite's runtime CSS
-    // injection, and at 8.8 kB gzipped total the whole sheet is cheaper than a fetch per route.
+    // One stylesheet: obfuscating the entry breaks Vite's per-route CSS injection.
     cssCodeSplit: false,
   },
   resolve: {
@@ -153,5 +150,5 @@ export default defineConfig(({ mode }) => ({
   //     }
   //   }
   // }
-  base: SITE.base, // IMPORTANT for GitHub Pages
+  base: SITE.base,
 }))

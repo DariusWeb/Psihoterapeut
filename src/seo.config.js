@@ -1,5 +1,4 @@
-// Single source of truth for everything that needs an absolute URL. No Vue or asset imports —
-// vite.config.js imports this too, so `base` and the origin can never drift apart.
+// No Vue or asset imports: vite.config.js imports this too, so `base` and the origin can't drift.
 export const SITE = {
 	url: 'https://dariusweb.github.io/Psihoterapeut',
 	base: '/Psihoterapeut/',
@@ -13,8 +12,7 @@ export const SITE = {
 
 export const TITLE_SUFFIX = ` | ${SITE.name}`
 
-// Built but not launched yet. Emptying this list brings a page back everywhere at once:
-// router, navigation, sitemap and site search all filter on it.
+// Built but not launched; router, navigation, sitemap and search all filter on this list.
 export const HIDDEN_PATHS = ['/ateliere', '/grupuri', '/noutati']
 
 // Matches the page and everything under it — detail routes and in-page anchors included.

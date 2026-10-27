@@ -108,7 +108,7 @@
 
 <style scoped lang="scss">
     .events-page {
-        --page-pad-top: 0; // the hero media runs flush to the top, behind the fixed nav
+        --page-pad-top: 0; // the hero media starts right under the header
     }
 
     .events-grid {

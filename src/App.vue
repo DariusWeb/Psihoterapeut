@@ -10,10 +10,9 @@
 	const themeStore = useThemeStore()
 	const { t } = useI18n({ useScope: 'global' })
 
-	// `lang` stays "ro" from index.html: en.json holds Romanian copy, so both locales render Romanian
-	// today. Restore a locale watcher here once en.json is genuinely English.
+	// `lang` stays "ro" from index.html: en.json still holds the Romanian copy.
 
-	// unblocks the router's scrollBehavior, which waits for the old page to finish leaving
+	// the router's scroll and any open overlay wait for the old page to finish leaving
 	function releaseScroll() {
 		window.dispatchEvent(new Event('page-transition-done'))
 	}
@@ -33,13 +32,11 @@
 
 	<RouterView v-slot="{ Component }">
 		<transition :name="$route.meta.transition || 'fade'" mode="out-in" @after-leave="releaseScroll">
-			<component :is="Component" id="main" tabindex="-1" class="main-content layout-container" />
+			<component :is="Component" :key="$route.path" v-reveal:sections id="main" tabindex="-1" class="main-content layout-container" />
 		</transition>
 	</RouterView>
 
-	<footer>
-		<Footer />
-	</footer>
+	<Footer />
 
 	<ConsentBanner />
 	<LiveBanner />
@@ -47,17 +44,19 @@
 
 <style lang="scss" scoped>
 	header {
-		position: fixed;
+		position: sticky;
 		top: 0;
-		width: 100%;
 		z-index: 100;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		border-bottom: 1px solid var(--stone);
+		background: var(--cream);
 	}
 
-	// pages whose hero runs flush to the top zero --page-pad-top in their own scoped styles
+	// The sticky header sits in the flow, so its height comes off the top padding.
 	.main-content {
-		padding: var(--page-pad-top) var(--page-gutter) var(--page-pad-bottom);
+		padding: max(0px, var(--page-pad-top) - var(--header-h)) var(--page-gutter) var(--page-pad-bottom);
+	}
+
+	.main-content.bands {
+		padding: 0;
 	}
 </style>

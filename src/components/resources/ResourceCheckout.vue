@@ -2,7 +2,7 @@
 	import { computed, nextTick, onMounted, ref, watch } from 'vue'
 	import { RouterLink } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { Download, ExternalLink, Lock, X } from '@lucide/vue'
+	import { Check, CircleAlert, Download, ExternalLink, LoaderCircle, Lock, X } from '@lucide/vue'
 	import { useFormSubmit } from '@/composables/useFormSubmit'
 	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
 	import { useOverlay } from '@/composables/useOverlay'
@@ -76,80 +76,95 @@
 
 <template>
 	<Teleport to="body">
-		<Transition name="overlay">
-			<div v-if="isOpen" class="overlay checkout-overlay" @click.self="close" @keydown.esc="close">
-				<div ref="panelRef" class="overlay-panel checkout-panel card" role="dialog" aria-modal="true"
-					tabindex="-1"
+		<Transition name="modal">
+			<div v-if="isOpen" class="modal" @click.self="close" @keydown.esc="close">
+				<div ref="panelRef" class="modal-panel" role="dialog" aria-modal="true" tabindex="-1"
 					:aria-label="t('resources.checkout.title')">
-					<button class="checkout-close" :aria-label="t('resources.checkout.close')" @click="close">
-						<X :size="18" aria-hidden="true" />
+					<button type="button" class="modal-close" :aria-label="t('resources.checkout.close')" @click="close">
+						<X :size="16" aria-hidden="true" />
 					</button>
 
-					<h2 class="card-title">
+					<h2 class="text-pretty">
 						{{ shownKey ? t(`resources.premium.${shownKey}.title`) : t('resources.checkout.title') }}
 					</h2>
 
 					<template v-if="sessionId">
-						<p v-if="verifying" class="checkout-text" aria-live="polite">
+						<p v-if="verifying" class="status-line" aria-live="polite">
+							<LoaderCircle :size="14" class="button-spinner" aria-hidden="true" />
 							{{ t('resources.checkout.verifying') }}
 						</p>
 
 						<template v-else-if="access">
-							<p class="checkout-text">{{ t('resources.checkout.readyTitle') }}</p>
-							<p class="checkout-note">{{ t('resources.checkout.readyText') }}</p>
+							<div class="alert" role="status">
+								<span class="alert-icon"><Check :size="17" /></span>
+								<div class="checkout-ready">
+									<b>{{ t('resources.checkout.readyTitle') }}</b>
+									<p>{{ t('resources.checkout.readyText') }}</p>
+								</div>
+							</div>
 
-							<div class="checkout-actions">
-								<a class="button button-primary" :href="access.downloadUrl">
+							<div class="actions checkout-actions">
+								<a class="button-primary" :href="access.downloadUrl">
 									<Download :size="16" aria-hidden="true" />
 									{{ t('resources.checkout.download') }}
 								</a>
-
-								<a class="button button-outline" :href="`${access.downloadUrl}&view=1`" target="_blank"
-									rel="noopener">
+								<a class="button-outline" :href="`${access.downloadUrl}&view=1`" target="_blank" rel="noopener">
 									<ExternalLink :size="16" aria-hidden="true" />
 									{{ t('resources.checkout.view') }}
 								</a>
 							</div>
 						</template>
 
-						<p v-else class="error" role="alert">{{ t('resources.checkout.failed') }}</p>
+						<div v-else class="alert alert-error" role="alert">
+							<span class="alert-icon"><CircleAlert :size="17" /></span>
+							<p class="alert-text">{{ t('resources.checkout.failed') }}</p>
+						</div>
 					</template>
 
 					<form v-else class="checkout-form" @submit.prevent="pay">
-						<p class="checkout-text">{{ t('resources.checkout.intro') }}</p>
+						<p class="text-pretty">{{ t('resources.checkout.intro') }}</p>
 
 						<p v-if="price" class="checkout-price">{{ formatPrice(price) }}</p>
 
-						<label class="checkout-label" for="checkout-email">{{ t('resources.checkout.emailLabel') }}</label>
-						<input id="checkout-email" v-model="email" type="email" required autocomplete="email"
-							:aria-describedby="'checkout-email-hint'" />
-						<p id="checkout-email-hint" class="checkout-note">{{ t('resources.checkout.emailHint') }}</p>
+						<div class="checkout-email">
+							<div class="form-group">
+								<input id="checkout-email" v-model="email" type="email" required autocomplete="email"
+									placeholder=" " aria-describedby="checkout-email-hint" />
+								<label for="checkout-email">{{ t('resources.checkout.emailLabel') }}</label>
+							</div>
+							<p id="checkout-email-hint" class="checkout-hint">{{ t('resources.checkout.emailHint') }}</p>
+						</div>
 
-						<label class="checkout-consent">
-							<input v-model="acceptedTerms" type="checkbox" required />
-							<span>
+						<div class="checkbox-field">
+							<input id="checkout-terms" v-model="acceptedTerms" type="checkbox" required />
+							<label for="checkout-terms">
 								{{ t('resources.checkout.terms') }}
-								<RouterLink to="/termeni">{{ t('resources.checkout.termsLink') }}</RouterLink>.
-							</span>
-						</label>
+								<RouterLink class="text-link" to="/termeni">{{ t('resources.checkout.termsLink') }}</RouterLink>.
+							</label>
+						</div>
 
-						<label class="checkout-consent">
-							<input v-model="acceptedDelivery" type="checkbox" required />
-							<span>{{ t('resources.checkout.withdrawal') }}</span>
-						</label>
+						<div class="checkbox-field">
+							<input id="checkout-delivery" v-model="acceptedDelivery" type="checkbox" required />
+							<label for="checkout-delivery">{{ t('resources.checkout.withdrawal') }}</label>
+						</div>
 
 						<div ref="captcha" class="checkout-captcha"></div>
 
-						<button type="submit" class="button-primary" :disabled="status === 'submitting'">
+						<button type="submit" class="button-primary button-full checkout-submit"
+							:aria-busy="status === 'submitting'" :disabled="status === 'submitting'">
+							<LoaderCircle v-if="status === 'submitting'" :size="16" class="button-spinner" aria-hidden="true" />
 							{{ status === 'submitting' ? t('resources.checkout.submitting') : t('resources.checkout.submit') }}
 						</button>
 
-						<p class="checkout-note checkout-secure">
+						<p class="form-note">
 							<Lock :size="14" aria-hidden="true" />
 							{{ t('resources.checkout.secure') }}
 						</p>
 
-						<p v-if="status === 'error'" class="error" role="alert">{{ errorMessage }}</p>
+						<div v-if="status === 'error'" class="alert alert-error" role="alert">
+							<span class="alert-icon"><CircleAlert :size="17" /></span>
+							<p class="alert-text">{{ errorMessage }}</p>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -158,129 +173,69 @@
 </template>
 
 <style scoped lang="scss">
-	.checkout-overlay {
-		overflow-y: auto;
-	}
-
-	// position: anchors the close button
-	.checkout-panel {
-		position: relative;
-		height: fit-content;
-	}
-
-	.checkout-close {
-		position: absolute;
-		top: 0.75rem;
-		right: 0.75rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2rem;
-		height: 2rem;
-		padding: 0;
-		border-radius: 50%;
-		background: var(--vt-c-jannafer-gray2);
-
-		&:hover {
-			background: var(--vt-c-jannafer-green);
-			color: var(--vt-c-on-accent);
-		}
-	}
-
 	.checkout-form {
 		display: flex;
 		flex-direction: column;
-	}
+		gap: var(--s-16);
+		padding: 0;
+		border-radius: 0;
+		background: none;
 
-	.checkout-text {
-		margin: 0.5rem 0 0;
+		.form-group {
+			margin: 0;
+		}
 	}
 
 	.checkout-price {
-		margin: 0.75rem 0 0;
-		font-size: var(--step-h3);
-		font-weight: 600;
-		color: var(--vt-c-jannafer-green);
+		font-family: var(--font-serif);
+		font-size: 28px;
+		line-height: var(--lh-h2);
+		color: var(--olive-700);
 	}
 
-	.checkout-label {
-		margin-top: 1rem;
-		font-weight: 600;
-	}
-
-	.checkout-note {
-		margin: 0.35rem 0 0;
-		font-size: var(--step-body-xs);
-		color: var(--vt-c-black-mute);
-	}
-
-	.checkout-consent {
+	.checkout-email {
 		display: flex;
-		align-items: flex-start;
-		gap: var(--gap-xs);
-		margin-top: 0.9rem;
-		font-size: var(--step-body-sm);
+		flex-direction: column;
+		gap: var(--s-6);
+	}
 
-		input {
-			margin-top: 0.15rem;
-			flex-shrink: 0;
+	.checkout-hint {
+		padding-left: var(--s-20);
+		font-size: var(--fs-caption);
+		line-height: 1.5;
+		color: var(--ink-muted);
+	}
+
+	.checkout-captcha:empty {
+		display: none;
+	}
+
+	.checkout-submit {
+		margin-top: var(--s-4);
+	}
+
+	.checkout-ready {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-4);
+		padding-top: 3px;
+		color: var(--olive-800);
+
+		b {
+			font-size: var(--fs-body-s);
 		}
-	}
 
-	.checkout-captcha:not(:empty) {
-		margin-top: 1rem;
-	}
-
-	.checkout-form button[type='submit'] {
-		display: block;
-		margin-top: 1.25rem;
-		width: 100%;
-		max-width: var(--button-max-width);
-		margin-inline: auto;
-	}
-
-	.checkout-secure {
-		display: flex;
-		align-items: center;
-		gap: 0.4rem;
-		justify-content: center;
+		p {
+			font-size: var(--fs-small);
+			line-height: 1.55;
+		}
 	}
 
 	.checkout-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--gap-sm);
-		margin-top: 1.25rem;
+		gap: var(--s-10);
 
-		.button {
-			display: inline-flex;
-			align-items: center;
-			gap: 0.4rem;
-			text-decoration: none;
-		}
-	}
-
-	.overlay-enter-active,
-	.overlay-leave-active {
-		transition: opacity var(--vt-c-transition-speed) ease;
-
-		.checkout-panel {
-			transition: transform var(--vt-c-transition-speed) ease;
-		}
-	}
-
-	.overlay-enter-from,
-	.overlay-leave-to {
-		opacity: 0;
-
-		.checkout-panel {
-			transform: translateY(-0.75rem);
-		}
-	}
-
-	@media (max-width: 640px) {
-		.checkout-panel {
-			min-height: 100%;
+		a {
+			gap: var(--s-8);
 		}
 	}
 </style>

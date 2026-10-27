@@ -1,58 +1,45 @@
 <script setup>
     import { RouterLink } from 'vue-router'
     import { useI18n } from 'vue-i18n'
-    import { CalendarDays, Heart } from '@lucide/vue'
 
     const { t } = useI18n()
 
     defineProps({
         title: String,
         text: String,
-        icon: [Object, Function]
+        withMessageLink: Boolean
     })
 </script>
 
 <template>
-    <section class="cta-band card">
-        <div class="cta-band-content">
-            <h2 class="cta-band-title">
-                <component :is="icon" v-if="icon" class="cta-band-title-icon" :size="22" />
-                {{ title }}
-            </h2>
-            <p class="cta-band-text">{{ text }}</p>
-        </div>
-
-        <div class="cta-band-action">
-            <RouterLink class="button button-primary cta-band-button" to="/programare">
-                <CalendarDays :size="18" />
-                {{ t('cta.button') }}
-            </RouterLink>
-
-            <p class="cta-band-note">
-                <Heart :size="16" />
-                {{ t('cta.note') }}
-            </p>
+    <section class="band">
+        <div class="statement statement-centered">
+            <h2 class="statement-title cta-band-title text-balance">{{ title }}</h2>
+            <p class="text-lead cta-band-text text-pretty">{{ text }}</p>
+            <div class="actions cta-band-actions">
+                <RouterLink class="button-primary" to="/programare">{{ t('cta.button') }}</RouterLink>
+                <RouterLink v-if="withMessageLink" class="button-outline" to="/contact">
+                    {{ t('booking.hero.alternativeLink') }}
+                </RouterLink>
+            </div>
+            <p class="heart-line">{{ t('cta.note') }}</p>
         </div>
     </section>
 </template>
 
 <style scoped lang="scss">
     .cta-band-title {
-        display: flex;
-        align-items: baseline;
-        gap: var(--gap-sm);
-        margin: 0;
-        // h3 size, h2 tag: keeps the heading outline intact without h3's heavier weight
-        font-size: var(--step-h3);
-    }
-
-    .cta-band-title-icon {
-        flex-shrink: 0;
-        color: var(--vt-c-jannafer-green);
+        max-width: 24ch;
+        font-size: var(--fs-h1);
+        line-height: var(--lh-h1);
+        letter-spacing: -0.01em;
     }
 
     .cta-band-text {
-        margin: 0;
-        line-height: var(--leading-prose);
+        max-width: 56ch;
+    }
+
+    .cta-band-actions {
+        margin-top: var(--s-4);
     }
 </style>

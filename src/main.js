@@ -1,5 +1,6 @@
 import '@fontsource-variable/mulish/wght.css'
 import '@fontsource/libre-baskerville/400.css'
+import '@fontsource/libre-baskerville/400-italic.css'
 import '@fontsource/libre-baskerville/700.css'
 
 import '@/assets/main.scss'
@@ -14,6 +15,7 @@ import { initUiState } from '@/utils/uiState'
 import { initRenderCapability } from '@/utils/renderCapability'
 import { initAnalytics } from '@/services/analytics'
 import { initLiveBanner } from '@/services/liveBanner'
+import { reveal } from '@/utils/reveal'
 
 initRenderCapability()
 
@@ -22,6 +24,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
+app.directive('reveal', reveal)
 
 app.mount('#app')
 initUiState()

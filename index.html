@@ -5,11 +5,10 @@
 	<meta charset="UTF-8">
 	<link rel="icon" href="/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="theme-color" content="#faf6f3" media="(prefers-color-scheme: light)">
-	<meta name="theme-color" content="#1c2118" media="(prefers-color-scheme: dark)">
+	<meta name="theme-color" content="#f8f5ef" media="(prefers-color-scheme: light)">
+	<meta name="theme-color" content="#1b1c17" media="(prefers-color-scheme: dark)">
 
-	<!-- Obfuscation is on and the app ships as an empty shell, so crawlers that do not run JS see only
-	     what is below. The router rewrites all of it per route for the ones that do. -->
+	<!-- The app ships as an empty shell, so crawlers that don't run JS see only this; the router rewrites it per route. -->
 	<title>Psihoterapeut București și online | __SITE_NAME__</title>
 	<meta name="description"
 		content="Psihoterapie pentru femei care trec prin infertilitate, maternitate sau epuizare profesională. Ședințe în cabinet, în București, sau online.">
@@ -73,17 +72,16 @@
 	}
 	</script>
 
-	<!-- Both required by dark mode and by the CSS bundle, which is loaded asynchronously. The browser will show a white full-viewport until the CSS bundle loads, so we paint the canvas with a background color first. -->
 	<style>
 		/* Paints the canvas before the CSS bundle loads — otherwise the browser shows white full-viewport. */
 		:root {
 			color-scheme: light;
-			background: #faf6f3;
+			background: #f8f5ef;
 		}
 
 		:root.dark {
 			color-scheme: dark;
-			background: #1c2118;
+			background: #1b1c17;
 		}
 	</style>
 

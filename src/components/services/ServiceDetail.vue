@@ -1,10 +1,9 @@
 <script setup>
     import { computed } from 'vue'
-    import { useRoute } from 'vue-router'
+    import { RouterLink, useRoute } from 'vue-router'
     import { useI18n } from 'vue-i18n'
-    import { CircleSmall, Leaf } from '@lucide/vue'
+    import { BadgeCheck, ChevronRight } from '@lucide/vue'
     import { useServicesStore } from '@/stores/servicesStore'
-    import SplitSection from '@/components/common/SplitSection.vue'
     import CtaBand from '@/components/common/CtaBand.vue'
 
     const route = useRoute()
@@ -17,7 +16,22 @@
     const base = computed(() => `services.${service.value.key}`)
 
     // tm() returns the raw array so a shared component can render lists of any length
-    const listItems = (sectionKey) => tm(`${base.value}.${sectionKey}.items`).map(rt)
+    const messages = (sectionKey, field) => {
+        const list = tm(`${base.value}.${sectionKey}`)?.[field]
+        return Array.isArray(list) ? list.map(rt) : []
+    }
+    const listItems = (sectionKey) => messages(sectionKey, 'items')
+
+    // Splits each item around its emphasis phrase so the phrase renders bold without v-html
+    const gridItems = (sectionKey) => {
+        const phrases = messages(sectionKey, 'emphasis')
+        return listItems(sectionKey).map((item, index) => {
+            const phrase = phrases[index] ?? ''
+            const at = phrase ? item.indexOf(phrase) : -1
+            if (at < 0) return { before: item, phrase: '', after: '' }
+            return { before: item.slice(0, at), phrase, after: item.slice(at + phrase.length) }
+        })
+    }
 
     // Sections carry different optional paragraphs; probing the tree keeps t() from warning on absent ones
     const text = (sectionKey, field) => {
@@ -27,96 +41,139 @@
 </script>
 
 <template>
-    <main class="service-page layout-stack">
-        <SplitSection flush priority :image="service.image" :alt="t(`${base}.imageAlt`)">
-            <h1 class="service-hero-title">{{ t(`${base}.hero.title`) }}</h1>
-            <hr class="rule-short" />
-
-            <p class="service-text">{{ t(`${base}.hero.p1`) }}</p>
-            <p class="service-text">{{ t(`${base}.hero.p2`) }}</p>
-            <p class="service-hero-closing">{{ t(`${base}.hero.closing`) }}</p>
-        </SplitSection>
-
-        <SplitSection v-for="section in service.sections" :key="section.key" :image="section.image"
-            :alt="t(`${base}.${section.key}.imageAlt`)">
-            <div class="service-card card card-outlined">
-                <h2 class="service-section-title">
-                    <Leaf class="service-section-icon" :size="22" />
-                    {{ t(`${base}.${section.key}.title`) }}
-                </h2>
-
-                <p v-if="text(section.key, 'intro')" class="service-text">
-                    {{ text(section.key, 'intro') }}
-                </p>
-
-                <p v-if="text(section.key, 'body')" class="service-text">
-                    {{ text(section.key, 'body') }}
-                </p>
-
-                <ul v-if="section.type === 'grid'" class="icon-grid">
-                    <li v-for="(item, index) in listItems(section.key)" :key="item" class="icon-grid-item">
-                        <component :is="section.icons[index]" class="icon-grid-icon" :size="22" />
-                        {{ item }}
-                    </li>
-                </ul>
-
-                <ul v-else-if="section.type === 'list'" class="dot-list"
-                    :class="{ 'dot-list-columns': listItems(section.key).length >= 8 }">
-                    <li v-for="item in listItems(section.key)" :key="item" class="dot-list-item">
-                        <CircleSmall class="dot-list-bullet" :size="16" />
-                        {{ item }}
-                    </li>
-                </ul>
-
-                <p v-if="text(section.key, 'closing')" class="service-text">
-                    {{ text(section.key, 'closing') }}
-                </p>
+    <main class="bands">
+        <section class="hero-grid">
+            <div class="hero-grid-text statement">
+                <nav class="breadcrumb" :aria-label="t('navigation.breadcrumb')">
+                    <RouterLink to="/servicii">{{ t('navigation.menu.services') }}</RouterLink>
+                    <ChevronRight :size="14" aria-hidden="true" />
+                    <span aria-current="page">{{ t(`${base}.title`) }}</span>
+                </nav>
+                <h1 class="statement-title">{{ t(`${base}.hero.title`) }}</h1>
+                <p class="text-lead service-lead text-pretty">{{ t(`${base}.hero.p1`) }}</p>
+                <p class="service-text text-pretty">{{ t(`${base}.hero.p2`) }}</p>
+                <p class="service-text text-pretty">{{ t(`${base}.hero.closing`) }}</p>
+                <div class="actions">
+                    <RouterLink class="button-primary" to="/programare">{{ t('cta.button') }}</RouterLink>
+                    <RouterLink class="button-outline" :to="{ hash: '#terapia' }">
+                        {{ t('services.index.therapyLink') }}
+                    </RouterLink>
+                </div>
             </div>
-        </SplitSection>
+            <img class="hero-grid-media service-photo" :src="service.image" :alt="t(`${base}.imageAlt`)"
+                width="1221" height="814" decoding="async" loading="eager" fetchpriority="high" />
+        </section>
 
-        <CtaBand :icon="Leaf" :title="t(`${base}.cta.title`)" :text="t(`${base}.cta.text`)" />
+        <section v-for="section in service.sections" :key="section.key"
+            :id="section.type === 'split' ? 'terapia' : null"
+            :class="section.type === 'split' ? 'hero-grid hero-grid-mirrored service-split' : 'band'">
+            <template v-if="section.type === 'grid'">
+                <div class="service-grid-head">
+                    <h2 class="section-title">{{ t(`${base}.${section.key}.title`) }}</h2>
+                    <p v-if="text(section.key, 'intro')" class="text-pretty">{{ text(section.key, 'intro') }}</p>
+                </div>
+                <ul v-reveal class="service-grid"
+                    :style="{ '--service-grid-rows': Math.ceil(listItems(section.key).length / 2) }">
+                    <li v-for="(item, index) in gridItems(section.key)" :key="index" class="service-grid-item">
+                        <component :is="section.icons[index]" :size="22" aria-hidden="true" />
+                        <p class="text-pretty">{{ item.before }}<b v-if="item.phrase">{{ item.phrase }}</b>{{ item.after }}</p>
+                    </li>
+                </ul>
+                <p v-if="text(section.key, 'closing')" class="service-text text-pretty">{{ text(section.key, 'closing') }}</p>
+            </template>
+
+            <template v-else>
+                <div class="hero-grid-text">
+                    <h2 class="section-title">{{ t(`${base}.${section.key}.title`) }}</h2>
+                    <p v-if="text(section.key, 'intro')" class="text-pretty">{{ text(section.key, 'intro') }}</p>
+                    <ul v-if="listItems(section.key).length" class="icon-list">
+                        <li v-for="item in listItems(section.key)" :key="item" class="icon-list-item">
+                            <BadgeCheck :size="17" aria-hidden="true" />{{ item }}
+                        </li>
+                    </ul>
+                    <p v-if="text(section.key, 'body')" class="text-pretty">{{ text(section.key, 'body') }}</p>
+                    <p v-if="text(section.key, 'closing')" class="service-split-closing text-pretty">
+                        {{ text(section.key, 'closing') }}
+                    </p>
+                </div>
+                <img class="hero-grid-media service-photo" :src="section.image"
+                    :alt="t(`${base}.${section.key}.imageAlt`)" width="1221" height="814" decoding="async"
+                    loading="lazy" />
+            </template>
+        </section>
+
+        <CtaBand :title="t(`${base}.cta.title`)" :text="t(`${base}.cta.text`)" with-message-link />
     </main>
 </template>
 
 <style scoped lang="scss">
-    .service-page {
-        --vt-c-section-gap: 1rem;
-        --vt-c-split-gap: 1rem;
-    }
-
-    .service-section-icon {
-        flex-shrink: 0;
-        color: var(--vt-c-jannafer-green);
-    }
-
-    .service-hero-title {
-        margin: 0;
-        text-align: left;
+    .service-lead {
+        max-width: 46ch;
     }
 
     .service-text {
-        margin: 0;
-        line-height: var(--leading-prose);
+        max-width: 52ch;
     }
 
-    .service-hero-closing {
-        margin: 0;
-        font-weight: 600;
-        color: var(--vt-c-jannafer-green);
+    .service-photo {
+        border-radius: 0;
     }
 
-    .service-card {
+    .service-split .hero-grid-text {
+        padding-left: var(--s-56);
+    }
+
+    .service-split-closing {
+        margin-top: var(--s-4);
+    }
+
+    .service-grid-head {
         display: flex;
         flex-direction: column;
-        gap: var(--gap-md);
-        height: 100%;
-        justify-content: center;
+        gap: var(--s-12);
     }
 
-    .service-section-title {
-        display: flex;
-        align-items: baseline;
-        gap: var(--gap-sm);
+    // Column-first flow so the list reads down the left column, then the right
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(var(--service-grid-rows), auto);
+        grid-auto-flow: column;
+        gap: var(--s-28) var(--s-64);
         margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .service-grid-item {
+        display: grid;
+        grid-template-columns: 22px minmax(0, 1fr);
+        gap: var(--s-14);
+        align-items: start;
+        line-height: 1.6;
+        color: var(--ink-muted);
+
+        > svg {
+            margin-top: calc((1lh - 22px) / 2);
+            color: var(--olive-600);
+        }
+
+        b {
+            font-weight: 600;
+            color: var(--olive-800);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .service-split .hero-grid-text {
+            padding-left: var(--gutter);
+        }
+
+        .service-grid {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: none;
+            grid-auto-flow: row;
+            gap: var(--s-20);
+        }
     }
 </style>

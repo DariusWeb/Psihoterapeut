@@ -1,24 +1,8 @@
-/**
- * newsService.js — Future Google Alerts RSS integration via rss2json.com
- *
- * HOW TO ACTIVATE:
- * 1. Go to https://www.google.com/alerts and set "Deliver to" → RSS feed for each alert.
- * 2. Copy each feed URL (format: https://www.google.com/alerts/feeds/{userId}/{feedId}).
- * 3. Fill in the ALERT_FEEDS map below.
- * 4. In newsStore.js, call `loadFromRSS()` action on app mount instead of using static data.
- *
- * NOTE: rss2json.com has a free tier (10 req/hour). For production, use a self-hosted
- * RSS-to-JSON proxy or a serverless function to avoid CORS and rate limits.
- * 
- * To activate live RSS later: open src/services/newsService.js and fill in the ALERT_FEEDS map with your Google Alerts RSS URLs.
- */
+// Unused until ALERT_FEEDS holds Google Alerts RSS URLs and newsStore calls fetchAllAlerts().
+// ponytail: rss2json's free tier allows 10 requests an hour; production needs its own proxy.
 
 const RSS2JSON_API = 'https://api.rss2json.com/v1/api.json'
 
-/**
- * Map topic slugs → your Google Alerts RSS feed URLs.
- * Replace the placeholder strings with your actual feed URLs.
- */
 export const ALERT_FEEDS = {
     'anxietate': '',
     'caut-psiholog-pentru-interviu': '',
@@ -33,12 +17,6 @@ export const ALERT_FEEDS = {
     'terapie-de-cuplu-bucuresti': '',
 }
 
-/**
- * Fetch and normalise a single Google Alerts RSS feed for a given topic.
- * @param {string} topic  - One of the TOPICS slugs from newsStore.js
- * @param {string} feedUrl - The Google Alerts RSS URL for that topic
- * @returns {Promise<Array>} Array of normalised news items
- */
 export async function fetchAlertFeed(topic, feedUrl) {
     const url = `${RSS2JSON_API}?rss_url=${encodeURIComponent(feedUrl)}`
     const response = await fetch(url)
@@ -65,11 +43,6 @@ export async function fetchAlertFeed(topic, feedUrl) {
     }))
 }
 
-/**
- * Fetch all configured alert feeds and merge them into a flat sorted array.
- * Skips feeds whose URL is empty (not yet configured).
- * @returns {Promise<Array>} Combined and date-sorted news items
- */
 export async function fetchAllAlerts() {
     const activeFeed = Object.entries(ALERT_FEEDS).filter(([, url]) => url !== '')
 

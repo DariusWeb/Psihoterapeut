@@ -2,8 +2,7 @@ import { idToken } from '@/services/auth'
 
 const ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT
 
-// Every dashboard call carries the signed-in user's ID token; the Worker re-verifies it
-// against Google and its own allowlist, so nothing here is trusted on the client's word.
+// The Worker re-verifies this ID token against Google and its allowlist; nothing here is trusted.
 async function request(path, options = {}) {
 	const token = await idToken()
 	if (!token) throw new Error('not_signed_in')

@@ -8,20 +8,19 @@
 </script>
 
 <template>
-	<!-- The wrapper stays mounted so the live region exists before its text does; inserting
-	     both at once is unreliably announced, and this appears while someone is reading. -->
+	<!-- Mounted before its text: inserting a live region and its text together is unreliably announced. -->
 	<aside class="live-region" role="status">
-		<div v-if="liveAnnouncement && !consentBannerPending" class="live-banner card">
-			<Radio class="live-icon" :size="24" />
+		<div v-if="liveAnnouncement && !consentBannerPending" class="live-banner float-banner float-banner-docked">
+			<Radio :size="20" />
 
-			<div class="live-copy">
-				<p class="live-title">{{ liveAnnouncement.title }}</p>
-				<p v-if="liveAnnouncement.text" class="live-text">{{ liveAnnouncement.text }}</p>
+			<div class="live-copy float-banner-copy">
+				<p class="float-banner-title">{{ liveAnnouncement.title }}</p>
+				<p v-if="liveAnnouncement.text" class="float-banner-text">{{ liveAnnouncement.text }}</p>
 			</div>
 
 			<a
 				v-if="liveAnnouncement.url"
-				class="button button-primary live-cta"
+				class="button-primary"
 				:href="liveAnnouncement.url"
 				target="_blank"
 				rel="noopener noreferrer"
@@ -30,8 +29,8 @@
 				{{ liveAnnouncement.ctaLabel || t('live.watch') }}
 			</a>
 
-			<button class="live-dismiss" :aria-label="t('live.dismiss')" @click="dismissLive">
-				<X :size="20" />
+			<button type="button" class="icon-button icon-button-bare" :aria-label="t('live.dismiss')" @click="dismissLive">
+				<X :size="18" />
 			</button>
 		</div>
 	</aside>
@@ -39,75 +38,21 @@
 
 <style lang="scss" scoped>
 	.live-banner {
-		position: fixed;
-		inset-inline: var(--page-gutter);
-		bottom: var(--page-gutter);
 		z-index: 199; // just under the consent banner, which suppresses this one anyway
-		max-width: var(--vt-c-container-width);
-		margin-inline: auto;
-		display: flex;
-		align-items: center;
-		gap: clamp(0.75rem, 0.5rem + 1.2vw, 1.5rem);
-		padding: var(--card-padding-compact);
-		box-shadow: 0 0.5rem 2rem rgb(from var(--vt-c-black) r g b / 15%);
 	}
 
-	.live-icon {
-		flex-shrink: 0;
-		color: var(--vt-c-jannafer-green);
-	}
-
-	.live-copy {
-		min-width: 0;
-	}
-
-	.live-title {
-		margin: 0;
-		font-weight: 700;
-	}
-
-	.live-text {
-		margin: 0.15rem 0 0;
-		font-size: var(--step-body-sm);
-	}
-
-	.live-cta {
-		margin-inline-start: auto;
-		white-space: nowrap;
-	}
-
-	.live-dismiss {
-		flex-shrink: 0;
-		display: flex;
-		padding: 0.25rem;
-		border: none;
-		background: none;
-		color: inherit;
-		cursor: pointer;
-		border-radius: var(--vt-c-border-radius);
-	}
-
-	@media (max-width: 768px) {
+	@media (max-width: 767px) {
 		.live-banner {
 			flex-wrap: wrap;
-			padding-inline-end: calc(var(--card-padding-compact) + 1.5rem);
 		}
 
 		.live-copy {
+			flex-basis: calc(100% - 96px);
+		}
+
+		.button-primary {
+			order: 1;
 			flex: 1;
-		}
-
-		.live-cta {
-			flex-basis: 100%;
-			max-width: var(--button-max-width);
-			margin-inline: auto;
-			text-align: center;
-		}
-
-		.live-dismiss {
-			position: absolute;
-			inset-block-start: 0.5rem;
-			inset-inline-end: 0.5rem;
 		}
 	}
 </style>

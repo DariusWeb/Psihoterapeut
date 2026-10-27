@@ -83,6 +83,7 @@
     "menuToggle": "Toggle navigation menu",
     "menuLabel": "Navigation menu",
     "menuClose": "Close menu",
+    "breadcrumb": "Breadcrumb",
     "theme": {
       "label": "Color theme",
       "light": "Light",
@@ -110,12 +111,22 @@
     "placeholder": "Search articles, workshops, pages…",
     "close": "Close search",
     "resultCount": "{count} results",
+    "prompt": "What are you looking for today?",
+    "suggestions": "Suggestions",
     "empty": "Nothing found for \"{query}\"",
+    "emptyText": "Try another word or write to me directly. I reply within 48 hours.",
+    "emptyLink": "Write me a message",
+    "keys": {
+      "navigate": "navigate",
+      "open": "open",
+      "close": "close"
+    },
     "types": {
       "service": "Service",
       "article": "Article",
       "event": "Workshop",
       "page": "Page",
+      "faq": "Question",
       "group": "Support group",
       "resource": "Resource",
       "legal": "Legal",
@@ -127,16 +138,20 @@
     }
   },
   "footer": {
+    "tagline": "A place where you can pause and take care of yourself too.",
+    "copyright": "© {year} {name} · Integrative psychotherapist",
     "contact": {
       "title": "Contact",
       "phone": "Phone",
       "email": "Email",
+      "whatsapp": "WhatsApp",
       "facebook": "Facebook Page",
       "instagram": "Instagram Page"
     },
     "schedule": {
       "title": "Schedule",
-      "hours": "Monday - Friday: 9:00 - 18:00"
+      "hours": "Monday - Friday: 9:00 - 18:00",
+      "place": "Online and in Bucharest"
     },
     "info": {
       "title": "Information",
@@ -194,10 +209,17 @@
       "imageAlt": "Andreea Butacu în cabinet, așezată într-un fotoliu lângă o bibliotecă"
     },
     "resources": {
-      "title": "Resurse pentru minte și suflet"
+      "title": "Resurse pentru minte și suflet",
+      "allTitle": "Toate articolele",
+      "allText": "Despre infertilitate, maternitate, carieră și emoțiile care vin odată cu ele."
     },
     "faq": {
       "title": "Poate te întrebi",
+      "help": {
+        "title": "Nu ai găsit răspunsul?",
+        "text": "Scrie-mi întrebarea ta.",
+        "cta": "Trimite o întrebare"
+      },
       "items": [
         {
           "question": "Cum știu dacă am nevoie de psihoterapie?",
@@ -234,7 +256,12 @@
     "index": {
       "title": "Arii în care te pot însoți",
       "intro": "Te însoțesc în experiențe precum infertilitatea, perioada postpartum sau epuizarea și blocajul profesional. Îți ofer un spațiu sigur în care te însoțesc cu blândețe, în ritmul tău, la propriul proces de schimbare.",
-      "cta": "Află mai mult"
+      "lead": "Te însoțesc în experiențe precum infertilitatea, perioada postpartum sau epuizarea și blocajul profesional.",
+      "text": "Îți ofer un spațiu sigur în care te însoțesc cu blândețe, în ritmul tău, la propriul proces de schimbare.",
+      "cta": "Află mai mult",
+      "therapyLink": "Cum te poate ajuta terapia",
+      "closingTitle": "Nu trebuie să știi exact în care dintre ele te regăsești.",
+      "closingText": "De multe ori, ele se amestecă. Putem descoperi împreună, în prima ședință, de unde vrei să începem."
     },
     "credentials": [
       "Psihoterapeut integrativ & cognitiv-comportamental",
@@ -244,6 +271,7 @@
     ],
     "infertility": {
       "title": "În fața infertilității",
+      "summary": "Pentru femeile și cuplurile care trăiesc un doliu nevăzut.",
       "imageAlt": "Vază cu flori uscate pe o masă rotundă de lemn, lângă o fereastră cu lumină caldă",
       "hero": {
         "title": "Când fiecare lună pare să înceapă cu speranță și să se termine cu o nouă pierdere.",
@@ -261,6 +289,14 @@
           "Simți că ai pierdut spontaneitatea și că fiecare decizie trebuie calculată.",
           "Ai obosit să auzi „Relaxează-te.”, „Se va întâmpla când te aștepți mai puțin.”, „Poate că nu era momentul.”",
           "Te simți vinovată că nu mai recunoști persoana care ai fost."
+        ],
+        "emphasis": [
+          "organizată în jurul ovulației",
+          "comparându-te",
+          "Eviți aniversări sau întâlniri",
+          "pierdut spontaneitatea",
+          "obosit să auzi",
+          "nu mai recunoști persoana"
         ]
       },
       "therapy": {
@@ -290,6 +326,16 @@
           "Speranța care vine fără teamă",
           "Capacitatea de a te bucura sincer pentru alții",
           "Încrederea că lucrurile vor merge bine"
+        ],
+        "emphasis": [
+          "planifica viața",
+          "propriul corp",
+          "Spontaneitatea",
+          "aparții",
+          "Identitatea",
+          "Speranța",
+          "a te bucura sincer",
+          "lucrurile vor merge bine"
         ]
       },
       "cta": {
@@ -299,6 +345,7 @@
     },
     "motherhood": {
       "title": "În perioada postpartum",
+      "summary": "Când maternitatea nu arată cum ți-ai imaginat.",
       "imageAlt": "Fotoliu cu o pătură moale, o cană de ceai și o carte pe o măsuță de lemn",
       "hero": {
         "title": "Maternitatea poate aduce multă iubire. Dar și multă singurătate.",
@@ -317,6 +364,15 @@
           "Nu îți mai recunoști corpul sau relația cu el.",
           "Relația cu partenerul s-a schimbat și nu mai știi cum să vă regăsiți.",
           "Ai obosit să auzi: „Bucură-te de perioada asta.”, „Trece repede.”, „Toate mamele trec prin asta.”"
+        ],
+        "emphasis": [
+          "permanent disponibilă",
+          "ai dispărut",
+          "vinovăție",
+          "Te compari",
+          "Nu îți mai recunoști corpul",
+          "Relația cu partenerul",
+          "obosit să auzi"
         ]
       },
       "changes": {
@@ -331,6 +387,16 @@
           "apropierea de partener",
           "sentimentul că încă ești aceeași femeie",
           "bucuria de a face lucruri doar pentru tine",
+          "spontaneitatea"
+        ],
+        "emphasis": [
+          "timpul",
+          "încrederea",
+          "libertatea",
+          "propriul corp",
+          "apropierea",
+          "aceeași femeie",
+          "bucuria",
           "spontaneitatea"
         ],
         "closing": "Nu trebuie să alegi între a fi o mamă bună și a avea grijă de tine. Cele două pot exista împreună."
@@ -349,6 +415,7 @@
     },
     "career": {
       "title": "În carieră",
+      "summary": "Burnout, blocaj, pierderea sensului în muncă.",
       "imageAlt": "Caiet deschis cu un pix, o cană și o vază cu verdeață pe un birou de lemn",
       "hero": {
         "title": "Când continui să funcționezi, dar nu te mai regăsești în ceea ce faci.",
@@ -368,6 +435,16 @@
           "Îți este greu să iei o decizie de schimbare, chiar dacă simți că actuala situație nu îți mai face bine.",
           "Îți spui că ar trebui să fii recunoscătoare pentru ceea ce ai.",
           "Ai obosit să auzi: „Toată lumea este stresată.”, „E doar o perioadă.”, „Ai un job bun, ce îți mai lipsește?”"
+        ],
+        "emphasis": [
+          "deja obosită",
+          "pilot automat",
+          "nu mai simți satisfacție",
+          "drumul potrivit",
+          "pierdut contactul",
+          "o decizie de schimbare",
+          "ar trebui să fii recunoscătoare",
+          "obosit să auzi"
         ]
       },
       "losses": {
@@ -384,6 +461,17 @@
           "încrederea că meriți mai mult",
           "spontaneitatea",
           "echilibrul dintre viața profesională și cea personală"
+        ],
+        "emphasis": [
+          "propriile alegeri",
+          "curiozitatea",
+          "energia",
+          "libertatea să alegi",
+          "creativitatea",
+          "entuziasmul",
+          "meriți mai mult",
+          "spontaneitatea",
+          "echilibrul"
         ],
         "closing": "Nu este nevoie să alegi între succes și starea ta de bine. Cele două pot exista împreună."
       },
@@ -408,6 +496,7 @@
     },
     "articles": {
       "title": "Articole recente",
+      "intro": "Gânduri și explicații despre infertilitate, maternitate și schimbările prin care trecem.",
       "viewAll": "Vezi toate articolele",
       "readTime": "{minutes} min de citit",
       "read": "Citește articolul"
@@ -446,7 +535,7 @@
         "imageAlt": "Carnet deschis cu un creion, pe o pătură deschisă la culoare"
       },
       "breathing": {
-        "label": "Practica",
+        "label": "Practică",
         "title": "Respirație pentru reglarea anxietății",
         "duration": "5 min",
         "action": "Descarcă ghidul"
@@ -612,9 +701,9 @@
       "live": "Anunț live"
     },
     "live": {
-      "stateLive": "🔴 Activ acum: {title}",
-      "stateScheduled": "⏳ Programat, apare peste ~{minutes} min: {title}",
-      "stateNone": "⚪ Niciun anunț activ.",
+      "stateLive": "Activ acum",
+      "stateScheduled": "Programat · apare peste ~{minutes} min",
+      "stateNone": "Niciun anunț activ.",
       "stateUnknown": "Nu am putut citi starea curentă.",
       "publish": "Sunt live",
       "stop": "Oprește",
@@ -643,9 +732,9 @@
       },
       "delays": {
         "0": "Imediat",
-        "10": "Peste 10 min",
-        "20": "Peste 20 min",
-        "30": "Peste 30 min"
+        "10": "10 min",
+        "20": "20 min",
+        "30": "30 min"
       },
       "durations": {
         "0": "Până îl opresc",
@@ -661,6 +750,20 @@
         "title_required": "Titlul este obligatoriu.",
         "url_must_be_https": "Linkul trebuie să înceapă cu https://",
         "rate_limited": "Prea multe încercări. Așteaptă un minut."
+      },
+      "retry": "Reîncearcă",
+      "confirmStop": "Oprești anunțul? Dispare de pe site în ~1 minut.",
+      "confirmStopYes": "Da, oprește",
+      "summary": "{start} și {end}.",
+      "summaryNow": "Apare imediat",
+      "summaryLater": "Apare peste {minutes} min",
+      "summaryFor": "rămâne {duration}",
+      "summaryUntilStopped": "rămâne până îl oprești",
+      "preview": {
+        "label": "Previzualizare",
+        "hint": "Așa apare jos, pe fiecare pagină a site-ului.",
+        "placeholderTitle": "Titlul anunțului",
+        "noLink": "Butonul apare după ce adaugi linkul."
       }
     }
   },
@@ -745,19 +848,19 @@
     "strip": {
       "s1": {
         "title": "În ritmul tău",
-        "text": "fiecare proces terapeutic este diferit și îl construim împreună"
+        "text": "Fiecare proces terapeutic este diferit și îl construim împreună."
       },
       "s2": {
         "title": "Program flexibil",
-        "text": "împreună găsim ora potrivită pentru tine"
+        "text": "Împreună găsim ora potrivită pentru tine."
       },
       "s3": {
         "title": "Confidențialitate",
-        "text": "spațiul tău este în siguranță"
+        "text": "Spațiul tău este în siguranță."
       },
       "s4": {
         "title": "Lucru individual",
-        "text": "și în cuplu, în funcție de nevoile tale"
+        "text": "Și în cuplu, în funcție de nevoile tale."
       }
     }
   },
@@ -774,7 +877,15 @@
       "p1": "Din exterior pari bine, îți faci treaba, răspunzi la mesaje, ții lucrurile în mișcare și, pentru cei din jur, pari o persoană care se descurcă. Dar pe dinăuntru ceva s-a strâns, s-a pierdut pe drum sau doar a obosit.",
       "p2": "Poate treci prin infertilitate și simți că viața ta s-a redus la un ciclu de așteptare, speranță, control și dezamăgire. Poate ai devenit proaspătă mamă și te surprinde cât de singură, copleșită sau departe de tine te poți simți într-o perioadă despre care „ar trebui” să fie doar frumoasă. Sau poate, profesional, continui să funcționezi, să livrezi, să fii competentă și apreciată, dar în interior te simți blocată, epuizată și tot mai puțin conectată la ceea ce faci și la cine ești.",
       "p3": "Poate te-ai surprins gândind: „Nu mă mai recunosc.” „Toată lumea pare să meargă înainte, iar eu parcă am rămas blocată.” „Dacă încă funcționez, înseamnă că nu e chiar atât de rău — ar trebui să mă descurc singură.”",
-      "p4": "Știu cât de invizibilă poate deveni această formă de oboseală. Cât de ușor este să pari „bine” în timp ce pe dinăuntru duci mult mai mult decât se vede: presiune, vină, confuzie, furie, comparație, singurătate sau doliul după o versiune a ta care părea mai vie, mai spontană sau mai întreagă."
+      "p4": "Știu cât de invizibilă poate deveni această formă de oboseală. Cât de ușor este să pari „bine” în timp ce pe dinăuntru duci mult mai mult decât se vede: presiune, vină, confuzie, furie, comparație, singurătate sau doliul după o versiune a ta care părea mai vie, mai spontană sau mai întreagă.",
+      "thoughts": {
+        "title": "Poate te-ai surprins gândind:",
+        "items": [
+          "„Nu mă mai recunosc.”",
+          "„Toată lumea pare să meargă înainte, iar eu parcă am rămas blocată.”",
+          "„Dacă încă funcționez, înseamnă că nu e chiar atât de rău — ar trebui să mă descurc singură.”"
+        ]
+      }
     },
     "journey": {
       "title": "Parcursul meu",
@@ -782,7 +893,24 @@
       "p2": "Interesul meu pentru oameni și pentru felul în care traversează perioadele de schimbare, pierdere și reconstrucție m-a condus firesc către psihoterapie.",
       "p3": "Sunt psihoterapeut integrativ și cognitiv-comportamental, membră a Colegiului Psihologilor din România și a Federației Române de Psihoterapie. De asemenea, sunt certificată ca Reproductive Mental Health Specialist, o formare dedicată înțelegerii impactului emoțional al experiențelor din parcursul reproductiv – de la infertilitate și pierdere de sarcină până la tranziția către maternitate și schimbările de identitate pe care acestea le pot aduce.",
       "p4": "Formarea mea include studiile în cadrul Facultății de Psihologie, Masterul în Psihoterapie Cognitiv-Comportamentală și formarea în Psihoterapie Integrativă în cadrul Institutului Român de Psihoterapie Integrativă. Acest parcurs este completat constant prin formări și specializări dedicate sănătății mintale reproductive și psihoterapiei bazate pe dovezi.",
-      "p5": "Înainte de psihoterapie, am lucrat peste 10 ani în domeniul resurselor umane, în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse."
+      "p5": "Înainte de psihoterapie, am lucrat peste 10 ani în domeniul resurselor umane, în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse.",
+      "timeline": [
+        {
+          "label": "Astăzi",
+          "title": "Sănătate mintală reproductivă",
+          "text": "Sunt certificată ca Reproductive Mental Health Specialist, o formare dedicată înțelegerii impactului emoțional al experiențelor din parcursul reproductiv – de la infertilitate și pierdere de sarcină până la tranziția către maternitate și schimbările de identitate pe care acestea le pot aduce. Parcursul este completat constant prin formări dedicate psihoterapiei bazate pe dovezi."
+        },
+        {
+          "label": "Formare",
+          "title": "Psihologie și psihoterapie",
+          "text": "Studiile în cadrul Facultății de Psihologie, Masterul în Psihoterapie Cognitiv-Comportamentală și formarea în Psihoterapie Integrativă în cadrul Institutului Român de Psihoterapie Integrativă."
+        },
+        {
+          "label": "La început",
+          "title": "Peste 10 ani în resurse umane",
+          "text": "Am lucrat în recrutare, learning & development și dezvoltare organizațională. Această experiență mi-a oferit o înțelegere profundă a presiunii performanței, a burnoutului și a dificultății de a continua să funcționezi atunci când, în interior, simți că nu mai ai resurse."
+        }
+      ]
     },
     "therapy": {
       "title": "Cum poate arăta terapia pentru tine",
@@ -830,12 +958,12 @@
     "updated": "Last updated: 23 September 2026",
     "intro": "This notice describes what this website actually does with your information. It is deliberately short, because the site collects very little.",
     "controller": {
-      "title": "1. Who is responsible",
+      "title": "Who is responsible",
       "body": "The controller of your personal data is Andreea Butacu, registered in București and licenced with the Romanian College of Psychologists under number 1708 / 27.03.2025.",
       "contact": "For anything in this notice, including any request under section 7, write to {email}."
     },
     "collect": {
-      "title": "2. What is collected",
+      "title": "What is collected",
       "intro": "Only what each feature below needs, and nothing else.",
       "form": {
         "title": "When you send a message through the contact form",
@@ -877,11 +1005,11 @@
       }
     },
     "health": {
-      "title": "3. About health information",
+      "title": "About health information",
       "body": "Information about your mental health is a special category of data under Article 9 GDPR and deserves more protection than a web form can give it. Please do not describe symptoms, diagnoses or history in a first message — telling me you would like to talk is enough. Anything you do choose to share is processed only with your explicit consent and is covered by professional confidentiality."
     },
     "basis": {
-      "title": "4. The legal basis",
+      "title": "The legal basis",
       "i1": "Messages you send and sessions you book — steps taken at your request before entering into a contract (Article 6(1)(b) GDPR).",
       "i2": "Newsletter — your consent (Article 6(1)(a) GDPR), which you may withdraw at any time.",
       "i3": "Any health information you volunteer — your explicit consent (Article 9(2)(a) GDPR).",
@@ -890,7 +1018,7 @@
       "i4": "Browser preferences — strictly necessary to deliver the display settings you asked for, so no consent is required."
     },
     "sharing": {
-      "title": "5. Who else sees it",
+      "title": "Who else sees it",
       "body": "The providers below handle data on my behalf, each only for the job named. No one else receives it, nothing is sold or rented, and there is no advertising or social media tracking. Fonts are served from this site, so no font network sees your visit.",
       "i1": "Cloudflare (Cloudflare, Inc.) runs the small server every form passes through and the spam check on the forms, and stores the like counts and the announcement banner. It sees your IP address to apply a rate limit; submissions pass through it without being stored.",
       "i2": "Brevo (Sendinblue SAS, France) holds newsletter subscriptions and the record of your consent, and sends every email: newsletters, contact messages, booking confirmations and guide deliveries.",
@@ -901,7 +1029,7 @@
       "note": "If this ever changes, this section is updated before the change goes live, and anything requiring your consent will ask for it first."
     },
     "retention": {
-      "title": "6. How long it is kept",
+      "title": "How long it is kept",
       "i1": "Enquiries that do not lead to a session: up to 12 months, then deleted.",
       "i2": "Newsletter subscriptions: until you unsubscribe. The record proving you consented is kept for three years after that, which is how long it could still be needed as evidence.",
       "i4": "Bookings: kept in the calendar while the appointment needs them, then treated like an enquiry — up to 12 months — unless therapy begins.",
@@ -909,7 +1037,7 @@
       "i3": "Once therapy begins, client records are held separately under the rules of the Romanian College of Psychologists and are not governed by this website notice."
     },
     "rights": {
-      "title": "7. Your rights",
+      "title": "Your rights",
       "intro": "You may ask, free of charge, to:",
       "i1": "see what data is held about you",
       "i2": "have it corrected if it is wrong",
@@ -921,13 +1049,16 @@
       "complaint": "You may also complain to the Romanian supervisory authority, ANSPDCP — dataprotection.ro."
     },
     "security": {
-      "title": "8. Security",
+      "title": "Security",
       "body": "The site is served over HTTPS. Because so little is collected, there is little to lose — that is the main safeguard, and it is a deliberate choice."
     },
     "changes": {
-      "title": "9. Changes to this notice",
+      "title": "Changes to this notice",
       "body": "Any update appears on this page with a new date above. Material changes to what is collected will be flagged on the site itself, not only here."
     }
+  },
+  "legal": {
+    "contents": "Contents"
   },
   "terms": {
     "title": "Terms of Use",
@@ -938,36 +1069,36 @@
       "body": "This website is not a channel for emergencies and messages are not monitored continuously. If you or someone else is in immediate danger, call 112, or the Romanian anti-suicide helpline on 0800 801 200."
     },
     "purpose": {
-      "title": "1. What this site is",
+      "title": "What this site is",
       "body": "It presents a psychotherapy practice and publishes general information about mental health. That information is educational. It is not a diagnosis, not a treatment plan and not a substitute for a consultation — reading it does not create a therapeutic relationship."
     },
     "use": {
-      "title": "2. Acceptable use",
+      "title": "Acceptable use",
       "i1": "Do not use the site for unlawful purposes, or to send abusive, misleading or automated content through its forms.",
       "i2": "Articles and other content belong to their author. You may link to them and quote them with attribution; republishing them elsewhere requires permission."
     },
     "accuracy": {
-      "title": "3. Accuracy",
+      "title": "Accuracy",
       "body": "Content is offered in good faith and reviewed periodically, but it is provided as it is, without a guarantee that it is complete, current or applicable to your situation."
     },
     "liability": {
-      "title": "4. Liability",
+      "title": "Liability",
       "body": "Nothing here limits liability for death, personal injury or anything else that cannot lawfully be excluded. Beyond that, we are not liable for decisions taken on the basis of general information published on this site, or for the site being temporarily unavailable."
     },
     "links": {
-      "title": "5. Links to other sites",
+      "title": "Links to other sites",
       "body": "Some pages link to external sites. Those sites have their own terms and privacy practices, and we are not responsible for their content."
     },
     "images": {
-      "title": "6. Images",
+      "title": "Images",
       "body": "Some of the images used on this site are generated with artificial intelligence and are illustrative. They do not depict real clients, real sessions or real events."
     },
     "changes": {
-      "title": "7. Changes",
+      "title": "Changes",
       "body": "These terms may be updated. The date above shows when they last changed."
     },
     "contact": {
-      "title": "8. Contact",
+      "title": "Contact",
       "body": "Questions about these terms: {email}. How your data is handled is covered separately in the"
     }
   },
@@ -992,8 +1123,15 @@
   "notFound": {
     "title": "404 - Page Not Found",
     "message": "Sorry, the page you are looking for does not exist.",
+    "lead": "Maybe it moved, or the link has a small typo. That's fine — I'll help you find your way.",
     "backToHome": "Back to Home",
-    "linksTitle": "Or try one of these"
+    "linksTitle": "Or try one of these",
+    "links": {
+      "about": "Who I am and how I work.",
+      "services": "Infertility, postpartum and career.",
+      "resources": "Articles, guides and exercises.",
+      "contact": "Write to me or book a session."
+    }
   },
   "cta": {
     "button": "Programează o primă ședință",
@@ -1020,7 +1158,10 @@
       "fallbackCta": "Trimite-mi un mesaj",
       "pickDay": "Alege ziua",
       "pickTime": "Alege ora",
-      "timezoneNote": "Orele sunt afișate în fusul tău orar. O ședință durează {minutes} de minute."
+      "timezoneNote": "Orele sunt afișate în fusul tău orar. O ședință durează {minutes} de minute.",
+      "pickTitle": "Alege ziua și ora",
+      "prevMonth": "Luna anterioară",
+      "nextMonth": "Luna următoare"
     },
     "form": {
       "title": "Rezervi pentru {slot}",
@@ -1037,12 +1178,13 @@
       "privacy": "Datele tale rămân confidențiale și nu sunt distribuite nimănui.",
       "error": "Nu am putut salva programarea. Încearcă din nou sau scrie-mi.",
       "error_slot_unavailable": "Ora tocmai a fost ocupată. Alege alta sau scrie-mi.",
-      "error_already_booked": "Ai deja o ședință programată cu această adresă. Dacă vrei să o muți sau să mai stabilim una, scrie-mi."
+      "error_already_booked": "Nu am putut salva programarea. Dacă ai deja o ședință programată, răspunde la emailul de confirmare ca să o muți."
     },
     "success": {
       "title": "Ne vedem atunci.",
       "text": "Ți-am trimis un email cu detaliile ședinței.",
-      "note": "Dacă vrei să muți sau să anulezi ședința, răspunde la acel email."
+      "note": "Dacă vrei să muți sau să anulezi ședința, răspunde la acel email.",
+      "meta": "{mode} · {minutes} de minute"
     }
   }
 }

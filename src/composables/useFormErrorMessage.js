@@ -1,8 +1,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-// Resolves a Worker error code to copy, preferring the form's own wording for the cases it
-// already phrases better than the shared set (a taken booking slot, a failed payment start).
+// The form's own wording wins over the shared set for the cases it phrases better.
 export function useFormErrorMessage(errorCode, fallbackKey) {
     const { t, te } = useI18n()
 

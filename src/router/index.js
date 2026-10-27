@@ -40,8 +40,7 @@ const routes = [
     path: '/ateliere',
     name: 'events',
     component: () => import('@/views/Events.vue'),
-    // flushHero: the hero media runs behind the fixed nav, leaving no room for a breadcrumb bar.
-    meta: { seo: 'events', parent: 'home', flushHero: true },
+    meta: { seo: 'events', parent: 'home' },
   },
   {
     path: '/ateliere/:slug',
@@ -71,7 +70,7 @@ const routes = [
     path: '/resurse',
     name: 'resources',
     component: () => import('@/views/Resources.vue'),
-    meta: { seo: 'resources', parent: 'home', flushHero: true },
+    meta: { seo: 'resources', parent: 'home' },
   },
   {
     path: '/noutati',
@@ -89,7 +88,7 @@ const routes = [
     path: '/contact',
     name: 'contact',
     component: () => import('@/views/Contact.vue'),
-    meta: { seo: 'contact', parent: 'home', flushHero: true },
+    meta: { seo: 'contact', parent: 'home' },
   },
   {
     path: '/confidentialitate',
@@ -110,6 +109,9 @@ const routes = [
     component: () => import('@/views/Dashboard.vue'),
     meta: { titleKey: 'dashboard.title', noindex: true },
   },
+  ...(import.meta.env.DEV
+    ? [{ path: '/specimen', name: 'specimen', component: () => import('@/views/Specimen.vue'), meta: { parent: 'home' } }]
+    : []),
   {
     path: '/:catchAll(.*)',
     name: 'not-found',
@@ -121,7 +123,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes.filter((route) => !isHiddenPath(route.path)),
-  // Resolves out-in mode jumps the still-visible page to the top first
+  // Waits for the old page to leave, or out-in mode jumps it to the top while still visible.
   scrollBehavior(to, from, savedPosition) {
     const headerHeight = document.querySelector('nav.navigation')?.offsetHeight ?? 0
     const target = savedPosition ??
@@ -135,8 +137,7 @@ const router = createRouter({
   }
 })
 
-// Detail routes have no `seo` key of their own — they show the list page's copy until their
-// lazy chunk lands and the component applies the real title.
+// Detail routes show the list page's copy until their chunk lands and sets the real title.
 router.afterEach((to) => {
   if (to.meta.noindex) {
     applyPrivatePage(i18n.global.t(to.meta.titleKey))

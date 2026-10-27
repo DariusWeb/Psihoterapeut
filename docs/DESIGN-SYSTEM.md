@@ -1,5 +1,11 @@
 # Design System — Psihoterapeut
 
+> **Superseded 2026-10-21 by the redesign.** The styling source of truth is now
+> `design_handoff/designs/Design System v4.dc.html` > `design_handoff/tokens.css` > the page mocks,
+> tracked in `docs/REDESIGN-2026-10-21.md`. Values and rules below describe the old fluid system and
+> **must not be copied** into new code. Still valid: §6 "Checking a change" and "Proposing a value"
+> (process, not values). This file is rewritten in the redesign's last phase.
+
 How this site is built and why. Read this **before writing any markup or CSS** — most of what a new page needs already exists here, and the pieces that look like judgement calls are settled decisions with reasons behind them.
 
 Companion to [PROJECT-STATUS.md](./PROJECT-STATUS.md) (what state the project is in) and [PRE-DEPLOY-CHECKLIST.md](./PRE-DEPLOY-CHECKLIST.md) (the launch gate). This one is about *how things should look and be built*.

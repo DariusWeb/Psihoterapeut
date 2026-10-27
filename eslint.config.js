@@ -24,6 +24,8 @@ export default [
         Event: 'readonly',
         console: 'readonly',
         MutationObserver: 'readonly',
+        ResizeObserver: 'readonly',
+        IntersectionObserver: 'readonly',
         Intl: 'readonly',
       },
     },
@@ -31,7 +33,7 @@ export default [
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.wrangler/**'],
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.wrangler/**', 'design_handoff/**', 'docs/**', '.redesign-scratch/**'],
   },
 
   js.configs.recommended,

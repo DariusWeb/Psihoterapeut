@@ -20,7 +20,6 @@
     const shareButton = ref(null)
 
     // ponytail: a browser flag, not an identity — clearing site data allows another like.
-    // Anything stronger would mean storing a visitor identifier, which a like does not justify.
     const readFlag = () => {
         try { return localStorage.getItem(storageKey) === '1' } catch { return false }
     }
@@ -38,8 +37,7 @@
         }
     })
 
-    // Nothing is remembered until the write is confirmed: a refused or unreachable route
-    // must leave the button live, or one failed click disables it for good.
+    // Remembered only once the write is confirmed, so one failed click doesn't disable it for good.
     async function like() {
         if (liked.value || sending.value || !ENDPOINT) return
         sending.value = true

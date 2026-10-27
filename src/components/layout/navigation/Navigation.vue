@@ -1,11 +1,12 @@
 <script setup>
 	import { RouterLink, useRoute } from 'vue-router'
 	import { useI18n } from 'vue-i18n'
-	import { ref, onMounted, onUnmounted, watch } from 'vue'
+	import { ref, watch } from 'vue'
+	import { ChevronDown, Menu, Search, X } from '@lucide/vue'
 	import ThemeToggle from '@/components/common/ThemeToggle.vue'
 	import LanguageToggle from '@/components/common/LanguageToggle.vue'
 	import SiteSearch from '@/components/common/SiteSearch.vue'
-	import { useOverlay } from '@/composables/useOverlay'
+	import { afterPageLeaves, useOverlay } from '@/composables/useOverlay'
 	import { services } from '@/content/services/index.js'
 	import { isHiddenPath } from '@/seo.config'
 
@@ -13,10 +14,10 @@
 
 	const { t } = useI18n()
 	const route = useRoute()
-	const isScrolled = ref(false)
 	const openDropdown = ref(null)
 	const hamburgerRef = ref(null)
 	const closeButtonRef = ref(null)
+	const siteSearchRef = ref(null)
 
 	const { isOpen: isMenuOpen, open, close } = useOverlay({ onEscape: () => closeMenu() })
 
@@ -26,7 +27,7 @@
 		{
 			key: 'services',
 			to: '/servicii',
-			children: services.map(s => ({ to: `/servicii/${s.slug}`, labelKey: `services.${s.key}.title` })),
+			children: services.map(s => ({ to: `/servicii/${s.slug}`, key: s.key, icon: s.icon })),
 		},
 		{ key: 'resources', to: '/resurse' },
 		{ key: 'events', to: '/ateliere' },
@@ -34,9 +35,8 @@
 		{ key: 'contact', to: '/contact' },
 	].filter(item => !isHiddenPath(item.to))
 
-	const handleScroll = () => {
-		isScrolled.value = window.scrollY > 0
-	}
+	// Home only on an exact match; the others also mark the pages below them (a service under For you).
+	const isCurrent = (item) => (item.to === '/' ? route.path === '/' : route.path.startsWith(item.to))
 
 	function toggleMenu() {
 		if (isMenuOpen.value) closeMenu()
@@ -57,19 +57,25 @@
 		close(restoreFocus ? hamburgerRef : null)
 	}
 
+	function openSearchFromMenu() {
+		closeMenu({ restoreFocus: false })
+		siteSearchRef.value.open()
+	}
+
+	// a link to the page already shown doesn't navigate, so it closes the menu itself
+	function closeMenuIfCurrent(to) {
+		if (to === route.path) closeMenu()
+	}
+
 	// navigating should land the user on the new page, not back on the hamburger
 	watch(() => route.path, () => {
-		closeMenu({ restoreFocus: false })
 		openDropdown.value = null
+		if (isMenuOpen.value) afterPageLeaves(() => closeMenu({ restoreFocus: false }))
 	})
-
-	onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true }))
-
-	onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 </script>
 
 <template>
-	<nav class="navigation" :class="{ 'is-scrolled': isScrolled }">
+	<nav class="navigation">
 		<div class="nav-logo">
 			<RouterLink to="/">
 				<img :src="logoUrl" :alt="t('navigation.logoAlt')" width="502" height="139">
@@ -77,404 +83,521 @@
 		</div>
 
 		<div class="nav-menu">
-			<template v-for="item in navItems" :key="item.key">
-				<div v-if="item.children" class="nav-dropdown-wrapper" @mouseenter="openDropdown = item.key"
-					@mouseleave="openDropdown = null" @focusout="closeDropdownOnLeave($event, item.key)">
-					<RouterLink :to="item.to">
-						{{ t(`navigation.menu.${item.key}`) }}
-					</RouterLink>
-					<button class="chevron-button" @click="toggleDropdown(item.key)"
-						:aria-expanded="openDropdown === item.key"
-						:aria-label="t('navigation.submenuToggle', { menu: t(`navigation.menu.${item.key}`) })">
-						<svg class="chevron" :class="{ 'is-open': openDropdown === item.key }"
-							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-							stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-							<polyline points="6 9 12 15 18 9" />
-						</svg>
-					</button>
-					<Transition name="dropdown">
-						<div v-if="openDropdown === item.key" class="nav-dropdown">
-							<RouterLink v-for="child in item.children" :key="child.to" :to="child.to">
-								{{ t(child.labelKey) }}
+			<template v-for="item in navItems">
+				<div v-if="item.children" :key="item.key" class="nav-dropdown-wrapper"
+					@mouseenter="openDropdown = item.key" @mouseleave="openDropdown = null"
+					@focusout="closeDropdownOnLeave($event, item.key)">
+					<span class="nav-item nav-dropdown-trigger"
+						:class="{ 'is-current': isCurrent(item), 'is-open': openDropdown === item.key }">
+						<RouterLink :to="item.to">
+							{{ t(`navigation.menu.${item.key}`) }}
+						</RouterLink>
+						<button type="button" class="chevron-button" @click="toggleDropdown(item.key)"
+							:aria-expanded="openDropdown === item.key"
+							:aria-label="t('navigation.submenuToggle', { menu: t(`navigation.menu.${item.key}`) })">
+							<ChevronDown class="chevron" :size="14" aria-hidden="true" />
+						</button>
+					</span>
+					<Transition name="panel">
+						<div v-if="openDropdown === item.key" class="nav-panel">
+							<RouterLink v-for="child in item.children" :key="child.to" :to="child.to"
+								class="nav-panel-item">
+								<span class="nav-panel-icon"><component :is="child.icon" :size="17" aria-hidden="true" /></span>
+								<span class="nav-panel-title">{{ t(`services.${child.key}.title`) }}</span>
+								<span class="nav-panel-text text-caption">{{ t(`services.${child.key}.summary`) }}</span>
 							</RouterLink>
 						</div>
 					</Transition>
 				</div>
-				<RouterLink v-else :to="item.to">{{ t(`navigation.menu.${item.key}`) }}</RouterLink>
+				<RouterLink v-else :key="item.key" :to="item.to" class="nav-item" :class="{ 'is-current': isCurrent(item) }">
+					{{ t(`navigation.menu.${item.key}`) }}
+				</RouterLink>
 			</template>
 		</div>
 
 		<div class="nav-controls">
-			<SiteSearch />
+			<SiteSearch ref="siteSearchRef" />
 			<ThemeToggle />
 			<LanguageToggle />
-			<button ref="hamburgerRef" class="hamburger" @click="toggleMenu" :aria-expanded="isMenuOpen"
-				:aria-label="t('navigation.menuToggle')">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-					stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<line x1="3" y1="6" x2="21" y2="6" />
-					<line x1="3" y1="12" x2="21" y2="12" />
-					<line x1="3" y1="18" x2="21" y2="18" />
-				</svg>
+			<button ref="hamburgerRef" type="button" class="menu-button hamburger" @click="toggleMenu"
+				:aria-expanded="isMenuOpen" :aria-label="t('navigation.menuToggle')">
+				<Menu :size="19" aria-hidden="true" />
 			</button>
 		</div>
-	</nav>
 
-	<Teleport to="body">
-		<Transition name="overlay">
-			<div v-if="isMenuOpen" class="nav-overlay" role="dialog" aria-modal="true" :aria-label="t('navigation.menuLabel')">
-				<button ref="closeButtonRef" class="overlay-close" @click="closeMenu()" :aria-label="t('navigation.menuClose')">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-						<line x1="18" y1="6" x2="6" y2="18" />
-						<line x1="6" y1="6" x2="18" y2="18" />
-					</svg>
-				</button>
+		<Teleport to="body">
+			<Transition name="overlay">
+				<div v-if="isMenuOpen" class="nav-overlay" role="dialog" aria-modal="true" :aria-label="t('navigation.menuLabel')">
+					<div class="overlay-top">
+						<RouterLink to="/" class="overlay-logo" @click="closeMenuIfCurrent('/')">
+							<img :src="logoUrl" :alt="t('navigation.logoAlt')" width="502" height="139">
+						</RouterLink>
+						<button type="button" class="overlay-search" :aria-label="t('search.label')"
+							:title="t('search.label')" @click="openSearchFromMenu">
+							<Search :size="18" aria-hidden="true" />
+						</button>
+						<button ref="closeButtonRef" type="button" class="menu-button" @click="closeMenu()"
+							:aria-label="t('navigation.menuClose')">
+							<X :size="19" aria-hidden="true" />
+						</button>
+					</div>
 
-				<div class="overlay-links">
-					<template v-for="item in navItems" :key="item.key">
-						<div v-if="item.children" class="overlay-item-group">
-							<RouterLink :to="item.to">{{ t(`navigation.menu.${item.key}`) }}</RouterLink>
-							<div class="overlay-item-children">
-								<RouterLink v-for="child in item.children" :key="child.to" :to="child.to">
-									{{ t(child.labelKey) }}
+					<div class="overlay-links">
+						<div v-for="(item, index) in navItems" :key="item.key" class="overlay-item menu-rise"
+							:style="{ '--rise-index': Math.min(index, 5) }">
+							<RouterLink :to="item.to" class="overlay-link" :class="{ 'is-current': isCurrent(item) }"
+								@click="closeMenuIfCurrent(item.to)">
+								{{ t(`navigation.menu.${item.key}`) }}
+							</RouterLink>
+							<div v-if="item.children" class="overlay-sublinks">
+								<RouterLink v-for="child in item.children" :key="child.to" :to="child.to" class="overlay-sublink"
+									@click="closeMenuIfCurrent(child.to)">
+									{{ t(`services.${child.key}.title`) }}
 								</RouterLink>
 							</div>
 						</div>
-						<RouterLink v-else :to="item.to">{{ t(`navigation.menu.${item.key}`) }}</RouterLink>
-					</template>
-				</div>
+					</div>
 
-				<div class="overlay-controls">
-					<ThemeToggle />
-					<LanguageToggle />
+					<div class="overlay-footer menu-rise" style="--rise-index: 5">
+						<RouterLink to="/programare" class="button-primary overlay-book"
+							@click="closeMenuIfCurrent('/programare')">{{ t('navigation.cta.book') }}</RouterLink>
+						<div class="overlay-controls">
+							<ThemeToggle />
+							<LanguageToggle />
+						</div>
+					</div>
 				</div>
-			</div>
-		</Transition>
-	</Teleport>
+			</Transition>
+		</Teleport>
+	</nav>
 </template>
 
 <style scoped lang="scss">
+	// The bar's ground and line sit on App's <header>; this is the container inside it.
 	.navigation {
-		width: 100%;
-		position: fixed;
-		top: 0;
+		position: relative;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		padding: 0 var(--page-gutter);
-		background: var(--nav-bg);
-		transition: all var(--vt-c-transition-speed);
-
-		&.is-scrolled {
-			backdrop-filter: blur(20px);
-
-			:root.no-gpu-blur & {
-				backdrop-filter: none;
-				background: var(--vt-c-background);
-			}
-		}
+		gap: var(--s-24);
+		max-width: var(--container);
+		height: var(--header-h);
+		margin-inline: auto;
+		padding: 0 var(--gutter);
 	}
 
-	.nav-logo img {
-		display: block;
-		height: 2.8rem;
-		width: auto;
-	}
-
-	.nav-controls {
+	.nav-logo {
+		flex: 1;
 		display: flex;
-		align-items: center;
-		gap: var(--gap-xs);
-	}
 
-	.hamburger {
-		display: none;
-		align-items: center;
-		justify-content: center;
-		width: 2.2rem;
-		height: 2.2rem;
-		padding: 0.4rem;
-		border-radius: 50%;
-		background: transparent;
-		border: none;
-		cursor: pointer;
-		color: var(--vt-c-black);
-		transition: all var(--vt-c-transition-speed);
-
-		svg {
-			width: 1.3rem;
-			height: 1.3rem;
-		}
-
-		&:hover {
-			background: var(--vt-c-jannafer-gray2);
-			color: var(--vt-c-jannafer-green);
+		img {
+			display: block;
+			height: 40px;
+			width: auto;
 		}
 	}
 
 	.nav-menu {
 		display: flex;
-		gap: var(--gap-md);
+		gap: var(--s-4);
 	}
 
-	.nav-menu>a,
-	.nav-dropdown-wrapper>a {
-		position: relative;
-		margin: 0.8rem 0 1.2rem;
-		padding: .2rem 1rem;
-		border-radius: 2rem;
-		border: 2px solid transparent;
-		transition: var(--vt-c-transition-speed);
-
-		&.router-link-active {
-			border-color: var(--vt-c-jannafer-green);
-
-			&:after {
-				opacity: 0;
-			}
-		}
-
-		&:after {
-			content: "";
-			position: absolute;
-			bottom: -0.12rem;
-			left: 1rem;
-			width: 30%;
-			height: 2px;
-			background: var(--vt-c-jannafer-green);
-			transition: var(--vt-c-transition-speed);
-		}
-
-		&:hover {
-			text-decoration: none;
-
-			&:after {
-				width: 63%;
-			}
-		}
-
-		&.router-link-active {
-			background: var(--vt-c-white);
-
-			&:after {
-				width: 50%;
-			}
-		}
-	}
-
-	.nav-dropdown-wrapper {
-		position: relative;
-		display: inline-flex;
+	.nav-controls {
+		flex: 1;
+		display: flex;
 		align-items: center;
+		justify-content: flex-end;
+		gap: var(--s-10);
+	}
 
-		>a {
-			display: inline-flex;
+	.nav-menu a {
+		text-decoration: none;
+	}
+
+	.nav-item {
+		position: relative;
+		display: flex;
+		align-items: center;
+		height: var(--control-h);
+		padding: 0 var(--s-14);
+		font: 500 var(--fs-body-s) var(--font-sans);
+		white-space: nowrap;
+		color: var(--ink);
+		transition: color var(--t-color);
+
+		&::after {
+			content: '';
+			position: absolute;
+			left: var(--s-14);
+			right: var(--s-14);
+			bottom: 3px;
+			height: 1.5px;
+			border-radius: var(--r-pill);
+			background: var(--olive-400);
+			transform: scaleX(0);
+			transition: transform var(--t-ui) var(--ease-out);
+		}
+
+		&:hover,
+		&.is-open {
+			color: var(--olive-700);
+
+			&::after {
+				transform: scaleX(1);
+			}
+		}
+
+		&.is-current {
+			color: var(--olive-800);
+
+			&::after {
+				height: 2px;
+				background: var(--olive-600);
+				transform: scaleX(1);
+			}
+		}
+	}
+
+	// The panel centres on the header, not on this item, so the wrapper stays unpositioned.
+	.nav-dropdown-wrapper {
+		display: flex;
+	}
+
+	.nav-dropdown-trigger {
+		padding: 0;
+
+		> a {
+			display: flex;
 			align-items: center;
-			padding-right: 0.4rem;
+			align-self: stretch;
+			padding-left: var(--s-14);
+			color: inherit;
 		}
 	}
 
 	// the chevron is its own control so touch and keyboard can open the submenu; the link navigates
 	.chevron-button {
-		display: inline-flex;
+		display: flex;
 		align-items: center;
 		align-self: stretch;
-		padding: 0 0.6rem 0 0.1rem;
-		background: none;
-		border-radius: 2rem;
+		padding: 0 var(--s-14) 0 var(--s-4);
+		background: transparent;
 		color: inherit;
 
 		&:hover {
-			background: none;
-			color: var(--vt-c-jannafer-green);
+			background: transparent;
+			color: inherit;
 		}
 	}
 
 	.chevron {
-		width: 0.8rem;
-		height: 0.8rem;
-		flex-shrink: 0;
-		transition: transform var(--vt-c-transition-speed);
+		transition: transform var(--t-color);
 
-		&.is-open {
+		.is-open & {
 			transform: rotate(180deg);
 		}
 	}
 
-	.nav-dropdown {
+	.nav-panel {
 		position: absolute;
-		top: 100%;
-		left: 50%;
-		transform: translateX(-50%);
-		min-width: 14rem;
-		background: var(--vt-c-background);
-		border: 1px solid var(--vt-c-jannafer-gray2);
-		border-radius: 0.75rem;
-		box-shadow: var(--vt-c-shadow-raised);
+		top: calc(var(--header-h) + var(--s-4));
+		left: calc(50% - 330px);
 		z-index: 100;
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--s-4);
+		width: 660px;
+		padding: var(--s-10);
+		border-radius: var(--r-block);
+		background: var(--paper);
+		box-shadow: var(--shadow-panel);
+		transform-origin: top center;
+		white-space: normal;
 
-		a {
-			padding: 0.55rem 1.25rem;
-			font-size: var(--step-body-sm);
-			white-space: nowrap;
-			color: var(--vt-c-black);
-			text-decoration: none;
-			transition: color var(--vt-c-transition-speed), background var(--vt-c-transition-speed);
-
-			&:hover {
-				background: var(--vt-c-jannafer-gray2);
-				color: var(--vt-c-jannafer-green);
-			}
-
-			&.router-link-active {
-				color: var(--vt-c-jannafer-green);
-				font-weight: 700;
-			}
+		// Bridges the gap down from the link, so moving the pointer into the panel doesn't close it.
+		&::before {
+			content: '';
+			position: absolute;
+			bottom: 100%;
+			left: 0;
+			right: 0;
+			height: calc((var(--header-h) - var(--control-h)) / 2 + var(--s-4));
 		}
 	}
 
-	.dropdown-enter-active,
-	.dropdown-leave-active {
-		transition: opacity var(--vt-c-transition-speed) ease, transform var(--vt-c-transition-speed) ease;
+	.nav-panel-item {
+		display: grid;
+		grid-template-columns: 32px minmax(0, 1fr);
+		gap: var(--s-10) var(--s-12);
+		align-items: center;
+		padding: var(--s-16);
+		border-radius: var(--r-item);
+		color: var(--ink);
+		transition: background-color var(--t-color);
+
+		&:hover {
+			background: var(--sand);
+			color: var(--ink);
+		}
 	}
 
-	.dropdown-enter-from,
-	.dropdown-leave-to {
+	.nav-panel-icon {
+		display: grid;
+		place-items: center;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		background: color-mix(in srgb, var(--olive-600) 7%, transparent);
+		color: var(--olive-600);
+	}
+
+	.nav-panel-title {
+		font-family: var(--font-serif);
+		font-size: var(--fs-serif-s);
+		line-height: 1.25;
+		color: var(--olive-700);
+	}
+
+	.nav-panel-text {
+		grid-column: 1 / -1;
+	}
+
+	.panel-enter-active,
+	.panel-leave-active {
+		transition: opacity var(--t-color) var(--ease-out), transform var(--t-color) var(--ease-out);
+	}
+
+	.panel-enter-from,
+	.panel-leave-to {
 		opacity: 0;
-		transform: translateX(-50%) translateY(-0.4rem);
+		transform: translateY(-4px) scale(0.98);
 	}
 
-	// Full-screen overlay
+	.menu-button {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: var(--control-h);
+		height: var(--control-h);
+		padding: 0;
+		border: 1.5px solid var(--olive-200);
+		border-radius: var(--r-pill);
+		background: var(--paper);
+		color: var(--olive-700);
+		transition: border-color var(--t-color);
+
+		&:hover {
+			border-color: var(--olive-600);
+			background: var(--paper);
+			color: var(--olive-700);
+		}
+	}
+
+	.hamburger {
+		display: none;
+	}
+
 	.nav-overlay {
 		position: fixed;
 		inset: 0;
-		background: var(--vt-c-background);
 		z-index: 200;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 3rem;
+		padding: var(--s-10) var(--gutter) var(--s-24);
+		overflow-y: auto;
+		background: var(--cream);
 	}
 
-	.overlay-close {
-		position: absolute;
-		top: 1.2rem;
-		right: 1.2rem;
-		width: 2.5rem;
-		height: 2.5rem;
-		padding: 0.5rem;
-		border-radius: 50%;
-		background: var(--vt-c-jannafer-gray2);
-		border: none;
-		cursor: pointer;
-		color: var(--vt-c-black);
+	// Same height and line as the bar it covers, so the logo and the button don't jump.
+	.overlay-top {
+		flex: none;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		transition: all var(--vt-c-transition-speed);
+		gap: var(--s-4);
+		height: calc(var(--header-h) - 2 * var(--s-10));
+	}
 
-		svg {
-			width: 1.2rem;
-			height: 1.2rem;
-		}
+	.overlay-logo {
+		margin-right: auto;
+	}
 
-		&:hover {
-			background: var(--vt-c-jannafer-green);
-			color: var(--vt-c-on-accent);
-		}
+	.overlay-logo img {
+		display: block;
+		height: 40px;
+		width: auto;
 	}
 
 	.overlay-links {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: var(--gap-xs);
+		margin-top: 30px;
+		padding-bottom: var(--s-24);
+	}
 
-		a {
-			font-size: var(--step-body);
-			font-family: "Libre Baskerville", serif;
-			color: var(--vt-c-jannafer-green);
+	.overlay-item {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.overlay-link {
+		position: relative;
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+		padding-left: var(--s-16);
+		font: 24px / 1.3 var(--font-serif);
+		color: var(--olive-700);
+
+		&:hover {
 			text-decoration: none;
-			padding: 0.3rem 1.5rem;
-			border-radius: 2rem;
-			border: 1px solid transparent;
-			transition: all var(--vt-c-transition-speed);
+			color: var(--olive-800);
+		}
 
-			&.router-link-active {
-				border-color: var(--vt-c-jannafer-green);
-			}
+		&.is-current {
+			color: var(--olive-800);
 
-			&:hover {
-				text-decoration: none;
-				background: var(--vt-c-jannafer-gray2);
+			&::before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: calc(50% - 3px);
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background: var(--olive-600);
 			}
 		}
 	}
 
-	.overlay-item-group {
+	.overlay-sublinks {
 		display: flex;
 		flex-direction: column;
+		margin: 0 0 var(--s-6) var(--s-16);
+		padding-left: var(--s-14);
+		border-left: 1.5px solid var(--olive-200);
+	}
+
+	.overlay-sublink {
+		display: flex;
 		align-items: center;
-		gap: var(--gap-sm);
+		min-height: var(--control-h);
+		font-size: var(--fs-body-s);
+		color: var(--ink);
+
+		&:hover {
+			text-decoration: none;
+			color: var(--olive-800);
+		}
+
+		&[aria-current='page'] {
+			font-weight: 700;
+			color: var(--olive-800);
+		}
+	}
+
+	.overlay-footer {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-14);
+		margin-top: auto;
+	}
+
+	// Same look and spot as the header's search button, so it doesn't jump when the menu opens.
+	.overlay-search {
+		display: grid;
+		place-items: center;
+		width: var(--control-h);
+		height: var(--control-h);
+		padding: 0;
+		border-radius: var(--r-pill);
+		background: transparent;
+		color: var(--olive-700);
+		transition: background-color var(--t-color);
+
+		&:hover {
+			background: var(--olive-tint);
+			color: var(--olive-700);
+		}
+	}
+
+	.overlay-book {
+		justify-content: center;
 		width: 100%;
-	}
-
-	.overlay-item-children {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--gap-xs);
-
-		a {
-			font-size: var(--step-body);
-			font-family: inherit;
-			padding: 0.2rem 1.25rem;
-			opacity: 0.75;
-
-			&:hover {
-				opacity: 1;
-			}
-		}
+		height: 44px;
 	}
 
 	.overlay-controls {
 		display: flex;
-		align-items: center;
-		gap: var(--gap-md);
+		justify-content: space-between;
+
+		:deep(.theme-toggle) {
+			--toggle-w: 38px;
+			--toggle-h: 38px;
+
+			svg {
+				width: 16px;
+				height: 16px;
+			}
+		}
+
+		:deep(.lang-toggle) {
+			--toggle-w: 44px;
+			--toggle-h: 38px;
+
+			.toggle-option {
+				font-size: 12px;
+				font-weight: 700;
+			}
+		}
 	}
 
-	// Overlay transition
+	.menu-rise {
+		animation: menu-rise var(--t-ui) var(--ease-out) backwards;
+		animation-delay: calc(var(--rise-index) * 40ms + 60ms);
+	}
+
+	@keyframes menu-rise {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+	}
+
 	.overlay-enter-active,
 	.overlay-leave-active {
-		transition: opacity var(--vt-c-transition-speed) ease, transform var(--vt-c-transition-speed) ease;
+		transition: opacity var(--t-color) var(--ease-out);
 	}
 
 	.overlay-enter-from,
 	.overlay-leave-to {
 		opacity: 0;
-		transform: translateY(-0.75rem);
 	}
 
-	// Switches at the width where the full link row stops fitting, not at the page breakpoint —
-	// below ~1150px the links, logo and controls overrun the bar.
+	// Switches where the link row stops fitting, not at the page breakpoint.
 	@media (max-width: 1150px) {
 		.nav-menu {
 			display: none;
 		}
 
 		.hamburger {
-			display: flex;
+			display: grid;
 		}
 
-		// Hide toggles from the top nav bar on mobile – they're in the overlay
+		.nav-controls {
+			gap: var(--s-4);
+		}
+
+		// the toggles live in the menu below this width
 		.nav-controls :deep(.theme-toggle),
 		.nav-controls :deep(.lang-toggle) {
 			display: none;
+		}
+	}
+
+	// The circle's icon lines up with the gutter, not its edge.
+	@media (max-width: 767px) {
+		.navigation,
+		.nav-overlay {
+			padding-right: var(--s-12);
 		}
 	}
 </style>

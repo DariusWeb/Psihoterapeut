@@ -1,5 +1,4 @@
-// Deters casual copying only. The prose is decoded into the DOM at runtime, so anyone with a
-// console open can still read it — that is a ceiling of the platform, not a gap to be closed here.
+// Deters casual copying only: the prose is decoded into the DOM, so a console can still read it.
 
 import { SITE } from '@/seo.config'
 
@@ -26,8 +25,7 @@ function preventViewSourceAndDevtoolsKeys(event) {
 	if (event.key === 'F12' || opensDevtools || viewsOrSavesSource) event.preventDefault()
 }
 
-// ponytail: docked-devtools heuristic. Undocked panels are invisible to it and the dpr correction
-// makes it under-detect on high-DPI screens — deliberate, since a false positive hits a real visitor.
+// ponytail: docked-devtools heuristic; it misses undocked panels on purpose, a false positive hits a real visitor.
 function watchViewportRatio() {
 	const root = document.documentElement
 	let veiled = false

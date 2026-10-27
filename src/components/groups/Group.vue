@@ -34,8 +34,7 @@
         })
     })
 
-    // ponytail: the group arrives inside the message body rather than as its own field —
-    // upgrade to a dedicated Worker route if she ever needs to filter signups by group.
+    // ponytail: the group rides in the message body; add a Worker field if signups need filtering by group.
     function signUp() {
         submit({
             ...form.value,

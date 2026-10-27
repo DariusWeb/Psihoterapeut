@@ -1,4 +1,3 @@
-// Public contact details, from the client's sheet (cell H4).
 export const CONTACT = {
 	email: 'andreea.butacu.psiholog@gmail.com',
 	phone: '+40759209294',

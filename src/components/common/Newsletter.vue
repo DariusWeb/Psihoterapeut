@@ -1,193 +1,140 @@
 <script setup>
-    import { ref } from 'vue'
-    import { RouterLink } from 'vue-router'
-    import { useI18n } from 'vue-i18n'
-    import { Heart, Mail } from '@lucide/vue'
-    import { useFormSubmit } from '@/composables/useFormSubmit'
-    import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
-    import { captureEvent } from '@/services/analytics'
+	import { ref } from 'vue'
+	import { RouterLink } from 'vue-router'
+	import { useI18n } from 'vue-i18n'
+	import { Check, CircleAlert } from '@lucide/vue'
+	import { useFormSubmit } from '@/composables/useFormSubmit'
+	import { useFormErrorMessage } from '@/composables/useFormErrorMessage'
+	import { captureEvent } from '@/services/analytics'
 
-    const { t, locale } = useI18n()
-    const email = ref('')
-    const consent = ref(false)
-    // Brevo owns the list and the consent proof: its double opt-in records the confirmation
-    // timestamp and IP, which is stronger evidence than a log written before confirmation.
-    const { status, errorCode, captcha, submit } = useFormSubmit('/newsletter')
-    const errorMessage = useFormErrorMessage(errorCode, 'newsletter.error')
+	const { t, locale } = useI18n()
+	const email = ref('')
+	const consent = ref(false)
+	// Brevo's double opt-in records the confirmation time and IP, which is the consent proof.
+	const { status, errorCode, captcha, submit } = useFormSubmit('/newsletter')
+	const errorMessage = useFormErrorMessage(errorCode, 'newsletter.error')
 
-    const handleSubmit = async () => {
-        const sent = await submit({
-            email: email.value,
-            locale: locale.value,
-            // the exact wording the visitor agreed to, stored as the consent proof
-            consentText: `${t('newsletter.consent')} ${t('newsletter.consentPrivacy')} ${t('footer.info.privacy')}.`
-        })
+	const handleSubmit = async () => {
+		const sent = await submit({
+			email: email.value,
+			locale: locale.value,
+			// the exact wording the visitor agreed to, stored as the consent proof
+			consentText: `${t('newsletter.consent')} ${t('newsletter.consentPrivacy')} ${t('footer.info.privacy')}.`
+		})
 
-        if (!sent) return
+		if (!sent) return
 
-        // no address — an analytics copy would be personal data with no basis to hold it
-        captureEvent('newsletter_subscribed')
+		// no address — an analytics copy would be personal data with no basis to hold it
+		captureEvent('newsletter_subscribed')
 
-        email.value = ''
-        consent.value = false
-    }
+		email.value = ''
+		consent.value = false
+	}
 </script>
 
 <template>
-    <div class="newsletter section-band">
-        <div class="newsletter-card card">
-            <div class="newsletter-body">
-                <h2 class="newsletter-title">{{ t('newsletter.title') }}</h2>
-                <p class="newsletter-description">{{ t('newsletter.description') }}</p>
+	<section class="band">
+		<div class="newsletter">
+			<div class="newsletter-intro">
+				<h2 class="section-title">{{ t('newsletter.title') }}</h2>
+				<p class="newsletter-description">{{ t('newsletter.description') }}</p>
+			</div>
 
-                <form @submit.prevent="handleSubmit" class="newsletter-form">
-                    <div class="newsletter-fields">
-                        <input v-model="email" type="email" :placeholder="t('newsletter.emailPlaceholder')"
-                            :aria-label="t('newsletter.emailPlaceholder')" required>
-
-                        <button type="submit" :disabled="status === 'submitting'">
-                            {{ t('button.subscribe') }}
-                        </button>
-                    </div>
-
-                    <div class="newsletter-consent">
-                        <input id="newsletter-consent" v-model="consent" type="checkbox" required>
-                        <label for="newsletter-consent">
-                            {{ t('newsletter.consent') }}
-                            {{ t('newsletter.consentPrivacy') }}
-                            <RouterLink to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>.
-                        </label>
-                    </div>
-
-                    <div ref="captcha" class="newsletter-captcha"></div>
-
-                    <div v-if="status === 'success'" class="success" role="status">
-                        {{ t('newsletter.success') }}
-                    </div>
-
-                    <div v-if="status === 'error'" class="error" role="alert">
-                        {{ errorMessage }}
-                    </div>
-                </form>
-            </div>
-
-            <aside class="newsletter-aside">
-                <span class="newsletter-mark">
-                    <Mail :size="40" />
-                    <Heart class="newsletter-mark-heart" :size="18" />
-                </span>
-
-                <p class="newsletter-aside-text">{{ t('newsletter.aside') }}</p>
-            </aside>
-        </div>
-    </div>
+			<form class="newsletter-form" @submit.prevent="handleSubmit">
+				<div class="form-group">
+					<input id="newsletter-email" v-model="email" type="email" placeholder=" " autocomplete="email" required>
+					<label for="newsletter-email">{{ t('newsletter.emailPlaceholder') }}</label>
+				</div>
+				<div class="checkbox-field">
+					<input id="newsletter-consent" v-model="consent" type="checkbox" required>
+					<label for="newsletter-consent">
+						{{ t('newsletter.consent') }}
+						{{ t('newsletter.consentPrivacy') }}
+						<RouterLink class="text-link" to="/confidentialitate">{{ t('footer.info.privacy') }}</RouterLink>.
+					</label>
+				</div>
+				<button type="submit" class="button-primary newsletter-submit" :disabled="status === 'submitting'">
+					{{ t('button.subscribe') }}
+				</button>
+				<div ref="captcha" class="newsletter-captcha"></div>
+				<div v-if="status === 'success'" class="alert" role="status">
+					<span class="alert-icon"><Check :size="17" /></span>
+					<p class="alert-text">{{ t('newsletter.success') }}</p>
+				</div>
+				<div v-if="status === 'error'" class="alert alert-error" role="alert">
+					<span class="alert-icon"><CircleAlert :size="17" /></span>
+					<p class="alert-text">{{ errorMessage }}</p>
+				</div>
+			</form>
+		</div>
+	</section>
 </template>
 
 <style lang="scss" scoped>
-    .newsletter {
-        --section-band-padding-block: clamp(2rem, 0.75rem + 4vw, 5rem);
-        --section-band-background: transparent; // the card inside already carries the tint
-    }
+	.newsletter {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: var(--s-56);
+		align-items: start;
+	}
 
-    .newsletter-card {
-        display: flex;
-        align-items: center;
-        gap: var(--space-section);
-    }
+	.newsletter-intro {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-12);
+	}
 
-    .newsletter-body {
-        flex: 1;
-    }
+	.newsletter-description {
+		max-width: 44ch;
+	}
 
-    .newsletter-title {
-        margin: 0 0 0.5rem;
-    }
+	// DOM order puts consent before the button for keyboards; `order` moves the button beside the field.
+	.newsletter-form {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--s-14) var(--s-10);
+		padding: 0;
+		border-radius: 0;
+		background: none;
 
-    .newsletter-description {
-        margin: 0;
-    }
+		> * {
+			flex-basis: 100%;
+			order: 2;
+		}
 
-    .newsletter-form {
-        padding: 0;
-        background: transparent;
-        margin-top: 1.5rem;
-    }
+		> .form-group {
+			flex: 1 1 220px;
+			order: 0;
+			margin: 0;
+		}
 
-    .newsletter-fields {
-        display: flex;
-        gap: var(--gap-md);
+		> .newsletter-submit {
+			flex-basis: auto;
+			order: 1;
+		}
+	}
 
-        input[type="email"] {
-            width: 100%;
-        }
-    }
+	// empty until a challenge actually renders, so it must not reserve space
+	.newsletter-captcha:empty {
+		display: none;
+	}
 
-    // empty until a challenge actually renders, so it must not reserve space
-    .newsletter-captcha:not(:empty) {
-        margin-top: 0.75rem;
-    }
+	// Phones follow the DOM order: field, consent, then the button.
+	@media (max-width: 767px) {
+		.newsletter {
+			grid-template-columns: 1fr;
+			gap: var(--s-24);
+		}
 
-    .newsletter-consent {
-        display: flex;
-        align-items: flex-start;
-        gap: var(--gap-xs);
-        margin-top: 0.75rem;
-        font-size: var(--step-body-sm);
+		.newsletter-form > *,
+		.newsletter-form > .newsletter-submit {
+			flex-basis: 100%;
+			order: 0;
+		}
 
-        label {
-            cursor: pointer;
-        }
-    }
-
-    .newsletter-aside {
-        flex: 0 0 clamp(11rem, 6rem + 8vw, 15rem);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--gap-md);
-        padding: var(--card-padding-compact);
-        border-radius: var(--vt-c-radius-lg);
-        background: var(--vt-c-background);
-        text-align: center;
-    }
-
-    // the heart overlaps the envelope's lower-right corner so the pair reads as a single mark
-    .newsletter-mark {
-        position: relative;
-        display: inline-flex;
-        color: var(--vt-c-jannafer-green);
-    }
-
-    .newsletter-mark-heart {
-        position: absolute;
-        right: -5px;
-        bottom: 0;
-        fill: var(--vt-c-background);
-    }
-
-    .newsletter-aside-text {
-        margin: 0;
-        font-size: var(--step-body-sm);
-    }
-
-    @media (max-width: 768px) {
-        .newsletter-card {
-            flex-direction: column-reverse; // aside above the form, per the stacked mock
-            align-items: stretch;
-        }
-
-        .newsletter-aside {
-            flex: auto;
-        }
-
-        .newsletter-fields {
-            flex-direction: column;
-        }
-
-        .newsletter-fields button {
-            width: 100%;
-            max-width: var(--button-max-width);
-            margin-inline: auto;
-        }
-    }
+		.newsletter-submit {
+			justify-content: center;
+			width: auto;
+		}
+	}
 </style>

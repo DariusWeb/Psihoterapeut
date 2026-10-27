@@ -1,6 +1,6 @@
 <script setup>
 	import { useI18n } from 'vue-i18n'
-	import { BatteryLow, CalendarX, Heart, Leaf, MessageCircleOff, Unlink, UserRoundSearch } from '@lucide/vue'
+	import { BatteryLow, CalendarX, Heart, MessageCircleOff, Unlink, UserRoundSearch } from '@lucide/vue'
 
 	const { t, tm, rt } = useI18n()
 
@@ -8,46 +8,102 @@
 </script>
 
 <template>
-	<section class="section-band stack stack-loose">
-		<div class="section-head-center">
-			<h2>{{ t('home.reasons.title') }}</h2>
-			<Leaf class="section-flourish" :size="20" />
-		</div>
-
-		<ul class="card-grid home-reasons-grid">
-			<li v-for="(reason, index) in tm('home.reasons.items')" :key="rt(reason)" class="feature-column">
-				<component :is="icons[index]" class="feature-column-icon" :size="32" />
+	<section class="band">
+		<h2 class="section-title">{{ t('home.reasons.title') }}</h2>
+		<ul v-reveal class="home-reasons">
+			<li v-for="(reason, index) in tm('home.reasons.items')" :key="rt(reason)" class="home-reason text-pretty">
+				<span class="home-reason-icon"><component :is="icons[index]" :size="22" /></span>
 				{{ rt(reason) }}
 			</li>
 		</ul>
-
-		<p class="home-reasons-closing">{{ t('home.reasons.closing') }}</p>
+		<div class="home-reasons-closing">
+			<p class="text-lead text-balance">{{ t('home.reasons.closing') }}</p>
+		</div>
 	</section>
 </template>
 
 <style scoped lang="scss">
-	// Six fixed items, so only divisors of 6 avoid a stranded last row — a width-driven
-	// track count cannot guarantee that, hence explicit columns on this one grid.
-	.home-reasons-grid {
-		--card-grid-gap: var(--vt-c-split-gap);
-		grid-template-columns: repeat(2, 1fr);
+	.home-reasons {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--s-36) var(--s-48);
+		padding: 0;
+		list-style: none;
 	}
 
-	@media (min-width: 560px) {
-		.home-reasons-grid {
-			grid-template-columns: repeat(3, 1fr);
-		}
+	.home-reason {
+		display: grid;
+		grid-template-columns: 44px 1fr;
+		gap: var(--s-16);
+		align-items: center;
+		font-family: var(--font-serif);
+		font-size: var(--fs-serif-s);
+		line-height: 1.45;
+		color: var(--olive-700);
 	}
 
-	@media (min-width: 900px) {
-		.home-reasons-grid {
-			grid-template-columns: repeat(6, 1fr);
-		}
+	.home-reason-icon {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		background: var(--olive-tint);
+		color: var(--olive-600);
 	}
 
 	.home-reasons-closing {
-		margin: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--s-16);
+		padding-top: var(--s-8);
 		text-align: center;
-		color: var(--vt-c-jannafer-green);
+
+		&::before {
+			content: '';
+			width: var(--hairline-w);
+			height: 1.5px;
+			background: var(--olive-600);
+		}
+
+		.text-lead {
+			max-width: none;
+			line-height: 1.6;
+			letter-spacing: 0.01em;
+			color: var(--olive-700);
+		}
+	}
+
+	@media (max-width: 1023px) {
+		.home-reasons {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 767px) {
+		.home-reasons {
+			grid-template-columns: 1fr;
+			gap: 18px;
+		}
+
+		.home-reason {
+			grid-template-columns: 40px 1fr;
+			gap: var(--s-14);
+		}
+
+		.home-reason-icon {
+			width: 40px;
+			height: 40px;
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
+		}
+
+		.home-reasons-closing {
+			gap: var(--s-14);
+		}
 	}
 </style>

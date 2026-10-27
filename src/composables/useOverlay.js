@@ -1,7 +1,6 @@
 import { nextTick, onUnmounted, ref } from 'vue'
 
-// The search overlay opens from inside the nav overlay, so the page can be locked by more than
-// one at a time. A count, not a flag: the last one out restores the page.
+// A count, not a flag: search opens from inside the menu, so two overlays can hold the page.
 let openCount = 0
 
 // `inert` hands keyboard trapping to the platform instead of a hand-rolled Tab cycle
@@ -15,6 +14,11 @@ function applyPageLock() {
     document.querySelectorAll('header, #main, footer').forEach((el) => {
         el.toggleAttribute('inert', locked)
     })
+}
+
+// Closing an overlay only once the old page has left keeps that page from flashing under it.
+export function afterPageLeaves(callback) {
+    window.addEventListener('page-transition-done', callback, { once: true })
 }
 
 export function useOverlay({ onEscape } = {}) {
